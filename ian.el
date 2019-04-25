@@ -53,14 +53,25 @@
     ;; add fd as a remap for esc
     (use-package evil-escape)
     (evil-escape-mode 1)
-    (setq-default evil-escape-key-sequence "fd"))
+    (setq-default evil-escape-key-sequence "fd")
+    (use-package evil-leader
+       :init
+       (global-evil-leader-mode)
+       (evil-leader/set-leader ",")
+       (evil-leader/set-key
+	"ff" 'find-file
+	"tn" 'linum-mode
+	"bb" 'switch-to-buffer
+	"kw" 'ace-delete-window
+	"w/" 'split-window-right
+	"w-" 'split-window-below
+	"kb" 'kill-buffer)))
 
   (defun setup-magit ()
     (use-package magit)
     ;; disable the default emacs vc because git is all I use,
     ;; for I am a simple man
-    (setq vc-handled-backends nil)
-    )
+    (setq vc-handled-backends nil))
 
   (defun setup-ivy ()
     "Installs Ivy with a suggested config."
@@ -94,17 +105,31 @@
     ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
     (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
+  (defun setup-which-key  ()
+    (use-package which-key
+      :init
+      (which-key-mode)
+      (which-key-setup-minibuffer)))
+
+  ;; anything so trivial that there is no config necessary goes here
   (defun extra-packages ()
     (use-package restart-emacs)
     (use-package leuven-theme)
     (use-package treemacs))
 
+  (defun folding ()
+    (use-package origami-mode))
+
+  ;; execute installation and configuration of packages
+
   (use-package flycheck
     :init (global-flycheck-mode))
-
   (setup-ivy)
   (setup-evil)
+  (setup-projectile)
   (setup-magit)
+  (setup-which-key)
+  (folding)
   (extra-packages))
 
 (defun languages ()
@@ -115,7 +140,8 @@
     (use-package lsp-mode
       :init (setq lsp-prefer-flymake nil))
 
-    (use-package lsp-ui)
+    (use-package lsp-ui
+      :init (setq lsp-ui-doc-position 'bottom))
 
     ;; Add company-lsp backend for auto-completion
     (use-package company-lsp))
@@ -140,10 +166,15 @@
       :after scala-mode
       :demand t
       ;; Enable lsp-scala automatically in scala files
-      :hook (scala-mode . lsp))
-    )
+      :hook (scala-mode . lsp)))
+
+  (defun docker ()
+    (use-package dockerfile-mode)
+    (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+    (put 'dockerfile-image-name 'safe-local-variable #'stringp))
 
   (setup-lsp)
+  (docker)
   (scala))
 
 (defun config ()
@@ -153,10 +184,12 @@
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 
-
   ;; line numbers by default
-  (global-linum-mode 1)
-  )
+  ;; (global-linum-mode 1)
+
+  ;; disabling scrollbars allows resizing side-by-side windows
+  ;; with the stupid mouse
+  (scroll-bar-mode -1))
 
 (defun main()
   "Initialize everything!"

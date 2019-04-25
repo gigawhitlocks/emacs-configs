@@ -1,8 +1,1 @@
-\#*
-*~
-elpa/
-recentf
-transient/
-.cache
-.lsp-session-v1
-tramp
+projectile-bookmarks.eld
