@@ -1,1 +1,13 @@
 projectile-bookmarks.eld
+
+.gitignore
+#ian.el#
+.cache/
+auto-save-list/
+elpa/
+ian.elc
+ian.el~
+init.org~
+recentf
+recentf~
+transient/

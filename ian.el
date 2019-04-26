@@ -33,15 +33,14 @@
     (use-package projectile)
     (projectile-mode +1)
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-    )
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
 
   (defun setup-evil ()
     "Install and configure evil-mode and related bindings."
     (use-package evil
       :init
-      (setq evil-want-integration t)
       (setq evil-want-keybinding nil)
+      (setq evil-want-integration t)
       :config
       (evil-mode 1))
 
@@ -58,14 +57,17 @@
        :init
        (global-evil-leader-mode)
        (evil-leader/set-leader ",")
+
+       ;; very important global keybindings
        (evil-leader/set-key
-	"ff" 'find-file
-	"tn" 'linum-mode
-	"bb" 'switch-to-buffer
-	"kw" 'ace-delete-window
-	"w/" 'split-window-right
-	"w-" 'split-window-below
-	"kb" 'kill-buffer)))
+	 "bb" 'switch-to-buffer
+	 "bk" 'kill-buffer
+	 "ff" 'find-file
+	 "tn" 'linum-mode
+	 "w-" 'split-window-below
+	 "w/" 'split-window-right
+	 "wk" 'ace-delete-window
+	)))
 
   (defun setup-magit ()
     (use-package magit)
@@ -90,7 +92,6 @@
     ;; Bindings:
     (global-set-key "\C-s" 'swiper)
     (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    ;; (global-set-key (kbd "<f6>") 'ivy-resume)
     (global-set-key (kbd "M-x") 'counsel-M-x)
     (global-set-key (kbd "C-x C-f") 'counsel-find-file)
     ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
@@ -102,7 +103,6 @@
     (global-set-key (kbd "C-c j") 'counsel-git-grep)
     (global-set-key (kbd "C-c k") 'counsel-ag)
     ;; (global-set-key (kbd "C-x l") 'counsel-locate)
-    ;; (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
     (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
 
   (defun setup-which-key  ()
@@ -117,11 +117,7 @@
     (use-package leuven-theme)
     (use-package treemacs))
 
-  (defun folding ()
-    (use-package origami-mode))
-
   ;; execute installation and configuration of packages
-
   (use-package flycheck
     :init (global-flycheck-mode))
   (setup-ivy)
@@ -129,7 +125,6 @@
   (setup-projectile)
   (setup-magit)
   (setup-which-key)
-  (folding)
   (extra-packages))
 
 (defun languages ()
@@ -178,17 +173,15 @@
   (scala))
 
 (defun config ()
-  "Global variables and such."
+  "Global configuration variables and such."
 
-  ;; disable menu bar and toolbar
+  ;; backups to /tmp
+  (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
+  (setq backup-by-copying t)
+
+  ;; extraneous window chrome
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-
-  ;; line numbers by default
-  ;; (global-linum-mode 1)
-
-  ;; disabling scrollbars allows resizing side-by-side windows
-  ;; with the stupid mouse
   (scroll-bar-mode -1))
 
 (defun main()
@@ -198,70 +191,19 @@
   (languages)
   (config))
 
-(main)
+(provide '~/.emacs.d/ian.el)
+
+
+
+
+
+
+
+
+
+
+
+
 
 ;;; ian.el ends here
-;;                                         ......
-;;                                .,;;xOkk0NWNNNN0c.
-;;                           ...cONWWWWMMMMMMMMMMMWXd:;cxOkol:.
-;;                        .cOXNWMMMMWNWMMMMMMMMMMMMMMMWMMMMWNWXl:,.
-;;                   ..,lkKNWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWNWWNWNXKOx;
-;;               .'cx0KXNNWWMMMMMMMMMMMMMMMMMMMMMMMMMMMMWWMMMMMWNWWNWMWXkoc.
-;;              .dkk0XWMWWWWWWNNWMMMMMMMMMMMMMMMMMWWWWWWWNNNNXXKKNWWMMMMMMMNo.
-;;          .;cclOKkxx0NWMWNKXNNWMMMMWWWWWWWWWWNXXNNWNX000KK0OOOOXXXWMMMMMMMMNd.
-;;         :k0OxkX0kdodk0K0K000KXKKNWWNNKK0O0KKXK00OOkOOkxk0XNWWWMWWMMMMMMMMMMMK'
-;;        :kk0KXNWNNX0OKNNX0kdddllodk0KXNWWWNXKXXKOOOKNN0OOKNWMMMMMMMMMMMMWWWWMMo
-;;     .coxONWMMWWWWNXXNX0xoodd:.  ..,cox0KNX0XNK0xdkKXX0OkOXNWWMMMMMMMMMMWWMMMM0.
-;;     .oOKWMWWWWWWN0ddl'..,cc,.         ..'lkKN0o;,:dkxooooxO00XWMMMMWNWMMMMMMMWO'
-;;      .OWMWWWMWXd:'..    .,,.               '::'....',,';ccclldOKNWWNXKNMMMMMMMMK'
-;;      :NMMMMMW0c'..                                 .....,;;:cloxO0KXXKKNWWWWMMMWd
-;;      cWMMMWXx;,'..                                  ....',;:::loxO00KKKNXXNXNMMWK;
-;;    oOKWMMM0l;''...                                 ....'',;:::clokKXXXNMWXXKKNNN0'
-;;   ;NWMMMMNd;,.....                                  ...',,;::::cokXWMMMMMMWWNWNNO'
-;;  .OWWMMMWKd:,....                                ......'',,;:::clxXMMMMMMMMMMMMWW0'
-;; .OWMMMMMN0xc;'...                          ..';codkkxolldxxxkkOOOO0WMMMMMMMMMMMMMMK,
-;; .kNMMMMWKOkdc'......                ...,:oxO0KNWMMMMMMMMMMMMMMMMWXWMMNNNWMMMMMMMMMM0'
-;;   ;NMMMN0Okdc'... .................';cokKWMMMMMMMMMMMMMMMMMMMMMMMMMMMWXXXMMMMMMMMMMX,
-;;   'XMMMWKkdl;,;:::clooollllcc:;,'',ckKNWMMMMMMMMMMMMMMMMMMMMMMMMMMW00XWNXWMMMMMMMMMX;
-;;   cMMMMWKOxdx0NWWWWWMMWWWWWWWNXXKXNWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWKXNMMWWMMMMMMMMNc
-;;   oMMMMMWWMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMWc
-;;   dMMMMWXONMMMMMMMMMMMMMMMMMMMMMMX00WMMMMMMMMMMMMMMMMMMMMMMMMMMN0WMMMMMMMMMMMMMMW0,
-;;   dWWMMXOXWMMMMMMMMMMMMMMMMMMMMKc.  'oXMMMMMMMMMMMMMMMMMMMMMMMMXKWX00OO0NMMMMMMMNOl;.
-;;   ;NMMMMMMMMMMMMMMMMMMMMMMMMMMMo.     ,KMMMMMMMMMMMMMMNNMMMMMMMMMKllloodKMMMMMMMWWX0o.
-;;    oMMMMMMMMMMMMMMMMMMMMMMMMMMNc.      'xNMMMMMMMMMMMMMMMMMMMMMW0lclooodkKXNWWXxldXO;.
-;;    .xWMMMMMMMMMMMMMMMMMMMMMMMWO:.       .:kXMMMMMMMMMMMMMMMMMMMNxcllooddddddXMXOd;;,..
-;;      dMMMMMMMMMMMMMMMMMMMMMMMKo,.      ....;OWMMMMMMMMMMMMMMMMWXdllloodxddold0KK0l'...
-;;      ,NMMMMMMMMMMMMMMMMMMMMW0xl,.      ..'',;lk00K0Okxdooooodxxolclloddxddol;.'lo;'''.
-;;      ,XMMMMMMMMMMMMMMMMMW0dloxl'.     .......,lolc:,''..'',,;::ccclloodxdddl'..'''';Oc
-;;     .xWMMMMMMMMMMMWX0xoc'..;:coc,....'';,,''.'clllllc::;;;;;:ccclllloodddddl'......;l.
-;;     ,XMMMWWWMMW0dc'.      ':cxXX0xddddxk0K0Okdc..';loollcccccccllllloodddddl,....'.
-;;      xMMMMWWWKl.          ;kKWMMMMWWMMMMWWWMWO,...',:loodooolllllllloodddxxdl;;;,.
-;;      cXWMMWWNx,..         oNWMMMMMMMMMXd:;ccc,'''''';:coddddooooolllooddddxxc.'..
-;;      .c0MMMWNkc'..       .OMMMMMMMMNOdc'........''',;::cloddooolllllloodxxxd'
-;;        cNMMWNKd:,'.......'oO0XWNX0o'..'.........'',,:cclooollllcllooooodxkkx;
-;;         ,cxXWNOoc;'''''..',,,:c::;,'..';::;;::c:::::ccloooolcccccloodddxkkkxl
-;;           .oXNKxl:,''''',;::;,;;cox00kkkOO0KXXNXXXKKOkxollllccclloodddxkOOOkd.
-;;             dNKxo:'...';:codddOXNWMWWNXKK0OkOOOOkkxooollooollllooddxxkkO00Okx.
-;;             .KNOoc'. ..'clxKNWWWNXKOkkxxdolcc:;,'''',,;:codooddddxkkOO0KK0Okk;
-;;              lNXko;.    .:dkkxxxdddolcc:;;,,'..''''',;;:lodddxxkkOO00KXXX0Oxx:
-;;               cdOOo;..   .,:::cc::;,,,;;:::::;;;;;;::clloddxkk00KKKXXNNNX0kxxl
-;;                 cX0d:'....,::,,;:cllccclooolllcccccloodddxxkO0KXNNNWWWWNKkdddo.
-;;                .dNWXOdc:;;coollccloddddoolllccccclloddddxxkO0XNWWWMMMMWXOdoodo.
-;;                 .cKMWNKOxdxkOOkxxxxdoolc::cc:;,,;;:cllodxkOKNWWMMMMMMMXkdloooo'
-;;                   .cOWMMWXK0KK000Oxooc:,',;;;;,,,,:cloddxOKNWWMMMMMMWXkoollloo:...
-;;                      l0NWMMWWNKOkxdoloc:,;;:lllccldxxxkk0XNMMMMMMMMXOdllcllooolokNOdoc,
-;;                        .;KMMMMWX0OkkdddolllodxxxxkkOO00KNWMMMMMMMWKxocccclloolcco0MMWWNx.
-;;                          .lXMMMMWWNXXXK0OkkkOKXXXKXXNWWMMMMMMMMWXkolccccclllcccclxXWX0KX0l.
-;;                            ;0WMMMMMMMMMMWWNWWMMMMMMMMMMMMMMMMMXkollllllllcccccccldKNX00OOKKo.
-;;                              ':OMMMMMMMMMMMMMMMMMMMMMMMMMMMMXOdooooollolc:::::cccOWNX000OkOKk'
-;;                                ;XMMMMMMMMMMMMMMMMMMMMMMMMWXOdddoooloolc::::::::coXWNX0K000OkOkd,
-;;                                 :XMMMMMMMMMMMMMMMMMMMMMMNOxddddooollcc::;;:::::dXMMMWNXKK0OOOkkx;
-;;                                 .0MMMMMMMMMMMMMMMMMMMMWKkdddddoollcc::::::::::dNMMMMMMWXKOOOOOxxxl'.
-;;                                  :XMMMMMMMMMMMMMMMMMMNOxxxxdddollcccc::::;;;;lXMMMMMMMMMNK0OkkkkOxkkxxxxxdc;,;:;'
-;;                                   :0NMMMMMMMMMMMMMMMXkxxxxddoolcccccc:::;;;::0MMMMMMMMMMMMMWKOkkOk00XXXXKOdcloood
-;;                                     lWMMMMMMMMMMMMWKkxxxddooolllccccc:::::::oNMMMMMMMMMMMMMMMWNXKOO0KXXdlllloooxx
-;;                                     .0MMMMMMMMMMWXOxxddddoooolllcccccc::c::o0MMMMMMMMMMMMMMMMMMMWWNNX0Ooc:cooccol
-;;                                     .kWMMMMMMMMN0kxdxddddoooolllccccccccccoKWMMMMMMMMMMMWWWMMMWMMMMMWXK0OOOOxlloc
-;;                                  ,kocOWMMMMMMWKOkkxxxddddddooolllclllllcoONWWMMMMMMMMMMMWWWWWWWMMWMMMMMMWNNNXXKKK
-;;                                  :WMMMMMMMMMN0OOkkkxxxxxddddoooollllooldXMMMMMMMMMMMMMMMMMMWWWWWWWMMMMWX0000K000N
-;;                                 .0MMMMMMMMMWKOOOOkkkkkkxxxdddooooooloookWMMMMMMMMMMMMMMMMMMMWWWMWNWWWWN0OO00KKKKW
+
