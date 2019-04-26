@@ -56,75 +56,58 @@
     (use-package evil-leader
        :init
        (global-evil-leader-mode)
-       (evil-leader/set-leader ",")
-
-       ;; very important global keybindings
-       (evil-leader/set-key
-	 "bb" 'switch-to-buffer
-	 "bk" 'kill-buffer
-	 "ff" 'find-file
-	 "tn" 'linum-mode
-	 "w-" 'split-window-below
-	 "w/" 'split-window-right
-	 "wk" 'ace-delete-window
-	)))
+       (evil-leader/set-leader ",")))
 
   (defun setup-magit ()
     (use-package magit)
     ;; disable the default emacs vc because git is all I use,
     ;; for I am a simple man
-    (setq vc-handled-backends nil))
+    (setq vc-handled-backends nil)
+    (use-package evil-magit))
 
-  (defun setup-ivy ()
-    "Installs Ivy with a suggested config."
-
-    ;; I've lifted this sample config from the github readme for Ivy
-    (use-package ivy)
-    (use-package counsel)
-    (use-package swiper)
-    (ivy-mode 1)
-
-
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t)
-    (setq search-default-mode #'char-fold-to-regexp)
-
-    ;; Bindings:
-    (global-set-key "\C-s" 'swiper)
-    (global-set-key (kbd "C-c C-r") 'ivy-resume)
-    (global-set-key (kbd "M-x") 'counsel-M-x)
-    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
-    ;; (global-set-key (kbd "<f1> f") 'counsel-describe-function)
-    ;; (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
-    ;; (global-set-key (kbd "<f1> l") 'counsel-find-library)
-    ;; (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-    ;; (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-    (global-set-key (kbd "C-c g") 'counsel-git)
-    (global-set-key (kbd "C-c j") 'counsel-git-grep)
-    (global-set-key (kbd "C-c k") 'counsel-ag)
-    ;; (global-set-key (kbd "C-x l") 'counsel-locate)
-    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history))
-
-  (defun setup-which-key  ()
-    (use-package which-key
-      :init
-      (which-key-mode)
-      (which-key-setup-minibuffer)))
+  (use-package which-key
+    :init
+    (which-key-mode)
+    (which-key-setup-minibuffer))
 
   ;; anything so trivial that there is no config necessary goes here
   (defun extra-packages ()
     (use-package restart-emacs)
+    ;; themes
+    (use-package color-theme-sanityinc-tomorrow)
     (use-package leuven-theme)
+
+    ;; other stuff
+    (use-package origami
+      :config
+      (global-origami-mode))
     (use-package treemacs))
 
-  ;; execute installation and configuration of packages
+  ;; auto-completion
+  (use-package company
+    :config
+    ;; enable it everywhere
+    (add-hook 'after-init-hook 'global-company-mode))
+
+  ;; linter
   (use-package flycheck
+    ;; enable it everywhere
     :init (global-flycheck-mode))
-  (setup-ivy)
+
+  ;; helm
+  (defun setup-helm ()
+    "Install and configure helm, the most important command and control center"
+    (use-package helm
+      :config
+      (global-set-key (kbd "M-x") #'helm-M-x)
+      (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+      (global-set-key (kbd "C-x C-f") #'helm-find-files)
+      (helm-mode 1)))
+  
   (setup-evil)
   (setup-projectile)
   (setup-magit)
-  (setup-which-key)
+  (setup-helm)
   (extra-packages))
 
 (defun languages ()
@@ -138,8 +121,9 @@
     (use-package lsp-ui
       :init (setq lsp-ui-doc-position 'bottom))
 
-    ;; Add company-lsp backend for auto-completion
-    (use-package company-lsp))
+    ;; Add lsp backend for other tools
+    (use-package company-lsp)
+    (use-package lsp-origami))
 
   (defun scala ()
     "Enable scala-mode and sbt-mode."
@@ -167,7 +151,7 @@
     (use-package dockerfile-mode)
     (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
     (put 'dockerfile-image-name 'safe-local-variable #'stringp))
-
+  
   (setup-lsp)
   (docker)
   (scala))
@@ -175,9 +159,36 @@
 (defun config ()
   "Global configuration variables and such."
 
+  ;; a helper function that flips between our main theme and a dark alternative
+  (defun toggle-theme ()
+    (interactive)
+    (if (string= "leuven" (car custom-enabled-themes))
+	(color-theme-sanityinc-tomorrow-eighties)
+      (load-theme 'leuven t)))
+
+  ;; very important global keybindings
+  (evil-leader/set-key
+    ","  'helm-M-x
+    "bb" 'switch-to-buffer
+    "bk" 'kill-buffer
+    "ff" 'find-file
+    "tn" 'linum-mode
+    "tt" 'toggle-theme
+    "w-" 'split-window-below
+    "w/" 'split-window-right
+    "wk" 'ace-delete-window
+    "p"  'projectile-command-map
+    )
+
+  ;; Fontify the whole line for headings (with a background color).
+  (setq org-fontify-whole-heading-line t)
+
   ;; backups to /tmp
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
+
+  ;; load the best theme, leuven
+  (load-theme 'leuven t)
 
   ;; extraneous window chrome
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
