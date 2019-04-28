@@ -237,7 +237,7 @@
     "wD"	'delete-other-windows
     "wo"	'other-window
 
-    ","		'helm-M-x)
+    "SPC"	'helm-M-x)
 
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
