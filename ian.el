@@ -28,9 +28,11 @@
 
 (defun global-packages ()
   "Install and configure packages used with many modes and standalone modes and applications."
-
+  (use-package use-package-ensure-system-package)
+  
   (defun setup-projectile ()
     (use-package projectile)
+    (use-package helm-projectile)
     (projectile-mode +1)
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
     (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
@@ -52,11 +54,7 @@
     ;; add fd as a remap for esc
     (use-package evil-escape)
     (evil-escape-mode 1)
-    (setq-default evil-escape-key-sequence "fd")
-    (use-package evil-leader
-       :init
-       (global-evil-leader-mode)
-       (evil-leader/set-leader ",")))
+    (setq-default evil-escape-key-sequence "fd"))
 
   (defun setup-magit ()
     (use-package magit)
@@ -158,8 +156,15 @@
     (use-package dockerfile-mode)
     (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
     (put 'dockerfile-image-name 'safe-local-variable #'stringp))
-  
+
+  (defun python ()
+    (use-package anaconda-mode
+      :config
+      (add-hook 'python-mode-hook 'anaconda-mode)
+      (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
+
   (setup-lsp)
+  (python)
   (docker)
   (scala))
 

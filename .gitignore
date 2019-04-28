@@ -13,3 +13,5 @@ recentf~
 transient/
 url/
 init.el
+.lsp-session-v1
+anaconda-mode
