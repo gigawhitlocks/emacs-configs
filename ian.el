@@ -31,7 +31,8 @@
   (use-package use-package-ensure-system-package)
   
   (defun setup-projectile ()
-    (use-package projectile)
+    (use-package projectile
+      :delight)
     (use-package helm-projectile)
     (projectile-mode +1)
     (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -52,7 +53,8 @@
       (evil-collection-init))
 
     ;; add fd as a remap for esc
-    (use-package evil-escape)
+    (use-package evil-escape
+      :delight)
     (evil-escape-mode 1)
     (setq-default evil-escape-key-sequence "fd"))
 
@@ -64,6 +66,7 @@
     (use-package evil-magit))
 
   (use-package which-key
+    :delight
     :init
     (which-key-mode)
     (which-key-setup-minibuffer))
@@ -83,12 +86,14 @@
 
   ;; auto-completion
   (use-package company
+    :delight
     :config
     ;; enable it everywhere
     (add-hook 'after-init-hook 'global-company-mode))
 
   ;; linter
   (use-package flycheck
+    :delight
     ;; enable it everywhere
     :init (global-flycheck-mode))
 
@@ -103,6 +108,7 @@
   (defun setup-helm ()
     "Install and configure helm, the most important command and control center"
     (use-package helm
+      :delight
       :config
       (global-set-key (kbd "M-x") #'helm-M-x)
       (global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
@@ -188,25 +194,50 @@
 
   ;; global keybindings
   (my-leader-def
-    :keymaps 'normal
-    "bb" 'switch-to-buffer
-    "bk" 'kill-buffer
-    "e"  'flycheck-list-errors
-    "ff" 'helm-find-files
-    "gb" 'magit-blame
-    "gs" 'magit-status
-    "gg" 'magit
-    "gd" 'magit-diff
-    "p"  'projectile-command-map
-    "pf" 'helm-projectile-find-file
-    "tn" 'linum-mode
-    "tt" 'toggle-theme
-    "w-" 'split-window-below
-    "w/" 'split-window-right
-    "wk" 'delete-window
-    "wK" 'delete-other-windows
-    "wo" 'other-window
-    ","  'helm-M-x)
+    :keymaps	'normal
+    ;; buffer control
+    "bb"	'switch-to-buffer
+    "TAB"	'switch-to-prev-buffer
+    "bk"	'kill-buffer
+
+    ;; errors
+    "el"	'flycheck-list-errors
+    "en"        'flycheck-next-error
+    "ep"        'flycheck-previous-error
+
+    ;; hmm
+    "ff"	'helm-find-files
+
+    ;; git
+    "gb"	'magit-blame
+    "gs"	'magit-status
+    "gg"	'magit
+    "gd"	'magit-diff
+
+    ;; projectile
+    "p"		'projectile-command-map
+    "pf"	'helm-projectile-find-file
+
+    ;; simple toggles
+    "tn"	'linum-mode
+    "tt"	'toggle-theme
+
+    ;; window control
+    "w-"	'split-window-below
+    "w/"	'split-window-right
+    "wj"        (lambda () (interactive)
+		(select-window (window-in-direction 'below)))
+    "wk"        (lambda () (interactive)
+		(select-window (window-in-direction 'above)))
+    "wh"        (lambda () (interactive)
+		(select-window (window-in-direction 'left)))
+    "wl"        (lambda () (interactive)
+		(select-window (window-in-direction 'right)))
+    "wd"	'delete-window
+    "wD"	'delete-other-windows
+    "wo"	'other-window
+
+    ","		'helm-M-x)
 
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
@@ -217,6 +248,10 @@
 
   ;; load the best theme, leuven
   (load-theme 'leuven t)
+
+  (diminish 'eldoc-mode)
+  (diminish 'undo-tree-mode)
+  (diminish 'auto-revert-mode)
 
   ;; less annoying bell (from emacs wiki)
   ;; flashes the modeline foreground
