@@ -17,26 +17,51 @@
      '("melpa" . "http://melpa.org/packages/"))
     (package-initialize)
 
+    ;; use-package and package.el don't know how to install
+    ;; an up-to-date version of org-mode
+    ;; so part of this bootstrap process, since org-mode
+    ;; is a built-in and we want changes from other
+    ;; layers to apply to our updated Org as things are
+    ;; installed, is to manually update Org before
+    ;; even use-package is set up
+    ;; credit https://github.com/jwiegley/use-package/issues/319
+
+    (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
+      (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
+    (require 'org)
+
+    ;; Now install use-package to enable us to use it
+    ;; to manage the rest of our packages
+    
     (unless (package-installed-p 'use-package)
       (progn
 	(unless package-archive-contents
 	  (package-refresh-contents))
 	(package-install 'use-package)))
 
+;; set ensure to be the default
     (require 'use-package-ensure)
-    (setq use-package-always-ensure t))
+    (setq use-package-always-ensure t)
+
+    ;; allow use-package to install system tools via apt, brew
+    (use-package use-package-ensure-system-package)
+
+    ;; sane keybindings from the start
+    (use-package general)
+
+    ;; these go in bootstrap because packages installed
+    ;; with use-package use :diminish and :delight
+    (use-package diminish)
+    (use-package delight))
 
 (defun global-packages ()
   "Install and configure packages used with many modes and standalone modes and applications."
-  (use-package use-package-ensure-system-package)
   
   (defun setup-projectile ()
     (use-package projectile
       :delight)
     (use-package helm-projectile)
-    (projectile-mode +1)
-    (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map))
+    (projectile-mode +1))
 
   (defun setup-evil ()
     "Install and configure evil-mode and related bindings."
@@ -51,6 +76,9 @@
       :after evil
       :config
       (evil-collection-init))
+
+    ;; bindings for org-mode
+    (use-package evil-org)
 
     ;; add fd as a remap for esc
     (use-package evil-escape
@@ -82,6 +110,7 @@
     (use-package origami
       :config
       (global-origami-mode))
+
     (use-package treemacs))
 
   ;; auto-completion
@@ -97,13 +126,6 @@
     ;; enable it everywhere
     :init (global-flycheck-mode))
 
-  ;; sane keybindings
-  (use-package general)
-
-  ;; take control of the modeline
-  (use-package diminish)
-  (use-package delight)
-  
   ;; helm
   (defun setup-helm ()
     "Install and configure helm, the most important command and control center"
@@ -201,12 +223,15 @@
     "bk"	'kill-buffer
 
     ;; errors
+    "ec"        'flycheck-clear
     "el"	'flycheck-list-errors
     "en"        'flycheck-next-error
     "ep"        'flycheck-previous-error
 
     ;; hmm
     "ff"	'helm-find-files
+    "fed"       '(lambda () (interactive)
+		   (find-file "~/.emacs.d/ian.el"))
 
     ;; git
     "gb"	'magit-blame
@@ -214,10 +239,20 @@
     "gg"	'magit
     "gd"	'magit-diff
 
+    ;; bookmarks (j for jump)
+    "jj"        'bookmark-jump
+    "js"        'bookmark-save
+
+    ;; org
+
     ;; projectile
     "p"		'projectile-command-map
     "pf"	'helm-projectile-find-file
 
+    ;; quitting
+    "qq"        'exit-emacs
+    "qr"        'restart-emacs
+    
     ;; simple toggles
     "tn"	'linum-mode
     "tt"	'toggle-theme
@@ -226,18 +261,21 @@
     "w-"	'split-window-below
     "w/"	'split-window-right
     "wj"        (lambda () (interactive)
-		(select-window (window-in-direction 'below)))
+		  (select-window (window-in-direction 'below)))
     "wk"        (lambda () (interactive)
-		(select-window (window-in-direction 'above)))
+		  (select-window (window-in-direction 'above)))
     "wh"        (lambda () (interactive)
-		(select-window (window-in-direction 'left)))
+		  (select-window (window-in-direction 'left)))
     "wl"        (lambda () (interactive)
-		(select-window (window-in-direction 'right)))
+		  (select-window (window-in-direction 'right)))
     "wd"	'delete-window
     "wD"	'delete-other-windows
     "wo"	'other-window
 
     "SPC"	'helm-M-x)
+
+  (my-local-leader-def 'normal emacs-lisp-mode-map
+    "e" 'eval-last-sexp)
 
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
