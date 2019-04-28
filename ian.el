@@ -94,6 +94,13 @@
     ;; enable it everywhere
     :init (global-flycheck-mode))
 
+  ;; sane keybindings
+  (use-package general)
+
+  ;; take control of the modeline
+  (use-package diminish)
+  (use-package delight)
+  
   ;; helm
   (defun setup-helm ()
     "Install and configure helm, the most important command and control center"
@@ -166,21 +173,35 @@
 	(color-theme-sanityinc-tomorrow-eighties)
       (load-theme 'leuven t)))
 
-  ;; very important global keybindings
-  (evil-leader/set-key
-    ","  'helm-M-x
-    "e"  'flycheck-list-errors
+  (general-create-definer my-leader-def
+    ;; :prefix my-leader
+    :prefix "SPC")
+
+  (general-create-definer my-local-leader-def
+    ;; :prefix my-local-leader
+    :prefix "SPC m")
+
+  ;; global keybindings
+  (my-leader-def
+    :keymaps 'normal
     "bb" 'switch-to-buffer
     "bk" 'kill-buffer
-    "ff" 'helm-find-file
+    "e"  'flycheck-list-errors
+    "ff" 'helm-find-files
+    "gb" 'magit-blame
+    "gs" 'magit-status
+    "gg" 'magit
+    "gd" 'magit-diff
+    "p"  'projectile-command-map
+    "pf" 'helm-projectile-find-file
     "tn" 'linum-mode
     "tt" 'toggle-theme
     "w-" 'split-window-below
     "w/" 'split-window-right
-    "wk" 'ace-delete-window
-    "p"  'projectile-command-map
-    "x"  'Control-x-prefix
-    )
+    "wk" 'delete-window
+    "wK" 'delete-other-windows
+    "wo" 'other-window
+    ","  'helm-M-x)
 
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
