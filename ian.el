@@ -169,15 +169,17 @@
   ;; very important global keybindings
   (evil-leader/set-key
     ","  'helm-M-x
+    "e"  'flycheck-list-errors
     "bb" 'switch-to-buffer
     "bk" 'kill-buffer
-    "ff" 'find-file
+    "ff" 'helm-find-file
     "tn" 'linum-mode
     "tt" 'toggle-theme
     "w-" 'split-window-below
     "w/" 'split-window-right
     "wk" 'ace-delete-window
     "p"  'projectile-command-map
+    "x"  'Control-x-prefix
     )
 
   ;; Fontify the whole line for headings (with a background color).
@@ -190,7 +192,20 @@
   ;; load the best theme, leuven
   (load-theme 'leuven t)
 
-  ;; extraneous window chrome
+  ;; less annoying bell (from emacs wiki)
+  ;; flashes the modeline foreground
+  (setq ring-bell-function
+	(lambda ()
+	  (let ((orig-fg (face-foreground 'mode-line)))
+	    ;; change the flash color here
+	    ;; overrides themes :P
+	    ;; guess that's one way to do it
+	    (set-face-foreground 'mode-line "#F2804F")
+	    (run-with-idle-timer 0.1 nil
+				 (lambda (fg) (set-face-foreground 'mode-line fg))
+				 orig-fg))))
+
+  ;; remove extraneous window chrome
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (scroll-bar-mode -1))
@@ -203,18 +218,4 @@
   (config))
 
 (provide '~/.emacs.d/ian.el)
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;;; ian.el ends here
-
