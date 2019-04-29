@@ -17,19 +17,6 @@
      '("melpa" . "http://melpa.org/packages/"))
     (package-initialize)
 
-    ;; use-package and package.el don't know how to install
-    ;; an up-to-date version of org-mode
-    ;; so part of this bootstrap process, since org-mode
-    ;; is a built-in and we want changes from other
-    ;; layers to apply to our updated Org as things are
-    ;; installed, is to manually update Org before
-    ;; even use-package is set up
-    ;; credit https://github.com/jwiegley/use-package/issues/319
-
-    (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
-      (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
-    (require 'org)
-
     ;; Now install use-package to enable us to use it
     ;; to manage the rest of our packages
     
@@ -39,7 +26,21 @@
 	  (package-refresh-contents))
 	(package-install 'use-package)))
 
-;; set ensure to be the default
+    ;; use-package and package.el don't know how to install
+    ;; an up-to-date version of org-mode
+    ;; so part of this bootstrap process, since org-mode
+    ;; is a built-in and we want changes from other
+    ;; layers to apply to our updated Org as things are
+    ;; installed, is to manually update Org before
+    ;; even use-package is set up
+    ;; credit https://github.com/jwiegley/use-package/issues/319
+
+    (require 'org)
+    (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
+      (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
+
+
+    ;; set ensure to be the default
     (require 'use-package-ensure)
     (setq use-package-always-ensure t)
 
