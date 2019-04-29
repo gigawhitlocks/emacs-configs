@@ -11,53 +11,54 @@
 
 (defun bootstrap ()
   "Install use-package and melpa to prepare for installation of other packages."
-    (require 'package)
-    (add-to-list
-     'package-archives
-     '("melpa" . "http://melpa.org/packages/"))
-    (package-initialize)
 
-    ;; Now install use-package to enable us to use it
-    ;; to manage the rest of our packages
-    
-    (unless (package-installed-p 'use-package)
-      (progn
-	(unless package-archive-contents
-	  (package-refresh-contents))
-	(package-install 'use-package)))
+  (require 'package)
+  (add-to-list
+   'package-archives
+   '("melpa" . "http://melpa.org/packages/"))
+  (package-initialize)
 
-    ;; use-package and package.el don't know how to install
-    ;; an up-to-date version of org-mode
-    ;; so part of this bootstrap process, since org-mode
-    ;; is a built-in and we want changes from other
-    ;; layers to apply to our updated Org as things are
-    ;; installed, is to manually update Org before
-    ;; even use-package is set up
-    ;; credit https://github.com/jwiegley/use-package/issues/319
+  ;; Now install use-package to enable us to use it
+  ;; to manage the rest of our packages
+  
+  (unless (package-installed-p 'use-package)
+    (progn
+      (unless package-archive-contents
+	(package-refresh-contents))
+      (package-install 'use-package)))
 
-    ;; TODO this only seems to work after some other initialization step has run
-    ;; one time. I'm not sure what that step is, just that this next step only
-    ;; succeeds if it's not the first time we've run emacs with this configuration.
-    ;; For now I'm going to leave this commented out, until I figure out
-    ;; what is causing this behavior
+  ;; use-package and package.el don't know how to install
+  ;; an up-to-date version of org-mode
+  ;; so part of this bootstrap process, since org-mode
+  ;; is a built-in and we want changes from other
+  ;; layers to apply to our updated Org as things are
+  ;; installed, is to manually update Org before
+  ;; even use-package is set up
+  ;; credit https://github.com/jwiegley/use-package/issues/319
 
-    ;;(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
-    ;;  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
+  ;; TODO this only seems to work after some other initialization step has run
+  ;; one time. I'm not sure what that step is, just that this next step only
+  ;; succeeds if it's not the first time we've run emacs with this configuration.
+  ;; For now I'm going to leave this commented out, until I figure out
+  ;; what is causing this behavior
 
-    ;; set ensure to be the default
-    (require 'use-package-ensure)
-    (setq use-package-always-ensure t)
+  ;;(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
+  ;;  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
 
-    ;; allow use-package to install system tools via apt, brew
-    (use-package use-package-ensure-system-package)
+  ;; set ensure to be the default
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
 
-    ;; sane keybindings from the start
-    (use-package general)
+  ;; allow use-package to install system tools via apt, brew
+  (use-package use-package-ensure-system-package)
 
-    ;; these go in bootstrap because packages installed
-    ;; with use-package use :diminish and :delight
-    (use-package diminish)
-    (use-package delight))
+  ;; sane keybindings from the start
+  (use-package general)
+
+  ;; these go in bootstrap because packages installed
+  ;; with use-package use :diminish and :delight
+  (use-package diminish)
+  (use-package delight))
 
 (defun global-packages ()
   "Install and configure packages used with many modes and standalone modes and applications."
@@ -88,6 +89,7 @@
     ;; add fd as a remap for esc
     (use-package evil-escape
       :delight)
+
     (evil-escape-mode 1)
     (setq-default evil-escape-key-sequence "fd"))
 
@@ -108,7 +110,7 @@
   (defun extra-packages ()
     (use-package restart-emacs)
     ;; themes
-    (use-package color-theme-sanityinc-tomorrow)
+    ;;(use-package color-theme-sanityinc-tomorrow)
     (use-package leuven-theme)
 
     ;; other stuff
@@ -153,6 +155,7 @@
 
   (defun setup-lsp ()
     "Enable nice rendering of diagnostics like compile errors."
+    (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
     (use-package lsp-mode
       :init (setq lsp-prefer-flymake nil))
 
@@ -205,11 +208,11 @@
   "Global configuration variables and such."
 
   ;; a helper function that flips between our main theme and a dark alternative
-  (defun toggle-theme ()
-    (interactive)
-    (if (string= "leuven" (car custom-enabled-themes))
-	(color-theme-sanityinc-tomorrow-eighties)
-      (load-theme 'leuven t)))
+  ;; (defun toggle-theme ()
+  ;;   (interactive)
+  ;;   (if (string= "leuven" (car custom-enabled-themes))
+  ;; 	(color-theme-sanityinc-tomorrow-eighties)
+  ;;     (load-theme 'leuven t)))
 
   (general-create-definer my-leader-def
     ;; :prefix my-leader
@@ -260,7 +263,7 @@
     
     ;; simple toggles
     "tn"	'linum-mode
-    "tt"	'toggle-theme
+    ;; "tt"	'toggle-theme
 
     ;; window control
     "w-"	'split-window-below
@@ -276,6 +279,8 @@
     "wd"	'delete-window
     "wD"	'delete-other-windows
     "wo"	'other-window
+
+    ";"         'comment-line
 
     "SPC"	'helm-M-x)
 
@@ -308,6 +313,18 @@
 	    (run-with-idle-timer 0.1 nil
 				 (lambda (fg) (set-face-foreground 'mode-line fg))
 				 orig-fg))))
+
+  ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
+  (defun gif-this-frame (duration)
+    (interactive "sDuration: ")
+    (start-process "emacs-to-gif" nil
+		   "byzanz-record"
+		   "-d" duration
+		   "-w" (number-to-string (+ 5 (frame-pixel-width)))
+		   "-h" (number-to-string (+ 50 (frame-pixel-height)))
+		   "-x" (number-to-string (frame-parameter nil 'left))
+		   "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
+		   (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
 
   ;; remove extraneous window chrome
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
