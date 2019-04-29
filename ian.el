@@ -157,7 +157,7 @@
       :init (setq lsp-prefer-flymake nil))
 
     (use-package lsp-ui
-      :init (setq lsp-ui-doc-position 'bottom))
+      :init (setq lsp-ui-doc-position 'point))
 
     ;; Add lsp backend for other tools
     (use-package company-lsp)
@@ -225,7 +225,7 @@
     ;; buffer control
     "bb"	'switch-to-buffer
     "TAB"	'switch-to-prev-buffer
-    "bk"	'kill-buffer
+    "bd"	'kill-buffer
 
     ;; errors
     "ec"        'flycheck-clear
