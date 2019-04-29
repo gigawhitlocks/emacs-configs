@@ -35,10 +35,14 @@
     ;; even use-package is set up
     ;; credit https://github.com/jwiegley/use-package/issues/319
 
-    (require 'org)
-    (unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
-      (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
+    ;; TODO this only seems to work after some other initialization step has run
+    ;; one time. I'm not sure what that step is, just that this next step only
+    ;; succeeds if it's not the first time we've run emacs with this configuration.
+    ;; For now I'm going to leave this commented out, until I figure out
+    ;; what is causing this behavior
 
+    ;;(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
+    ;;  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
 
     ;; set ensure to be the default
     (require 'use-package-ensure)
@@ -242,7 +246,7 @@
 
     ;; bookmarks (j for jump)
     "jj"        'bookmark-jump
-    "js"        'bookmark-save
+    "js"        'bookmark-set
 
     ;; org
 

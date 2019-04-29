@@ -18,7 +18,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (lsp-scala sbt-mode scala-mode dockerfile-mode anaconda-mode lsp-origami company-lsp lsp-ui lsp-mode treemacs origami leuven-theme color-theme-sanityinc-tomorrow restart-emacs evil-magit magit helm-projectile projectile evil-escape evil-org evil-collection evil flycheck company which-key delight diminish general use-package-ensure-system-package org use-package))))
+   (lsp-scala sbt-mode scala-mode dockerfile-mode lsp-origami company-lsp lsp-ui lsp-mode treemacs origami leuven-theme color-theme-sanityinc-tomorrow restart-emacs helm evil-magit magit projectile evil-leader evil-escape evil-collection evil flycheck company which-key use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
