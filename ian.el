@@ -12,6 +12,10 @@
 (defun bootstrap ()
   "Install use-package and melpa to prepare for installation of other packages."
 
+  ;; manual PATH management
+  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  (add-to-list 'exec-path "/usr/local/bin" t)
+
   (require 'package)
   (add-to-list
    'package-archives
@@ -118,7 +122,8 @@
       :config
       (global-origami-mode))
 
-    (use-package treemacs))
+    (use-package treemacs
+      :config (use-package treemacs-evil)))
 
   ;; auto-completion
   (use-package company
@@ -140,9 +145,11 @@
       :delight
       :config
       (global-set-key (kbd "M-x") #'helm-M-x)
-      (add-to-list 'evil-collection-mode-list 'helm-mode)
       (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
       (helm-mode 1)))
+
+
+  ;; ack for searching
   
   (setup-evil)
   (setup-projectile)
@@ -160,7 +167,7 @@
       :init (setq lsp-prefer-flymake nil))
 
     (use-package lsp-ui
-      :init (setq lsp-ui-doc-position 'point))
+      :init (setq lsp-ui-doc-position 'at-point))
 
     ;; Add lsp backend for other tools
     (use-package company-lsp)
@@ -241,6 +248,11 @@
     "fed"       '(lambda () (interactive)
 		   (find-file "~/.emacs.d/ian.el"))
 
+    "feD"       '(lambda () (interactive)
+		   (find-file-other-frame "~/.emacs.d/ian.el"))
+    "feR"       '(lambda () (interactive)
+		   (byte-compile-file "~/.emacs.d/ian.el"))
+
     ;; git
     "gb"	'magit-blame
     "gs"	'magit-status
@@ -256,6 +268,7 @@
     ;; projectile
     "p"		'projectile-command-map
     "pf"	'helm-projectile-find-file
+    "sp"        'helm-projectile-ack
 
     ;; quitting
     "qq"        'exit-emacs
