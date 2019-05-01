@@ -30,7 +30,8 @@
 (main)
 
 ;; Load automatic and interactive customizations from this computer
-(setq custom-file "~/.emacs-custom.el")
+(shell-command "touch ~/.emacs.d/.emacs-custom.el")
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
 (load custom-file)
 (provide 'init)
 ;; Init file:1 ends here

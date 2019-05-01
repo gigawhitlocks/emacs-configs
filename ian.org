@@ -1,44 +1,5 @@
 #+TITLE: Ian's Emacs Stories and Scripts
-* Init file
-  :properties:
-  :header-args: :tangle ~/.emacs.d/init.el :comments link
-  :end:
-  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el :comments link
-;;; init --- the Emacs entrypoint
-;;; Commentary:
-;;;
-;;; Just load my customizations and execute -- org-mode bootstrap from 
-;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
-;;;
-;;; Code:
-;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
-(setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
-
-(let* ((org-dir (expand-file-name
-		 "lisp" (expand-file-name
-			 "org" (expand-file-name
-				"src" dotfiles-dir))))
-       (org-contrib-dir (expand-file-name
-			 "lisp" (expand-file-name
-				 "contrib" (expand-file-name
-					    ".." org-dir))))
-       (load-path (append (list org-dir org-contrib-dir)
-			  (or load-path nil))))
-  ;; load up Org-mode and Org-babel
-  (require 'org-install)
-  (require 'ob-tangle))
-
-;; load up all literate org-mode files in this directory
-(mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
-
-(require '~/.emacs.d/ian.el)
-(main)
-
-;; Load automatic and interactive customizations from this computer
-(setq custom-file "~/.emacs-custom.el")
-(load custom-file)
-(provide 'init)
-  #+END_SRC
+#+AUTHOR: Ian Whitlock
 * Main Custom Config
   :properties:
   :header-args: :tangle yes :comments link :noweb yes
@@ -259,17 +220,97 @@
     #+END_SRC
 
 ** Configuration Variables
-*** Global Config
-   #+BEGIN_SRC emacs-lisp
+*** Global Keybindings
+    #+BEGIN_SRC emacs-lisp
      (defun config ()
        "Global configuration variables and such."
+       (general-create-definer my-leader-def
+	 ;; :prefix my-leader
+	 :prefix "SPC")
 
-       <<keymaps>>
+       (general-create-definer my-local-leader-def
+	 ;; :prefix my-local-leader
+	 :prefix "SPC m")
 
+       ;; global keybindings
+       (my-leader-def
+	 :keymaps	'normal
+	 ;; buffer control
+	 "bb"	'switch-to-buffer
+	 "TAB"	'switch-to-prev-buffer
+	 "bd"	'kill-buffer-ask
+
+	 ;; errors
+	 "ec"        'flycheck-clear
+	 "el"	'flycheck-list-errors
+	 "en"        'flycheck-next-error
+	 "ep"        'flycheck-previous-error
+
+	 ;; hmm
+	 "ff"	'helm-find-files
+	 "fed"       '(lambda () (interactive)
+			(find-file "~/.emacs.d/ian.el"))
+
+	 "feD"       '(lambda () (interactive)
+			(find-file-other-frame "~/.emacs.d/ian.el"))
+	 "feR"       '(lambda () (interactive)
+			(byte-compile-file "~/.emacs.d/ian.el"))
+
+	 ;; git
+	 "gb"	'magit-blame
+	 "gs"	'magit-status
+	 "gg"	'magit
+	 "gd"	'magit-diff
+
+	 ;; bookmarks (j for jump)
+	 "jj"        'bookmark-jump
+	 "js"        'bookmark-set
+
+	 ;; projectile
+	 "p"		'projectile-command-map
+	 "pf"	        'helm-projectile-find-file
+	 "sp"           'helm-projectile-ack
+
+	 ;; quitting
+	 "qq"        'exit-emacs
+	 "qr"        'restart-emacs
+
+	 ;; simple toggles
+	 "tn"	'linum-mode
+	 ;; "tt"	'toggle-theme
+
+	 ;; window control
+	 "w-"	'split-window-below
+	 "w/"	'split-window-right
+	 "wj"        (lambda () (interactive)
+		       (select-window (window-in-direction 'below)))
+	 "wk"        (lambda () (interactive)
+		       (select-window (window-in-direction 'above)))
+	 "wh"        (lambda () (interactive)
+		       (select-window (window-in-direction 'left)))
+	 "wl"        (lambda () (interactive)
+		       (select-window (window-in-direction 'right)))
+	 "wd"	'delete-window
+	 "wd"	'delete-other-windows
+	 "wo"	'other-window
+
+	 ";"         'comment-line
+
+	 "SPC"	'helm-M-x)
+
+       (my-local-leader-def 'normal emacs-lisp-mode-map
+	 "e" 'eval-last-sexp)
+
+    #+END_SRC
+*** Org Mode Settings
+    #+BEGIN_SRC emacs-lisp
        ;; Fontify the whole line for headings (with a background color).
        (setq org-fontify-whole-heading-line t)
        (setq org-src-window-setup 'current-window)
+    #+END_SRC
 
+*** Misc Settings
+    #+BEGIN_SRC emacs-lisp
        ;; backups to /tmp
        (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
        (setq backup-by-copying t)
@@ -319,85 +360,47 @@
        (config))
 
      (provide '~/.emacs.d/ian.el)
-     ;;; ian.el ends here
-   #+END_SRC
-** Keymaps
-#+NAME: keymaps
-#+BEGIN_SRC emacs-lisp :tangle no
-  (general-create-definer my-leader-def
-    ;; :prefix my-leader
-    :prefix "SPC")
+	  ;;; ian.el ends here
+    #+END_SRC
 
-  (general-create-definer my-local-leader-def
-    ;; :prefix my-local-leader
-    :prefix "SPC m")
+* Init file
+  :properties:
+  :header-args: :tangle ~/.emacs.d/init.el :comments link
+  :end:
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el :comments link
+;;; init --- the Emacs entrypoint
+;;; Commentary:
+;;;
+;;; Just load my customizations and execute -- org-mode bootstrap from 
+;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
+;;;
+;;; Code:
+;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
+(setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
-  ;; global keybindings
-  (my-leader-def
-    :keymaps	'normal
-    ;; buffer control
-    "bb"	'switch-to-buffer
-    "TAB"	'switch-to-prev-buffer
-    "bd"	'kill-buffer-ask
+(let* ((org-dir (expand-file-name
+		 "lisp" (expand-file-name
+			 "org" (expand-file-name
+				"src" dotfiles-dir))))
+       (org-contrib-dir (expand-file-name
+			 "lisp" (expand-file-name
+				 "contrib" (expand-file-name
+					    ".." org-dir))))
+       (load-path (append (list org-dir org-contrib-dir)
+			  (or load-path nil))))
+  ;; load up Org-mode and Org-babel
+  (require 'org-install)
+  (require 'ob-tangle))
 
-    ;; errors
-    "ec"        'flycheck-clear
-    "el"	'flycheck-list-errors
-    "en"        'flycheck-next-error
-    "ep"        'flycheck-previous-error
+;; load up all literate org-mode files in this directory
+(mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
 
-    ;; hmm
-    "ff"	'helm-find-files
-    "fed"       '(lambda () (interactive)
-		   (find-file "~/.emacs.d/ian.el"))
+(require '~/.emacs.d/ian.el)
+(main)
 
-    "feD"       '(lambda () (interactive)
-		   (find-file-other-frame "~/.emacs.d/ian.el"))
-    "feR"       '(lambda () (interactive)
-		   (byte-compile-file "~/.emacs.d/ian.el"))
-
-    ;; git
-    "gb"	'magit-blame
-    "gs"	'magit-status
-    "gg"	'magit
-    "gd"	'magit-diff
-
-    ;; bookmarks (j for jump)
-    "jj"        'bookmark-jump
-    "js"        'bookmark-set
-
-    ;; projectile
-    "p"		'projectile-command-map
-    "pf"	'helm-projectile-find-file
-    "sp"        'helm-projectile-ack
-
-    ;; quitting
-    "qq"        'exit-emacs
-    "qr"        'restart-emacs
-
-    ;; simple toggles
-    "tn"	'linum-mode
-    ;; "tt"	'toggle-theme
-
-    ;; window control
-    "w-"	'split-window-below
-    "w/"	'split-window-right
-    "wj"        (lambda () (interactive)
-		  (select-window (window-in-direction 'below)))
-    "wk"        (lambda () (interactive)
-		  (select-window (window-in-direction 'above)))
-    "wh"        (lambda () (interactive)
-		  (select-window (window-in-direction 'left)))
-    "wl"        (lambda () (interactive)
-		  (select-window (window-in-direction 'right)))
-    "wd"	'delete-window
-    "wD"	'delete-other-windows
-    "wo"	'other-window
-
-    ";"         'comment-line
-
-    "SPC"	'helm-M-x)
-
-  (my-local-leader-def 'normal emacs-lisp-mode-map
-    "e" 'eval-last-sexp)
-#+END_SRC
+;; Load automatic and interactive customizations from this computer
+(shell-command "touch ~/.emacs.d/.emacs-custom.el")
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
+(load custom-file)
+(provide 'init)
+  #+END_SRC
