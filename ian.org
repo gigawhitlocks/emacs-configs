@@ -6,300 +6,298 @@
   :end:
 ** Header and Bootstrap
    #+BEGIN_SRC emacs-lisp
-;;; ian.el --- my custom emacs config with no one else considered because fuck you
-;;;            naw but really I just don't have the time for that
-;;;
-;;; Commentary:
-;;;
-;;; After throwing away an old Emacs config, built when I had no idea what I was doing
-;;; and abandoning the "wisdom of the crowds"-configured Spacemacs for better control
-;;; here we are for better or worse
-;;;
-;;; Code:
+     ;;; ian.el --- my custom emacs config with no one else considered because fuck you
+     ;;;            naw but really I just don't have the time for that
+     ;;;
+     ;;; Commentary:
+     ;;;
+     ;;; After throwing away an old Emacs config, built when I had no idea what I was doing
+     ;;; and abandoning the "wisdom of the crowds"-configured Spacemacs for better control
+     ;;; here we are for better or worse
+     ;;;
+     ;;; Code:
 
-(defun bootstrap ()
-  "Install use-package and melpa to prepare for installation of other packages."
+     (defun bootstrap ()
+       "Install use-package and melpa to prepare for installation of other packages."
 
-  ;; manual PATH management
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (add-to-list 'exec-path "/usr/local/bin" t)
+       ;; manual PATH management
+       (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+       (add-to-list 'exec-path "/usr/local/bin" t)
 
-  (require 'package)
-  (add-to-list
-   'package-archives
-   '("melpa" . "http://melpa.org/packages/"))
-  (package-initialize)
+       (require 'package)
+       (add-to-list
+	'package-archives
+	'("melpa" . "http://melpa.org/packages/"))
+       (package-initialize)
 
-  ;; Now install use-package to enable us to use it
-  ;; to manage the rest of our packages
-  
-  (unless (package-installed-p 'use-package)
-    (progn
-      (unless package-archive-contents
-	(package-refresh-contents))
-      (package-install 'use-package)))
+       ;; Now install use-package to enable us to use it
+       ;; to manage the rest of our packages
 
-  ;; set ensure to be the default
-  (require 'use-package-ensure)
-  (setq use-package-always-ensure t)
+       (unless (package-installed-p 'use-package)
+	 (progn
+	   (unless package-archive-contents
+	     (package-refresh-contents))
+	   (package-install 'use-package)))
 
-  ;; allow use-package to install system tools via apt, brew
-  (use-package use-package-ensure-system-package)
+       ;; set ensure to be the default
+       (require 'use-package-ensure)
+       (setq use-package-always-ensure t)
 
-  ;; sane keybindings from the start
-  (use-package general)
+       ;; allow use-package to install system tools via apt, brew
+       (use-package use-package-ensure-system-package)
 
-  ;; these go in bootstrap because packages installed
-  ;; with use-package use :diminish and :delight
-  (use-package diminish)
-  (use-package delight))
+       ;; sane keybindings from the start
+       (use-package general)
+
+       ;; these go in bootstrap because packages installed
+       ;; with use-package use :diminish and :delight
+       (use-package diminish)
+       (use-package delight))
    #+END_SRC
 
 ** Global Package Installation and Configuration
    #+BEGIN_SRC emacs-lisp
-(defun global-packages ()
-  "Install and configure packages used with many modes and standalone modes and applications."
-  
-  (defun setup-projectile ()
-    (use-package projectile
-      :delight)
-    (use-package helm-projectile)
-    (projectile-mode +1))
+     (defun global-packages ()
+       "Install and configure packages used with many modes and standalone modes and applications."
 
-  (defun setup-evil ()
-    "Install and configure evil-mode and related bindings."
-    (use-package evil
-      :init
-      (setq evil-want-keybinding nil)
-      (setq evil-want-integration t)
-      :config
-      (evil-mode 1))
+       (defun setup-projectile ()
+	 (use-package projectile
+	   :delight)
+	 (use-package helm-projectile)
+	 (projectile-mode +1))
 
-    (use-package evil-collection
-      :after evil
-      :config
-      (evil-collection-init))
+       (defun setup-evil ()
+	 "Install and configure evil-mode and related bindings."
+	 (use-package evil
+	   :init
+	   (setq evil-want-keybinding nil)
+	   (setq evil-want-integration t)
+	   :config
+	   (evil-mode 1))
 
-    ;; bindings for org-mode
-    (use-package evil-org)
+	 (use-package evil-collection
+	   :after evil
+	   :config
+	   (evil-collection-init))
 
-    ;; add fd as a remap for esc
-    (use-package evil-escape
-      :delight)
+	 ;; bindings for org-mode
+	 (use-package evil-org)
 
-    (evil-escape-mode 1)
-    (setq-default evil-escape-key-sequence "fd"))
+	 ;; add fd as a remap for esc
+	 (use-package evil-escape
+	   :delight)
 
-  (defun setup-magit ()
-    (use-package magit)
-    ;; disable the default emacs vc because git is all I use,
-    ;; for I am a simple man
-    (setq vc-handled-backends nil)
-    (use-package evil-magit))
+	 (evil-escape-mode 1)
+	 (setq-default evil-escape-key-sequence "fd"))
 
-  (use-package which-key
-    :delight
-    :init
-    (which-key-mode)
-    (which-key-setup-minibuffer))
+       (defun setup-magit ()
+	 (use-package magit)
+	 ;; disable the default emacs vc because git is all I use,
+	 ;; for I am a simple man
+	 (setq vc-handled-backends nil)
+	 (use-package evil-magit))
 
-  ;; anything so trivial that there is no config necessary goes here
-  (defun extra-packages ()
-    (use-package restart-emacs)
-    ;; themes
-    ;;(use-package color-theme-sanityinc-tomorrow)
-    (use-package leuven-theme)
+       (use-package which-key
+	 :delight
+	 :init
+	 (which-key-mode)
+	 (which-key-setup-minibuffer))
 
-    ;; other stuff
-    (use-package origami
-      :config
-      (global-origami-mode))
+       ;; anything so trivial that there is no config necessary goes here
+       (defun extra-packages ()
+	 (use-package restart-emacs)
+	 ;; themes
+	 ;;(use-package color-theme-sanityinc-tomorrow)
+	 (use-package leuven-theme)
 
-    (use-package treemacs
-      :config (use-package treemacs-evil)))
+	 ;; other stuff
+	 (use-package origami
+	   :config
+	   (global-origami-mode))
 
-  ;; auto-completion
-  (use-package company
-    :delight
-    :config
-    ;; enable it everywhere
-    (add-hook 'after-init-hook 'global-company-mode))
+	 (use-package treemacs
+	   :config (use-package treemacs-evil)))
 
-  ;; linter
-  (use-package flycheck
-    :delight
-    ;; enable it everywhere
-    :init (global-flycheck-mode))
+       ;; auto-completion
+       (use-package company
+	 :delight
+	 :config
+	 ;; enable it everywhere
+	 (add-hook 'after-init-hook 'global-company-mode))
 
-  ;; helm
-  (defun setup-helm ()
-    "Install and configure helm, the most important command and control center"
-    (use-package helm
-      :delight
-      :config
-      (global-set-key (kbd "M-x") #'helm-M-x)
-      (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-      (helm-mode 1)))
+       ;; linter
+       (use-package flycheck
+	 :delight
+	 ;; enable it everywhere
+	 :init (global-flycheck-mode))
+
+       ;; helm
+       (defun setup-helm ()
+	 "Install and configure helm, the most important command and control center"
+	 (use-package helm
+	   :delight
+	   :config
+	   (global-set-key (kbd "M-x") #'helm-M-x)
+	   (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+	   (helm-mode 1)))
 
 
-  ;; ack for searching
-  
-  (setup-evil)
-  (setup-projectile)
-  (setup-magit)
-  (setup-helm)
-  (extra-packages))
+       ;; ack for searching
 
+       (setup-evil)
+       (setup-projectile)
+       (setup-magit)
+       (setup-helm)
+       (extra-packages))
    #+END_SRC
 ** Language Specific Configuration
    #+BEGIN_SRC emacs-lisp
-(defun languages ()
-  "Setup for specific programming languages."
+     (defun languages ()
+       "Setup for specific programming languages."
 
-  (defun setup-lsp ()
-    "Enable nice rendering of diagnostics like compile errors."
-    (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
-    (use-package lsp-mode
-      :init (setq lsp-prefer-flymake nil))
+       (defun setup-lsp ()
+	 "Enable nice rendering of diagnostics like compile errors."
+	 (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
+	 (use-package lsp-mode
+	   :init (setq lsp-prefer-flymake nil))
 
-    (use-package lsp-ui
-      :init (setq lsp-ui-doc-position 'at-point))
+	 (use-package lsp-ui
+	   :init (setq lsp-ui-doc-position 'at-point))
 
-    ;; Add lsp backend for other tools
-    (use-package company-lsp)
-    (use-package lsp-origami))
-
+	 ;; Add lsp backend for other tools
+	 (use-package company-lsp)
+	 (use-package lsp-origami))
    #+END_SRC
 *** Scala
     #+BEGIN_SRC emacs-lisp
-  (defun scala ()
-    "Enable scala-mode and sbt-mode."
-    ;; this was taken from the install instructions 4/24/2019
-    (use-package scala-mode
-      :mode "\\.s\\(cala\\|bt\\)$")
+      (defun scala ()
+	"Enable scala-mode and sbt-mode."
+	;; this was taken from the install instructions 4/24/2019
+	(use-package scala-mode
+	  :mode "\\.s\\(cala\\|bt\\)$")
 
-    (use-package sbt-mode
-      :commands sbt-start sbt-command
-      :config
-      ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-      ;; allows using SPACE when in the minibuffer
-      (substitute-key-definition
-       'minibuffer-complete-word
-       'self-insert-command
-       minibuffer-local-completion-map))
+	(use-package sbt-mode
+	  :commands sbt-start sbt-command
+	  :config
+	  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+	  ;; allows using SPACE when in the minibuffer
+	  (substitute-key-definition
+	   'minibuffer-complete-word
+	   'self-insert-command
+	   minibuffer-local-completion-map))
 
-    (use-package lsp-scala
-      :after scala-mode
-      :demand t
-      ;; Enable lsp-scala automatically in scala files
-      :hook (scala-mode . lsp)))
-
+	(use-package lsp-scala
+	  :after scala-mode
+	  :demand t
+	  ;; Enable lsp-scala automatically in scala files
+	  :hook (scala-mode . lsp)))
     #+END_SRC
 
 *** Docker
     #+BEGIN_SRC emacs-lisp
-  (defun docker ()
-    (use-package dockerfile-mode)
-    (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
-    (put 'dockerfile-image-name 'safe-local-variable #'stringp))
-
+      (defun docker ()
+	(use-package dockerfile-mode)
+	(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+	(put 'dockerfile-image-name 'safe-local-variable #'stringp))
     #+END_SRC
 
 *** Python
     #+BEGIN_SRC emacs-lisp
-  (defun python ()
-    (use-package anaconda-mode
-      :config
-      (add-hook 'python-mode-hook 'anaconda-mode)
-      (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
+      (defun python ()
+	(use-package anaconda-mode
+	  :config
+	  (add-hook 'python-mode-hook 'anaconda-mode)
+	  (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
 
-  (setup-lsp)
-  (python)
-  (docker)
-  (scala))
+      (setup-lsp)
+      (python)
+      (docker)
+      (scala))
     #+END_SRC
 
 ** Configuration Variables
 *** Global Keybindings
     #+BEGIN_SRC emacs-lisp
-     (defun config ()
-       "Global configuration variables and such."
-       (general-create-definer my-leader-def
-	 ;; :prefix my-leader
-	 :prefix "SPC")
+      (defun config ()
+	"Global configuration variables and such."
+	(general-create-definer my-leader-def
+	  ;; :prefix my-leader
+	  :prefix "SPC")
 
-       (general-create-definer my-local-leader-def
-	 ;; :prefix my-local-leader
-	 :prefix "SPC m")
+	(general-create-definer my-local-leader-def
+	  ;; :prefix my-local-leader
+	  :prefix "SPC m")
 
-       ;; global keybindings
-       (my-leader-def
-	 :keymaps	'normal
-	 ;; buffer control
-	 "bb"	'switch-to-buffer
-	 "TAB"	'switch-to-prev-buffer
-	 "bd"	'kill-buffer-ask
+	;; global keybindings
+	(my-leader-def
+	  :keymaps 'normal
 
-	 ;; errors
-	 "ec"        'flycheck-clear
-	 "el"	'flycheck-list-errors
-	 "en"        'flycheck-next-error
-	 "ep"        'flycheck-previous-error
+	  ;; buffer control
+	  "bb"	'switch-to-buffer
+	  "TAB"	'switch-to-prev-buffer
+	  "bd"	'kill-buffer-ask
 
-	 ;; hmm
-	 "ff"	'helm-find-files
-	 "fed"       '(lambda () (interactive)
-			(find-file "~/.emacs.d/ian.el"))
+	  ;; errors
+	  "ec"	'flycheck-clear
+	  "el"	'flycheck-list-errors
+	  "en"	'flycheck-next-error
+	  "ep"	'flycheck-previous-error
 
-	 "feD"       '(lambda () (interactive)
-			(find-file-other-frame "~/.emacs.d/ian.el"))
-	 "feR"       '(lambda () (interactive)
-			(byte-compile-file "~/.emacs.d/ian.el"))
+	  ;; hmm
+	  "ff"	'helm-find-files
+	  "fed"	'(lambda () (interactive)
+			 (find-file "~/.emacs.d/ian.org"))
 
-	 ;; git
-	 "gb"	'magit-blame
-	 "gs"	'magit-status
-	 "gg"	'magit
-	 "gd"	'magit-diff
+	  "feD"	'(lambda () (interactive)
+			 (find-file-other-frame "~/.emacs.d/ian.org"))
+	  "feR"	'(lambda () (interactive)
+			 (org-babel-tangle "~/.emacs.d/ian.org")
+			 (byte-compile-file "~/.emacs.d/ian.el"))
 
-	 ;; bookmarks (j for jump)
-	 "jj"        'bookmark-jump
-	 "js"        'bookmark-set
+	  ;; git
+	  "gb"	'magit-blame
+	  "gs"	'magit-status
+	  "gg"	'magit
+	  "gd"	'magit-diff
 
-	 ;; projectile
-	 "p"		'projectile-command-map
-	 "pf"	        'helm-projectile-find-file
-	 "sp"           'helm-projectile-ack
+	  ;; bookmarks (j for jump)
+	  "jj"	'bookmark-jump
+	  "js"	'bookmark-set
 
-	 ;; quitting
-	 "qq"        'exit-emacs
-	 "qr"        'restart-emacs
+	  ;; projectile
+	  "p"		'projectile-command-map
+	  "pf"	'helm-projectile-find-file
+	  "sp"	'helm-projectile-ack
 
-	 ;; simple toggles
-	 "tn"	'linum-mode
-	 ;; "tt"	'toggle-theme
+	  ;; quitting
+	  "qq"	'exit-emacs
+	  "qr"	'restart-emacs
 
-	 ;; window control
-	 "w-"	'split-window-below
-	 "w/"	'split-window-right
-	 "wj"        (lambda () (interactive)
-		       (select-window (window-in-direction 'below)))
-	 "wk"        (lambda () (interactive)
-		       (select-window (window-in-direction 'above)))
-	 "wh"        (lambda () (interactive)
-		       (select-window (window-in-direction 'left)))
-	 "wl"        (lambda () (interactive)
-		       (select-window (window-in-direction 'right)))
-	 "wd"	'delete-window
-	 "wd"	'delete-other-windows
-	 "wo"	'other-window
+	  ;; simple toggles
+	  "tn"	'linum-mode
 
-	 ";"         'comment-line
+	  ;; window control
+	  "w-"	'split-window-below
+	  "w/"	'split-window-right
+	  "wj"	(lambda () (interactive)
+			(select-window (window-in-direction 'below)))
+	  "wk"	(lambda () (interactive)
+			(select-window (window-in-direction 'above)))
+	  "wh"	(lambda () (interactive)
+			(select-window (window-in-direction 'left)))
+	  "wl"	(lambda () (interactive)
+			(select-window (window-in-direction 'right)))
+	  "wd"	'delete-window
+	  "wd"	'delete-other-windows
+	  "wo"	'other-window
 
-	 "SPC"	'helm-M-x)
+	  ";"         'comment-line
 
-       (my-local-leader-def 'normal emacs-lisp-mode-map
-	 "e" 'eval-last-sexp)
+	  "SPC"	'helm-M-x
+	  )
+
+	(my-local-leader-def 'normal emacs-lisp-mode-map
+	  "e" 'eval-last-sexp)
 
     #+END_SRC
 *** Org Mode Settings
@@ -367,7 +365,7 @@
   :properties:
   :header-args: :tangle ~/.emacs.d/init.el :comments link
   :end:
-  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el :comments link
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
 ;;;

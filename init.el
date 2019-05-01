@@ -1,4 +1,3 @@
-;; [[file:~/.emacs.d/ian.org::*Init%20file][Init file:1]]
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
 ;;;
