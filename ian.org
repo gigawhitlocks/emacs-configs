@@ -1,6 +1,9 @@
-* Ian's Emacs Config
-** Init file
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+#+TITLE: Ian's Emacs Stories and Scripts
+* Init file
+  :properties:
+  :header-args: :tangle ~/.emacs.d/init.el :comments link
+  :end:
+  #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el :comments link
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
 ;;;
@@ -8,20 +11,19 @@
 ;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
 ;;;
 ;;; Code:
-
 ;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
 (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
-                 "lisp" (expand-file-name
-                         "org" (expand-file-name
-                                "src" dotfiles-dir))))
+		 "lisp" (expand-file-name
+			 "org" (expand-file-name
+				"src" dotfiles-dir))))
        (org-contrib-dir (expand-file-name
-                         "lisp" (expand-file-name
-                                 "contrib" (expand-file-name
-                                            ".." org-dir))))
+			 "lisp" (expand-file-name
+				 "contrib" (expand-file-name
+					    ".." org-dir))))
        (load-path (append (list org-dir org-contrib-dir)
-                          (or load-path nil))))
+			  (or load-path nil))))
   ;; load up Org-mode and Org-babel
   (require 'org-install)
   (require 'ob-tangle))
@@ -31,10 +33,18 @@
 
 (require '~/.emacs.d/ian.el)
 (main)
-(provide 'init)
-#+END_SRC
 
-#+BEGIN_SRC emacs-lisp :tangle yes
+;; Load automatic and interactive customizations from this computer
+(setq custom-file "~/.emacs-custom.el")
+(load custom-file)
+(provide 'init)
+  #+END_SRC
+* Main Custom Config
+  :properties:
+  :header-args: :tangle yes :comments link :noweb yes
+  :end:
+** Header and Bootstrap
+   #+BEGIN_SRC emacs-lisp
 ;;; ian.el --- my custom emacs config with no one else considered because fuck you
 ;;;            naw but really I just don't have the time for that
 ;;;
@@ -68,24 +78,6 @@
 	(package-refresh-contents))
       (package-install 'use-package)))
 
-  ;; use-package and package.el don't know how to install
-  ;; an up-to-date version of org-mode
-  ;; so part of this bootstrap process, since org-mode
-  ;; is a built-in and we want changes from other
-  ;; layers to apply to our updated Org as things are
-  ;; installed, is to manually update Org before
-  ;; even use-package is set up
-  ;; credit https://github.com/jwiegley/use-package/issues/319
-
-  ;; TODO this only seems to work after some other initialization step has run
-  ;; one time. I'm not sure what that step is, just that this next step only
-  ;; succeeds if it's not the first time we've run emacs with this configuration.
-  ;; For now I'm going to leave this commented out, until I figure out
-  ;; what is causing this behavior
-
-  ;;(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
-  ;;  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
-
   ;; set ensure to be the default
   (require 'use-package-ensure)
   (setq use-package-always-ensure t)
@@ -100,7 +92,10 @@
   ;; with use-package use :diminish and :delight
   (use-package diminish)
   (use-package delight))
+   #+END_SRC
 
+** Global Package Installation and Configuration
+   #+BEGIN_SRC emacs-lisp
 (defun global-packages ()
   "Install and configure packages used with many modes and standalone modes and applications."
   
@@ -194,6 +189,9 @@
   (setup-helm)
   (extra-packages))
 
+   #+END_SRC
+** Language Specific Configuration
+   #+BEGIN_SRC emacs-lisp
 (defun languages ()
   "Setup for specific programming languages."
 
@@ -210,6 +208,9 @@
     (use-package company-lsp)
     (use-package lsp-origami))
 
+   #+END_SRC
+*** Scala
+    #+BEGIN_SRC emacs-lisp
   (defun scala ()
     "Enable scala-mode and sbt-mode."
     ;; this was taken from the install instructions 4/24/2019
@@ -232,11 +233,19 @@
       ;; Enable lsp-scala automatically in scala files
       :hook (scala-mode . lsp)))
 
+    #+END_SRC
+
+*** Docker
+    #+BEGIN_SRC emacs-lisp
   (defun docker ()
     (use-package dockerfile-mode)
     (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
     (put 'dockerfile-image-name 'safe-local-variable #'stringp))
 
+    #+END_SRC
+
+*** Python
+    #+BEGIN_SRC emacs-lisp
   (defun python ()
     (use-package anaconda-mode
       :config
@@ -247,17 +256,74 @@
   (python)
   (docker)
   (scala))
+    #+END_SRC
 
-(defun config ()
-  "Global configuration variables and such."
+** Configuration Variables
+*** Global Config
+   #+BEGIN_SRC emacs-lisp
+     (defun config ()
+       "Global configuration variables and such."
 
-  ;; a helper function that flips between our main theme and a dark alternative
-  ;; (defun toggle-theme ()
-  ;;   (interactive)
-  ;;   (if (string= "leuven" (car custom-enabled-themes))
-  ;; 	(color-theme-sanityinc-tomorrow-eighties)
-  ;;     (load-theme 'leuven t)))
+       <<keymaps>>
 
+       ;; Fontify the whole line for headings (with a background color).
+       (setq org-fontify-whole-heading-line t)
+       (setq org-src-window-setup 'current-window)
+
+       ;; backups to /tmp
+       (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
+       (setq backup-by-copying t)
+
+       ;; load the best theme, leuven
+       (load-theme 'leuven t)
+
+       (diminish 'eldoc-mode)
+       (diminish 'undo-tree-mode)
+       (diminish 'auto-revert-mode)
+
+       ;; less annoying bell (from emacs wiki)
+       ;; flashes the modeline foreground
+       (setq ring-bell-function
+	     (lambda ()
+	       (let ((orig-fg (face-foreground 'mode-line)))
+		 ;; change the flash color here
+		 ;; overrides themes :P
+		 ;; guess that's one way to do it
+		 (set-face-foreground 'mode-line "#F2804F")
+		 (run-with-idle-timer 0.1 nil
+				      (lambda (fg) (set-face-foreground 'mode-line fg))
+				      orig-fg))))
+
+       ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
+       (defun gif-this-frame (duration)
+	 (interactive "sDuration: ")
+	 (start-process "emacs-to-gif" nil
+			"byzanz-record"
+			"-d" duration
+			"-w" (number-to-string (+ 5 (frame-pixel-width)))
+			"-h" (number-to-string (+ 50 (frame-pixel-height)))
+			"-x" (number-to-string (frame-parameter nil 'left))
+			"-y" (number-to-string (+ (frame-parameter nil 'top) 10))
+			(concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
+
+       ;; remove extraneous window chrome
+       (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+       (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+       (scroll-bar-mode -1))
+
+     (defun main()
+       "Initialize everything!"
+       (bootstrap)
+       (global-packages)
+       (languages)
+       (config))
+
+     (provide '~/.emacs.d/ian.el)
+     ;;; ian.el ends here
+   #+END_SRC
+** Keymaps
+#+NAME: keymaps
+#+BEGIN_SRC emacs-lisp :tangle no
   (general-create-definer my-leader-def
     ;; :prefix my-leader
     :prefix "SPC")
@@ -300,8 +366,6 @@
     "jj"        'bookmark-jump
     "js"        'bookmark-set
 
-    ;; org
-
     ;; projectile
     "p"		'projectile-command-map
     "pf"	'helm-projectile-find-file
@@ -310,7 +374,7 @@
     ;; quitting
     "qq"        'exit-emacs
     "qr"        'restart-emacs
-    
+
     ;; simple toggles
     "tn"	'linum-mode
     ;; "tt"	'toggle-theme
@@ -336,58 +400,4 @@
 
   (my-local-leader-def 'normal emacs-lisp-mode-map
     "e" 'eval-last-sexp)
-
-  ;; Fontify the whole line for headings (with a background color).
-  (setq org-fontify-whole-heading-line t)
-
-  ;; backups to /tmp
-  (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
-  (setq backup-by-copying t)
-
-  ;; load the best theme, leuven
-  (load-theme 'leuven t)
-
-  (diminish 'eldoc-mode)
-  (diminish 'undo-tree-mode)
-  (diminish 'auto-revert-mode)
-
-  ;; less annoying bell (from emacs wiki)
-  ;; flashes the modeline foreground
-  (setq ring-bell-function
-	(lambda ()
-	  (let ((orig-fg (face-foreground 'mode-line)))
-	    ;; change the flash color here
-	    ;; overrides themes :P
-	    ;; guess that's one way to do it
-	    (set-face-foreground 'mode-line "#F2804F")
-	    (run-with-idle-timer 0.1 nil
-				 (lambda (fg) (set-face-foreground 'mode-line fg))
-				 orig-fg))))
-
-  ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
-  (defun gif-this-frame (duration)
-    (interactive "sDuration: ")
-    (start-process "emacs-to-gif" nil
-		   "byzanz-record"
-		   "-d" duration
-		   "-w" (number-to-string (+ 5 (frame-pixel-width)))
-		   "-h" (number-to-string (+ 50 (frame-pixel-height)))
-		   "-x" (number-to-string (frame-parameter nil 'left))
-		   "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
-		   (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
-
-  ;; remove extraneous window chrome
-  (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (scroll-bar-mode -1))
-
-(defun main()
-  "Initialize everything!"
-  (bootstrap)
-  (global-packages)
-  (languages)
-  (config))
-
-(provide '~/.emacs.d/ian.el)
-;;; ian.el ends here
 #+END_SRC
