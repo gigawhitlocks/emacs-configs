@@ -1,49 +1,31 @@
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
-;;; Minimal additions to this file so that Customize can do its thing on individual machines
-;;; and not get angry with one another in git.
 ;;;
-;;; Just load my customizations and execute
+;;; Just load my customizations and execute -- org-mode bootstrap from 
+;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
 ;;;
 ;;; Code:
 
-(require 'package)
-(add-to-list
-  'package-archives
-  '("melpa" . "http://melpa.org/packages/"))
-(package-initialize)
+;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
+(setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
-;; Now install use-package to enable us to use it
-;; to manage the rest of our packages
+(let* ((org-dir (expand-file-name
+                 "lisp" (expand-file-name
+                         "org" (expand-file-name
+                                "src" dotfiles-dir))))
+       (org-contrib-dir (expand-file-name
+                         "lisp" (expand-file-name
+                                 "contrib" (expand-file-name
+                                            ".." org-dir))))
+       (load-path (append (list org-dir org-contrib-dir)
+                          (or load-path nil))))
+  ;; load up Org-mode and Org-babel
+  (require 'org-install)
+  (require 'ob-tangle))
 
-(unless (package-installed-p 'use-package)
-  (progn
-    (unless package-archive-contents
-      (package-refresh-contents))
-    (package-install 'use-package)))
+;; load up all literate org-mode files in this directory
+(mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
 
-;; use-package and package.el don't know how to install
-;; an up-to-date version of org-mode
-;; so part of this bootstrap process, since org-mode
-;; is a built-in and we want changes from other
-;; layers to apply to our updated Org as things are
-;; installed, is to manually update Org before
-;; even use-package is set up
-;; credit https://github.com/jwiegley/use-package/issues/319
-
-;; TODO this only seems to work after some other initialization step has run
-;; one time. I'm not sure what that step is, just that this next step only
-;; succeeds if it's not the first time we've run emacs with this configuration.
-;; For now I'm going to leave this commented out, until I figure out
-;; what is causing this behavior
-
-(unless (file-expand-wildcards (concat package-user-dir "/org-[0-9]*"))
-  (package-install (elt (cdr (assoc 'org package-archive-contents)) 0)))
-
-
-(package-initialize)
 (require '~/.emacs.d/ian.el)
 (main)
 (provide 'init)
-
-;;; init.el ends here
