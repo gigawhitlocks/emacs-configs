@@ -291,7 +291,7 @@
 	  "wl"	(lambda () (interactive)
 			(select-window (window-in-direction 'right)))
 	  "wd"	'delete-window
-	  "wd"	'delete-other-windows
+	  "wD"	'delete-other-windows
 	  "wo"	'other-window
 
 	  ";"         'comment-line
