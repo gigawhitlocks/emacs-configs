@@ -150,14 +150,14 @@
        (setup-helm)
        (extra-packages))
    #+END_SRC
-** Language Specific Configuration
+** Language Configuration
+*** General
    #+BEGIN_SRC emacs-lisp
      (defun languages ()
        "Setup for specific programming languages."
 
        (defun setup-lsp ()
 	 "Enable nice rendering of diagnostics like compile errors."
-	 (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
 	 (use-package lsp-mode
 	   :init (setq lsp-prefer-flymake nil))
 
@@ -172,6 +172,10 @@
     #+BEGIN_SRC emacs-lisp
       (defun scala ()
 	"Enable scala-mode and sbt-mode."
+	;; workaround for lsp server problem
+	;; TODO see if the exec-path stuff fixed this
+	(setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
+
 	;; this was taken from the install instructions 4/24/2019
 	(use-package scala-mode
 	  :mode "\\.s\\(cala\\|bt\\)$")
@@ -192,7 +196,6 @@
 	  ;; Enable lsp-scala automatically in scala files
 	  :hook (scala-mode . lsp)))
     #+END_SRC
-
 *** Docker
     #+BEGIN_SRC emacs-lisp
       (defun docker ()
