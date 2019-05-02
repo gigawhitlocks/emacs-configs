@@ -154,7 +154,9 @@
     (extra-packages))
 #+END_SRC
 ** Language Configuration
+
 *** General
+
 #+BEGIN_SRC emacs-lisp
   (defun languages ()
     "Setup for specific programming languages."
@@ -171,7 +173,9 @@
       (use-package company-lsp)
       (use-package lsp-origami))
 #+END_SRC
+
 *** Scala
+
 #+BEGIN_SRC emacs-lisp
   (defun scala ()
     "Enable scala-mode and sbt-mode."
@@ -199,6 +203,12 @@
       ;; Enable lsp-scala automatically in scala files
       :hook (scala-mode . lsp)))
 #+END_SRC
+
+*** YAML
+#+BEGIN_SRC emacs-lisp
+  (use-package yaml-mode)
+#+END_SRC
+
 *** Docker
 #+BEGIN_SRC emacs-lisp
   (defun docker ()
