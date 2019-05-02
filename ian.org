@@ -35,9 +35,9 @@
 
     (unless (package-installed-p 'use-package)
       (progn
-        (unless package-archive-contents
-          (package-refresh-contents))
-        (package-install 'use-package)))
+	(unless package-archive-contents
+	  (package-refresh-contents))
+	(package-install 'use-package)))
 
     ;; set ensure to be the default
     (require 'use-package-ensure)
@@ -57,171 +57,168 @@
 
 ** Global Package Installation and Configuration
 #+BEGIN_SRC emacs-lisp
-     (defun global-packages ()
-       "Install and configure packages used with many modes and standalone modes and applications."
+  (defun global-packages ()
+    "Install and configure packages used with many modes and standalone modes and applications."
 
-       (defun setup-projectile ()
-         (use-package projectile
-           :delight)
-         (use-package helm-projectile)
-         (projectile-mode +1))
+    (defun setup-projectile ()
+      (use-package projectile
+	:delight)
+      (use-package helm-projectile)
+      (projectile-mode +1))
 
-       (defun setup-evil ()
-         "Install and configure evil-mode and related bindings."
-         (use-package evil
-           :init
-           (setq evil-want-keybinding nil)
-           (setq evil-want-integration t)
-           :config
-           (evil-mode 1))
+    (defun setup-evil ()
+      "Install and configure evil-mode and related bindings."
+      (use-package evil
+	:init
+	(setq evil-want-keybinding nil)
+	(setq evil-want-integration t)
+	:config
+	(evil-mode 1))
 
-         (use-package evil-collection
-           :after evil
-           :config
-           (evil-collection-init))
+      (use-package evil-collection
+	:after evil
+	:config
+	(evil-collection-init))
 
-         ;; TODO probably org-mode dependencies will need to be their own function
-         ;; bindings for org-mode
-         (use-package evil-org)
-         ;; image drag-and-drop for org-mode
-         (use-package org-download)
+      ;; TODO probably org-mode dependencies will need to be their own function
+      ;; bindings for org-mode
+      (use-package evil-org)
+      ;; image drag-and-drop for org-mode
+      (use-package org-download)
 
-         ;; add fd as a remap for esc
-         (use-package evil-escape
-           :delight)
+      ;; add fd as a remap for esc
+      (use-package evil-escape
+	:delight)
 
-         (evil-escape-mode 1)
-         (setq-default evil-escape-key-sequence "fd"))
+      (evil-escape-mode 1)
+      (setq-default evil-escape-key-sequence "fd"))
 
-       (defun setup-magit ()
-         (use-package magit)
-         ;; disable the default emacs vc because git is all I use,
-         ;; for I am a simple man
-         (setq vc-handled-backends nil)
-         (use-package evil-magit))
+    (defun setup-magit ()
+      (use-package magit)
+      ;; disable the default emacs vc because git is all I use,
+      ;; for I am a simple man
+      (setq vc-handled-backends nil)
+      (use-package evil-magit))
 
-       (use-package which-key
-         :delight
-         :init
-         (which-key-mode)
-         (which-key-setup-minibuffer))
+    (use-package which-key
+      :delight
+      :init
+      (which-key-mode)
+      (which-key-setup-minibuffer))
 
-       ;; anything so trivial that there is no config necessary goes here
-       (defun extra-packages ()
-         (use-package restart-emacs)
-         ;; themes
-         ;;(use-package color-theme-sanityinc-tomorrow)
-         (use-package leuven-theme)
+    ;; anything so trivial that there is no config necessary goes here
+    (defun extra-packages ()
+      (use-package restart-emacs)
+      ;; themes
+      ;;(use-package color-theme-sanityinc-tomorrow)
+      (use-package leuven-theme)
 
-         ;; other stuff
-         (use-package restclient
-	 :config (use-package ob-restclient))
-	 
-         (use-package origami
-           :config
-           (global-origami-mode))
+      ;; other stuff
+    ;;  (use-package restclient
+    ;;  :config (use-package ob-restclient))
 
-         (use-package treemacs
-           :config (use-package treemacs-evil)))
+      (use-package origami
+	:config
+	(global-origami-mode)))
 
-       ;; auto-completion
-       (use-package company
-         :delight
-         :config
-         ;; enable it everywhere
-         (add-hook 'after-init-hook 'global-company-mode))
+    ;; auto-completion
+    (use-package company
+      :delight
+      :config
+      ;; enable it everywhere
+      (add-hook 'after-init-hook 'global-company-mode))
 
-       ;; linter
-       (use-package flycheck
-         :delight
-         ;; enable it everywhere
-         :init (global-flycheck-mode))
+    ;; linter
+    (use-package flycheck
+      :delight
+      ;; enable it everywhere
+      :init (global-flycheck-mode))
 
-       ;; helm
-       (defun setup-helm ()
-         "Install and configure helm, the most important command and control center"
-         (use-package helm
-           :delight
-           :config
-           (global-set-key (kbd "M-x") #'helm-M-x)
-           (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-           (helm-mode 1)))
+    ;; helm
+    (defun setup-helm ()
+      "Install and configure helm, the most important command and control center"
+      (use-package helm
+	:delight
+	:config
+	(global-set-key (kbd "M-x") #'helm-M-x)
+	(define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+	(helm-mode 1)))
 
 
-       ;; ack for searching
+    ;; ack for searching
 
-       (setup-evil)
-       (setup-projectile)
-       (setup-magit)
-       (setup-helm)
-       (extra-packages))
+    (setup-evil)
+    (setup-projectile)
+    (setup-magit)
+    (setup-helm)
+    (extra-packages))
 #+END_SRC
 ** Language Configuration
 *** General
 #+BEGIN_SRC emacs-lisp
-     (defun languages ()
-       "Setup for specific programming languages."
+  (defun languages ()
+    "Setup for specific programming languages."
 
-       (defun setup-lsp ()
-         "Enable nice rendering of diagnostics like compile errors."
-         (use-package lsp-mode
-           :init (setq lsp-prefer-flymake nil))
+    (defun setup-lsp ()
+      "Enable nice rendering of diagnostics like compile errors."
+      (use-package lsp-mode
+	:init (setq lsp-prefer-flymake nil))
 
-         (use-package lsp-ui
-           :init (setq lsp-ui-doc-position 'at-point))
+      (use-package lsp-ui
+	:init (setq lsp-ui-doc-position 'at-point))
 
-         ;; Add lsp backend for other tools
-         (use-package company-lsp)
-         (use-package lsp-origami))
+      ;; Add lsp backend for other tools
+      (use-package company-lsp)
+      (use-package lsp-origami))
 #+END_SRC
 *** Scala
 #+BEGIN_SRC emacs-lisp
-      (defun scala ()
-        "Enable scala-mode and sbt-mode."
-        ;; workaround for lsp server problem
-        ;; TODO see if the exec-path stuff fixed this
-        (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
+  (defun scala ()
+    "Enable scala-mode and sbt-mode."
+    ;; workaround for lsp server problem
+    ;; TODO see if the exec-path stuff fixed this
+    (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
 
-        ;; this was taken from the install instructions 4/24/2019
-        (use-package scala-mode
-          :mode "\\.s\\(cala\\|bt\\)$")
+    ;; this was taken from the install instructions 4/24/2019
+    (use-package scala-mode
+      :mode "\\.s\\(cala\\|bt\\)$")
 
-        (use-package sbt-mode
-          :commands sbt-start sbt-command
-          :config
-          ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-          ;; allows using SPACE when in the minibuffer
-          (substitute-key-definition
-           'minibuffer-complete-word
-           'self-insert-command
-           minibuffer-local-completion-map))
+    (use-package sbt-mode
+      :commands sbt-start sbt-command
+      :config
+      ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+      ;; allows using SPACE when in the minibuffer
+      (substitute-key-definition
+       'minibuffer-complete-word
+       'self-insert-command
+       minibuffer-local-completion-map))
 
-        (use-package lsp-scala
-          :after scala-mode
-          :demand t
-          ;; Enable lsp-scala automatically in scala files
-          :hook (scala-mode . lsp)))
+    (use-package lsp-scala
+      :after scala-mode
+      :demand t
+      ;; Enable lsp-scala automatically in scala files
+      :hook (scala-mode . lsp)))
 #+END_SRC
 *** Docker
 #+BEGIN_SRC emacs-lisp
-      (defun docker ()
-        (use-package dockerfile-mode)
-        (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
-        (put 'dockerfile-image-name 'safe-local-variable #'stringp))
+  (defun docker ()
+    (use-package dockerfile-mode)
+    (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+    (put 'dockerfile-image-name 'safe-local-variable #'stringp))
 #+END_SRC
 
 *** Python
 #+BEGIN_SRC emacs-lisp
-      (defun python ()
-        (use-package anaconda-mode
-          :config
-          (add-hook 'python-mode-hook 'anaconda-mode)
-          (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
+  (defun python ()
+    (use-package anaconda-mode
+      :config
+      (add-hook 'python-mode-hook 'anaconda-mode)
+      (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
 
-      (setup-lsp)
-      (python)
-      (docker)
-      (scala))
+  (setup-lsp)
+  (python)
+  (docker)
+  (scala))
 #+END_SRC
 
 ** Configuration Variables
@@ -334,7 +331,7 @@
 
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
-    ;; backups to /tmp
+  ;; backups to /tmp
     (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
     (setq backup-by-copying t)
 
@@ -348,27 +345,27 @@
     ;; less annoying bell (from emacs wiki)
     ;; flashes the modeline foreground
     (setq ring-bell-function
-          (lambda ()
-            (let ((orig-fg (face-foreground 'mode-line)))
-              ;; change the flash color here
-              ;; overrides themes :P
-              ;; guess that's one way to do it
-              (set-face-foreground 'mode-line "#F2804F")
-              (run-with-idle-timer 0.1 nil
-                                   (lambda (fg) (set-face-foreground 'mode-line fg))
-                                   orig-fg))))
+	  (lambda ()
+	    (let ((orig-fg (face-foreground 'mode-line)))
+	      ;; change the flash color here
+	      ;; overrides themes :P
+	      ;; guess that's one way to do it
+	      (set-face-foreground 'mode-line "#F2804F")
+	      (run-with-idle-timer 0.1 nil
+				   (lambda (fg) (set-face-foreground 'mode-line fg))
+				   orig-fg))))
 
     ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
     (defun gif-this-frame (duration)
       (interactive "sDuration: ")
       (start-process "emacs-to-gif" nil
-                     "byzanz-record"
-                     "-d" duration
-                     "-w" (number-to-string (+ 5 (frame-pixel-width)))
-                     "-h" (number-to-string (+ 50 (frame-pixel-height)))
-                     "-x" (number-to-string (frame-parameter nil 'left))
-                     "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
-                     (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
+		     "byzanz-record"
+		     "-d" duration
+		     "-w" (number-to-string (+ 5 (frame-pixel-width)))
+		     "-h" (number-to-string (+ 50 (frame-pixel-height)))
+		     "-x" (number-to-string (frame-parameter nil 'left))
+		     "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
+		     (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
 
     ;; remove extraneous window chrome
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
