@@ -114,6 +114,9 @@
          (use-package leuven-theme)
 
          ;; other stuff
+         (use-package restclient
+	 :config (use-package ob-restclient))
+	 
          (use-package origami
            :config
            (global-origami-mode))
@@ -252,13 +255,13 @@
       ;; hmm
       "ff"	'helm-find-files
       "fed"	'(lambda () (interactive)
-                     (find-file "~/.emacs.d/ian.org"))
+		     (find-file "~/.emacs.d/ian.org"))
 
       "feD"	'(lambda () (interactive)
-                     (find-file-other-frame "~/.emacs.d/ian.org"))
+		     (find-file-other-frame "~/.emacs.d/ian.org"))
       "feR"	'(lambda () (interactive)
-                     (org-babel-tangle "~/.emacs.d/ian.org")
-                     (byte-compile-file "~/.emacs.d/ian.el"))
+		     (org-babel-tangle "~/.emacs.d/ian.org")
+		     (byte-compile-file "~/.emacs.d/ian.el"))
 
       ;; git
       "gb"	'magit-blame
@@ -269,9 +272,10 @@
       ;; bookmarks (j for jump)
       "jj"	'bookmark-jump
       "js"	'bookmark-set
-
+      "jo"      'org-babel-tangle-jump-to-org
+      
       ;; projectile
-      "p"		'projectile-command-map
+      "p"	'projectile-command-map
       "pf"	'helm-projectile-find-file
       "sp"	'helm-projectile-ack
 
@@ -286,13 +290,13 @@
       "w-"	'split-window-below
       "w/"	'split-window-right
       "wj"	(lambda () (interactive)
-                    (select-window (window-in-direction 'below)))
+		    (select-window (window-in-direction 'below)))
       "wk"	(lambda () (interactive)
-                    (select-window (window-in-direction 'above)))
+		    (select-window (window-in-direction 'above)))
       "wh"	(lambda () (interactive)
-                    (select-window (window-in-direction 'left)))
+		    (select-window (window-in-direction 'left)))
       "wl"	(lambda () (interactive)
-                    (select-window (window-in-direction 'right)))
+		    (select-window (window-in-direction 'right)))
       "wd"	'delete-window
       "wD"	'delete-other-windows
       "wo"	'other-window
@@ -304,8 +308,8 @@
 
     (my-local-leader-def 'normal emacs-lisp-mode-map
       "e" 'eval-last-sexp)
-
 #+END_SRC
+
 *** Org Mode Settings
 #+BEGIN_SRC emacs-lisp
   ;; Fontify the whole line for headings (with a background color).
@@ -315,7 +319,7 @@
   ;; instead, just replace the current window with the editing one..
   (setq org-src-window-setup 'current-window)
 
-  ;; TODO start org-tab-mode when Org starts
+  (add-hook 'org-mode-hook 'org-indent-mode)
 #+END_SRC
 
 *** Misc Settings
