@@ -301,7 +301,7 @@
       "wD"	'delete-other-windows
       "wo"	'other-window
 
-      ";"         'comment-line
+      ";"       'comment-line
 
       "SPC"	'helm-M-x
       )
@@ -319,7 +319,17 @@
   ;; instead, just replace the current window with the editing one..
   (setq org-src-window-setup 'current-window)
 
+  ;; indent and wrap long lines in Org
   (add-hook 'org-mode-hook 'org-indent-mode)
+  (add-hook 'org-mode-hook 'visual-line-mode)
+
+
+  ;; enable execution of languages from Babel
+  (org-babel-do-load-languages 'org-babel-load-languages
+			       '(
+				 (shell . t)
+				 )
+			       )
 #+END_SRC
 
 *** Misc Settings
