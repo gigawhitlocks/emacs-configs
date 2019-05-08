@@ -1,10 +1,113 @@
 #+TITLE: Ian's Emacs Stories and Scripts
 #+AUTHOR: Ian Whitlock
-* Main Custom Config
+* Custom Config and Travelogue
+This file contains the configuration necessary to transform a GNU Emacs 26 installation on Linux or Mac OS X into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
+
+** Justification
+Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
+
+*** It's actually an interactive Lisp interpeter
+It's really a text editor with a Lisp interpreter attached, and Lisp turns out to be especially good at parsing text and for building domain specific languages (DSLs) for adding functionality to the existing language. Now, it just so happens that this particular dialect of Lisp comes with a native GUI library -- Emacs itself -- that it understands natively.
+
+Suddenly using the program and programming it become similar tasks. This is the brilliance of Emacs. "But I don't have time to program my editor!" Yeah, nobody really does, that's why this repository is open source (in case someone can use it) and it's why we lean heavily on third party packages.
+
+But because Emacs is primarily written in Emacs Lisp, you can explore the source code of Emacs directly from the editor itself, edit it, and execute the new version and have it affect your current session at runtime.
+
+Here's a trivial example. A new Emacs user does the tutorial and learns that ~M-x~ runs a command. One of the first ones they learn is ~find-file~. ~find-file~ queries the user for a file location and then opens that file in a new buffer and displays it in the current window. It's also accessible via ~C-x C-f~ by default. The same function is ~(find-file)~ in Emacs Lisp. Run with an argument, it won't query the user. Any action you can do interactively can be automated through Emacs Lisp. Because of this flexibility, the world of 3rd party packages is /awesome/.
+
+Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode.
+
+*** Org Mode
+This configuration is written in Org syntax.
+
+Org Mode is a display mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as ~org-babel~. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
+
+Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
+
+** Featuring
+My config features many 3rd party packages. I'd like to give special attention to some of my favorites
+
+*** evil-mode
+Bringing a sane editing experience to Emacs.
+
+*** helm
+Helm brings an awesome command UI to Emacs that completely alters the experience (for the better, in my opinion).
+
+*** magit
+The best ~git~ UI on the planet.
+
+*** projectile
+Allowing jumping around inside of version-controlled projects, searching, all kinds of goodies.
+
+*** general
+Sane key bindings.
+
+*** which-key
+Pops up a window to show available commands, given a prefix. Awesome for discoverability, which is essential for a platform as extensible as Emacs.
+
+*** leuven-theme
+Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
+
+* ~init.el~ Entrypoint
+:properties:
+:header-args: :tangle ~/.emacs.d/init.el :comments link
+:end:
+
+First of all there's ~init.el~. Emacs runs this file by default after it's done initializing the underlying system, so it's where our code traditionally goes. This file needs to be checked in so that there's something executable for Emacs to run when this repo is pulled down anew, so it can't be an ~org~ file. We need ~init.el~ to call ~org-babel-load-file~ on this file to turn it into a ~.el~ that we can load and execute.
+
+So ~init.el~ just holds the bare minimum code. We use an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them. Then we ~require~ the output from the call to tangle, and run ~main~.
+
+#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+  ;;; init --- the Emacs entrypoint
+  ;;; Commentary:
+  ;;;
+  ;;; Just load my customizations and execute -- org-mode bootstrap from 
+  ;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
+  ;;;
+  ;;; Code:
+  ;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
+  (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
+
+  (let* ((org-dir (expand-file-name
+                   "lisp" (expand-file-name
+                           "org" (expand-file-name
+                                  "src" dotfiles-dir))))
+         (org-contrib-dir (expand-file-name
+                           "lisp" (expand-file-name
+                                   "contrib" (expand-file-name
+                                              ".." org-dir))))
+         (load-path (append (list org-dir org-contrib-dir)
+                            (or load-path nil))))
+    ;; load up Org-mode and Org-babel
+    (require 'org-install)
+    (require 'ob-tangle))
+
+  ;; load up all literate org-mode files in this directory
+  (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
+
+  (require '~/.emacs.d/ian.el)
+  (main)
+
+  ;; Load automatic and interactive customizations from this computer
+  (shell-command "touch ~/.emacs.d/.emacs-custom.el")
+  (setq custom-file "~/.emacs.d/.emacs-custom.el")
+  (load custom-file)
+  (provide 'init)
+#+END_SRC
+
+The rest of the code that is executed begins with the routines defined by this file.
+
+* My Customizations
 :properties:
 :header-args: :tangle yes :comments link :noweb yes
 :end:
-** Header and Bootstrap
+
+After running the ~init.el~ entrypoint, this file is tangled to ~ian.el~ and executed. Right now all configuration other than the entrypoint is in this file.
+
+** Bootstrap
+
+The bootstrap function sets up the main software repository for downloading 3rd party packages and a tool for managing installing those packages.
+
 #+BEGIN_SRC emacs-lisp
   ;;; ian.el --- my custom emacs config with no one else considered because fuck you
   ;;;            naw but really I just don't have the time for that
@@ -56,29 +159,31 @@
 #+END_SRC
 
 ** Global Package Installation and Configuration
+The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow.
+
 #+BEGIN_SRC emacs-lisp
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
 
     (defun setup-projectile ()
       (use-package projectile
-	:delight)
+        :delight)
       (use-package helm-projectile)
       (projectile-mode +1))
 
     (defun setup-evil ()
       "Install and configure evil-mode and related bindings."
       (use-package evil
-	:init
-	(setq evil-want-keybinding nil)
-	(setq evil-want-integration t)
-	:config
-	(evil-mode 1))
+        :init
+        (setq evil-want-keybinding nil)
+        (setq evil-want-integration t)
+        :config
+        (evil-mode 1))
 
       (use-package evil-collection
-	:after evil
-	:config
-	(evil-collection-init))
+        :after evil
+        :config
+        (evil-collection-init))
 
       ;; TODO probably org-mode dependencies will need to be their own function
       ;; bindings for org-mode
@@ -88,7 +193,7 @@
 
       ;; add fd as a remap for esc
       (use-package evil-escape
-	:delight)
+        :delight)
 
       (evil-escape-mode 1)
       (setq-default evil-escape-key-sequence "fd"))
@@ -109,17 +214,15 @@
     ;; anything so trivial that there is no config necessary goes here
     (defun extra-packages ()
       (use-package restart-emacs)
+      (use-package yasnippet)
+      (use-package systemd)
+      (use-package ranger)
+      (use-package htmlize)
+      (setq ranger-show-literal nil)
       ;; themes
       ;;(use-package color-theme-sanityinc-tomorrow)
       (use-package leuven-theme)
-
-      ;; other stuff
-    ;;  (use-package restclient
-    ;;  :config (use-package ob-restclient))
-
-      (use-package origami
-	:config
-	(global-origami-mode)))
+      )
 
     ;; auto-completion
     (use-package company
@@ -138,11 +241,11 @@
     (defun setup-helm ()
       "Install and configure helm, the most important command and control center"
       (use-package helm
-	:delight
-	:config
-	(global-set-key (kbd "M-x") #'helm-M-x)
-	(define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-	(helm-mode 1)))
+        :delight
+        :config
+        (global-set-key (kbd "M-x") #'helm-M-x)
+        (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+        (helm-mode 1)))
 
 
     ;; ack for searching
@@ -153,6 +256,7 @@
     (setup-helm)
     (extra-packages))
 #+END_SRC
+
 ** Language Configuration
 *** General
 
@@ -180,7 +284,7 @@
     "Enable scala-mode and sbt-mode."
     ;; workaround for lsp server problem
     ;; TODO see if the exec-path stuff fixed this
-    (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
+    ;; (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
 
     ;; this was taken from the install instructions 4/24/2019
     (use-package scala-mode
@@ -228,12 +332,21 @@
       (add-hook 'python-mode-hook 'anaconda-mode)
       (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
 
+#+END_SRC
+
+*** Web
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode)
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+#+END_SRC
+
+*** Enable modes
+#+BEGIN_SRC emacs-lisp
   (setup-lsp)
   (python)
   (docker)
   (scala))
 #+END_SRC
-
 ** Configuration Variables
 *** Global Keybindings
 #+BEGIN_SRC emacs-lisp
@@ -265,13 +378,13 @@
       ;; hmm
       "ff"	'helm-find-files
       "fed"	'(lambda () (interactive)
-		     (find-file "~/.emacs.d/ian.org"))
+                     (find-file "~/.emacs.d/ian.org"))
 
       "feD"	'(lambda () (interactive)
-		     (find-file-other-frame "~/.emacs.d/ian.org"))
+                     (find-file-other-frame "~/.emacs.d/ian.org"))
       "feR"	'(lambda () (interactive)
-		     (org-babel-tangle "~/.emacs.d/ian.org")
-		     (byte-compile-file "~/.emacs.d/ian.el"))
+                     (org-babel-tangle "~/.emacs.d/ian.org")
+                     (byte-compile-file "~/.emacs.d/ian.el"))
 
       ;; git
       "gb"	'magit-blame
@@ -300,13 +413,13 @@
       "w-"	'split-window-below
       "w/"	'split-window-right
       "wj"	(lambda () (interactive)
-		    (select-window (window-in-direction 'below)))
+                    (select-window (window-in-direction 'below)))
       "wk"	(lambda () (interactive)
-		    (select-window (window-in-direction 'above)))
+                    (select-window (window-in-direction 'above)))
       "wh"	(lambda () (interactive)
-		    (select-window (window-in-direction 'left)))
+                    (select-window (window-in-direction 'left)))
       "wl"	(lambda () (interactive)
-		    (select-window (window-in-direction 'right)))
+                    (select-window (window-in-direction 'right)))
       "wd"	'delete-window
       "wD"	'delete-other-windows
       "wo"	'other-window
@@ -405,44 +518,3 @@
        ;;; ian.el ends here
 #+END_SRC
 
-* Init file
-:properties:
-:header-args: :tangle ~/.emacs.d/init.el :comments link
-:end:
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
-  ;;; init --- the Emacs entrypoint
-  ;;; Commentary:
-  ;;;
-  ;;; Just load my customizations and execute -- org-mode bootstrap from 
-  ;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
-  ;;;
-  ;;; Code:
-  ;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
-  (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
-
-  (let* ((org-dir (expand-file-name
-                   "lisp" (expand-file-name
-                           "org" (expand-file-name
-                                  "src" dotfiles-dir))))
-         (org-contrib-dir (expand-file-name
-                           "lisp" (expand-file-name
-                                   "contrib" (expand-file-name
-                                              ".." org-dir))))
-         (load-path (append (list org-dir org-contrib-dir)
-                            (or load-path nil))))
-    ;; load up Org-mode and Org-babel
-    (require 'org-install)
-    (require 'ob-tangle))
-
-  ;; load up all literate org-mode files in this directory
-  (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
-
-  (require '~/.emacs.d/ian.el)
-  (main)
-
-  ;; Load automatic and interactive customizations from this computer
-  (shell-command "touch ~/.emacs.d/.emacs-custom.el")
-  (setq custom-file "~/.emacs.d/.emacs-custom.el")
-  (load custom-file)
-  (provide 'init)
-#+END_SRC

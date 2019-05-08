@@ -1,4 +1,4 @@
-;; [[file:~/.emacs.d/ian.org::*Init%20file][Init file:1]]
+;; [[file:~/.emacs.d/ian.org::*~init.el~%20Entrypoint][~init.el~ Entrypoint:1]]
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
 ;;;
@@ -34,4 +34,4 @@
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
 (load custom-file)
 (provide 'init)
-;; Init file:1 ends here
+;; ~init.el~ Entrypoint:1 ends here
