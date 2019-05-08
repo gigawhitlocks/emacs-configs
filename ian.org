@@ -154,7 +154,6 @@
     (extra-packages))
 #+END_SRC
 ** Language Configuration
-
 *** General
 
 #+BEGIN_SRC emacs-lisp
@@ -220,6 +219,10 @@
 *** Python
 #+BEGIN_SRC emacs-lisp
   (defun python ()
+
+    (use-package auto-virtualenv)
+    (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+
     (use-package anaconda-mode
       :config
       (add-hook 'python-mode-hook 'anaconda-mode)
