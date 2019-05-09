@@ -18,3 +18,4 @@ anaconda-mode
 ian.el
 bookmarks
 .emacs-custom.el
+local-variables/
