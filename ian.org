@@ -383,6 +383,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       "en"	'flycheck-next-error
       "ep"	'flycheck-previous-error
 
+      "Fm"        'make-frame
+
       ;; hmm
       "ff"	'helm-find-files
       "fed"	'(lambda () (interactive)
@@ -431,13 +433,14 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       "wd"	'delete-window
       "wD"	'delete-other-windows
       "wo"	'other-window
+      "w="        'balance-windows
 
       ";"       'comment-line
 
       "SPC"	'helm-M-x
       )
     #+END_SRC
-*** Local Keybindings
+*** Mode-Local Keybindings
 #+BEGIN_SRC emacs-lisp
   (my-local-leader-def 'normal emacs-lisp-mode-map
     "e" 'eval-last-sexp)
