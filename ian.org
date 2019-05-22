@@ -355,6 +355,11 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+BEGIN_SRC emacs-lisp
   (defun config ()
     "Global configuration variables and such."
+    
+    ;; override Home/End behavior to be more like modern applications
+    (global-set-key (kbd "<home>") 'move-beginning-of-line)
+    (global-set-key (kbd "<end>") 'move-end-of-line)
+
     (general-create-definer my-leader-def
       ;; :prefix my-leader
       :prefix "SPC")
