@@ -162,105 +162,122 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow.
 
 #+BEGIN_SRC emacs-lisp
-    (defun global-packages ()
-      "Install and configure packages used with many modes and standalone modes and applications."
+  (defun global-packages ()
+    "Install and configure packages used with many modes and standalone modes and applications."
 
-      (defun setup-projectile ()
-        (use-package projectile
-          :delight)
-        (use-package helm-projectile)
-        (projectile-mode +1))
+    (defun setup-projectile ()
+      (use-package projectile
+        :delight)
+      (use-package helm-projectile)
+      (projectile-mode +1))
 
-      (defun setup-evil ()
-        "Install and configure evil-mode and related bindings."
-        (use-package evil
-          :init
-          (setq evil-want-keybinding nil)
-          (setq evil-want-integration t)
-          :config
-          (evil-mode 1))
-
-        (use-package evil-collection
-          :after evil
-          :config
-          (evil-collection-init))
-
-        ;; TODO probably org-mode dependencies will need to be their own function
-        ;; bindings for org-mode
-        (use-package evil-org)
-        ;; image drag-and-drop for org-mode
-        (use-package org-download)
-
-        ;; add fd as a remap for esc
-        (use-package evil-escape
-          :delight)
-
-        (evil-escape-mode 1)
-        (setq-default evil-escape-key-sequence "fd"))
-
-      (defun setup-magit ()
-        (use-package magit)
-        ;; disable the default emacs vc because git is all I use,
-        ;; for I am a simple man
-        (setq vc-handled-backends nil)
-        (use-package evil-magit))
-
-      ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
-      (use-package forge
-        :after magit)
-      ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
-      ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #. 
-
-      (use-package which-key
-        :delight
+    (defun setup-evil ()
+      "Install and configure evil-mode and related bindings."
+      (use-package evil
         :init
-        (which-key-mode)
-        (which-key-setup-minibuffer))
+        (setq evil-want-keybinding nil)
+        (setq evil-want-integration t)
+        :config
+        (evil-mode 1))
 
-      ;; anything so trivial that there is no config necessary goes here
-      (defun extra-packages ()
-        (use-package restart-emacs)
-        (use-package yasnippet)
-        (use-package systemd)
-        (use-package ranger)
-        (use-package htmlize)
-        (setq ranger-show-literal nil)
-        ;; themes
-        ;;(use-package color-theme-sanityinc-tomorrow)
-        (use-package leuven-theme)
-        )
+      (use-package evil-collection
+        :after evil
+        :config
+        (evil-collection-init))
 
-      ;; auto-completion
-      (use-package company
+      ;; TODO probably org-mode dependencies will need to be their own function
+      ;; bindings for org-mode
+      (use-package evil-org)
+      ;; image drag-and-drop for org-mode
+      (use-package org-download)
+
+      ;; add fd as a remap for esc
+      (use-package evil-escape
+        :delight)
+
+      (evil-escape-mode 1)
+      (setq-default evil-escape-key-sequence "fd"))
+
+    (defun setup-magit ()
+      (use-package magit)
+      ;; disable the default emacs vc because git is all I use,
+      ;; for I am a simple man
+      (setq vc-handled-backends nil)
+      (use-package evil-magit))
+
+    ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
+    (use-package forge
+      :after magit)
+    ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
+    ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #. 
+
+    (use-package which-key
+      :delight
+      :init
+      (which-key-mode)
+      (which-key-setup-minibuffer))
+
+
+    (defun ansi () 
+      ;; enable ANSI escape codes in compilation buffer
+      (use-package ansi-color)
+      ;; slightly modified from
+      ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
+      (defun colorize-compilation ()
+          "Colorize from `compilation-filter-start' to `point'."
+          (let ((inhibit-read-only t))
+          (ansi-color-apply-on-region
+          compilation-filter-start (point))))
+
+      (add-hook 'compilation-filter-hook
+                #'colorize-compilation))
+    (ansi)
+
+    ;; anything so trivial that there is no config necessary goes here
+    (defun extra-packages ()
+      (use-package restart-emacs)
+      (use-package yasnippet)
+      (use-package systemd)
+      (use-package ranger)
+      (use-package htmlize)
+      (setq ranger-show-literal nil)
+      ;; themes
+      ;;(use-package color-theme-sanityinc-tomorrow)
+      (use-package leuven-theme)
+      (use-package centered-window)
+      )
+
+    ;; auto-completion
+    (use-package company
+      :delight
+      :config
+      ;; enable it everywhere
+      (add-hook 'after-init-hook 'global-company-mode))
+
+    ;; linter
+    (use-package flycheck
+      :delight
+      ;; enable it everywhere
+      :init (global-flycheck-mode))
+
+    ;; helm
+    (defun setup-helm ()
+      "Install and configure helm, the most important command and control center"
+      (use-package helm
         :delight
         :config
-        ;; enable it everywhere
-        (add-hook 'after-init-hook 'global-company-mode))
-
-      ;; linter
-      (use-package flycheck
-        :delight
-        ;; enable it everywhere
-        :init (global-flycheck-mode))
-
-      ;; helm
-      (defun setup-helm ()
-        "Install and configure helm, the most important command and control center"
-        (use-package helm
-          :delight
-          :config
-          (global-set-key (kbd "M-x") #'helm-M-x)
-          (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-          (helm-mode 1)))
+        (global-set-key (kbd "M-x") #'helm-M-x)
+        (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+        (helm-mode 1)))
 
 
-      ;; ack for searching
+    ;; ack for searching
 
-      (setup-evil)
-      (setup-projectile)
-      (setup-magit)
-      (setup-helm)
-      (extra-packages))
+    (setup-evil)
+    (setup-projectile)
+    (setup-magit)
+    (setup-helm)
+    (extra-packages))
 #+END_SRC
 
 ** Language Configuration
@@ -379,6 +396,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       "bb"	'switch-to-buffer
       "TAB"	'switch-to-prev-buffer
       "bd"	'evil-delete-buffer
+      
+      ;; compile
+      "cc"        'compile
 
       ;; errors
       "ec"	'flycheck-clear
