@@ -492,10 +492,14 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
   ;; enable execution of languages from Babel
   (org-babel-do-load-languages 'org-babel-load-languages
-			       '(
-				 (shell . t)
-				 )
-			       )
+                               '(
+                                 (shell . t)
+                                 )
+                               )
+
+  ;; enable markdown export
+  (eval-after-load "org"
+    '(require 'ox-md nil t))
 #+END_SRC
 
 *** Misc Settings
