@@ -252,7 +252,10 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       :delight
       :config
       ;; enable it everywhere
-      (add-hook 'after-init-hook 'global-company-mode))
+      (add-hook 'after-init-hook 'global-company-mode)
+
+      ;; tab complete!
+      (global-set-key "\t" 'company-complete-common))
 
     ;; linter
     (use-package flycheck
