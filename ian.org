@@ -270,8 +270,10 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
         (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
         (helm-mode 1)))
 
-
-    ;; ack for searching
+    ;; gnu hyperbole
+    (use-package hyperbole
+      :config
+      )
 
     (setup-evil)
     (setup-projectile)
@@ -425,6 +427,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       "gg"	'magit
       "gd"	'magit-diff
 
+      ;; hyperbole
+      "h"        'hyperbole
       ;; bookmarks (j for jump)
       "jj"	'bookmark-jump
       "js"	'bookmark-set
