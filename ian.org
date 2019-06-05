@@ -543,7 +543,10 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;; remove extraneous window chrome
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
     (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-    (scroll-bar-mode -1))
+    (scroll-bar-mode -1)
+
+    ;; turn off startup
+    (setq inhibit-startup-screen t))
 
   (defun main()
     "Initialize everything!"
