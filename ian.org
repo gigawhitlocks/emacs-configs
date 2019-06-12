@@ -574,3 +574,10 @@ This allows for customization at the end of the configuration for specific thing
 1) Ensure that ~local-variables/~ exists and create it if it does not.
 2) Load anything that's in there -- be sure to fail sanely if there's nothing there!
 3) That's it, there is no three.
+** TODO Hyperbole
+#+BEGIN_SRC
+17:41 user1: is there a way to do the equivalent of C-x C-e on a #+INCLUDE: directive in Org?
+17:46 user2: Of course: C-a C-c ' C-x h M-w M-x org-mark-ring-goto C-y C-k
+17:51 user1: I could probably transform that string of commands into a Lisp function.. and then write an implicit button rule for Hyperbole so that I can shift+middle-click on an #+INCLUDE: directive and have it drop the contents of the file inside my org file..
+17:52 user1: that'd be the correct behavior
+#+END_SRC
