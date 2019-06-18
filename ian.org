@@ -435,8 +435,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       ;; bookmarks (j for jump)
       "jj"	'bookmark-jump
       "js"	'bookmark-set
-      "jo"      'org-babel-tangle-jump-to-org
+      "jo"        'org-babel-tangle-jump-to-org
 
+      "ic"         'insert-char
       ;; projectile
       "p"	'projectile-command-map
       "pf"	'helm-projectile-find-file
@@ -465,7 +466,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       "wo"	'other-window
       "w="        'balance-windows
 
-      ";"       'comment-line
+      ";"         'comment-line
 
       "SPC"	'helm-M-x
       )
@@ -567,6 +568,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+END_SRC
 
 
+
+* Notes and Such
 ** TODO System-local settings
 Include all ~.el~ files from the untracked folder ~local-variables/~ and run them as the final step.
 This allows for customization at the end of the configuration for specific things that are dependent on the computer on which this config is being run. For instance, anything with sensitive details or URLs can be symlinked from a private repo to this one for inclusion in the config without sharing secrets with the whole Internet.
@@ -574,6 +577,7 @@ This allows for customization at the end of the configuration for specific thing
 1) Ensure that ~local-variables/~ exists and create it if it does not.
 2) Load anything that's in there -- be sure to fail sanely if there's nothing there!
 3) That's it, there is no three.
+
 ** TODO Hyperbole
 #+BEGIN_SRC
 17:41 user1: is there a way to do the equivalent of C-x C-e on a #+INCLUDE: directive in Org?
@@ -581,3 +585,37 @@ This allows for customization at the end of the configuration for specific thing
 17:51 user1: I could probably transform that string of commands into a Lisp function.. and then write an implicit button rule for Hyperbole so that I can shift+middle-click on an #+INCLUDE: directive and have it drop the contents of the file inside my org file..
 17:52 user1: that'd be the correct behavior
 #+END_SRC
+
+** Monospace Fonts
+Just going to keep note of some options
+
+*** https://github.com/adobe-fonts/source-code-pro/tree/master
+Default in Spacemacs
+
+*** https://github.com/be5invis/Iosevka 
+Kinda tall, skinny
+
+*** https://github.com/googlefonts/Inconsolata
+Has ligatures
+
+*** https://github.com/tonsky/FiraCode
+More ligatures, but you have to Do Stuff in Emacs
+https://github.com/tonsky/FiraCode/wiki/Emacs-instructions
+Described as "cool" on IRC
+
+*** https://github.com/source-foundry/Hack
+I mean, it's called "Hack"
+
+** Proportional Fonts
+I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
+Xah Lee has an example where he does something similar to what I'd want [[http://ergoemacs.org/emacs/emacs_proportional_font.html]]
+
+** ERC
+This is something I'd like eventually. Maybe?
+Here's a Reddit thread on the topic. [[https://www.reddit.com/r/emacs/comments/8ml6na/tip_how_to_make_erc_fun_to_use/]]
+
+** Mail
+Eventually.
+
+** Emoji
+https://github.com/iqbalansari/emacs-emojify
