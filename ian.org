@@ -128,9 +128,13 @@ The bootstrap function sets up the main software repository for downloading 3rd 
     (add-to-list 'exec-path "/usr/local/bin" t)
 
     (require 'package)
-    (add-to-list
-     'package-archives
-     '("melpa" . "http://melpa.org/packages/"))
+    ;; (add-to-list
+    ;;  'package-archives
+    ;;  '("melpa" . "http://melpa.org/packages/"))
+    (setq package-archives
+          '(("melpa" . "https://gitlab.com/d12frosted/elpa-mirror/raw/master/melpa/")
+            ("org"   . "https://gitlab.com/d12frosted/elpa-mirror/raw/master/org/")
+            ("gnu"   . "https://gitlab.com/d12frosted/elpa-mirror/raw/master/gnu/")))
     (package-initialize)
 
     ;; Now install use-package to enable us to use it
