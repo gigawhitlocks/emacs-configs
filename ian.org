@@ -155,6 +155,9 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 
     ;; sane keybindings from the start
     (use-package general)
+    
+    ;; hydra allows for sub-menus to pop up.. it's cool, and it's a dependency for sbt-hydra
+    (use-package hydra)
 
     ;; these go in bootstrap because packages installed
     ;; with use-package use :diminish and :delight
