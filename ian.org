@@ -61,7 +61,7 @@ So ~init.el~ just holds the bare minimum code. We use an [[https://orgmode.org/w
   ;;; init --- the Emacs entrypoint
   ;;; Commentary:
   ;;;
-  ;;; Just load my customizations and execute -- org-mode bootstrap from 
+  ;;; Just load my customizations and execute -- org-mode bootstrap from
   ;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
   ;;;
   ;;; Code:
@@ -142,9 +142,9 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 
     (unless (package-installed-p 'use-package)
       (progn
-	(unless package-archive-contents
-	  (package-refresh-contents))
-	(package-install 'use-package)))
+        (unless package-archive-contents
+          (package-refresh-contents))
+        (package-install 'use-package)))
 
     ;; set ensure to be the default
     (require 'use-package-ensure)
@@ -155,7 +155,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 
     ;; sane keybindings from the start
     (use-package general)
-    
+
     ;; hydra allows for sub-menus to pop up.. it's cool, and it's a dependency for sbt-hydra
     (use-package hydra)
 
@@ -219,7 +219,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (use-package forge
       :after magit)
     ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
-    ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #. 
+    ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #.
 
     (use-package which-key
       :delight
@@ -228,7 +228,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       (which-key-setup-minibuffer))
 
 
-    (defun ansi () 
+    (defun ansi ()
       ;; enable ANSI escape codes in compilation buffer
       (use-package ansi-color)
       ;; slightly modified from
@@ -246,7 +246,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;; anything so trivial that there is no config necessary goes here
     (defun extra-packages ()
       (use-package restart-emacs)
-      (use-package yasnippet)
+      (use-package yasnippet
+        :delight)
       (use-package systemd)
       (use-package ranger)
       (use-package htmlize)
@@ -281,6 +282,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
         :config
         (global-set-key (kbd "M-x") #'helm-M-x)
         (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+        (setq helm-always-two-windows nil)
+        (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
         (helm-mode 1)))
 
     ;; gnu hyperbole
@@ -305,10 +308,12 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (defun setup-lsp ()
       "Enable nice rendering of diagnostics like compile errors."
       (use-package lsp-mode
-	:init (setq lsp-prefer-flymake nil))
+        :init (setq lsp-prefer-flymake nil))
 
       (use-package lsp-ui
-	:init (setq lsp-ui-doc-position 'at-point))
+        :init (setq lsp-ui-doc-position 'bottom))
+
+      (use-package helm-lsp)
 
       ;; Add lsp backend for other tools
       (use-package company-lsp)
@@ -318,31 +323,38 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 *** Scala
 
 #+BEGIN_SRC emacs-lisp
-  (defun scala ()
-    "Enable scala-mode and sbt-mode."
-    ;; workaround for lsp server problem
-    ;; TODO see if the exec-path stuff fixed this
-    ;; (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
+    ;; snippet from https://scalameta.org/metals/docs/editors/emacs.html
 
-    ;; this was taken from the install instructions 4/24/2019
-    (use-package scala-mode
-      :mode "\\.s\\(cala\\|bt\\)$")
+    (defun scala ()
+      "Enable scala-mode and sbt-mode."
+      ;; workaround for lsp server problem
+      ;; TODO see if the exec-path stuff fixed this
+      ;; (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
 
-    (use-package sbt-mode
-      :commands sbt-start sbt-command
-      :config
-      ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-      ;; allows using SPACE when in the minibuffer
-      (substitute-key-definition
-       'minibuffer-complete-word
-       'self-insert-command
-       minibuffer-local-completion-map))
+      ;; this was taken from the install instructions 4/24/2019
+      (use-package scala-mode
+        :mode "\\.s\\(cala\\|bt\\)$")
 
-    (use-package lsp-scala
-      :after scala-mode
-      :demand t
-      ;; Enable lsp-scala automatically in scala files
-      :hook (scala-mode . lsp)))
+      (use-package sbt-mode
+        :commands sbt-start sbt-command
+        :config
+        ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+        ;; allows using SPACE when in the minibuffer
+        (substitute-key-definition
+         'minibuffer-complete-word
+         'self-insert-command
+         minibuffer-local-completion-map)
+        (setq sbt:prefer-nested-projects t)
+        (setq sbt:scroll-to-bottom-on-output t))
+
+
+      (use-package lsp-mode
+        ;; Optional - enable lsp-mode automatically in scala files
+        :hook (scala-mode . lsp)
+        :config (setq lsp-prefer-flymake nil)))
+
+        ;; use-package lsp-ui and company-lsp are in setup-lsp are in General section
+
 #+END_SRC
 
 *** YAML
@@ -390,7 +402,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+BEGIN_SRC emacs-lisp
   (defun config ()
     "Global configuration variables and such."
-    
+
     ;; override Home/End behavior to be more like modern applications
     (global-set-key (kbd "<home>") 'move-beginning-of-line)
     (global-set-key (kbd "<end>") 'move-end-of-line)
@@ -411,7 +423,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       "bb"	'switch-to-buffer
       "TAB"	'switch-to-prev-buffer
       "bd"	'evil-delete-buffer
-      
+
       ;; compile
       "cc"        'compile
 
@@ -425,6 +437,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
       ;; hmm
       "ff"	'helm-find-files
+      "fr"        'helm-recentf
       "fed"	'(lambda () (interactive)
                      (find-file "~/.emacs.d/ian.org"))
 
@@ -536,27 +549,27 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;; less annoying bell (from emacs wiki)
     ;; flashes the modeline foreground
     (setq ring-bell-function
-	  (lambda ()
-	    (let ((orig-fg (face-foreground 'mode-line)))
-	      ;; change the flash color here
-	      ;; overrides themes :P
-	      ;; guess that's one way to do it
-	      (set-face-foreground 'mode-line "#F2804F")
-	      (run-with-idle-timer 0.1 nil
-				   (lambda (fg) (set-face-foreground 'mode-line fg))
-				   orig-fg))))
+          (lambda ()
+            (let ((orig-fg (face-foreground 'mode-line)))
+              ;; change the flash color here
+              ;; overrides themes :P
+              ;; guess that's one way to do it
+              (set-face-foreground 'mode-line "#F2804F")
+              (run-with-idle-timer 0.1 nil
+                                   (lambda (fg) (set-face-foreground 'mode-line fg))
+                                   orig-fg))))
 
     ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
     (defun gif-this-frame (duration)
       (interactive "sDuration: ")
       (start-process "emacs-to-gif" nil
-		     "byzanz-record"
-		     "-d" duration
-		     "-w" (number-to-string (+ 5 (frame-pixel-width)))
-		     "-h" (number-to-string (+ 50 (frame-pixel-height)))
-		     "-x" (number-to-string (frame-parameter nil 'left))
-		     "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
-		     (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
+                     "byzanz-record"
+                     "-d" duration
+                     "-w" (number-to-string (+ 5 (frame-pixel-width)))
+                     "-h" (number-to-string (+ 50 (frame-pixel-height)))
+                     "-x" (number-to-string (frame-parameter nil 'left))
+                     "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
+                     (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
 
     ;; remove extraneous window chrome
     (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -571,13 +584,12 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (bootstrap)
     (global-packages)
     (languages)
-    (config))
+    (config)
+    (server-start))
 
   (provide '~/.emacs.d/ian.el)
        ;;; ian.el ends here
 #+END_SRC
-
-
 
 * Notes and Such
 ** TODO System-local settings
@@ -602,7 +614,7 @@ Just going to keep note of some options
 *** https://github.com/adobe-fonts/source-code-pro/tree/master
 Default in Spacemacs
 
-*** https://github.com/be5invis/Iosevka 
+*** https://github.com/be5invis/Iosevka
 Kinda tall, skinny
 
 *** https://github.com/googlefonts/Inconsolata
