@@ -171,6 +171,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+BEGIN_SRC emacs-lisp
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
+    (recentf-mode 1)
+    (setq recentf-max-menu-items 25)
+    (setq recentf-max-saved-items 25)
 
     (defun setup-projectile ()
       (use-package projectile
