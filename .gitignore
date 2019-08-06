@@ -8,8 +8,6 @@ elpa/
 ian.elc
 ian.el~
 init.org~
-recentf
-recentf~
 transient/
 url/
 init.el
@@ -19,3 +17,7 @@ ian.el
 bookmarks
 .emacs-custom.el
 local-variables/
+bin
+forge-database.sqlite
+.#recentf
+recentf

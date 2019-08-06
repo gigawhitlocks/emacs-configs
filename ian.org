@@ -384,6 +384,41 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 #+END_SRC
 
+*** Go
+#+BEGIN_SRC emacs-lisp
+  (defun go ()
+    ;;
+
+    ;; native go mode
+    (use-package go-mode)
+    (autoload 'go-mode "go-mode" nil t)
+    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+
+    ;; autocompletion
+    ;; https://github.com/mdempsky/gocode
+    ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
+    (use-package company-go)
+
+    ;; disable auto-completion of non-Go things in Go files
+    (add-hook 'go-mode-hook (lambda ()
+                            (set (make-local-variable 'company-backends) '(company-go))
+                            (company-mode)))
+
+    ;; super important -- eldoc support adds things like type signatures in modeline
+    (use-package go-eldoc)
+    (add-hook 'go-mode-hook 'go-eldoc-setup)
+
+    ;; gofmt before save
+    (add-hook 'before-save-hook 'gofmt-before-save)
+
+
+    (load-file "~/.emacs.d/vendor/go-dlv.el")
+    (require 'go-dlv)
+  
+    ;; could always try gopls + lsp later
+    )
+#+END_SRC
+
 *** Web
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode)
@@ -393,6 +428,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 *** Enable modes
 #+BEGIN_SRC emacs-lisp
   (setup-lsp)
+  (go)
   (python)
   (docker)
   (scala))
@@ -506,6 +542,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     "p" 'org-insert-link
     "x" 'org-babel-execute-src-block
     "e" 'org-edit-src-code)
+
 #+END_SRC
 *** Org Mode Settings
 #+BEGIN_SRC emacs-lisp
