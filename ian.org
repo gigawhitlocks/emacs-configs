@@ -633,12 +633,31 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;; turn off startup
     (setq inhibit-startup-screen t))
 
+    #+END_SRC
+
+*** Hostname-based Tweaks
+#+BEGIN_SRC emacs-lisp
+
+  (defun local-tweaks ()
+    ;; for now this is just setting fonts on the Thinkpad
+    (if (string= (string-trim-right (shell-command-to-string "hostname")) "wintermute")
+        (progn
+          (set-face-attribute 'default nil :font "Source Code Variable-10" )
+          (set-frame-font "Source Code Variable-10" nil t)))
+
+    )
+
+#+END_SRC
+
+    #+BEGIN_SRC emacs-lisp
+
   (defun main()
     "Initialize everything!"
     (bootstrap)
     (global-packages)
     (languages)
     (config)
+    (local-tweaks)
     (server-start))
 
   (provide '~/.emacs.d/ian.el)
