@@ -389,11 +389,23 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (defun go ()
     ;;
 
+    (defun set-gopls-lib-dirs ()
+      "Add $GOPATH/pkg/mod to the 'library path'."
+      ;; stops lsp from continually asking if Go projects should be imported
+      (setq lsp-clients-go-library-directories
+            (list
+             "/usr"
+             (concat (getenv "GOPATH") "/pkg/mod"))))
+
     ;; native go mode
     (use-package go-mode
-      :config 
+      :hook ((go-mode . lsp-deferred)
+             (before-save . lsp-organize-imports)
+             (go-mode . set-gopls-lib-dirs))
+
       ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
       ;; presumably for lsp this is #'lsp-find-definition here instead
+      :config
       (evil-add-command-properties #'godef-jump :jump t))
 
     (autoload 'go-mode "go-mode" nil t)
