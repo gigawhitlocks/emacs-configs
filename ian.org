@@ -302,22 +302,24 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 *** General
 
 #+BEGIN_SRC emacs-lisp
-  (defun languages ()
-    "Setup for specific programming languages."
+    (defun languages ()
+      "Setup for specific programming languages."
 
-    (defun setup-lsp ()
-      "Enable nice rendering of diagnostics like compile errors."
-      (use-package lsp-mode
-        :init (setq lsp-prefer-flymake nil))
+      (defun setup-lsp ()
+        "Enable nice rendering of diagnostics like compile errors."
+        (use-package lsp-mode
+          :init
+          (setq lsp-prefer-flymake nil)
+          (setq lsp-enable-file-watchers nil))
 
-      (use-package lsp-ui
-        :init (setq lsp-ui-doc-position 'bottom))
+        (use-package lsp-ui
+          :init (setq lsp-ui-doc-position 'bottom))
 
-      (use-package helm-lsp)
+        (use-package helm-lsp)
 
-      ;; Add lsp backend for other tools
-      (use-package company-lsp)
-      (use-package lsp-origami))
+        ;; Add lsp backend for other tools
+        (use-package company-lsp)
+        (use-package lsp-origami))
 #+END_SRC
 
 *** Scala
@@ -453,99 +455,106 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 ** Configuration Variables
 *** Global Keybindings
 #+BEGIN_SRC emacs-lisp
-  (defun config ()
-    "Global configuration variables and such."
+    (defun config ()
+      "Global configuration variables and such."
 
-    ;; override Home/End behavior to be more like modern applications
-    (global-set-key (kbd "<home>") 'move-beginning-of-line)
-    (global-set-key (kbd "<end>") 'move-end-of-line)
+      ;; helper functions for keybindings
+      ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
+      (defun er-switch-to-previous-buffer ()
+        "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+        (interactive)
+        (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-    (general-create-definer my-leader-def
-      ;; :prefix my-leader
-      :prefix "SPC")
+      ;; override Home/End behavior to be more like modern applications
+      (global-set-key (kbd "<home>") 'move-beginning-of-line)
+      (global-set-key (kbd "<end>") 'move-end-of-line)
 
-    (general-create-definer my-local-leader-def
-      ;; :prefix my-local-leader
-      :prefix "SPC m")
+      (general-create-definer my-leader-def
+        ;; :prefix my-leader
+        :prefix "SPC")
 
-    ;; global keybindings
-    (my-leader-def
-      :keymaps 'normal
+      (general-create-definer my-local-leader-def
+        ;; :prefix my-local-leader
+        :prefix "SPC m")
 
-      ;; buffer control
-      "bb"	'switch-to-buffer
-      "TAB"	'switch-to-prev-buffer
-      "bd"	'evil-delete-buffer
+      ;; global keybindings
+      (my-leader-def
+        :keymaps 'normal
 
-      ;; compile
-      "cc"        'compile
+        ;; buffer control
+        "bb"	'switch-to-buffer
+        "TAB"	#'switch-to-prev-buffer
+        "bd"	'evil-delete-buffer
 
-      ;; errors
-      "ec"	'flycheck-clear
-      "el"	'flycheck-list-errors
-      "en"	'flycheck-next-error
-      "ep"	'flycheck-previous-error
+        ;; compile
+        "cc"        'compile
 
-      "Fm"        'make-frame
+        ;; errors
+        "ec"	'flycheck-clear
+        "el"	'flycheck-list-errors
+        "en"	'flycheck-next-error
+        "ep"	'flycheck-previous-error
 
-      ;; hmm
-      "ff"	'helm-find-files
-      "fr"        'helm-recentf
-      "fed"	'(lambda () (interactive)
-                     (find-file "~/.emacs.d/ian.org"))
+        "Fm"        'make-frame
 
-      "feD"	'(lambda () (interactive)
-                     (find-file-other-frame "~/.emacs.d/ian.org"))
-      "feR"	'(lambda () (interactive)
-                     (org-babel-tangle "~/.emacs.d/ian.org")
-                     (byte-compile-file "~/.emacs.d/ian.el"))
+        ;; hmm
+        "ff"	'helm-find-files
+        "fr"        'helm-recentf
+        "fed"	'(lambda () (interactive)
+                       (find-file "~/.emacs.d/ian.org"))
 
-      ;; git
-      "gb"	'magit-blame
-      "gs"	'magit-status
-      "gg"	'magit
-      "gd"	'magit-diff
+        "feD"	'(lambda () (interactive)
+                       (find-file-other-frame "~/.emacs.d/ian.org"))
+        "feR"	'(lambda () (interactive)
+                       (org-babel-tangle "~/.emacs.d/ian.org")
+                       (byte-compile-file "~/.emacs.d/ian.el"))
 
-      ;; hyperbole
-      "h"        'hyperbole
-      ;; bookmarks (j for jump)
-      "jj"	'bookmark-jump
-      "js"	'bookmark-set
-      "jo"        'org-babel-tangle-jump-to-org
+        ;; git
+        "gb"	'magit-blame
+        "gs"	'magit-status
+        "gg"	'magit
+        "gd"	'magit-diff
 
-      "ic"         'insert-char
-      ;; projectile
-      "p"	'projectile-command-map
-      "pf"	'helm-projectile-find-file
-      "sp"	'helm-projectile-ack
+        ;; hyperbole
+        "h"        'hyperbole
+        ;; bookmarks (j for jump)
+        "jj"	'bookmark-jump
+        "js"	'bookmark-set
+        "jo"        'org-babel-tangle-jump-to-org
 
-      ;; quitting
-      "qq"	'save-buffers-kill-terminal
-      "qr"	'restart-emacs
+        "ic"         'insert-char
+        ;; projectile
+        "p"	'projectile-command-map
+        "pf"	'helm-projectile-find-file
+        "sp"	'helm-projectile-ack
 
-      ;; simple toggles
-      "tn"	'linum-mode
+        ;; quitting
+        "qq"	'save-buffers-kill-terminal
+        "qr"	'restart-emacs
 
-      ;; window control
-      "w-"	'split-window-below
-      "w/"	'split-window-right
-      "wj"	(lambda () (interactive)
-                    (select-window (window-in-direction 'below)))
-      "wk"	(lambda () (interactive)
-                    (select-window (window-in-direction 'above)))
-      "wh"	(lambda () (interactive)
-                    (select-window (window-in-direction 'left)))
-      "wl"	(lambda () (interactive)
-                    (select-window (window-in-direction 'right)))
-      "wd"	'delete-window
-      "wD"	'delete-other-windows
-      "wo"	'other-window
-      "w="        'balance-windows
+        ;; simple toggles
+        "tn"	'linum-mode
 
-      ";"         'comment-line
+        ;; window control
+        "w-"	'split-window-below
+        "w/"	'split-window-right
+        "wj"	(lambda () (interactive)
+                      (select-window (window-in-direction 'below)))
+        "wk"	(lambda () (interactive)
+                      (select-window (window-in-direction 'above)))
+        "wh"	(lambda () (interactive)
+                      (select-window (window-in-direction 'left)))
+        "wl"	(lambda () (interactive)
+                      (select-window (window-in-direction 'right)))
+        "wd"	'delete-window
+        "wD"	'delete-other-windows
+        "wo"	'other-window
+        "w="        'balance-windows
 
-      "SPC"	'helm-M-x
-      )
+        ";"         'comment-line
+
+        "SPC"	'helm-M-x
+        )
     #+END_SRC
 *** Mode-Local Keybindings
 #+BEGIN_SRC emacs-lisp
