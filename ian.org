@@ -390,7 +390,12 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;;
 
     ;; native go mode
-    (use-package go-mode)
+    (use-package go-mode
+      :config 
+      ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+      ;; presumably for lsp this is #'lsp-find-definition here instead
+      (evil-add-command-properties #'godef-jump :jump t))
+
     (autoload 'go-mode "go-mode" nil t)
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
@@ -414,7 +419,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
-  
+
     ;; could always try gopls + lsp later
     )
 #+END_SRC

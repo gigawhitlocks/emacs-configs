@@ -2,7 +2,7 @@
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
 ;;;
-;;; Just load my customizations and execute -- org-mode bootstrap from 
+;;; Just load my customizations and execute -- org-mode bootstrap from
 ;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
 ;;;
 ;;; Code:
