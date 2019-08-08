@@ -300,7 +300,6 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 ** Language Configuration
 *** General
-
 #+BEGIN_SRC emacs-lisp
     (defun languages ()
       "Setup for specific programming languages."
@@ -309,8 +308,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
         "Enable nice rendering of diagnostics like compile errors."
         (use-package lsp-mode
           :init
-          (setq lsp-prefer-flymake nil)
-          (setq lsp-enable-file-watchers nil))
+          (setq lsp-prefer-flymake nil)) ;; use flycheck
 
         (use-package lsp-ui
           :init (setq lsp-ui-doc-position 'bottom))
@@ -323,39 +321,39 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+END_SRC
 
 *** Scala
-
 #+BEGIN_SRC emacs-lisp
-    ;; snippet from https://scalameta.org/metals/docs/editors/emacs.html
+  ;; snippet from https://scalameta.org/metals/docs/editors/emacs.html
 
-    (defun scala ()
-      "Enable scala-mode and sbt-mode."
-      ;; workaround for lsp server problem
-      ;; TODO see if the exec-path stuff fixed this
-      ;; (setq lsp-scala-server-command "/usr/local/bin/metals-emacs")
+  (defun scala ()
+    "Enable scala-mode and sbt-mode."
 
-      ;; this was taken from the install instructions 4/24/2019
-      (use-package scala-mode
-        :mode "\\.s\\(cala\\|bt\\)$")
+    (set (make-local-variable 'lsp-enable-file-watchers) nil)
 
-      (use-package sbt-mode
-        :commands sbt-start sbt-command
-        :config
-        ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-        ;; allows using SPACE when in the minibuffer
-        (substitute-key-definition
-         'minibuffer-complete-word
-         'self-insert-command
-         minibuffer-local-completion-map)
-        (setq sbt:prefer-nested-projects t)
-        (setq sbt:scroll-to-bottom-on-output t))
+    ;; this was taken from the install instructions 4/24/2019
+    (use-package scala-mode
+      :hook ((scala-mode . lsp-deferred))
+      :mode "\\.s\\(cala\\|bt\\)$")
 
+    (general-define-key
+     :states 'normal
+     :keymaps 'scala-mode-map
+     "gd" 'lsp-find-definition
+     "gh" 'lsp-describe-thing-at-point)
 
-      (use-package lsp-mode
-        ;; Optional - enable lsp-mode automatically in scala files
-        :hook (scala-mode . lsp)
-        :config (setq lsp-prefer-flymake nil)))
+    (use-package sbt-mode
+      :commands sbt-start sbt-command
+      :config
+      ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+      ;; allows using SPACE when in the minibuffer
+      (substitute-key-definition
+       'minibuffer-complete-word
+       'self-insert-command
+       minibuffer-local-completion-map)
+      (setq sbt:prefer-nested-projects t)
+      (setq sbt:scroll-to-bottom-on-output t))
 
-        ;; use-package lsp-ui and company-lsp are in setup-lsp are in General section
+      ;; general LSP setup is in General because LSP isn't just used for Scala
+    )
 
 #+END_SRC
 
@@ -388,6 +386,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 *** Go
 #+BEGIN_SRC emacs-lisp
+
   (defun go ()
     ;;
 
@@ -436,6 +435,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     ;; could always try gopls + lsp later
     )
+
 #+END_SRC
 
 *** Web
@@ -654,6 +654,11 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
           (set-face-attribute 'default nil :font "Source Code Variable-10" )
           (set-frame-font "Source Code Variable-10" nil t)))
 
+    ;; ok let's do the Mac too in this lazy way
+    (if (string= (string-trim-right (shell-command-to-string "hostname")) "chiark")
+        (progn
+          (set-face-attribute 'default nil :font "Source Code Pro-10" )
+          (set-frame-font "Source Code Pro-12" nil t)))
     )
 
 #+END_SRC
