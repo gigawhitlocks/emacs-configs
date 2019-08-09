@@ -3,6 +3,8 @@
 * Custom Config and Travelogue
 This file contains the configuration necessary to transform a GNU Emacs 26 installation on Linux or Mac OS X into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
+There are many configurations like this one, but this one is mine.
+
 ** Justification
 Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
 
@@ -442,6 +444,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode)
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+  (setq web-mode-enable-css-colorization t)
+  (setq web-mode-enable-auto-pairing t)
 #+END_SRC
 
 *** Enable modes
@@ -598,9 +603,13 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
-  ;; backups to /tmp
+    ;; backups to /tmp
     (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
     (setq backup-by-copying t)
+
+    ;; set default window size
+    (add-to-list 'default-frame-alist '(width . 180))
+    (add-to-list 'default-frame-alist '(height . 60))
 
     ;; load the best theme, leuven
     (load-theme 'leuven t)
