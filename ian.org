@@ -329,12 +329,11 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (defun scala ()
     "Enable scala-mode and sbt-mode."
 
+    (set (make-local-variable 'lsp-enable-file-watchers) nil)
 
     ;; this was taken from the install instructions 4/24/2019
     (use-package scala-mode
-      :hook ((scala-mode . lsp-deferred)
-             (setq-local 'lsp-enable-file-watchers nil))
-
+      :hook ((scala-mode . lsp-deferred))
       :mode "\\.s\\(cala\\|bt\\)$")
 
     (general-define-key
