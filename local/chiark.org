@@ -1,9 +1,21 @@
 #+TITLE: The Mac's Config
 
 Work Mac
+* Theme
+#+BEGIN_SRC emacs-lisp
 
+    ;; load the best theme, leuven
+    (load-theme 'leuven t)
+
+#+END_SRC
 * Font
 #+BEGIN_SRC emacs-lisp
     (set-face-attribute 'default nil :font "Source Code Pro-10" )
     (set-frame-font "Source Code Pro-12" nil t)
+#+END_SRC
+#
+
+* Footer
+#+BEGIN_SRC emacs-lisp
+  (provide 'local)
 #+END_SRC
