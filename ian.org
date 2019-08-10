@@ -259,7 +259,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       (setq ranger-show-literal nil)
       ;; themes
       ;;(use-package color-theme-sanityinc-tomorrow)
-      (use-package leuven-theme)
+      ;;(use-package leuven-theme)
       (use-package centered-window)
       )
 
@@ -408,11 +408,16 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       :hook ((go-mode . lsp-deferred)
              (before-save . lsp-organize-imports)
              (go-mode . set-gopls-lib-dirs))
-
       ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
       ;; presumably for lsp this is #'lsp-find-definition here instead
       :config
       (evil-add-command-properties #'godef-jump :jump t))
+
+    (general-define-key
+     :states 'normal
+     :keymaps 'go-mode-map
+     "gd" 'lsp-find-definition)
+
 
     (autoload 'go-mode "go-mode" nil t)
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
@@ -631,9 +636,6 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;; set default window size
     (add-to-list 'default-frame-alist '(width . 180))
     (add-to-list 'default-frame-alist '(height . 60))
-
-    ;; load the best theme, leuven
-    (load-theme 'leuven t)
 
     (diminish 'eldoc-mode)
     (diminish 'undo-tree-mode)

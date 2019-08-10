@@ -12,6 +12,14 @@ Stuff that's specific to my Thinkpad's Emacs config.
 
 #+END_SRC
 
+* Theme
+#+BEGIN_SRC emacs-lisp
+  (use-package darcula-theme
+    :config
+    (load-theme 'darcula))
+
+#+End_SRC
+
 
 
 * Footer

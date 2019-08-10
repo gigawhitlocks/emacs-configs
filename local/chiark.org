@@ -1,7 +1,14 @@
 #+TITLE: The Mac's Config
 
 Work Mac
+* Theme
+#+BEGIN_SRC emacs-lisp
 
+  (use-package leuven-theme
+    :config
+    (load-theme 'leuven))
+
+#+END_SRC
 * Font
 #+BEGIN_SRC emacs-lisp
     (set-face-attribute 'default nil :font "Source Code Pro-10" )
