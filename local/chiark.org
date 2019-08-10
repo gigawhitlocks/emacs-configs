@@ -4,8 +4,9 @@ Work Mac
 * Theme
 #+BEGIN_SRC emacs-lisp
 
-    ;; load the best theme, leuven
-    (load-theme 'leuven t)
+  (use-package leuven-theme
+    :config
+    (load-theme 'leuven))
 
 #+END_SRC
 * Font

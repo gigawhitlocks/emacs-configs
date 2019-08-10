@@ -14,7 +14,9 @@ Stuff that's specific to my Thinkpad's Emacs config.
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-(load-theme 'darcula)
+  (use-package darcula-theme
+    :config
+    (load-theme 'darcula))
 
 #+End_SRC
 
