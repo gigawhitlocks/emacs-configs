@@ -1,0 +1,20 @@
+#+TITLE: The Laptop's Config
+
+Stuff that's specific to my Thinkpad's Emacs config.
+
+
+* Font
+
+#+BEGIN_SRC emacs-lisp
+
+  (set-face-attribute 'default nil :font "Source Code Variable-10" )
+  (set-frame-font "Source Code Variable-10" nil t)
+
+#+END_SRC
+
+
+
+* Footer
+#+BEGIN_SRC emacs-lisp
+  (provide 'local)
+#+END_SRC

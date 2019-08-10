@@ -247,6 +247,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     ;; anything so trivial that there is no config necessary goes here
     (defun extra-packages ()
+      (use-package git-gutter
+        :config
+        (global-git-gutter-mode +1))
       (use-package restart-emacs)
       (use-package yasnippet
         :delight)
@@ -601,6 +604,24 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     '(require 'ox-md nil t))
 #+END_SRC
 
+*** Hostname-based Tweaks
+#+BEGIN_SRC emacs-lisp
+
+  (let ;; find the hostname and assign it to a variable
+       ((hostname (string-trim-right
+                   (shell-command-to-string "hostname"))))
+
+     (progn
+       (org-babel-tangle-file
+        (concat "~/.emacs.d/local/" hostname ".org")
+        (concat hostname ".el"))
+
+       (load (concat "~/.emacs.d/local/" hostname ".el"))
+       (require 'local)))
+
+#+END_SRC
+
+
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
     ;; backups to /tmp
@@ -653,26 +674,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     #+END_SRC
 
-*** Hostname-based Tweaks
+*** Run Stuff
 #+BEGIN_SRC emacs-lisp
-
-  (defun local-tweaks ()
-    ;; for now this is just setting fonts on the Thinkpad
-    (if (string= (string-trim-right (shell-command-to-string "hostname")) "wintermute")
-        (progn
-          (set-face-attribute 'default nil :font "Source Code Variable-10" )
-          (set-frame-font "Source Code Variable-10" nil t)))
-
-    ;; ok let's do the Mac too in this lazy way
-    (if (string= (string-trim-right (shell-command-to-string "hostname")) "chiark")
-        (progn
-          (set-face-attribute 'default nil :font "Source Code Pro-10" )
-          (set-frame-font "Source Code Pro-12" nil t)))
-    )
-
-#+END_SRC
-
-    #+BEGIN_SRC emacs-lisp
 
   (defun main()
     "Initialize everything!"
@@ -680,11 +683,10 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (global-packages)
     (languages)
     (config)
-    (local-tweaks)
     (server-start))
 
   (provide '~/.emacs.d/ian.el)
-       ;;; ian.el ends here
+  ;;; ian.el ends here
 #+END_SRC
 
 * Notes and Such
