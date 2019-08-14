@@ -247,9 +247,17 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     ;; anything so trivial that there is no config necessary goes here
     (defun extra-packages ()
-      (use-package git-gutter
-        :config
-        (global-git-gutter-mode +1))
+
+       (use-package git-gutter
+         :config
+         (global-git-gutter-mode +1))
+      ;; git-gutter does not play nicely with linum-mode
+      ;; investigate long-term solution?
+
+      ;; provides highlighting of the current line
+      (global-hl-line-mode)
+      (setq global-hl-line-sticky-flag t)
+
       (use-package restart-emacs)
       (use-package yasnippet
         :delight)
