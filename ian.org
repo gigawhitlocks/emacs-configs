@@ -279,7 +279,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
       (use-package restart-emacs)
       (use-package yasnippet
-        :delight)
+        :delight
+        :config
+        (use-package yasnippet-snippets))
       (use-package systemd)
       (use-package ranger)
       (use-package htmlize)
@@ -312,6 +314,10 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       (use-package helm
         :delight
         :config
+        (use-package helm-descbinds
+          :config
+          (helm-descbinds-mode))
+
         (global-set-key (kbd "M-x") #'helm-M-x)
         (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
         (setq helm-always-two-windows nil)
@@ -437,16 +443,15 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (use-package go-mode
       :hook ((go-mode . lsp-deferred)
              (go-mode . set-gopls-lib-dirs))
+      :config
       ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
       ;; presumably for lsp this is #'lsp-find-definition here instead
-      :config
       (evil-add-command-properties #'godef-jump :jump t))
 
     (general-define-key
      :states 'normal
      :keymaps 'go-mode-map
      "gd" 'lsp-find-definition)
-
 
     (autoload 'go-mode "go-mode" nil t)
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
@@ -458,8 +463,14 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     ;; disable auto-completion of non-Go things in Go files
     (add-hook 'go-mode-hook (lambda ()
-                            (set (make-local-variable 'company-backends) '(company-go))
-                            (company-mode)))
+                              (set (make-local-variable 'company-backends) '(company-go))
+                              (company-mode)))
+
+    ;; disable "Organize Imports" warning that never goes away
+    (add-hook 'go-mode-hook
+              (lambda ()
+                (origami-mode)
+                (setq-local lsp-ui-sideline-show-code-actions nil)))
 
     ;; super important -- eldoc support adds things like type signatures in modeline
     (use-package go-eldoc)
@@ -468,22 +479,46 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;; gofmt before save
     (add-hook 'before-save-hook 'gofmt-before-save)
 
+    ;; go guru integration provides lots of code analysis commands
+    (use-package go-guru
+      :config
+      (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode))
 
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
 
-    ;; could always try gopls + lsp later
-    )
+    ;; adaptive-wrap
+    (use-package adaptive-wrap
+      :config
+      (setq adaptive-wrap-extra-indent 2)
+      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
+      (add-hook 'go-mode-hook #'visual-line-mode))
+
+    (load-file "~/.emacs.d/vendor/go-dlv.el")
+    (require 'go-dlv)
+
+    ;; adaptive-wrap
+    (use-package adaptive-wrap
+      :config
+      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
+      (add-hook 'go-mode-hook #'visual-line-mode))
+
+    ) ;; go
 
 #+END_SRC
 
-*** Web
+*** COMMENT Web
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode)
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-enable-auto-pairing t)
+
+  (use-package impatient-mode
+    :config
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
 #+END_SRC
 
 *** Enable modes
@@ -600,16 +635,21 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     #+END_SRC
 *** Mode-Local Keybindings
 #+BEGIN_SRC emacs-lisp
-  (my-local-leader-def 'normal emacs-lisp-mode-map
-    "e" 'eval-last-sexp)
+    (my-local-leader-def 'normal emacs-lisp-mode-map
+      "e" 'eval-last-sexp)
 
-  (my-local-leader-def
-    :states 'normal
-    :keymaps 'org-mode-map
-    "y" 'org-store-link
-    "p" 'org-insert-link
-    "x" 'org-babel-execute-src-block
-    "e" 'org-edit-src-code)
+    (my-local-leader-def
+      :states 'normal
+      :keymaps 'org-mode-map
+      "y" 'org-store-link
+      "p" 'org-insert-link
+      "x" 'org-babel-execute-src-block
+      "e" 'org-edit-src-code)
+
+     (my-local-leader-def
+       :states 'normal
+       :keymaps 'go-mode-map
+       "g"   'go-guru-map)
 
 #+END_SRC
 *** Org Mode Settings
@@ -719,8 +759,16 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   ;;; ian.el ends here
 #+END_SRC
 
+* Packages to Try 
+** emmet-mode
+Emmet is the "zen coding" plugin for really fast HTML authoring
+[[https://github.com/smihica/emmet-mode]]
+** yasnippet-snippets
+Some default snippets -- don't install until we're ready to figure out how to use them
+[[https://github.com/AndreaCrotti/yasnippet-snippets]]
+
 * Notes and Such
-** TODO System-local settings
+** DONE System-local settings
 Include all ~.el~ files from the untracked folder ~local-variables/~ and run them as the final step.
 This allows for customization at the end of the configuration for specific things that are dependent on the computer on which this config is being run. For instance, anything with sensitive details or URLs can be symlinked from a private repo to this one for inclusion in the config without sharing secrets with the whole Internet.
 
@@ -728,7 +776,7 @@ This allows for customization at the end of the configuration for specific thing
 2) Load anything that's in there -- be sure to fail sanely if there's nothing there!
 3) That's it, there is no three.
 
-** TODO Hyperbole
+** DONE Hyperbole
 #+BEGIN_SRC
 17:41 user1: is there a way to do the equivalent of C-x C-e on a #+INCLUDE: directive in Org?
 17:46 user2: Of course: C-a C-c ' C-x h M-w M-x org-mark-ring-goto C-y C-k
@@ -736,7 +784,7 @@ This allows for customization at the end of the configuration for specific thing
 17:52 user1: that'd be the correct behavior
 #+END_SRC
 
-** Monospace Fonts
+** DONE Monospace Fonts
 Just going to keep note of some options
 
 *** https://github.com/adobe-fonts/source-code-pro/tree/master
@@ -767,5 +815,6 @@ Here's a Reddit thread on the topic. [[https://www.reddit.com/r/emacs/comments/8
 ** Mail
 Eventually.
 
-** Emoji
+** DONE Emoji
 https://github.com/iqbalansari/emacs-emojify
+

@@ -21,3 +21,4 @@ bin
 forge-database.sqlite
 .#recentf
 recentf
+local/*.el
