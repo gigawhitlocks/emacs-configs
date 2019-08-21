@@ -156,7 +156,9 @@ The bootstrap function sets up the main software repository for downloading 3rd 
     (use-package use-package-ensure-system-package)
 
     ;; sane keybindings from the start
-    (use-package general)
+    (use-package general
+      :config
+      (general-evil-setup))
 
     ;; hydra allows for sub-menus to pop up.. it's cool, and it's a dependency for sbt-hydra
     (use-package hydra)
@@ -236,21 +238,38 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       ;; slightly modified from
       ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
       (defun colorize-compilation ()
-          "Colorize from `compilation-filter-start' to `point'."
-          (let ((inhibit-read-only t))
+        "Colorize from `compilation-filter-start' to `point'."
+        (let ((inhibit-read-only t))
           (ansi-color-apply-on-region
-          compilation-filter-start (point))))
+           compilation-filter-start (point))))
 
       (add-hook 'compilation-filter-hook
                 #'colorize-compilation))
     (ansi)
 
+    (defun dashboard ()
+      ;; provides a nice looking dashboard at launch
+      ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
+      (use-package all-the-icons) ;; provides optional icons for dashboard
+      (use-package dashboard
+        :config
+        (dashboard-setup-startup-hook)
+        (setq dashboard-startup-banner 'logo)
+        (setq dashboard-center-content t)
+        (setq dashboard-items '((recents  . 5)
+                                (bookmarks . 5)
+                                (projects . 5))
+              )
+                                ;; (registers . 5)
+                                ;; (agenda . 5)
+        )
+      )
     ;; anything so trivial that there is no config necessary goes here
     (defun extra-packages ()
 
-       (use-package git-gutter
-         :config
-         (global-git-gutter-mode +1))
+      (use-package git-gutter
+        :config
+        (global-git-gutter-mode +1))
       ;; git-gutter does not play nicely with linum-mode
       ;; investigate long-term solution?
 
@@ -308,7 +327,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (setup-projectile)
     (setup-magit)
     (setup-helm)
-    (extra-packages))
+    (dashboard)
+    (extra-packages)
+    )
 #+END_SRC
 
 ** Language Configuration
@@ -340,7 +361,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (defun scala ()
     "Enable scala-mode and sbt-mode."
 
-    (set (make-local-variable 'lsp-enable-file-watchers) nil)
+    (setq lsp-enable-file-watchers nil)
+    ;; (set (make-local-variable 'lsp-enable-file-watchers) nil)
 
     ;; this was taken from the install instructions 4/24/2019
     (use-package scala-mode
@@ -414,7 +436,6 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     ;; native go mode
     (use-package go-mode
       :hook ((go-mode . lsp-deferred)
-             (before-save . lsp-organize-imports)
              (go-mode . set-gopls-lib-dirs))
       ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
       ;; presumably for lsp this is #'lsp-find-definition here instead
@@ -616,7 +637,6 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (eval-after-load "org"
     '(require 'ox-md nil t))
 #+END_SRC
-
 *** Hostname-based Tweaks
 #+BEGIN_SRC emacs-lisp
 
