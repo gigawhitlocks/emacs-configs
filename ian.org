@@ -277,6 +277,13 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       (global-hl-line-mode)
       (setq global-hl-line-sticky-flag t)
 
+      ;; set up rainbow delimiters for Scala and Elisp
+      (use-package rainbow-delimiters
+        :config
+        (add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
+        (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+        )
+
       (use-package restart-emacs)
       (use-package yasnippet
         :delight
