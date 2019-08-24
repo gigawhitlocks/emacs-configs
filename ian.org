@@ -800,7 +800,7 @@ Main is called in ~init.el~ and runs the rest of of the config.
     (global-packages)
     (languages)
     (config)
-    (publish)
+    ;;(publish)
     (server-start))
 
   (provide '~/.emacs.d/ian.el)
