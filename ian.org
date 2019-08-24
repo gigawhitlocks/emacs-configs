@@ -507,7 +507,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 #+END_SRC
 
-*** COMMENT Web
+*** Web
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode)
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
@@ -697,50 +697,76 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
-    ;; backups to /tmp
-    (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
-    (setq backup-by-copying t)
+  ;; backups to /tmp
+  (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
+  (setq backup-by-copying t)
 
-    ;; set default window size
-    (add-to-list 'default-frame-alist '(width . 180))
-    (add-to-list 'default-frame-alist '(height . 60))
+  ;; set default window size
+  (add-to-list 'default-frame-alist '(width . 128))
+  (add-to-list 'default-frame-alist '(height . 60))
 
-    (diminish 'eldoc-mode)
-    (diminish 'undo-tree-mode)
-    (diminish 'auto-revert-mode)
+  (diminish 'eldoc-mode)
+  (diminish 'undo-tree-mode)
+  (diminish 'auto-revert-mode)
 
-    ;; less annoying bell (from emacs wiki)
-    ;; flashes the modeline foreground
-    (setq ring-bell-function
-          (lambda ()
-            (let ((orig-fg (face-foreground 'mode-line)))
-              ;; change the flash color here
-              ;; overrides themes :P
-              ;; guess that's one way to do it
-              (set-face-foreground 'mode-line "#F2804F")
-              (run-with-idle-timer 0.1 nil
-                                   (lambda (fg) (set-face-foreground 'mode-line fg))
-                                   orig-fg))))
+  ;; less annoying bell (from emacs wiki)
+  ;; flashes the modeline foreground
+  (setq ring-bell-function
+        (lambda ()
+          (let ((orig-fg (face-foreground 'mode-line)))
+            ;; change the flash color here
+            ;; overrides themes :P
+            ;; guess that's one way to do it
+            (set-face-foreground 'mode-line "#F2804F")
+            (run-with-idle-timer 0.1 nil
+                                 (lambda (fg) (set-face-foreground 'mode-line fg))
+                                 orig-fg))))
 
-    ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
-    (defun gif-this-frame (duration)
-      (interactive "sDuration: ")
-      (start-process "emacs-to-gif" nil
-                     "byzanz-record"
-                     "-d" duration
-                     "-w" (number-to-string (+ 5 (frame-pixel-width)))
-                     "-h" (number-to-string (+ 50 (frame-pixel-height)))
-                     "-x" (number-to-string (frame-parameter nil 'left))
-                     "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
-                     (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
+  ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
+  (defun create-gif (duration)
+    "Create a gif of the DURATION provided."
+    (interactive "sDuration: ")
 
-    ;; remove extraneous window chrome
-    (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-    (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-    (scroll-bar-mode -1)
+    (defun width ()
+      "get the width of the frame"
+      (+ 10 (frame-pixel-width)))
 
-    ;; turn off startup
-    (setq inhibit-startup-screen t))
+    (defun height ()
+      "get the height of the frame"
+      (+ 50 (frame-pixel-height)))
+
+    (defun y ()
+      "get the y position of the frame"
+      (frame-parameter nil 'top))
+
+    (defun x ()
+      "get the x position of the frame"
+      (cond ((numberp (frame-parameter nil 'left))
+             (frame-parameter nil 'left))
+            (t
+             0)))
+
+    (defun filename()
+      "get the timestamped filename of the gif"
+      (concat " ~/emacs-gifs/" (format-time-string "%Y-%m-%dT%T") ".gif"))
+
+
+
+      (if (not (file-directory-p "~/emacs-gifs"))
+          (make-directory "~/emacs-gifs"))
+      (start-process-shell-command "emacs-gif" "*Messages*"
+       (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
+               duration (width) (height) (x) (y) (filename))))
+
+
+
+  ;; remove extraneous window chrome
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (scroll-bar-mode -1)
+
+  ;; turn off startup
+  (setq inhibit-startup-screen t))
 
     #+END_SRC
 
