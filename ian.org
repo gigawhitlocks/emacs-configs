@@ -1,6 +1,6 @@
 #+TITLE: Ian's Emacs Stories and Scripts
 #+AUTHOR: Ian Whitlock
-* Custom Config and Travelogue
+* Ian's Custom Emacs Environment with Associated Notes and Commentary
 This file contains the configuration necessary to transform a GNU Emacs 26 installation on Linux or Mac OS X into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
 There are many configurations like this one, but this one is mine.
@@ -171,13 +171,6 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       (setq recentf-max-menu-items 25)
       (setq recentf-max-saved-items 25)
 
-      ;; sane keybindings from the start
-      (use-package general
-        :init
-        (setup-evil)
-        :config
-        (general-evil-setup))
-
       (defun setup-projectile ()
         (use-package projectile
           :delight)
@@ -204,6 +197,13 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
         (evil-escape-mode 1)
         (setq-default evil-escape-key-sequence "fd"))
+      ;; sane keybindings from the start
+
+      (use-package general
+        :init
+        (setup-evil)
+        :config
+        (general-evil-setup))
 
       (defun setup-magit ()
         (use-package magit)
@@ -478,49 +478,51 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
 
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-    ;; gofmt doesn't enforce a line length limit, so many projects also do not.	   ;;
-    ;; theoretically I'm fine with this, but no word-wrap looks ugly and unindented  ;;
-    ;; code wrapping to the second line breaks the visual flow of the program.	   ;;
-    ;; 										   ;;
-    ;; so to fix this, adaptive-wrap word-wraps and then visually indents text	   ;;
-    ;; 1 indent level past the indent level of the wrapped line, so that it appears  ;;
-    ;; to be nicely formatted, without editing the actual source text		   ;;
-    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-    (use-package adaptive-wrap
-      :config
-      (setq-default adaptive-wrap-extra-indent 1)
-      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-      (add-hook 'go-mode-hook #'visual-line-mode))
-
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
-
-    ;; adaptive-wrap
-    (use-package adaptive-wrap
-      :config
-      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-      (add-hook 'go-mode-hook #'visual-line-mode))
-
-    )
+)
 
 
   ;; go
 #+END_SRC
 
+*** Javascript
+#+BEGIN_SRC emacs-lisp
+  ;; Javascript / React config
+
+  (defun javascript () 
+    ;; React JSX mode for .jsx files and component/*.js files
+    (use-package rjsx-mode
+      :config
+      (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))))
+
+#+END_SRC
 *** Web
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode)
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
-  (setq web-mode-enable-css-colorization t)
-  (setq web-mode-enable-auto-pairing t)
+  (defun web () 
+    (use-package web-mode)
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+    (setq web-mode-enable-css-colorization t)
+    (setq web-mode-enable-auto-pairing t)
 
-  (use-package impatient-mode
-    :config
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
+    (use-package impatient-mode
+      :config
+      (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
+      (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
+    )
+#+END_SRC
+*** Post-Config
+Any config that needs to run after languages are loaded should go here.
+#+BEGIN_SRC emacs-lisp
+  (defun post-config ()
+    (use-package adaptive-wrap
+      :config
+      (setq-default adaptive-wrap-extra-indent 1)
+      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
+      (add-hook 'go-mode-hook #'visual-line-mode)
+      (add-hook 'js2-mode-hook #'visual-line-mode)
+      (add-hook 'rjsx-mode #'visual-line-mode)))
 #+END_SRC
 
 *** Enable modes
@@ -529,7 +531,10 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (go)
   (python)
   (docker)
-  (scala))
+  (javascript)
+  (web)
+  (scala)
+  (post-config))
 #+END_SRC
 ** Configuration Variables
 *** Global Keybindings

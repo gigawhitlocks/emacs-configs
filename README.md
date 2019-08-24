@@ -1,72 +1,74 @@
-- [Custom Config and Travelogue](#org9e60674)
-  - [Justification](#org182b487)
-    - [It's actually an interactive Lisp interpeter](#org5e36674)
-    - [Org Mode](#org8c693fc)
-  - [Featuring](#orgd6e529b)
-    - [evil-mode](#org3ed54bc)
-    - [helm](#org6e1ad88)
-    - [magit](#org987caac)
-    - [projectile](#orgf493463)
-    - [general](#orgad4c936)
-    - [which-key](#orgd39fb01)
-    - [leuven-theme](#org4e40436)
-- [`init.el` Entrypoint](#org14f4529)
-- [My Customizations](#orgbd1c439)
-  - [Bootstrap](#org24d37a7)
-  - [Global Package Installation and Configuration](#org8cea890)
-  - [Language Configuration](#org07954ba)
-    - [General](#orge71ef31)
-    - [Scala](#org1bfb508)
-    - [YAML](#org79d5285)
-    - [Docker](#orgd995ea6)
-    - [Python](#orga237074)
-    - [Go](#orgbf4d6fd)
-    - [Web](#org9e0a7c0)
-    - [Enable modes](#orgded3ea4)
-  - [Configuration Variables](#org33a2859)
-    - [Global Keybindings](#orgd62a4df)
-    - [Mode-Local Keybindings](#org71cee22)
-    - [Org Mode Settings](#orgdaeaca5)
-    - [Hostname-based Tweaks](#orgfb8dc3a)
-    - [Misc Settings](#org3839304)
-    - [Publish to README.md](#org1d4839b)
-    - [Run Stuff](#orgb329dfd)
-- [Packages to Try](#org620d645)
-  - [emmet-mode](#org64f1346)
-  - [yasnippet-snippets](#org85d3190)
-- [Notes and Such](#org61d57e6)
-  - [System-local settings](#org20e94b2)
-  - [Hyperbole](#org03cc06f)
-  - [Monospace Fonts](#orgfa62b5b)
-    - [<https://github.com/adobe-fonts/source-code-pro/tree/master>](#org9dc5274)
-    - [<https://github.com/be5invis/Iosevka>](#org3516989)
-    - [<https://github.com/googlefonts/Inconsolata>](#org5b3efb9)
-    - [<https://github.com/tonsky/FiraCode>](#orgac74a90)
-    - [<https://github.com/source-foundry/Hack>](#org88280be)
-  - [Proportional Fonts](#org7fb956b)
-  - [ERC](#org74a552c)
-  - [Mail](#orgb7bcbd9)
-  - [Emoji](#org13e1bae)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#orgc7bad5a)
+  - [Justification](#orgbec18cd)
+    - [It's actually an interactive Lisp interpeter](#orgac89e63)
+    - [Org Mode](#org651fccd)
+  - [Featuring](#orge9b926c)
+    - [evil-mode](#org0aedce4)
+    - [helm](#orgb6efb54)
+    - [magit](#org9cb329c)
+    - [projectile](#org713d044)
+    - [general](#orgd9f83e2)
+    - [which-key](#org508aabb)
+    - [leuven-theme](#org597e7d6)
+- [`init.el` Entrypoint](#org25719a3)
+- [My Customizations](#org4755ad4)
+  - [Bootstrap](#org15e52e2)
+  - [Global Package Installation and Configuration](#orgd2ae459)
+  - [Language Configuration](#org3a0b5db)
+    - [General](#org61af73b)
+    - [Scala](#orgb97bee0)
+    - [YAML](#orgbf10180)
+    - [Docker](#org0f7d0b9)
+    - [Python](#org6e9c45a)
+    - [Go](#org84c78f6)
+    - [Javascript](#org9e92c2b)
+    - [Web](#org9f5224a)
+    - [Post-Config](#org4695bd8)
+    - [Enable modes](#orgccad91e)
+  - [Configuration Variables](#org5c0b6f2)
+    - [Global Keybindings](#orga79a8e9)
+    - [Mode-Local Keybindings](#orgeb93b5a)
+    - [Org Mode Settings](#orgbbf9434)
+    - [Hostname-based Tweaks](#org7bfe990)
+    - [Misc Settings](#orga8299f8)
+    - [Publish to README.md](#orgb347ee8)
+    - [Run Stuff](#org9301e6a)
+- [Packages to Try](#orgf85bb5e)
+  - [emmet-mode](#org52c3a75)
+  - [yasnippet-snippets](#orgdec5283)
+- [Notes and Such](#orgbc99e22)
+  - [System-local settings](#orgcee4026)
+  - [Hyperbole](#orga4e1faa)
+  - [Monospace Fonts](#org716c7fc)
+    - [<https://github.com/adobe-fonts/source-code-pro/tree/master>](#orgd438a91)
+    - [<https://github.com/be5invis/Iosevka>](#orge48244d)
+    - [<https://github.com/googlefonts/Inconsolata>](#orgec1c5cd)
+    - [<https://github.com/tonsky/FiraCode>](#orgbe6736b)
+    - [<https://github.com/source-foundry/Hack>](#orgf88c01f)
+  - [Proportional Fonts](#org403af05)
+  - [ERC](#org634ef88)
+  - [Mail](#org08a9b9c)
+  - [Emoji](#orga5242f5)
 
 
 
-<a id="org9e60674"></a>
+<a id="orgc7bad5a"></a>
 
-# Custom Config and Travelogue
+# Ian's Custom Emacs Environment with Associated Notes and Commentary
 
 This file contains the configuration necessary to transform a GNU Emacs 26 installation on Linux or Mac OS X into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
 There are many configurations like this one, but this one is mine.
 
 
-<a id="org182b487"></a>
+<a id="orgbec18cd"></a>
 
 ## Justification
 
 Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
 
 
-<a id="org5e36674"></a>
+<a id="orgac89e63"></a>
 
 ### It's actually an interactive Lisp interpeter
 
@@ -81,7 +83,7 @@ Here's a trivial example. A new Emacs user does the tutorial and learns that `M-
 Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode.
 
 
-<a id="org8c693fc"></a>
+<a id="org651fccd"></a>
 
 ### Org Mode
 
@@ -92,63 +94,63 @@ Org Mode is a display mode for content written in the Org markup language, which
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="orgd6e529b"></a>
+<a id="orge9b926c"></a>
 
 ## Featuring
 
 My config features many 3rd party packages. I'd like to give special attention to some of my favorites
 
 
-<a id="org3ed54bc"></a>
+<a id="org0aedce4"></a>
 
 ### evil-mode
 
 Bringing a sane editing experience to Emacs.
 
 
-<a id="org6e1ad88"></a>
+<a id="orgb6efb54"></a>
 
 ### helm
 
 Helm brings an awesome command UI to Emacs that completely alters the experience (for the better, in my opinion).
 
 
-<a id="org987caac"></a>
+<a id="org9cb329c"></a>
 
 ### magit
 
 The best `git` UI on the planet.
 
 
-<a id="orgf493463"></a>
+<a id="org713d044"></a>
 
 ### projectile
 
 Allowing jumping around inside of version-controlled projects, searching, all kinds of goodies.
 
 
-<a id="orgad4c936"></a>
+<a id="orgd9f83e2"></a>
 
 ### general
 
 Sane key bindings.
 
 
-<a id="orgd39fb01"></a>
+<a id="org508aabb"></a>
 
 ### which-key
 
 Pops up a window to show available commands, given a prefix. Awesome for discoverability, which is essential for a platform as extensible as Emacs.
 
 
-<a id="org4e40436"></a>
+<a id="org597e7d6"></a>
 
 ### leuven-theme
 
 Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
 
 
-<a id="org14f4529"></a>
+<a id="org25719a3"></a>
 
 # `init.el` Entrypoint
 
@@ -197,14 +199,14 @@ So `init.el` just holds the bare minimum code. We use an [example from orgmode.o
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgbd1c439"></a>
+<a id="org4755ad4"></a>
 
 # My Customizations
 
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org24d37a7"></a>
+<a id="org15e52e2"></a>
 
 ## Bootstrap
 
@@ -255,14 +257,6 @@ The bootstrap function sets up the main software repository for downloading 3rd 
   ;; allow use-package to install system tools via apt, brew
   (use-package use-package-ensure-system-package)
 
-  ;; sane keybindings from the start
-  (use-package general
-    :config
-    (general-evil-setup))
-
-  ;; hydra allows for sub-menus to pop up.. it's cool, and it's a dependency for sbt-hydra
-  (use-package hydra)
-
   ;; these go in bootstrap because packages installed
   ;; with use-package use :diminish and :delight
   (use-package diminish)
@@ -270,7 +264,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 ```
 
 
-<a id="org8cea890"></a>
+<a id="orgd2ae459"></a>
 
 ## Global Package Installation and Configuration
 
@@ -303,18 +297,19 @@ The `global-packages` function is responsible for installing deep dependencies. 
       :config
       (evil-collection-init))
 
-    ;; TODO probably org-mode dependencies will need to be their own function
-    ;; bindings for org-mode
-    (use-package evil-org)
-    ;; image drag-and-drop for org-mode
-    (use-package org-download)
-
     ;; add fd as a remap for esc
     (use-package evil-escape
       :delight)
 
     (evil-escape-mode 1)
     (setq-default evil-escape-key-sequence "fd"))
+  ;; sane keybindings from the start
+
+  (use-package general
+    :init
+    (setup-evil)
+    :config
+    (general-evil-setup))
 
   (defun setup-magit ()
     (use-package magit)
@@ -433,22 +428,20 @@ The `global-packages` function is responsible for installing deep dependencies. 
     :config
     )
 
-  (setup-evil)
   (setup-projectile)
   (setup-magit)
   (setup-helm)
   (dashboard)
-  (extra-packages)
-  )
+  (extra-packages))
 ```
 
 
-<a id="org07954ba"></a>
+<a id="org3a0b5db"></a>
 
 ## Language Configuration
 
 
-<a id="orge71ef31"></a>
+<a id="org61af73b"></a>
 
 ### General
 
@@ -473,7 +466,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org1bfb508"></a>
+<a id="orgb97bee0"></a>
 
 ### Scala
 
@@ -515,7 +508,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org79d5285"></a>
+<a id="orgbf10180"></a>
 
 ### YAML
 
@@ -524,7 +517,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orgd995ea6"></a>
+<a id="org0f7d0b9"></a>
 
 ### Docker
 
@@ -536,7 +529,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orga237074"></a>
+<a id="org6e9c45a"></a>
 
 ### Python
 
@@ -554,122 +547,135 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orgbf4d6fd"></a>
+<a id="org84c78f6"></a>
 
 ### Go
 
 ```emacs-lisp
 
-(defun go ()
-  ;;
+  (defun go ()
+    ;;
 
-  (defun set-gopls-lib-dirs ()
-    "Add $GOPATH/pkg/mod to the 'library path'."
-    ;; stops lsp from continually asking if Go projects should be imported
-    (setq lsp-clients-go-library-directories
-	  (list
-	   "/usr"
-	   (concat (getenv "GOPATH") "/pkg/mod"))))
+    (defun set-gopls-lib-dirs ()
+      "Add $GOPATH/pkg/mod to the 'library path'."
+      ;; stops lsp from continually asking if Go projects should be imported
+      (setq lsp-clients-go-library-directories
+	    (list
+	     "/usr"
+	     (concat (getenv "GOPATH") "/pkg/mod"))))
 
-  ;; native go mode
-  (use-package go-mode
-    :hook ((go-mode . lsp-deferred)
-	   (go-mode . set-gopls-lib-dirs))
-    :config
-    ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-    ;; presumably for lsp this is #'lsp-find-definition here instead
-    (evil-add-command-properties #'godef-jump :jump t))
+    ;; native go mode
+    (use-package go-mode
+      :hook ((go-mode . lsp-deferred)
+	     (go-mode . set-gopls-lib-dirs))
+      :config
+      ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+      ;; presumably for lsp this is #'lsp-find-definition here instead
+      (evil-add-command-properties #'godef-jump :jump t))
 
-  (general-define-key
-   :states 'normal
-   :keymaps 'go-mode-map
-   "gd" 'lsp-find-definition)
+    (general-define-key
+     :states 'normal
+     :keymaps 'go-mode-map
+     "gd" 'lsp-find-definition)
 
-  (autoload 'go-mode "go-mode" nil t)
-  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+    (autoload 'go-mode "go-mode" nil t)
+    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
-  ;; autocompletion
-  ;; https://github.com/mdempsky/gocode
-  ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
-  (use-package company-go)
+    ;; autocompletion
+    ;; https://github.com/mdempsky/gocode
+    ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
+    (use-package company-go)
 
-  ;; disable auto-completion of non-Go things in Go files
-  (add-hook 'go-mode-hook (lambda ()
-			    (set (make-local-variable 'company-backends) '(company-go))
-			    (company-mode)))
+    ;; disable auto-completion of non-Go things in Go files
+    (add-hook 'go-mode-hook (lambda ()
+			      (set (make-local-variable 'company-backends) '(company-go))
+			      (company-mode)))
 
-  ;; disable "Organize Imports" warning that never goes away
-  (add-hook 'go-mode-hook
-	    (lambda ()
-	      (origami-mode)
-	      (setq-local lsp-ui-sideline-show-code-actions nil)))
+    ;; disable "Organize Imports" warning that never goes away
+    (add-hook 'go-mode-hook
+	      (lambda ()
+		(origami-mode)
+		(setq-local lsp-ui-sideline-show-code-actions nil)))
 
-  ;; super important -- eldoc support adds things like type signatures in modeline
-  (use-package go-eldoc)
-  (add-hook 'go-mode-hook 'go-eldoc-setup)
+    ;; super important -- eldoc support adds things like type signatures in modeline
+    (use-package go-eldoc)
+    (add-hook 'go-mode-hook 'go-eldoc-setup)
 
-  ;; gofmt before save
-  (add-hook 'before-save-hook 'gofmt-before-save)
+    ;; gofmt before save
+    (add-hook 'before-save-hook 'gofmt-before-save)
 
-  ;; go guru integration provides lots of code analysis commands
-  (use-package go-guru
-    :config
-    (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode))
+    ;; go guru integration provides lots of code analysis commands
+    (use-package go-guru
+      :config
+      (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode))
 
-  (load-file "~/.emacs.d/vendor/go-dlv.el")
-  (require 'go-dlv)
+    (load-file "~/.emacs.d/vendor/go-dlv.el")
+    (require 'go-dlv)
 
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-  ;; gofmt doesn't enforce a line length limit, so many projects also do not.	   ;;
-  ;; theoretically I'm fine with this, but no word-wrap looks ugly and unindented  ;;
-  ;; code wrapping to the second line breaks the visual flow of the program.	   ;;
-  ;; 										   ;;
-  ;; so to fix this, adaptive-wrap word-wraps and then visually indents text	   ;;
-  ;; 1 indent level past the indent level of the wrapped line, so that it appears  ;;
-  ;; to be nicely formatted, without editing the actual source text		   ;;
-  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-  (use-package adaptive-wrap
-    :config
-    (setq-default adaptive-wrap-extra-indent 1)
-    (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-    (add-hook 'go-mode-hook #'visual-line-mode))
-
-  (load-file "~/.emacs.d/vendor/go-dlv.el")
-  (require 'go-dlv)
-
-  ;; adaptive-wrap
-  (use-package adaptive-wrap
-    :config
-    (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-    (add-hook 'go-mode-hook #'visual-line-mode))
-
-  )
+    (load-file "~/.emacs.d/vendor/go-dlv.el")
+    (require 'go-dlv)
+)
 
 
-;; go
+  ;; go
 ```
 
 
-<a id="org9e0a7c0"></a>
+<a id="org9e92c2b"></a>
+
+### Javascript
+
+```emacs-lisp
+;; Javascript / React config
+
+(defun javascript () 
+  ;; React JSX mode for .jsx files and component/*.js files
+  (use-package rjsx-mode
+    :config
+    (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))))
+
+```
+
+
+<a id="org9f5224a"></a>
 
 ### Web
 
 ```emacs-lisp
-(use-package web-mode)
-(add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
-(setq web-mode-enable-css-colorization t)
-(setq web-mode-enable-auto-pairing t)
+(defun web () 
+  (use-package web-mode)
+  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+  (setq web-mode-enable-css-colorization t)
+  (setq web-mode-enable-auto-pairing t)
 
-(use-package impatient-mode
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
+  (use-package impatient-mode
+    :config
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
+  )
 ```
 
 
-<a id="orgded3ea4"></a>
+<a id="org4695bd8"></a>
+
+### Post-Config
+
+Any config that needs to run after languages are loaded should go here.
+
+```emacs-lisp
+(defun post-config ()
+  (use-package adaptive-wrap
+    :config
+    (setq-default adaptive-wrap-extra-indent 1)
+    (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
+    (add-hook 'go-mode-hook #'visual-line-mode)
+    (add-hook 'js2-mode-hook #'visual-line-mode)
+    (add-hook 'rjsx-mode #'visual-line-mode)))
+```
+
+
+<a id="orgccad91e"></a>
 
 ### Enable modes
 
@@ -678,16 +684,19 @@ The `global-packages` function is responsible for installing deep dependencies. 
 (go)
 (python)
 (docker)
-(scala))
+(javascript)
+(web)
+(scala)
+(post-config))
 ```
 
 
-<a id="org33a2859"></a>
+<a id="org5c0b6f2"></a>
 
 ## Configuration Variables
 
 
-<a id="orgd62a4df"></a>
+<a id="orga79a8e9"></a>
 
 ### Global Keybindings
 
@@ -795,7 +804,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org71cee22"></a>
+<a id="orgeb93b5a"></a>
 
 ### Mode-Local Keybindings
 
@@ -819,11 +828,16 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orgdaeaca5"></a>
+<a id="orgbbf9434"></a>
 
 ### Org Mode Settings
 
 ```emacs-lisp
+;; some default evil bindings
+(use-package evil-org)
+;; image drag-and-drop for org-mode
+(use-package org-download)
+
 
 ;; Fontify the whole line for headings (with a background color).
 (setq org-fontify-whole-heading-line t)
@@ -855,7 +869,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orgfb8dc3a"></a>
+<a id="org7bfe990"></a>
 
 ### Hostname-based Tweaks
 
@@ -876,7 +890,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org3839304"></a>
+<a id="orga8299f8"></a>
 
 ### Misc Settings
 
@@ -954,7 +968,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org1d4839b"></a>
+<a id="orgb347ee8"></a>
 
 ### Publish to README.md
 
@@ -966,7 +980,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orgb329dfd"></a>
+<a id="org9301e6a"></a>
 
 ### Run Stuff
 
@@ -980,7 +994,7 @@ Main is called in `init.el` and runs the rest of of the config.
   (global-packages)
   (languages)
   (config)
-  (publish)
+  ;;(publish)
   (server-start))
 
 (provide '~/.emacs.d/ian.el)
@@ -988,31 +1002,31 @@ Main is called in `init.el` and runs the rest of of the config.
 ```
 
 
-<a id="org620d645"></a>
+<a id="orgf85bb5e"></a>
 
 # Packages to Try
 
 
-<a id="org64f1346"></a>
+<a id="org52c3a75"></a>
 
 ## emmet-mode
 
 Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.com/smihica/emmet-mode>
 
 
-<a id="org85d3190"></a>
+<a id="orgdec5283"></a>
 
 ## yasnippet-snippets
 
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org61d57e6"></a>
+<a id="orgbc99e22"></a>
 
 # Notes and Such
 
 
-<a id="org20e94b2"></a>
+<a id="orgcee4026"></a>
 
 ## DONE System-local settings
 
@@ -1023,7 +1037,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 3.  That's it, there is no three.
 
 
-<a id="org03cc06f"></a>
+<a id="orga4e1faa"></a>
 
 ## DONE Hyperbole
 
@@ -1035,70 +1049,70 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 ```
 
 
-<a id="orgfa62b5b"></a>
+<a id="org716c7fc"></a>
 
 ## DONE Monospace Fonts
 
 Just going to keep note of some options
 
 
-<a id="org9dc5274"></a>
+<a id="orgd438a91"></a>
 
 ### <https://github.com/adobe-fonts/source-code-pro/tree/master>
 
 Default in Spacemacs
 
 
-<a id="org3516989"></a>
+<a id="orge48244d"></a>
 
 ### <https://github.com/be5invis/Iosevka>
 
 Kinda tall, skinny
 
 
-<a id="org5b3efb9"></a>
+<a id="orgec1c5cd"></a>
 
 ### <https://github.com/googlefonts/Inconsolata>
 
 Has ligatures
 
 
-<a id="orgac74a90"></a>
+<a id="orgbe6736b"></a>
 
 ### <https://github.com/tonsky/FiraCode>
 
 More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/FiraCode/wiki/Emacs-instructions> Described as "cool" on IRC
 
 
-<a id="org88280be"></a>
+<a id="orgf88c01f"></a>
 
 ### <https://github.com/source-foundry/Hack>
 
 I mean, it's called "Hack"
 
 
-<a id="org7fb956b"></a>
+<a id="org403af05"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org! Xah Lee has an example where he does something similar to what I'd want <http://ergoemacs.org/emacs/emacs_proportional_font.html>
 
 
-<a id="org74a552c"></a>
+<a id="org634ef88"></a>
 
 ## ERC
 
 This is something I'd like eventually. Maybe? Here's a Reddit thread on the topic. <https://www.reddit.com/r/emacs/comments/8ml6na/tip_how_to_make_erc_fun_to_use/>
 
 
-<a id="orgb7bcbd9"></a>
+<a id="org08a9b9c"></a>
 
 ## Mail
 
 Eventually.
 
 
-<a id="org13e1bae"></a>
+<a id="orga5242f5"></a>
 
 ## DONE Emoji
 
