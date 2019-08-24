@@ -487,10 +487,19 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
 
-    ;; adaptive-wrap
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    ;; gofmt doesn't enforce a line length limit, so many projects also do not.	   ;;
+    ;; theoretically I'm fine with this, but no word-wrap looks ugly and unindented  ;;
+    ;; code wrapping to the second line breaks the visual flow of the program.	   ;;
+    ;; 										   ;;
+    ;; so to fix this, adaptive-wrap word-wraps and then visually indents text	   ;;
+    ;; 1 indent level past the indent level of the wrapped line, so that it appears  ;;
+    ;; to be nicely formatted, without editing the actual source text		   ;;
+    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
     (use-package adaptive-wrap
       :config
-      (setq adaptive-wrap-extra-indent 2)
+      (setq-default adaptive-wrap-extra-indent 1)
       (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
       (add-hook 'go-mode-hook #'visual-line-mode))
 
@@ -503,8 +512,10 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
       (add-hook 'go-mode-hook #'visual-line-mode))
 
-    ) ;; go
+    )
 
+
+  ;; go
 #+END_SRC
 
 *** Web
@@ -675,7 +686,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
   ;; enable markdown export
   (eval-after-load "org"
-    '(require 'ox-md nil t))
+    (progn
+      '(require 'ox-md nil t)
+      '(require 'ox-gfm nil t)))
 #+END_SRC
 *** Hostname-based Tweaks
 #+BEGIN_SRC emacs-lisp
@@ -724,7 +737,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
   ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
   (defun create-gif (duration)
-    "Create a gif of the DURATION provided."
+    "Create a gif of the current frame with the DURATION provided."
     (interactive "sDuration: ")
 
     (defun width ()
@@ -750,13 +763,12 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       "get the timestamped filename of the gif"
       (concat " ~/emacs-gifs/" (format-time-string "%Y-%m-%dT%T") ".gif"))
 
-
-
-      (if (not (file-directory-p "~/emacs-gifs"))
-          (make-directory "~/emacs-gifs"))
-      (start-process-shell-command "emacs-gif" "*Messages*"
-       (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
-               duration (width) (height) (x) (y) (filename))))
+    (if (not (file-directory-p "~/emacs-gifs"))
+        (make-directory "~/emacs-gifs"))
+    (start-process-shell-command 
+    "create-gif" "*Messages*"
+    (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
+    duration (width) (height) (x) (y) (filename))))
 
 
 
