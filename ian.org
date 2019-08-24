@@ -665,6 +665,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+END_SRC
 *** Org Mode Settings
 #+BEGIN_SRC emacs-lisp
+
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
 
@@ -683,6 +684,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
                                  (shell . t)
                                  )
                                )
+
+  ;; github-flavored markdown
+  (use-package ox-gfm)
 
   ;; enable markdown export
   (eval-after-load "org"
@@ -782,7 +786,16 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     #+END_SRC
 
+*** Publish to README.md
+#+BEGIN_SRC emacs-lisp
+  (defun publish ()
+    "Publishes (to github flavored markdown for now."
+    (org-gfm-export-to-markdown)
+    (rename-file "ian.md" "README.md"))
+#+END_SRC
+
 *** Run Stuff
+Main is called in ~init.el~ and runs the rest of of the config.
 #+BEGIN_SRC emacs-lisp
 
   (defun main()
@@ -791,6 +804,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (global-packages)
     (languages)
     (config)
+    (publish)
     (server-start))
 
   (provide '~/.emacs.d/ian.el)
