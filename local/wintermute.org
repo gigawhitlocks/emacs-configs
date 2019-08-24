@@ -18,10 +18,19 @@ Stuff that's specific to my Thinkpad's Emacs config.
     :config
     (load-theme 'darcula t))
 
+
+
+
 #+End_SRC
 
 
 
+* Local bugfixes
+
+Idk, the novelty footer in dashboard.el is missing the icon for some reason so just disable it for now
+#+BEGIN_SRC emacs-lisp
+  (setq dashboard-set-footer nil)
+#+END_SRC
 * Footer
 #+BEGIN_SRC emacs-lisp
   (provide 'local)
