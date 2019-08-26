@@ -6,7 +6,7 @@ Work Mac
 
   (use-package leuven-theme
     :config
-    (load-theme 'leuven))
+    (load-theme 'leuven 1))
 
 #+END_SRC
 * Font
