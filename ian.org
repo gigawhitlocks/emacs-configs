@@ -462,7 +462,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
               (lambda ()
                 (origami-mode)
                 (setq-local lsp-ui-sideline-show-code-actions nil)))
-
+ 
     ;; super important -- eldoc support adds things like type signatures in modeline
     (use-package go-eldoc)
     (add-hook 'go-mode-hook 'go-eldoc-setup)
@@ -480,7 +480,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
-)
+    )
 
 
   ;; go
@@ -493,6 +493,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (defun javascript () 
     ;; React JSX mode for .jsx files and component/*.js files
     (use-package rjsx-mode
+      :hook ((rjsx-mode . lsp-deferred))
       :config
       (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))))
 
@@ -518,16 +519,18 @@ Any config that needs to run after languages are loaded should go here.
   (defun post-config ()
     (use-package adaptive-wrap
       :config
-      (setq-default adaptive-wrap-extra-indent 1)
+      (setq-default adaptive-wrap-extra-indent 2)
 
-      (add-hook 'go-mode-hook #'adaptive-wrap-prefix-mode)
-      (add-hook 'go-mode-hook #'visual-line-mode)
+      (defun adaptive-and-visual-line-mode (hook)
+        (add-hook hook (lambda ()
+                          (progn
+                            (visual-line-mode)
+                            (adaptive-wrap-prefix-mode)))))
 
-      (add-hook 'js2-mode-hook #'visual-line-mode)
-      (add-hook 'js2-mode-hook #'adaptive-wrap-prefix-mode)
-
-      (add-hook 'rjsx-mode #'visual-line-mode)
-      (add-hook 'rjsx-mode-hook #'adaptive-wrap-prefix-mode)))
+      (mapc 'adaptive-and-visual-line-mode (list 'go-mode-hook
+                                                 'js2-mode-hook
+                                                 'rjsx-mode-hook))
+      ))
 
 #+END_SRC
 
@@ -574,6 +577,7 @@ Any config that needs to run after languages are loaded should go here.
         ;; buffer control
         "bb"	'switch-to-buffer
         "TAB"	#'switch-to-prev-buffer
+        "br"      'revert-buffer
         "bd"	'evil-delete-buffer
 
         ;; compile
@@ -726,6 +730,11 @@ This would be a neat feature to expand on at some point.
 
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
+
+  ;; sane tab-width
+  ;; I mean seriously Emacs, 8??
+  (setq tab-width 2)
+
   ;; backups to /tmp
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
