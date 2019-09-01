@@ -167,9 +167,13 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+BEGIN_SRC emacs-lisp
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
+
+    ;; 🙌 Emoji! 🙌
     (use-package emojify
       :config
-      (emojify-mode))
+      (setq emojify-download-emojis-p t)
+      (emojify-set-emoji-styles '(unicode))
+      (add-hook 'after-init-hook #'global-emojify-mode))
 
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
