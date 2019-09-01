@@ -1,58 +1,59 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#orgc7bad5a)
-  - [Justification](#orgbec18cd)
-    - [It's actually an interactive Lisp interpeter](#orgac89e63)
-    - [Org Mode](#org651fccd)
-  - [Featuring](#orge9b926c)
-    - [evil-mode](#org0aedce4)
-    - [helm](#orgb6efb54)
-    - [magit](#org9cb329c)
-    - [projectile](#org713d044)
-    - [general](#orgd9f83e2)
-    - [which-key](#org508aabb)
-    - [leuven-theme](#org597e7d6)
-- [`init.el` Entrypoint](#org25719a3)
-- [My Customizations](#org4755ad4)
-  - [Bootstrap](#org15e52e2)
-  - [Global Package Installation and Configuration](#orgd2ae459)
-  - [Language Configuration](#org3a0b5db)
-    - [General](#org61af73b)
-    - [Scala](#orgb97bee0)
-    - [YAML](#orgbf10180)
-    - [Docker](#org0f7d0b9)
-    - [Python](#org6e9c45a)
-    - [Go](#org84c78f6)
-    - [Javascript](#org9e92c2b)
-    - [Web](#org9f5224a)
-    - [Post-Config](#org4695bd8)
-    - [Enable modes](#orgccad91e)
-  - [Configuration Variables](#org5c0b6f2)
-    - [Global Keybindings](#orga79a8e9)
-    - [Mode-Local Keybindings](#orgeb93b5a)
-    - [Org Mode Settings](#orgbbf9434)
-    - [Hostname-based Tweaks](#org7bfe990)
-    - [Misc Settings](#orga8299f8)
-    - [Publish to README.md](#orgb347ee8)
-    - [Run Stuff](#org9301e6a)
-- [Packages to Try](#orgf85bb5e)
-  - [emmet-mode](#org52c3a75)
-  - [yasnippet-snippets](#orgdec5283)
-- [Notes and Such](#orgbc99e22)
-  - [System-local settings](#orgcee4026)
-  - [Hyperbole](#orga4e1faa)
-  - [Monospace Fonts](#org716c7fc)
-    - [<https://github.com/adobe-fonts/source-code-pro/tree/master>](#orgd438a91)
-    - [<https://github.com/be5invis/Iosevka>](#orge48244d)
-    - [<https://github.com/googlefonts/Inconsolata>](#orgec1c5cd)
-    - [<https://github.com/tonsky/FiraCode>](#orgbe6736b)
-    - [<https://github.com/source-foundry/Hack>](#orgf88c01f)
-  - [Proportional Fonts](#org403af05)
-  - [ERC](#org634ef88)
-  - [Mail](#org08a9b9c)
-  - [Emoji](#orga5242f5)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#orgb1a1de1)
+  - [Justification](#org314a2cf)
+    - [It's actually an interactive Lisp interpeter](#orgcce1f21)
+    - [Org Mode](#orgd5d10a1)
+  - [Featuring](#org6ee5e2a)
+    - [evil-mode](#org74ed3bc)
+    - [helm](#org8118f70)
+    - [magit](#orgf0da482)
+    - [projectile](#org1f9b46b)
+    - [general](#org99a90b6)
+    - [which-key](#org624b96c)
+    - [leuven-theme](#orga6459bd)
+- [`init.el` Entrypoint](#org0971dce)
+- [My Customizations](#org4f15069)
+  - [Bootstrap](#org7f3e1f7)
+  - [Global Package Installation and Configuration](#org2931fd4)
+  - [Language Configuration](#orgd8d6472)
+    - [General](#org440b5ae)
+    - [Scala](#orga9e1ab7)
+    - [YAML](#org1ec50a5)
+    - [Docker](#org089f778)
+    - [Python](#org998c8c6)
+    - [Go](#org7f9830b)
+    - [Javascript](#org6ce23a0)
+    - [Web](#orgdf5a192)
+    - [Post-Config](#orge44fd59)
+    - [Enable modes](#orga8b0501)
+  - [Configuration Variables](#org5a17bb0)
+    - [Global Configuration](#org5676dec)
+    - [Global Keybindings](#org440c121)
+    - [Mode-Local Keybindings](#org2d965f2)
+    - [Org Mode Settings](#org06dbde7)
+    - [Hostname-based Tweaks](#org5f93ae1)
+    - [Misc Settings](#org4d4e6e9)
+    - [Publish to README.md](#orgf570def)
+    - [Run Stuff](#org280dbb4)
+- [Packages to Try](#orgdbe6b44)
+  - [emmet-mode](#org7868b78)
+  - [yasnippet-snippets](#org7050fbf)
+- [Notes and Such](#org0759d0a)
+  - [System-local settings](#org44a9e80)
+  - [Hyperbole](#org37990b3)
+  - [Monospace Fonts](#orge292315)
+    - [<https://github.com/adobe-fonts/source-code-pro/tree/master>](#orgbb7e9e3)
+    - [<https://github.com/be5invis/Iosevka>](#org2ea79dd)
+    - [<https://github.com/googlefonts/Inconsolata>](#orga17ed21)
+    - [<https://github.com/tonsky/FiraCode>](#orgb61ca7e)
+    - [<https://github.com/source-foundry/Hack>](#org5ca09f1)
+  - [Proportional Fonts](#org9c171a7)
+  - [ERC](#orga09a322)
+  - [Mail](#org032f805)
+  - [Emoji](#orge58bb48)
 
 
 
-<a id="orgc7bad5a"></a>
+<a id="orgb1a1de1"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -61,14 +62,14 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="orgbec18cd"></a>
+<a id="org314a2cf"></a>
 
 ## Justification
 
 Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
 
 
-<a id="orgac89e63"></a>
+<a id="orgcce1f21"></a>
 
 ### It's actually an interactive Lisp interpeter
 
@@ -83,7 +84,7 @@ Here's a trivial example. A new Emacs user does the tutorial and learns that `M-
 Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode.
 
 
-<a id="org651fccd"></a>
+<a id="orgd5d10a1"></a>
 
 ### Org Mode
 
@@ -94,63 +95,63 @@ Org Mode is a display mode for content written in the Org markup language, which
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="orge9b926c"></a>
+<a id="org6ee5e2a"></a>
 
 ## Featuring
 
 My config features many 3rd party packages. I'd like to give special attention to some of my favorites
 
 
-<a id="org0aedce4"></a>
+<a id="org74ed3bc"></a>
 
 ### evil-mode
 
 Bringing a sane editing experience to Emacs.
 
 
-<a id="orgb6efb54"></a>
+<a id="org8118f70"></a>
 
 ### helm
 
 Helm brings an awesome command UI to Emacs that completely alters the experience (for the better, in my opinion).
 
 
-<a id="org9cb329c"></a>
+<a id="orgf0da482"></a>
 
 ### magit
 
 The best `git` UI on the planet.
 
 
-<a id="org713d044"></a>
+<a id="org1f9b46b"></a>
 
 ### projectile
 
 Allowing jumping around inside of version-controlled projects, searching, all kinds of goodies.
 
 
-<a id="orgd9f83e2"></a>
+<a id="org99a90b6"></a>
 
 ### general
 
 Sane key bindings.
 
 
-<a id="org508aabb"></a>
+<a id="org624b96c"></a>
 
 ### which-key
 
 Pops up a window to show available commands, given a prefix. Awesome for discoverability, which is essential for a platform as extensible as Emacs.
 
 
-<a id="org597e7d6"></a>
+<a id="orga6459bd"></a>
 
 ### leuven-theme
 
 Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
 
 
-<a id="org25719a3"></a>
+<a id="org0971dce"></a>
 
 # `init.el` Entrypoint
 
@@ -199,14 +200,14 @@ So `init.el` just holds the bare minimum code. We use an [example from orgmode.o
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org4755ad4"></a>
+<a id="org4f15069"></a>
 
 # My Customizations
 
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org15e52e2"></a>
+<a id="org7f3e1f7"></a>
 
 ## Bootstrap
 
@@ -264,7 +265,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 ```
 
 
-<a id="orgd2ae459"></a>
+<a id="org2931fd4"></a>
 
 ## Global Package Installation and Configuration
 
@@ -436,12 +437,12 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org3a0b5db"></a>
+<a id="orgd8d6472"></a>
 
 ## Language Configuration
 
 
-<a id="org61af73b"></a>
+<a id="org440b5ae"></a>
 
 ### General
 
@@ -466,7 +467,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orgb97bee0"></a>
+<a id="orga9e1ab7"></a>
 
 ### Scala
 
@@ -508,7 +509,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="orgbf10180"></a>
+<a id="org1ec50a5"></a>
 
 ### YAML
 
@@ -517,7 +518,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org0f7d0b9"></a>
+<a id="org089f778"></a>
 
 ### Docker
 
@@ -529,7 +530,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org6e9c45a"></a>
+<a id="org998c8c6"></a>
 
 ### Python
 
@@ -547,81 +548,83 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org84c78f6"></a>
+<a id="org7f9830b"></a>
 
 ### Go
 
 ```emacs-lisp
 
-  (defun go ()
-    ;;
+(defun go ()
+  ;;
 
-    (defun set-gopls-lib-dirs ()
-      "Add $GOPATH/pkg/mod to the 'library path'."
-      ;; stops lsp from continually asking if Go projects should be imported
-      (setq lsp-clients-go-library-directories
-	    (list
-	     "/usr"
-	     (concat (getenv "GOPATH") "/pkg/mod"))))
+  (defun set-gopls-lib-dirs ()
+    "Add $GOPATH/pkg/mod to the 'library path'."
+    ;; stops lsp from continually asking if Go projects should be imported
+    (setq lsp-clients-go-library-directories
+	  (list
+	   "/usr"
+	   (concat (getenv "GOPATH") "/pkg/mod"))))
 
-    ;; native go mode
-    (use-package go-mode
-      :hook ((go-mode . lsp-deferred)
-	     (go-mode . set-gopls-lib-dirs))
-      :config
-      ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-      ;; presumably for lsp this is #'lsp-find-definition here instead
-      (evil-add-command-properties #'godef-jump :jump t))
+  ;; native go mode
+  (use-package go-mode
+    :hook ((go-mode . lsp-deferred)
+	   (go-mode . set-gopls-lib-dirs))
+    :config
+    ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+    ;; presumably for lsp this is #'lsp-find-definition here instead
+    (evil-add-command-properties #'godef-jump :jump t))
 
-    (general-define-key
-     :states 'normal
-     :keymaps 'go-mode-map
-     "gd" 'lsp-find-definition)
+  (general-define-key
+   :states 'normal
+   :keymaps 'go-mode-map
+   "gd" 'lsp-find-definition)
 
-    (autoload 'go-mode "go-mode" nil t)
-    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  (autoload 'go-mode "go-mode" nil t)
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
-    ;; autocompletion
-    ;; https://github.com/mdempsky/gocode
-    ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
-    (use-package company-go)
+  ;; autocompletion
+  ;; https://github.com/mdempsky/gocode
+  ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
+  (use-package company-go)
 
-    ;; disable auto-completion of non-Go things in Go files
-    (add-hook 'go-mode-hook (lambda ()
-			      (set (make-local-variable 'company-backends) '(company-go))
-			      (company-mode)))
+  ;; disable auto-completion of non-Go things in Go files
+  (add-hook 'go-mode-hook (lambda ()
+			    (set (make-local-variable 'company-backends) '(company-go))
+			    (company-mode)))
 
-    ;; disable "Organize Imports" warning that never goes away
-    (add-hook 'go-mode-hook
-	      (lambda ()
-		(origami-mode)
-		(setq-local lsp-ui-sideline-show-code-actions nil)))
+  ;; disable "Organize Imports" warning that never goes away
+  (add-hook 'go-mode-hook
+	    (lambda ()
+	      (origami-mode)
+	      (setq-local lsp-ui-sideline-show-code-actions nil)))
 
-    ;; super important -- eldoc support adds things like type signatures in modeline
-    (use-package go-eldoc)
-    (add-hook 'go-mode-hook 'go-eldoc-setup)
+  ;; super important -- eldoc support adds things like type signatures in modeline
+  (use-package go-eldoc)
+  (add-hook 'go-mode-hook 'go-eldoc-setup)
 
-    ;; gofmt before save
-    (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'go-mode-hook (lambda ()
+			    (set (make-local-variable 'tab-width) 2)))
+  ;; gofmt before save
+  (add-hook 'before-save-hook 'gofmt-before-save)
 
-    ;; go guru integration provides lots of code analysis commands
-    (use-package go-guru
-      :config
-      (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode))
+  ;; go guru integration provides lots of code analysis commands
+  (use-package go-guru
+    :config
+    (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode))
 
-    (load-file "~/.emacs.d/vendor/go-dlv.el")
-    (require 'go-dlv)
+  (load-file "~/.emacs.d/vendor/go-dlv.el")
+  (require 'go-dlv)
 
-    (load-file "~/.emacs.d/vendor/go-dlv.el")
-    (require 'go-dlv)
-)
+  (load-file "~/.emacs.d/vendor/go-dlv.el")
+  (require 'go-dlv)
+  )
 
 
-  ;; go
+;; go
 ```
 
 
-<a id="org9e92c2b"></a>
+<a id="org6ce23a0"></a>
 
 ### Javascript
 
@@ -631,13 +634,14 @@ The `global-packages` function is responsible for installing deep dependencies. 
 (defun javascript () 
   ;; React JSX mode for .jsx files and component/*.js files
   (use-package rjsx-mode
+    :hook ((rjsx-mode . lsp-deferred))
     :config
     (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))))
 
 ```
 
 
-<a id="org9f5224a"></a>
+<a id="orgdf5a192"></a>
 
 ### Web
 
@@ -657,7 +661,7 @@ The `global-packages` function is responsible for installing deep dependencies. 
 ```
 
 
-<a id="org4695bd8"></a>
+<a id="orge44fd59"></a>
 
 ### Post-Config
 
@@ -667,15 +671,30 @@ Any config that needs to run after languages are loaded should go here.
 (defun post-config ()
   (use-package adaptive-wrap
     :config
-    (setq-default adaptive-wrap-extra-indent 1)
-    (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-    (add-hook 'go-mode-hook #'visual-line-mode)
-    (add-hook 'js2-mode-hook #'visual-line-mode)
-    (add-hook 'rjsx-mode #'visual-line-mode)))
+    (setq-default adaptive-wrap-extra-indent 2)
+
+    (defun adaptive-and-visual-line-mode (hook)
+      (add-hook hook (lambda ()
+			(progn
+			  (visual-line-mode)
+			  (adaptive-wrap-prefix-mode)))))
+
+    (mapc 'adaptive-and-visual-line-mode (list 'go-mode-hook
+					       'js2-mode-hook
+					       'yaml-mode-hook
+					       'rjsx-mode-hook))
+    )
+
+  ;; sane tab-width
+  ;; I mean seriously Emacs, 8??
+  ;; (setq tab-width 2)
+
+  )
+
 ```
 
 
-<a id="orgccad91e"></a>
+<a id="orga8b0501"></a>
 
 ### Enable modes
 
@@ -691,18 +710,30 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="org5c0b6f2"></a>
+<a id="org5a17bb0"></a>
 
 ## Configuration Variables
 
 
-<a id="orga79a8e9"></a>
+<a id="org5676dec"></a>
 
-### Global Keybindings
+### Global Configuration
 
 ```emacs-lisp
 (defun config ()
   "Global configuration variables and such."
+
+  (defun toggle-transparency ()
+    (interactive)
+    (let ((alpha (frame-parameter nil 'alpha)))
+      (set-frame-parameter
+       nil 'alpha
+       (if (eql (cond ((numberp alpha) alpha)
+		      ((numberp (cdr alpha)) (cdr alpha))
+		      ;; Also handle undocumented (<active> <inactive>) form.
+		      ((numberp (cadr alpha)) (cadr alpha)))
+		100)
+	   '95 '(100 . 100)))))
 
   ;; helper functions for keybindings
   ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
@@ -715,96 +746,106 @@ Any config that needs to run after languages are loaded should go here.
   (global-set-key (kbd "<home>") 'move-beginning-of-line)
   (global-set-key (kbd "<end>") 'move-end-of-line)
 
-  (general-create-definer my-leader-def
-    ;; :prefix my-leader
-    :prefix "SPC")
-
-  (general-create-definer my-local-leader-def
-    ;; :prefix my-local-leader
-    :prefix "SPC m")
-
-  ;; global keybindings
-  (my-leader-def
-    :keymaps 'normal
-
-    ;; buffer control
-    "bb"	'switch-to-buffer
-    "TAB"	#'switch-to-prev-buffer
-    "bd"	'evil-delete-buffer
-
-    ;; compile
-    "cc"        'compile
-
-    ;; errors
-    "ec"	'flycheck-clear
-    "el"	'flycheck-list-errors
-    "en"	'flycheck-next-error
-    "ep"	'flycheck-previous-error
-
-    "Fm"        'make-frame
-
-    ;; hmm
-    "ff"	'helm-find-files
-    "fr"        'helm-recentf
-    "fed"	'(lambda () (interactive)
-		   (find-file "~/.emacs.d/ian.org"))
-
-    "feD"	'(lambda () (interactive)
-		   (find-file-other-frame "~/.emacs.d/ian.org"))
-    "feR"	'(lambda () (interactive)
-		   (org-babel-tangle "~/.emacs.d/ian.org")
-		   (byte-compile-file "~/.emacs.d/ian.el"))
-
-    ;; git
-    "gb"	'magit-blame
-    "gs"	'magit-status
-    "gg"	'magit
-    "gd"	'magit-diff
-
-    ;; hyperbole
-    "h"        'hyperbole
-    ;; bookmarks (j for jump)
-    "jj"	'bookmark-jump
-    "js"	'bookmark-set
-    "jo"        'org-babel-tangle-jump-to-org
-
-    "ic"         'insert-char
-    ;; projectile
-    "p"	'projectile-command-map
-    "pf"	'helm-projectile-find-file
-    "sp"	'helm-projectile-ack
-
-    ;; quitting
-    "qq"	'save-buffers-kill-terminal
-    "qr"	'restart-emacs
-
-    ;; simple toggles
-    "tn"	'linum-mode
-
-    ;; window control
-    "w-"	'split-window-below
-    "w/"	'split-window-right
-    "wj"	(lambda () (interactive)
-		  (select-window (window-in-direction 'below)))
-    "wk"	(lambda () (interactive)
-		  (select-window (window-in-direction 'above)))
-    "wh"	(lambda () (interactive)
-		  (select-window (window-in-direction 'left)))
-    "wl"	(lambda () (interactive)
-		  (select-window (window-in-direction 'right)))
-    "wd"	'delete-window
-    "wD"	'delete-other-windows
-    "wo"	'other-window
-    "w="        'balance-windows
-
-    ";"         'comment-line
-
-    "SPC"	'helm-M-x
-    )
 ```
 
 
-<a id="orgeb93b5a"></a>
+<a id="org440c121"></a>
+
+### Global Keybindings
+
+```emacs-lisp
+(general-create-definer my-leader-def
+  ;; :prefix my-leader
+  :prefix "SPC")
+
+(general-create-definer my-local-leader-def
+  ;; :prefix my-local-leader
+  :prefix "SPC m")
+
+;; global keybindings
+(my-leader-def
+  :keymaps 'normal
+
+  ;; buffer control
+  "bb"	'switch-to-buffer
+  "TAB"	#'switch-to-prev-buffer
+  "br"      'revert-buffer
+  "bd"	'evil-delete-buffer
+
+  ;; compile
+  "cc"        'compile
+
+  ;; errors
+  "ec"	'flycheck-clear
+  "el"	'flycheck-list-errors
+  "en"	'flycheck-next-error
+  "ep"	'flycheck-previous-error
+
+  "Fm"        'make-frame
+
+  ;; hmm
+  "ff"	'helm-find-files
+  "fr"        'helm-recentf
+  "fed"	'(lambda () (interactive)
+		 (find-file "~/.emacs.d/ian.org"))
+
+  "feD"	'(lambda () (interactive)
+		 (find-file-other-frame "~/.emacs.d/ian.org"))
+  "feR"	'(lambda () (interactive)
+		 (org-babel-tangle "~/.emacs.d/ian.org")
+		 (byte-compile-file "~/.emacs.d/ian.el"))
+
+  ;; git
+  "gb"	'magit-blame
+  "gs"	'magit-status
+  "gg"	'magit
+  "gd"	'magit-diff
+
+  ;; hyperbole
+  "h"        'hyperbole
+  ;; bookmarks (j for jump)
+  "jj"	'bookmark-jump
+  "js"	'bookmark-set
+  "jo"        'org-babel-tangle-jump-to-org
+
+  "ic"         'insert-char
+  ;; projectile
+  "p"	'projectile-command-map
+  "pf"	'helm-projectile-find-file
+  "sp"	'helm-projectile-ack
+
+  ;; quitting
+  "qq"	'save-buffers-kill-terminal
+  "qr"	'restart-emacs
+
+  ;; simple toggles
+  "tn"	'linum-mode
+  "tt"        'toggle-transparency
+
+  ;; window control
+  "w-"	'split-window-below
+  "w/"	'split-window-right
+  "wj"	(lambda () (interactive)
+		(select-window (window-in-direction 'below)))
+  "wk"	(lambda () (interactive)
+		(select-window (window-in-direction 'above)))
+  "wh"	(lambda () (interactive)
+		(select-window (window-in-direction 'left)))
+  "wl"	(lambda () (interactive)
+		(select-window (window-in-direction 'right)))
+  "wd"	'delete-window
+  "wD"	'delete-other-windows
+  "wo"	'other-window
+  "w="        'balance-windows
+
+  ";"         'comment-line
+
+  "SPC"	'helm-M-x
+  )
+```
+
+
+<a id="org2d965f2"></a>
 
 ### Mode-Local Keybindings
 
@@ -828,7 +869,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="orgbbf9434"></a>
+<a id="org06dbde7"></a>
 
 ### Org Mode Settings
 
@@ -869,9 +910,11 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="org7bfe990"></a>
+<a id="org5f93ae1"></a>
 
 ### Hostname-based Tweaks
+
+Looks for Org files in `~/.emacs.d/local/` with a name that is the same as the hostname of the machine. I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call `hostname` to determine the hostname. Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation. This would be a neat feature to expand on at some point.
 
 ```emacs-lisp
 
@@ -890,11 +933,12 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="orga8299f8"></a>
+<a id="org4d4e6e9"></a>
 
 ### Misc Settings
 
 ```emacs-lisp
+
 ;; backups to /tmp
 (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
 (setq backup-by-copying t)
@@ -968,7 +1012,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="orgb347ee8"></a>
+<a id="orgf570def"></a>
 
 ### Publish to README.md
 
@@ -980,7 +1024,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="org9301e6a"></a>
+<a id="org280dbb4"></a>
 
 ### Run Stuff
 
@@ -1002,31 +1046,31 @@ Main is called in `init.el` and runs the rest of of the config.
 ```
 
 
-<a id="orgf85bb5e"></a>
+<a id="orgdbe6b44"></a>
 
 # Packages to Try
 
 
-<a id="org52c3a75"></a>
+<a id="org7868b78"></a>
 
 ## emmet-mode
 
 Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.com/smihica/emmet-mode>
 
 
-<a id="orgdec5283"></a>
+<a id="org7050fbf"></a>
 
 ## yasnippet-snippets
 
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="orgbc99e22"></a>
+<a id="org0759d0a"></a>
 
 # Notes and Such
 
 
-<a id="orgcee4026"></a>
+<a id="org44a9e80"></a>
 
 ## DONE System-local settings
 
@@ -1037,7 +1081,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 3.  That's it, there is no three.
 
 
-<a id="orga4e1faa"></a>
+<a id="org37990b3"></a>
 
 ## DONE Hyperbole
 
@@ -1049,70 +1093,70 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 ```
 
 
-<a id="org716c7fc"></a>
+<a id="orge292315"></a>
 
 ## DONE Monospace Fonts
 
 Just going to keep note of some options
 
 
-<a id="orgd438a91"></a>
+<a id="orgbb7e9e3"></a>
 
 ### <https://github.com/adobe-fonts/source-code-pro/tree/master>
 
 Default in Spacemacs
 
 
-<a id="orge48244d"></a>
+<a id="org2ea79dd"></a>
 
 ### <https://github.com/be5invis/Iosevka>
 
 Kinda tall, skinny
 
 
-<a id="orgec1c5cd"></a>
+<a id="orga17ed21"></a>
 
 ### <https://github.com/googlefonts/Inconsolata>
 
 Has ligatures
 
 
-<a id="orgbe6736b"></a>
+<a id="orgb61ca7e"></a>
 
 ### <https://github.com/tonsky/FiraCode>
 
 More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/FiraCode/wiki/Emacs-instructions> Described as "cool" on IRC
 
 
-<a id="orgf88c01f"></a>
+<a id="org5ca09f1"></a>
 
 ### <https://github.com/source-foundry/Hack>
 
 I mean, it's called "Hack"
 
 
-<a id="org403af05"></a>
+<a id="org9c171a7"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org! Xah Lee has an example where he does something similar to what I'd want <http://ergoemacs.org/emacs/emacs_proportional_font.html>
 
 
-<a id="org634ef88"></a>
+<a id="orga09a322"></a>
 
 ## ERC
 
 This is something I'd like eventually. Maybe? Here's a Reddit thread on the topic. <https://www.reddit.com/r/emacs/comments/8ml6na/tip_how_to_make_erc_fun_to_use/>
 
 
-<a id="org08a9b9c"></a>
+<a id="org032f805"></a>
 
 ## Mail
 
 Eventually.
 
 
-<a id="orga5242f5"></a>
+<a id="orge58bb48"></a>
 
 ## DONE Emoji
 
