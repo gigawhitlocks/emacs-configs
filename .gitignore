@@ -22,3 +22,5 @@ forge-database.sqlite
 .#recentf
 recentf
 local/*.el
+.org-id-locations
+emojis/

@@ -1,6 +1,6 @@
 #+TITLE: Ian's Emacs Stories and Scripts
 #+AUTHOR: Ian Whitlock
-* Custom Config and Travelogue
+* Ian's Custom Emacs Environment with Associated Notes and Commentary
 This file contains the configuration necessary to transform a GNU Emacs 26 installation on Linux or Mac OS X into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
 There are many configurations like this one, but this one is mine.
@@ -155,14 +155,6 @@ The bootstrap function sets up the main software repository for downloading 3rd 
     ;; allow use-package to install system tools via apt, brew
     (use-package use-package-ensure-system-package)
 
-    ;; sane keybindings from the start
-    (use-package general
-      :config
-      (general-evil-setup))
-
-    ;; hydra allows for sub-menus to pop up.. it's cool, and it's a dependency for sbt-hydra
-    (use-package hydra)
-
     ;; these go in bootstrap because packages installed
     ;; with use-package use :diminish and :delight
     (use-package diminish)
@@ -178,6 +170,13 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
     ;; clean whitespace on save in all modes
     (add-hook 'before-save-hook 'whitespace-cleanup)
+
+    ;; 🙌 Emoji! 🙌
+    (use-package emojify
+      :config
+      (setq emojify-download-emojis-p t)
+      (emojify-set-emoji-styles '(unicode))
+      (add-hook 'after-init-hook #'global-emojify-mode))
 
     ;; recent files mode
     (recentf-mode 1)
@@ -204,18 +203,19 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
         :config
         (evil-collection-init))
 
-      ;; TODO probably org-mode dependencies will need to be their own function
-      ;; bindings for org-mode
-      (use-package evil-org)
-      ;; image drag-and-drop for org-mode
-      (use-package org-download)
-
       ;; add fd as a remap for esc
       (use-package evil-escape
         :delight)
 
       (evil-escape-mode 1)
       (setq-default evil-escape-key-sequence "fd"))
+    ;; sane keybindings from the start
+
+    (use-package general
+      :init
+      (setup-evil)
+      :config
+      (general-evil-setup))
 
     (defun setup-magit ()
       (use-package magit)
@@ -265,8 +265,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
                                 (bookmarks . 5)
                                 (projects . 5))
               )
-                                ;; (registers . 5)
-                                ;; (agenda . 5)
+        ;; (registers . 5)
+        ;; (agenda . 5)
         )
       )
     ;; anything so trivial that there is no config necessary goes here
@@ -341,13 +341,11 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       :config
       )
 
-    (setup-evil)
     (setup-projectile)
     (setup-magit)
     (setup-helm)
     (dashboard)
-    (extra-packages)
-    )
+    (extra-packages))
 #+END_SRC
 
 ** Language Configuration
@@ -488,6 +486,8 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (use-package go-eldoc)
     (add-hook 'go-mode-hook 'go-eldoc-setup)
 
+    (add-hook 'go-mode-hook (lambda ()
+                              (set (make-local-variable 'tab-width) 2)))
     ;; gofmt before save
     (add-hook 'before-save-hook 'gofmt-before-save)
 
@@ -499,38 +499,67 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
 
-    ;; adaptive-wrap
-    (use-package adaptive-wrap
-      :config
-      (setq adaptive-wrap-extra-indent 2)
-      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-      (add-hook 'go-mode-hook #'visual-line-mode))
-
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
+    )
 
-    ;; adaptive-wrap
-    (use-package adaptive-wrap
-      :config
-      (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
-      (add-hook 'go-mode-hook #'visual-line-mode))
 
-    ) ;; go
-
+  ;; go
 #+END_SRC
 
-*** COMMENT Web
+*** Javascript
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode)
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
-  (setq web-mode-enable-css-colorization t)
-  (setq web-mode-enable-auto-pairing t)
+  ;; Javascript / React config
 
-  (use-package impatient-mode
-    :config
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
+  (defun javascript ()
+    ;; React JSX mode for .jsx files and component/*.js files
+    (use-package rjsx-mode
+      :hook ((rjsx-mode . lsp-deferred))
+      :config
+      (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))))
+
+#+END_SRC
+*** Web
+#+BEGIN_SRC emacs-lisp
+  (defun web ()
+    (use-package web-mode)
+    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+    (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
+    (setq web-mode-enable-css-colorization t)
+    (setq web-mode-enable-auto-pairing t)
+
+    (use-package impatient-mode
+      :config
+      (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
+      (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
+    )
+#+END_SRC
+*** Post-Config
+Any config that needs to run after languages are loaded should go here.
+#+BEGIN_SRC emacs-lisp
+  (defun post-config ()
+    (use-package adaptive-wrap
+      :config
+      (setq-default adaptive-wrap-extra-indent 2)
+
+      (defun adaptive-and-visual-line-mode (hook)
+        (add-hook hook (lambda ()
+                          (progn
+                            (visual-line-mode)
+                            (adaptive-wrap-prefix-mode)))))
+
+      (mapc 'adaptive-and-visual-line-mode (list 'go-mode-hook
+                                                 'js2-mode-hook
+                                                 'yaml-mode-hook
+                                                 'rjsx-mode-hook))
+      )
+
+    ;; sane tab-width
+    ;; I mean seriously Emacs, 8??
+    ;; (setq tab-width 2)
+
+    )
+
 #+END_SRC
 
 *** Enable modes
@@ -539,111 +568,132 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (go)
   (python)
   (docker)
-  (scala))
+  (javascript)
+  (web)
+  (scala)
+  (post-config))
 #+END_SRC
 ** Configuration Variables
-*** Global Keybindings
+*** Global Configuration
 #+BEGIN_SRC emacs-lisp
-    (defun config ()
-      "Global configuration variables and such."
+   (defun config ()
+     "Global configuration variables and such."
 
-      ;; helper functions for keybindings
-      ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
-      (defun er-switch-to-previous-buffer ()
-        "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
-        (interactive)
-        (switch-to-buffer (other-buffer (current-buffer) 1)))
+     (defun toggle-transparency ()
+       (interactive)
+       (let ((alpha (frame-parameter nil 'alpha)))
+         (set-frame-parameter
+          nil 'alpha
+          (if (eql (cond ((numberp alpha) alpha)
+                         ((numberp (cdr alpha)) (cdr alpha))
+                         ;; Also handle undocumented (<active> <inactive>) form.
+                         ((numberp (cadr alpha)) (cadr alpha)))
+                   100)
+              '95 '(100 . 100)))))
 
-      ;; override Home/End behavior to be more like modern applications
-      (global-set-key (kbd "<home>") 'move-beginning-of-line)
-      (global-set-key (kbd "<end>") 'move-end-of-line)
+     ;; helper functions for keybindings
+     ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
+     (defun er-switch-to-previous-buffer ()
+       "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+       (interactive)
+       (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-      (general-create-definer my-leader-def
-        ;; :prefix my-leader
-        :prefix "SPC")
+     ;; override Home/End behavior to be more like modern applications
+     (global-set-key (kbd "<home>") 'move-beginning-of-line)
+     (global-set-key (kbd "<end>") 'move-end-of-line)
 
-      (general-create-definer my-local-leader-def
-        ;; :prefix my-local-leader
-        :prefix "SPC m")
+     #+END_SRC
+*** Global Keybindings
 
-      ;; global keybindings
-      (my-leader-def
-        :keymaps 'normal
+#+BEGIN_SRC emacs-lisp
+     (general-create-definer my-leader-def
+       ;; :prefix my-leader
+       :prefix "SPC")
 
-        ;; buffer control
-        "bb"	'switch-to-buffer
-        "TAB"	#'switch-to-prev-buffer
-        "bd"	'evil-delete-buffer
+     (general-create-definer my-local-leader-def
+       ;; :prefix my-local-leader
+       :prefix "SPC m")
 
-        ;; compile
-        "cc"        'compile
+     ;; global keybindings
+     (my-leader-def
+       :keymaps 'normal
 
-        ;; errors
-        "ec"	'flycheck-clear
-        "el"	'flycheck-list-errors
-        "en"	'flycheck-next-error
-        "ep"	'flycheck-previous-error
+       ;; buffer control
+       "bb"	'switch-to-buffer
+       "TAB"	#'switch-to-prev-buffer
+       "br"      'revert-buffer
+       "bd"	'evil-delete-buffer
 
-        "Fm"        'make-frame
+       ;; compile
+       "cc"        'compile
 
-        ;; hmm
-        "ff"	'helm-find-files
-        "fr"        'helm-recentf
-        "fed"	'(lambda () (interactive)
-                       (find-file "~/.emacs.d/ian.org"))
+       ;; errors
+       "ec"	'flycheck-clear
+       "el"	'flycheck-list-errors
+       "en"	'flycheck-next-error
+       "ep"	'flycheck-previous-error
 
-        "feD"	'(lambda () (interactive)
-                       (find-file-other-frame "~/.emacs.d/ian.org"))
-        "feR"	'(lambda () (interactive)
-                       (org-babel-tangle "~/.emacs.d/ian.org")
-                       (byte-compile-file "~/.emacs.d/ian.el"))
+       "Fm"        'make-frame
 
-        ;; git
-        "gb"	'magit-blame
-        "gs"	'magit-status
-        "gg"	'magit
-        "gd"	'magit-diff
+       ;; hmm
+       "ff"	'helm-find-files
+       "fr"        'helm-recentf
+       "fed"	'(lambda () (interactive)
+                      (find-file "~/.emacs.d/ian.org"))
 
-        ;; hyperbole
-        "h"        'hyperbole
-        ;; bookmarks (j for jump)
-        "jj"	'bookmark-jump
-        "js"	'bookmark-set
-        "jo"        'org-babel-tangle-jump-to-org
+       "feD"	'(lambda () (interactive)
+                      (find-file-other-frame "~/.emacs.d/ian.org"))
+       "feR"	'(lambda () (interactive)
+                      (org-babel-tangle "~/.emacs.d/ian.org")
+                      (byte-compile-file "~/.emacs.d/ian.el"))
 
-        "ic"         'insert-char
-        ;; projectile
-        "p"	'projectile-command-map
-        "pf"	'helm-projectile-find-file
-        "sp"	'helm-projectile-ack
+       ;; git
+       "gb"	'magit-blame
+       "gs"	'magit-status
+       "gg"	'magit
+       "gd"	'magit-diff
 
-        ;; quitting
-        "qq"	'save-buffers-kill-terminal
-        "qr"	'restart-emacs
+       ;; hyperbole
+       "h"        'hyperbole
+       ;; bookmarks (j for jump)
+       "jj"	'bookmark-jump
+       "js"	'bookmark-set
+       "jo"        'org-babel-tangle-jump-to-org
 
-        ;; simple toggles
-        "tn"	'linum-mode
+       "ic"         'insert-char
+       ;; projectile
+       "p"	'projectile-command-map
+       "pf"	'helm-projectile-find-file
+       "sp"	'helm-projectile-ack
 
-        ;; window control
-        "w-"	'split-window-below
-        "w/"	'split-window-right
-        "wj"	(lambda () (interactive)
-                      (select-window (window-in-direction 'below)))
-        "wk"	(lambda () (interactive)
-                      (select-window (window-in-direction 'above)))
-        "wh"	(lambda () (interactive)
-                      (select-window (window-in-direction 'left)))
-        "wl"	(lambda () (interactive)
-                      (select-window (window-in-direction 'right)))
-        "wd"	'delete-window
-        "wD"	'delete-other-windows
-        "wo"	'other-window
-        "w="        'balance-windows
+       ;; quitting
+       "qq"	'save-buffers-kill-terminal
+       "qr"	'restart-emacs
 
-        ";"         'comment-line
+       ;; simple toggles
+       "tn"	'linum-mode
+       "tt"        'toggle-transparency
 
-        "SPC"	'helm-M-x
-        )
+       ;; window control
+       "w-"	'split-window-below
+       "w/"	'split-window-right
+       "wj"	(lambda () (interactive)
+                     (select-window (window-in-direction 'below)))
+       "wk"	(lambda () (interactive)
+                     (select-window (window-in-direction 'above)))
+       "wh"	(lambda () (interactive)
+                     (select-window (window-in-direction 'left)))
+       "wl"	(lambda () (interactive)
+                     (select-window (window-in-direction 'right)))
+       "wd"	'delete-window
+       "wD"	'delete-other-windows
+       "wo"	'other-window
+       "w="        'balance-windows
+
+       ";"         'comment-line
+
+       "SPC"	'helm-M-x
+       )
     #+END_SRC
 *** Mode-Local Keybindings
 #+BEGIN_SRC emacs-lisp
@@ -666,6 +716,12 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+END_SRC
 *** Org Mode Settings
 #+BEGIN_SRC emacs-lisp
+  ;; some default evil bindings
+  (use-package evil-org)
+  ;; image drag-and-drop for org-mode
+  (use-package org-download)
+
+
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
 
@@ -685,11 +741,21 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
                                  )
                                )
 
+  ;; github-flavored markdown
+  (use-package ox-gfm)
+
   ;; enable markdown export
   (eval-after-load "org"
-    '(require 'ox-md nil t))
+    (progn
+      '(require 'ox-md nil t)
+      '(require 'ox-gfm nil t)))
 #+END_SRC
 *** Hostname-based Tweaks
+Looks for Org files in ~~/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
+I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
+Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
+This would be a neat feature to expand on at some point.
+
 #+BEGIN_SRC emacs-lisp
 
   (let ;; find the hostname and assign it to a variable
@@ -709,54 +775,89 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
-    ;; backups to /tmp
-    (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
-    (setq backup-by-copying t)
 
-    ;; set default window size
-    (add-to-list 'default-frame-alist '(width . 180))
-    (add-to-list 'default-frame-alist '(height . 60))
+  ;; backups to /tmp
+  (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
+  (setq backup-by-copying t)
 
-    (diminish 'eldoc-mode)
-    (diminish 'undo-tree-mode)
-    (diminish 'auto-revert-mode)
+  ;; set default window size
+  (add-to-list 'default-frame-alist '(width . 128))
+  (add-to-list 'default-frame-alist '(height . 60))
 
-    ;; less annoying bell (from emacs wiki)
-    ;; flashes the modeline foreground
-    (setq ring-bell-function
-          (lambda ()
-            (let ((orig-fg (face-foreground 'mode-line)))
-              ;; change the flash color here
-              ;; overrides themes :P
-              ;; guess that's one way to do it
-              (set-face-foreground 'mode-line "#F2804F")
-              (run-with-idle-timer 0.1 nil
-                                   (lambda (fg) (set-face-foreground 'mode-line fg))
-                                   orig-fg))))
+  (diminish 'eldoc-mode)
+  (diminish 'undo-tree-mode)
+  (diminish 'auto-revert-mode)
 
-    ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
-    (defun gif-this-frame (duration)
-      (interactive "sDuration: ")
-      (start-process "emacs-to-gif" nil
-                     "byzanz-record"
-                     "-d" duration
-                     "-w" (number-to-string (+ 5 (frame-pixel-width)))
-                     "-h" (number-to-string (+ 50 (frame-pixel-height)))
-                     "-x" (number-to-string (frame-parameter nil 'left))
-                     "-y" (number-to-string (+ (frame-parameter nil 'top) 10))
-                     (concat "~/emacs_gifs/" (format-time-string "%Y-%m-%dT%T") ".gif")))
+  ;; less annoying bell (from emacs wiki)
+  ;; flashes the modeline foreground
+  (setq ring-bell-function
+        (lambda ()
+          (let ((orig-fg (face-foreground 'mode-line)))
+            ;; change the flash color here
+            ;; overrides themes :P
+            ;; guess that's one way to do it
+            (set-face-foreground 'mode-line "#F2804F")
+            (run-with-idle-timer 0.1 nil
+                                 (lambda (fg) (set-face-foreground 'mode-line fg))
+                                 orig-fg))))
 
-    ;; remove extraneous window chrome
-    (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-    (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-    (scroll-bar-mode -1)
+  ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
+  (defun create-gif (duration)
+    "Create a gif of the current frame with the DURATION provided."
+    (interactive "sDuration: ")
 
-    ;; turn off startup
-    (setq inhibit-startup-screen t))
+    (defun width ()
+      "get the width of the frame"
+      (+ 10 (frame-pixel-width)))
+
+    (defun height ()
+      "get the height of the frame"
+      (+ 50 (frame-pixel-height)))
+
+    (defun y ()
+      "get the y position of the frame"
+      (frame-parameter nil 'top))
+
+    (defun x ()
+      "get the x position of the frame"
+      (cond ((numberp (frame-parameter nil 'left))
+             (frame-parameter nil 'left))
+            (t
+             0)))
+
+    (defun filename()
+      "get the timestamped filename of the gif"
+      (concat " ~/emacs-gifs/" (format-time-string "%Y-%m-%dT%T") ".gif"))
+
+    (if (not (file-directory-p "~/emacs-gifs"))
+        (make-directory "~/emacs-gifs"))
+    (start-process-shell-command
+    "create-gif" "*Messages*"
+    (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
+    duration (width) (height) (x) (y) (filename))))
+
+
+
+  ;; remove extraneous window chrome
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (scroll-bar-mode -1)
+
+  ;; turn off startup
+  (setq inhibit-startup-screen t))
 
     #+END_SRC
 
+*** Publish to README.md
+#+BEGIN_SRC emacs-lisp
+  (defun publish ()
+    "Publishes (to github flavored markdown for now."
+    (org-gfm-export-to-markdown)
+    (rename-file "ian.md" "README.md"))
+#+END_SRC
+
 *** Run Stuff
+Main is called in ~init.el~ and runs the rest of of the config.
 #+BEGIN_SRC emacs-lisp
 
   (defun main()
@@ -765,13 +866,14 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
     (global-packages)
     (languages)
     (config)
+    ;;(publish)
     (server-start))
 
   (provide '~/.emacs.d/ian.el)
   ;;; ian.el ends here
 #+END_SRC
 
-* Packages to Try 
+* Packages to Try
 ** emmet-mode
 Emmet is the "zen coding" plugin for really fast HTML authoring
 [[https://github.com/smihica/emmet-mode]]
@@ -829,4 +931,3 @@ Eventually.
 
 ** DONE Emoji
 https://github.com/iqbalansari/emacs-emojify
-
