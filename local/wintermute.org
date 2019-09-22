@@ -7,16 +7,16 @@ Stuff that's specific to my Thinkpad's Emacs config.
 
 #+BEGIN_SRC emacs-lisp
 
-  (set-face-attribute 'default nil :font "Source Code Variable-12" )
-  (set-frame-font "Source Code Variable-12" nil t)
+  (set-face-attribute 'default nil :font "Inconsolata-10" )
+  (set-frame-font "Inconsolata-10" nil t)
 
 #+END_SRC
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (use-package darcula-theme
+  (use-package tango-plus-theme
     :config
-    (load-theme 'darcula t))
+    (load-theme 'tango-plus t))
 
   ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;;(set-frame-parameter (selected-frame) 'alpha <both>)
