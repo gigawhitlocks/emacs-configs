@@ -168,6 +168,9 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
 
+    ;; clean whitespace on save in all modes
+    (add-hook 'before-save-hook 'whitespace-cleanup)
+
     ;; 🙌 Emoji! 🙌
     (use-package emojify
       :config
@@ -175,6 +178,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       (emojify-set-emoji-styles '(unicode))
       (add-hook 'after-init-hook #'global-emojify-mode))
 
+    ;; recent files mode
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
     (setq recentf-max-saved-items 25)
@@ -277,6 +281,13 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
       ;; provides highlighting of the current line
       (global-hl-line-mode)
       (setq global-hl-line-sticky-flag t)
+
+      ;; set up rainbow delimiters for Scala and Elisp
+      (use-package rainbow-delimiters
+        :config
+        (add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
+        (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+        )
 
       (use-package restart-emacs)
       (use-package yasnippet
@@ -500,7 +511,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+BEGIN_SRC emacs-lisp
   ;; Javascript / React config
 
-  (defun javascript () 
+  (defun javascript ()
     ;; React JSX mode for .jsx files and component/*.js files
     (use-package rjsx-mode
       :hook ((rjsx-mode . lsp-deferred))
@@ -510,7 +521,7 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 #+END_SRC
 *** Web
 #+BEGIN_SRC emacs-lisp
-  (defun web () 
+  (defun web ()
     (use-package web-mode)
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
     (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
@@ -590,7 +601,7 @@ Any config that needs to run after languages are loaded should go here.
      ;; override Home/End behavior to be more like modern applications
      (global-set-key (kbd "<home>") 'move-beginning-of-line)
      (global-set-key (kbd "<end>") 'move-end-of-line)
-     
+
      #+END_SRC
 *** Global Keybindings
 
@@ -820,7 +831,7 @@ This would be a neat feature to expand on at some point.
 
     (if (not (file-directory-p "~/emacs-gifs"))
         (make-directory "~/emacs-gifs"))
-    (start-process-shell-command 
+    (start-process-shell-command
     "create-gif" "*Messages*"
     (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
     duration (width) (height) (x) (y) (filename))))
@@ -862,7 +873,7 @@ Main is called in ~init.el~ and runs the rest of of the config.
   ;;; ian.el ends here
 #+END_SRC
 
-* Packages to Try 
+* Packages to Try
 ** emmet-mode
 Emmet is the "zen coding" plugin for really fast HTML authoring
 [[https://github.com/smihica/emmet-mode]]
@@ -920,4 +931,3 @@ Eventually.
 
 ** DONE Emoji
 https://github.com/iqbalansari/emacs-emojify
-
