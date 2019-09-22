@@ -14,9 +14,11 @@ Stuff that's specific to my Thinkpad's Emacs config.
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (use-package tango-plus-theme
+  (use-package tangotango-theme
     :config
-    (load-theme 'tango-plus t))
+    (load-theme 'tangotango t)
+    (enable-theme 'tangotango))
+
 
   ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;;(set-frame-parameter (selected-frame) 'alpha <both>)
