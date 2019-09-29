@@ -1,0 +1,39 @@
+#+TITLE: The Laptop's Config
+
+Stuff that's specific to my Thinkpad's Emacs config.
+
+
+* Font
+
+#+BEGIN_SRC emacs-lisp
+
+;;  (set-face-attribute 'default nil :font "Inconsolata-10" )
+;;  (set-frame-font "Inconsolata-10" nil t)
+
+#+END_SRC
+
+* Theme
+#+BEGIN_SRC emacs-lisp
+  (use-package tangotango-theme
+    :config
+    (load-theme 'tangotango t)
+    (enable-theme 'tangotango))
+
+
+  ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
+  ;;(set-frame-parameter (selected-frame) 'alpha <both>)
+  (set-frame-parameter (selected-frame) 'alpha 95)
+  (add-to-list 'default-frame-alist '(alpha . 95))
+
+#+End_SRC
+
+* Local bugfixes
+
+Idk, the novelty footer in dashboard.el is missing the icon for some reason so just disable it for now
+#+BEGIN_SRC emacs-lisp
+  (setq dashboard-set-footer nil)
+#+END_SRC
+* Footer
+#+BEGIN_SRC emacs-lisp
+  (provide 'local)
+#+END_SRC
