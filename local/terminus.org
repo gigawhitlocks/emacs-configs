@@ -7,8 +7,8 @@ Stuff that's specific to my Thinkpad's Emacs config.
 
 #+BEGIN_SRC emacs-lisp
 
-  (set-face-attribute 'default nil :font "Inconsolata-10" )
-  (set-frame-font "Inconsolata-10" nil t)
+;;  (set-face-attribute 'default nil :font "Inconsolata-10" )
+;;  (set-frame-font "Inconsolata-10" nil t)
 
 #+END_SRC
 

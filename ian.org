@@ -50,14 +50,14 @@ Pops up a window to show available commands, given a prefix. Awesome for discove
 *** leuven-theme
 Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
 
-* ~init.el~ Entrypoint
+* Entrypoint for Loading the Org Config
 :properties:
 :header-args: :tangle ~/.emacs.d/init.el :comments link
 :end:
 
-First of all there's ~init.el~. Emacs runs this file by default after it's done initializing the underlying system, so it's where our code traditionally goes. This file needs to be checked in so that there's something executable for Emacs to run when this repo is pulled down anew, so it can't be an ~org~ file. We need ~init.el~ to call ~org-babel-load-file~ on this file to turn it into a ~.el~ that we can load and execute.
+Using Org for my configuration is a personal choice -- Emacs runs ~init.el~ at the beginning of execution. This piece of code tangles to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file and executes ~main~, so it is this piece of code that starts the whole process of loading all of this configuration.
 
-So ~init.el~ just holds the bare minimum code. We use an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them. Then we ~require~ the output from the call to tangle, and run ~main~.
+~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output from the call to tangle, run ~main~, and I'm done.
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   ;;; init --- the Emacs entrypoint
@@ -103,6 +103,8 @@ The rest of the code that is executed begins with the routines defined by this f
 :properties:
 :header-args: :tangle yes :comments link :noweb yes
 :end:
+
+*This is where my customizations really begin*
 
 After running the ~init.el~ entrypoint, this file is tangled to ~ian.el~ and executed. Right now all configuration other than the entrypoint is in this file.
 
@@ -164,6 +166,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 ** Global Package Installation and Configuration
 The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow.
 
+Also this is the one part I have not managed to break up and it's a giant blob. Good luck, any readers, including me.
 #+BEGIN_SRC emacs-lisp
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
@@ -874,6 +877,7 @@ Main is called in ~init.el~ and runs the rest of of the config.
 #+END_SRC
 
 * Packages to Try
+These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
 ** emmet-mode
 Emmet is the "zen coding" plugin for really fast HTML authoring
 [[https://github.com/smihica/emmet-mode]]
@@ -882,6 +886,7 @@ Some default snippets -- don't install until we're ready to figure out how to us
 [[https://github.com/AndreaCrotti/yasnippet-snippets]]
 
 * Notes and Such
+Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** DONE System-local settings
 Include all ~.el~ files from the untracked folder ~local-variables/~ and run them as the final step.
 This allows for customization at the end of the configuration for specific things that are dependent on the computer on which this config is being run. For instance, anything with sensitive details or URLs can be symlinked from a private repo to this one for inclusion in the config without sharing secrets with the whole Internet.
