@@ -436,6 +436,8 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
       (add-hook 'python-mode-hook 'anaconda-mode)
       (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
 
+    (setenv "WORKON_HOME" "~/.virtualenvs")
+
 #+END_SRC
 
 *** Go
@@ -774,7 +776,6 @@ This would be a neat feature to expand on at some point.
        (require 'local)))
 
 #+END_SRC
-
 
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
