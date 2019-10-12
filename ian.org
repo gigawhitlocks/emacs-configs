@@ -285,10 +285,9 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
       (global-hl-line-mode)
       (setq global-hl-line-sticky-flag t)
 
-      ;; set up rainbow delimiters for Scala and Elisp
+      ;; set up rainbow delimiters for Elisp
       (use-package rainbow-delimiters
         :config
-        (add-hook 'scala-mode-hook #'rainbow-delimiters-mode)
         (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
         )
 
@@ -371,44 +370,6 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
         ;; Add lsp backend for other tools
         (use-package company-lsp)
         (use-package lsp-origami))
-#+END_SRC
-
-*** Scala
-#+BEGIN_SRC emacs-lisp
-  ;; snippet from https://scalameta.org/metals/docs/editors/emacs.html
-
-  (defun scala ()
-    "Enable scala-mode and sbt-mode."
-
-    (setq lsp-enable-file-watchers nil)
-    ;; (set (make-local-variable 'lsp-enable-file-watchers) nil)
-
-    ;; this was taken from the install instructions 4/24/2019
-    (use-package scala-mode
-      :hook ((scala-mode . lsp-deferred))
-      :mode "\\.s\\(cala\\|bt\\)$")
-
-    (general-define-key
-     :states 'normal
-     :keymaps 'scala-mode-map
-     "gd" 'lsp-find-definition
-     "gh" 'lsp-describe-thing-at-point)
-
-    (use-package sbt-mode
-      :commands sbt-start sbt-command
-      :config
-      ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-      ;; allows using SPACE when in the minibuffer
-      (substitute-key-definition
-       'minibuffer-complete-word
-       'self-insert-command
-       minibuffer-local-completion-map)
-      (setq sbt:prefer-nested-projects t)
-      (setq sbt:scroll-to-bottom-on-output t))
-
-      ;; general LSP setup is in General because LSP isn't just used for Scala
-    )
-
 #+END_SRC
 
 *** YAML
@@ -575,7 +536,6 @@ Any config that needs to run after languages are loaded should go here.
   (docker)
   (javascript)
   (web)
-  (scala)
   (post-config))
 #+END_SRC
 ** Configuration Variables
