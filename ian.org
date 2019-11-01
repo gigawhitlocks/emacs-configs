@@ -137,7 +137,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
     ;;  '("melpa" . "http://melpa.org/packages/"))
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
-			 ("org" . "http://orgmode.org/elpa/")))
+                         ("org" . "http://orgmode.org/elpa/")))
 ;;    (setq package-archives
 ;;          '(("melpa" . "https://gitlab.com/d12frosted/elpa-mirror/raw/master/melpa/")
 ;;            ("org"   . "https://gitlab.com/d12frosted/elpa-mirror/raw/master/org/")
@@ -380,6 +380,15 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
   (use-package yaml-mode)
 #+END_SRC
 
+*** Markdown
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :ensure t
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . gfm-mode)
+           ("\\.markdown\\'" . gfm-mode)))
+#+END_SRC
+
 *** Docker
 #+BEGIN_SRC emacs-lisp
   (defun docker ()
@@ -405,6 +414,14 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 #+END_SRC
 
 *** Go
+Go support requires some dependencies. I will try to list them all here.
+Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
+
+- First, ~go~ itself, install however you choose. I like to add my GOPATH and GOROOT to ~~/.profile~ so that they show up in both my shell and in Emacs.
+- ~go install~ ~godef~ for definitions [[https://github.com/rogpeppe/godef]]`
+- ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]
+- ~gocode~ just do ~go get -u github.com/stamblerre/gocode~ and also maybe visit the website to see if it's deprecated because this project keeps getting passed around for some reason. I swear every time I install it, it's from a different fork...
+
 #+BEGIN_SRC emacs-lisp
 
   (defun go ()
@@ -637,6 +654,7 @@ Any config that needs to run after languages are loaded should go here.
        ;; quitting
        "qq"	'save-buffers-kill-terminal
        "qr"	'restart-emacs
+       "qz"       '(lambda () (interactive) (server-edit "Done"))
 
        ;; simple toggles
        "tn"	'linum-mode
