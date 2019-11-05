@@ -173,6 +173,10 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
 
+    ;; left hand side tree view like neotree
+    ;; nice for exploring smaller projects
+    (use-package treemacs)
+
     ;; clean whitespace on save in all modes
     (add-hook 'before-save-hook 'whitespace-cleanup)
 
@@ -192,6 +196,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
       (use-package projectile
         :delight)
       (use-package helm-projectile)
+      (use-package treemacs-projectile)
       (projectile-mode +1))
 
     (defun setup-evil ()
@@ -355,23 +360,25 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 ** Language Configuration
 *** General
 #+BEGIN_SRC emacs-lisp
-    (defun languages ()
-      "Setup for specific programming languages."
+  (defun languages ()
+    "Setup for specific programming languages."
 
-      (defun setup-lsp ()
-        "Enable nice rendering of diagnostics like compile errors."
-        (use-package lsp-mode
-          :init
-          (setq lsp-prefer-flymake nil)) ;; use flycheck
+    (defun setup-lsp ()
+      "Enable nice rendering of diagnostics like compile errors."
+      (use-package lsp-mode
+        :init
+        (setq lsp-prefer-flymake nil)) ;; use flycheck
 
-        (use-package lsp-ui
-          :init (setq lsp-ui-doc-position 'bottom))
+      ;; (use-package lsp-ui)
+      ;; (use-package lsp-ui
+      ;;   :init (setq lsp-ui-doc-position 'bottom))
 
-        (use-package helm-lsp)
+      (use-package helm-lsp)
 
-        ;; Add lsp backend for other tools
-        (use-package company-lsp)
-        (use-package lsp-origami))
+      ;; Add lsp backend for other tools
+      (use-package lsp-treemacs)
+      (use-package company-lsp)
+      (use-package lsp-origami))
 #+END_SRC
 
 *** YAML
