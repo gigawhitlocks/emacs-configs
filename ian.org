@@ -420,10 +420,8 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 - First, ~go~ itself, install however you choose. I like to add my GOPATH and GOROOT to ~~/.profile~ so that they show up in both my shell and in Emacs.
 - ~go install~ ~godef~ for definitions [[https://github.com/rogpeppe/godef]]`
 - ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]
-- ~gocode~ just do ~go get -u github.com/stamblerre/gocode~ and also maybe visit the website to see if it's deprecated because this project keeps getting passed around for some reason. I swear every time I install it, it's from a different fork...
 
 #+BEGIN_SRC emacs-lisp
-
   (defun go ()
     ;;
 
@@ -455,12 +453,12 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
     ;; autocompletion
     ;; https://github.com/mdempsky/gocode
     ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
-    (use-package company-go)
+    ;;  (use-package company-go)
 
     ;; disable auto-completion of non-Go things in Go files
-    (add-hook 'go-mode-hook (lambda ()
-                              (set (make-local-variable 'company-backends) '(company-go))
-                              (company-mode)))
+    ;; (add-hook 'go-mode-hook (lambda ()
+    ;;			    (set (make-local-variable 'company-backends) '(company-go))
+    ;;			    (company-mode)))
 
     ;; disable "Organize Imports" warning that never goes away
     (add-hook 'go-mode-hook
@@ -476,14 +474,6 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
                               (set (make-local-variable 'tab-width) 2)))
     ;; gofmt before save
     (add-hook 'before-save-hook 'gofmt-before-save)
-
-    ;; go guru integration provides lots of code analysis commands
-    (use-package go-guru
-      :config
-      (add-hook 'go-mode-hook #'go-guru-hl-identifier-mode))
-
-    (load-file "~/.emacs.d/vendor/go-dlv.el")
-    (require 'go-dlv)
 
     (load-file "~/.emacs.d/vendor/go-dlv.el")
     (require 'go-dlv)
@@ -534,10 +524,12 @@ Any config that needs to run after languages are loaded should go here.
                             (visual-line-mode)
                             (adaptive-wrap-prefix-mode)))))
 
-      (mapc 'adaptive-and-visual-line-mode (list 'go-mode-hook
-                                                 'js2-mode-hook
-                                                 'yaml-mode-hook
-                                                 'rjsx-mode-hook))
+      (mapc 'adaptive-and-visual-line-mode (list
+                                            'markdown-mode
+                                            'go-mode-hook
+                                            'js2-mode-hook
+                                            'yaml-mode-hook
+                                            'rjsx-mode-hook))
       )
 
     ;; sane tab-width
@@ -545,7 +537,6 @@ Any config that needs to run after languages are loaded should go here.
     ;; (setq tab-width 2)
 
     )
-
 #+END_SRC
 
 *** Enable modes
@@ -938,3 +929,8 @@ https://github.com/iqbalansari/emacs-emojify
 13:33 user1: ox-epub
 
 #+END_QUOTE
+** Authentication and Secrets in Emacs
+Just stumbled on the use of ~~/.authinfo.gpg~ files with Emacs for storing secrets.
+Should probably learn how to do this (I bet it is super simple) because it will allow me to store configuration that relies on secrets more easily.
+
+[[https://www.emacswiki.org/emacs/GnusAuthinfo]]
