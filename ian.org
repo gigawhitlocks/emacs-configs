@@ -1,7 +1,6 @@
-#+TITLE: Ian's Emacs Stories and Scripts
+#+TITLE: Ian's Custom Emacs Environment with Associated Notes and Commentary
 #+AUTHOR: Ian Whitlock
-* Ian's Custom Emacs Environment with Associated Notes and Commentary
-This file contains the configuration necessary to transform a GNU Emacs 26 installation on Linux or Mac OS X into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
+This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
 There are many configurations like this one, but this one is mine.
 
@@ -418,9 +417,9 @@ Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
 - First, ~go~ itself, install however you choose. I like to add my GOPATH and GOROOT to ~~/.profile~ so that they show up in both my shell and in Emacs.
-- ~go install~ ~godef~ for definitions [[https://github.com/rogpeppe/godef]]`
-- ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]
-- ~gocode~ just do ~go get -u github.com/stamblerre/gocode~ and also maybe visit the website to see if it's deprecated because this project keeps getting passed around for some reason. I swear every time I install it, it's from a different fork...
+- ~go install~ [[https://github.com/rogpeppe/godef][~godef~ for definitions]]
+- ~gopls~, [[https://github.com/golang/tools/blob/master/gopls/doc/user.md][the language server for LSP mentioned above]]
+- ~gocode~ just do ~go get -u github.com/stamblerre/gocode~ and also maybe visit the [[https://github.com/stamblerre/gocode][website]] to see if it's deprecated because this project keeps getting passed around for some reason. I swear every time I install it, it's from a different fork...
 
 #+BEGIN_SRC emacs-lisp
 
