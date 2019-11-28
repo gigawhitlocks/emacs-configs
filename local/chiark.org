@@ -19,7 +19,6 @@ Stuff that's specific to my Thinkpad's Emacs config.
     (load-theme 'leuven t)
     (enable-theme 'leuven))
 
-
   ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;;(set-frame-parameter (selected-frame) 'alpha <both>)
   (set-frame-parameter (selected-frame) 'alpha 95)
@@ -33,6 +32,7 @@ Idk, the novelty footer in dashboard.el is missing the icon for some reason so j
 #+BEGIN_SRC emacs-lisp
   (setq dashboard-set-footer nil)
 #+END_SRC
+
 * Footer
 #+BEGIN_SRC emacs-lisp
   (provide 'local)
