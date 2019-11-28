@@ -7,7 +7,7 @@ There are many configurations like this one, but this one is mine.
 ** Justification
 Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
 
-*** It's actually an interactive Lisp interpeter
+*** It's actually an interactive Lisp interpreter
 It's really a text editor with a Lisp interpreter attached, and Lisp turns out to be especially good at parsing text and for building domain specific languages (DSLs) for adding functionality to the existing language. Now, it just so happens that this particular dialect of Lisp comes with a native GUI library -- Emacs itself -- that it understands natively.
 
 Suddenly using the program and programming it become similar tasks. This is the brilliance of Emacs. "But I don't have time to program my editor!" Yeah, nobody really does, that's why this repository is open source (in case someone can use it) and it's why we lean heavily on third party packages.
@@ -166,7 +166,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 #+END_SRC
 
 ** Global Package Installation and Configuration
-The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow.
+The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 Also this is the one part I have not managed to break up and it's a giant blob. Good luck, any readers, including me.
 #+BEGIN_SRC emacs-lisp
@@ -451,7 +451,10 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
     (general-define-key
      :states 'normal
      :keymaps 'go-mode-map
-     "gd" 'lsp-find-definition)
+     "gd" 'lsp-find-definition
+     ",r" 'lsp-find-references
+     ",d" 'lsp-describe-thing-at-point
+     )
 
     (autoload 'go-mode "go-mode" nil t)
     (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
@@ -476,6 +479,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
     (use-package go-eldoc)
     (add-hook 'go-mode-hook 'go-eldoc-setup)
 
+    ;; sets the visual tab width to 2 spaces per tab in Go buffers
     (add-hook 'go-mode-hook (lambda ()
                               (set (make-local-variable 'tab-width) 2)))
     ;; gofmt before save
@@ -559,8 +563,10 @@ Any config that needs to run after languages are loaded should go here.
 *** Global Configuration
 #+BEGIN_SRC emacs-lisp
    (defun config ()
-     "Global configuration variables and such."
+     "Global configuration variables and such. Global functions with keybindings must go here."
 
+     ;; I definitely lifted this from somewhere but failed to document where I got it :\
+     ;; Probably from Spacemacs. Thanks, Spacemacs.
      (defun toggle-transparency ()
        (interactive)
        (let ((alpha (frame-parameter nil 'alpha)))
@@ -646,6 +652,7 @@ Any config that needs to run after languages are loaded should go here.
        ;; projectile
        "p"	'projectile-command-map
        "pf"	'helm-projectile-find-file
+       "pt"       'treemacs-projectile
        "sp"	'helm-projectile-ack
 
        ;; quitting
@@ -656,6 +663,7 @@ Any config that needs to run after languages are loaded should go here.
        ;; simple toggles
        "tn"	'linum-mode
        "tt"        'toggle-transparency
+       "tr"       'treemacs
 
        ;; window control
        "w-"	'split-window-below
@@ -766,6 +774,7 @@ This would be a neat feature to expand on at some point.
   (add-to-list 'default-frame-alist '(width . 128))
   (add-to-list 'default-frame-alist '(height . 60))
 
+  ;; hide some modes that are eveyrwhere
   (diminish 'eldoc-mode)
   (diminish 'undo-tree-mode)
   (diminish 'auto-revert-mode)

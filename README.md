@@ -6,6 +6,6 @@ The documentation is written in a syntax which allows me to interleave a narrati
 
 [You can read the story of my Emacs environment alongside its ever-changing implementation in its native executable format here](https://github.com/gigawhitlocks/emacs-configs/blob/master/ian.org).
 
-And all of its history is stored in this repository, as well.
+All of its history is stored in this repository, as well.
 
 That's pretty neat.
