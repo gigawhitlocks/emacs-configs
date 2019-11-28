@@ -1,23 +1,25 @@
 #+TITLE: The Laptop's Config
 
-Stuff that's specific to my Thinkpad's Emacs config.
+Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
 
 * Font
 
 #+BEGIN_SRC emacs-lisp
-
-  (set-face-attribute 'default nil :font "Inconsolata-10" )
-  (set-frame-font "Inconsolata-10" nil t)
-
+  ;; TODO abstract this function out so I can use it in the other local configs
+    (defun set-font (font)
+                      (set-face-attribute 'default nil :font font )
+                      (set-frame-font font nil t))
+    (set-font "Inconsolata-13" )
 #+END_SRC
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (use-package tangotango-theme
+  (use-package dracula-theme
     :config
-    (load-theme 'tangotango t)
-    (enable-theme 'tangotango))
+    (load-theme 'dracula)
+    (enable-theme 'dracula)
+    )
 
 
   ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
