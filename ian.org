@@ -369,7 +369,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
         :init
         (setq lsp-prefer-flymake nil)) ;; use flycheck
 
-      ;; (use-package lsp-ui)
+        (use-package lsp-ui)
       ;; (use-package lsp-ui
       ;;   :init (setq lsp-ui-doc-position 'bottom))
 
