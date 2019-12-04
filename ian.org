@@ -393,6 +393,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . gfm-mode)
            ("\\.markdown\\'" . gfm-mode)))
+  (add-hook 'markdown-mode-hook 'visual-line-mode)
 #+END_SRC
 
 *** Docker
