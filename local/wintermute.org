@@ -17,7 +17,7 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 #+BEGIN_SRC emacs-lisp
   (use-package dracula-theme
     :config
-    (load-theme 'dracula)
+    (load-theme 'dracula t)
     (enable-theme 'dracula)
     )
 
