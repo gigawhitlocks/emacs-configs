@@ -617,6 +617,17 @@ Any config that needs to run after languages are loaded should go here.
     ;; :prefix my-local-leader
     :prefix "SPC m")
 
+  (general-define-key
+   :states 'normal
+   "zm"   'origami-toggle-node
+   "zM"   'origami-toggle-all-nodes
+
+   "zc"   'origami-close-node
+   "zC"   'origami-close-node-recursively
+
+   "zo"   'origami-open-node
+   "zO"   'origami-open-node-recursively)
+
   ;; global keybindings
   (my-leader-def
     :keymaps 'normal
