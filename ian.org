@@ -604,97 +604,97 @@ Any config that needs to run after languages are loaded should go here.
 *** Global Keybindings
 
 #+BEGIN_SRC emacs-lisp
-     (general-create-definer my-leader-def
-       ;; :prefix my-leader
-       :prefix "SPC")
+  (general-create-definer my-leader-def
+    ;; :prefix my-leader
+    :prefix "SPC")
 
-     (general-create-definer my-local-leader-def
-       ;; :prefix my-local-leader
-       :prefix "SPC m")
+  (general-create-definer my-local-leader-def
+    ;; :prefix my-local-leader
+    :prefix "SPC m")
 
-     ;; global keybindings
-     (my-leader-def
-       :keymaps 'normal
+  ;; global keybindings
+  (my-leader-def
+    :keymaps 'normal
 
-       ;; buffer control
-       "bb"	'switch-to-buffer
-       "TAB"	#'switch-to-prev-buffer
-       "br"      'revert-buffer
-       "bd"	'evil-delete-buffer
+    ;; buffer control
+    "bb"	'switch-to-buffer
+    "TAB"	#'switch-to-prev-buffer
+    "br"      'revert-buffer
+    "bd"	'evil-delete-buffer
 
-       ;; compile
-       "cc"        'compile
+    ;; compile
+    "cc"        'projectile-compile-project
 
-       ;; errors
-       "ec"	'flycheck-clear
-       "el"	'flycheck-list-errors
-       "en"	'flycheck-next-error
-       "ep"	'flycheck-previous-error
+    ;; errors
+    "ec"	'flycheck-clear
+    "el"	'flycheck-list-errors
+    "en"	'flycheck-next-error
+    "ep"	'flycheck-previous-error
 
-       "Fm"        'make-frame
+    "Fm"        'make-frame
 
-       ;; hmm
-       "ff"	'helm-find-files
-       "fr"        'helm-recentf
-       "fed"	'(lambda () (interactive)
-                      (find-file "~/.emacs.d/ian.org"))
+    ;; hmm
+    "ff"	'helm-find-files
+    "fr"        'helm-recentf
+    "fed"	'(lambda () (interactive)
+             (find-file "~/.emacs.d/ian.org"))
 
-       "feD"	'(lambda () (interactive)
-                      (find-file-other-frame "~/.emacs.d/ian.org"))
-       "feR"	'(lambda () (interactive)
-                      (org-babel-tangle "~/.emacs.d/ian.org")
-                      (byte-compile-file "~/.emacs.d/ian.el"))
+    "feD"	'(lambda () (interactive)
+             (find-file-other-frame "~/.emacs.d/ian.org"))
+    "feR"	'(lambda () (interactive)
+             (org-babel-tangle "~/.emacs.d/ian.org")
+             (byte-compile-file "~/.emacs.d/ian.el"))
 
-       ;; git
-       "gb"	'magit-blame
-       "gs"	'magit-status
-       "gg"	'magit
-       "gd"	'magit-diff
+    ;; git
+    "gb"	'magit-blame
+    "gs"	'magit-status
+    "gg"	'magit
+    "gd"	'magit-diff
 
-       ;; hyperbole
-       "h"        'hyperbole
-       ;; bookmarks (j for jump)
-       "jj"	'bookmark-jump
-       "js"	'bookmark-set
-       "jo"        'org-babel-tangle-jump-to-org
+    ;; hyperbole
+    "h"        'hyperbole
+    ;; bookmarks (j for jump)
+    "jj"	'bookmark-jump
+    "js"	'bookmark-set
+    "jo"        'org-babel-tangle-jump-to-org
 
-       "ic"         'insert-char
-       ;; projectile
-       "p"	'projectile-command-map
-       "pf"	'helm-projectile-find-file
-       "pt"       'treemacs-projectile
-       "sp"	'helm-projectile-ack
+    "ic"         'insert-char
+    ;; projectile
+    "p"	'projectile-command-map
+    "pf"	'helm-projectile-find-file
+    "pt"       'treemacs-projectile
+    "sp"	'helm-projectile-ack
 
-       ;; quitting
-       "qq"	'save-buffers-kill-terminal
-       "qr"	'restart-emacs
-       "qz"       '(lambda () (interactive) (server-edit "Done"))
+    ;; quitting
+    "qq"	'save-buffers-kill-terminal
+    "qr"	'restart-emacs
+    "qz"       '(lambda () (interactive) (server-edit "Done"))
 
-       ;; simple toggles
-       "tn"	'linum-mode
-       "tt"        'toggle-transparency
-       "tr"       'treemacs
+    ;; simple toggles
+    "tn"	'linum-mode
+    "tt"        'toggle-transparency
+    "tr"       'treemacs
 
-       ;; window control
-       "w-"	'split-window-below
-       "w/"	'split-window-right
-       "wj"	(lambda () (interactive)
-                     (select-window (window-in-direction 'below)))
-       "wk"	(lambda () (interactive)
-                     (select-window (window-in-direction 'above)))
-       "wh"	(lambda () (interactive)
-                     (select-window (window-in-direction 'left)))
-       "wl"	(lambda () (interactive)
-                     (select-window (window-in-direction 'right)))
-       "wd"	'delete-window
-       "wD"	'delete-other-windows
-       "wo"	'other-window
-       "w="        'balance-windows
+    ;; window control
+    "w-"	'split-window-below
+    "w/"	'split-window-right
+    "wj"	(lambda () (interactive)
+            (select-window (window-in-direction 'below)))
+    "wk"	(lambda () (interactive)
+            (select-window (window-in-direction 'above)))
+    "wh"	(lambda () (interactive)
+            (select-window (window-in-direction 'left)))
+    "wl"	(lambda () (interactive)
+            (select-window (window-in-direction 'right)))
+    "wd"	'delete-window
+    "wD"	'delete-other-windows
+    "wo"	'other-window
+    "w="        'balance-windows
 
-       ";"         'comment-line
+    ";"         'comment-line
 
-       "SPC"	'helm-M-x
-       )
+    "SPC"	'helm-M-x
+    )
     #+END_SRC
 *** Mode-Local Keybindings
 #+BEGIN_SRC emacs-lisp
