@@ -160,191 +160,196 @@ The ~global-packages~ function is responsible for installing deep dependencies. 
 
 Also this is the one part I have not managed to break up and it's a giant blob. Good luck, any readers, including me.
 #+BEGIN_SRC emacs-lisp
-  (defun global-packages ()
-    "Install and configure packages used with many modes and standalone modes and applications."
+    (defun global-packages ()
+      "Install and configure packages used with many modes and standalone modes and applications."
 
-    ;; left hand side tree view like neotree
-    ;; nice for exploring smaller projects
-    (use-package treemacs)
+      ;; left hand side tree view like neotree
+      ;; nice for exploring smaller projects
+      (use-package treemacs)
 
-    ;; clean whitespace on save in all modes
-    (add-hook 'before-save-hook 'whitespace-cleanup)
+      ;; clean whitespace on save in all modes
+      (add-hook 'before-save-hook 'whitespace-cleanup)
 
-    ;; 🙌 Emoji! 🙌
-    (use-package emojify
-      :config
-      (setq emojify-download-emojis-p t)
-      (emojify-set-emoji-styles '(unicode))
-      (add-hook 'after-init-hook #'global-emojify-mode))
-
-    ;; recent files mode
-    (recentf-mode 1)
-    (setq recentf-max-menu-items 25)
-    (setq recentf-max-saved-items 25)
-
-    (defun setup-projectile ()
-      (use-package projectile
-        :delight)
-      (use-package helm-projectile)
-      (use-package treemacs-projectile)
-      (projectile-mode +1))
-
-    (defun setup-evil ()
-      "Install and configure evil-mode and related bindings."
-      (use-package evil
-        :init
-        (setq evil-want-keybinding nil)
-        (setq evil-want-integration t)
+      ;; 🙌 Emoji! 🙌
+      (use-package emojify
         :config
-        (evil-mode 1))
+        (setq emojify-download-emojis-p t)
+        (emojify-set-emoji-styles '(unicode))
+        (add-hook 'after-init-hook #'global-emojify-mode))
 
-      (use-package evil-collection
-        :after evil
-        :config
-        (evil-collection-init))
+      ;; recent files mode
+      (recentf-mode 1)
+      (setq recentf-max-menu-items 25)
+      (setq recentf-max-saved-items 25)
 
-      ;; add fd as a remap for esc
-      (use-package evil-escape
-        :delight)
+      (defun setup-projectile ()
+        (use-package projectile
+          :delight)
+        (use-package helm-projectile)
+        (use-package treemacs-projectile)
+        (projectile-mode +1))
 
-      (evil-escape-mode 1)
-      (setq-default evil-escape-key-sequence "fd"))
-    ;; sane keybindings from the start
-
-    (use-package general
-      :init
-      (setup-evil)
-      :config
-      (general-evil-setup))
-
-    (defun setup-magit ()
-      (use-package magit)
-      ;; disable the default emacs vc because git is all I use,
-      ;; for I am a simple man
-      (setq vc-handled-backends nil)
-      (use-package evil-magit))
-
-    ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
-    (use-package forge
-      :after magit)
-    ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
-    ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #.
-
-    (use-package which-key
-      :delight
-      :init
-      (which-key-mode)
-      (which-key-setup-minibuffer))
-
-
-    (defun ansi ()
-      ;; enable ANSI escape codes in compilation buffer
-      (use-package ansi-color)
-      ;; slightly modified from
-      ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
-      (defun colorize-compilation ()
-        "Colorize from `compilation-filter-start' to `point'."
-        (let ((inhibit-read-only t))
-          (ansi-color-apply-on-region
-           compilation-filter-start (point))))
-
-      (add-hook 'compilation-filter-hook
-                #'colorize-compilation))
-    (ansi)
-
-    (defun dashboard ()
-      ;; provides a nice looking dashboard at launch
-      ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
-      (use-package all-the-icons) ;; provides optional icons for dashboard
-      (use-package dashboard
-        :config
-        (dashboard-setup-startup-hook)
-        (setq dashboard-startup-banner 'logo)
-        (setq dashboard-center-content t)
-        (setq dashboard-items '((recents  . 5)
-                                (bookmarks . 5)
-                                (projects . 5))
-              )
-        ;; (registers . 5)
-        ;; (agenda . 5)
-        )
-      )
-    ;; anything so trivial that there is no config necessary goes here
-    (defun extra-packages ()
-
-      (use-package git-gutter
-        :config
-        (global-git-gutter-mode +1))
-      ;; git-gutter does not play nicely with linum-mode
-      ;; investigate long-term solution?
-
-      ;; provides highlighting of the current line
-      (global-hl-line-mode)
-      (setq global-hl-line-sticky-flag t)
-
-      ;; set up rainbow delimiters for Elisp
-      (use-package rainbow-delimiters
-        :config
-        (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-        )
-
-      (use-package restart-emacs)
-      (use-package yasnippet
-        :delight
-        :config
-        (use-package yasnippet-snippets))
-      (use-package systemd)
-      (use-package ranger)
-      (use-package htmlize)
-      (setq ranger-show-literal nil)
-      ;; themes
-      ;;(use-package color-theme-sanityinc-tomorrow)
-      ;;(use-package leuven-theme)
-      (use-package centered-window)
-      )
-
-    ;; auto-completion
-    (use-package company
-      :delight
-      :config
-      ;; enable it everywhere
-      (add-hook 'after-init-hook 'global-company-mode)
-
-      ;; tab complete!
-      (global-set-key "\t" 'company-complete-common))
-
-    ;; linter
-    (use-package flycheck
-      :delight
-      ;; enable it everywhere
-      :init (global-flycheck-mode))
-
-    ;; helm
-    (defun setup-helm ()
-      "Install and configure helm, the most important command and control center"
-      (use-package helm
-        :delight
-        :config
-        (use-package helm-descbinds
+      (defun setup-evil ()
+        "Install and configure evil-mode and related bindings."
+        (use-package evil
+          :init
+          (setq evil-want-keybinding nil)
+          (setq evil-want-integration t)
           :config
-          (helm-descbinds-mode))
+          (evil-mode 1))
 
-        (global-set-key (kbd "M-x") #'helm-M-x)
-        (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-        (setq helm-always-two-windows nil)
-        (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-        (helm-mode 1)))
+        (use-package evil-collection
+          :after evil
+          :config
+          (evil-collection-init))
 
-    ;; gnu hyperbole
-    (use-package hyperbole
-      :config
-      )
+        ;; add fd as a remap for esc
+        (use-package evil-escape
+          :delight)
 
-    (setup-projectile)
-    (setup-magit)
-    (setup-helm)
-    (dashboard)
-    (extra-packages))
+        (evil-escape-mode 1)
+        (setq-default evil-escape-key-sequence "fd"))
+      ;; sane keybindings from the start
+
+      (use-package general
+        :init
+        (setup-evil)
+        :config
+        (general-evil-setup))
+
+      (defun setup-magit ()
+        (use-package magit)
+        ;; disable the default emacs vc because git is all I use,
+        ;; for I am a simple man
+        (setq vc-handled-backends nil)
+        (use-package evil-magit))
+
+      ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
+      (use-package forge
+        :after magit)
+      ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
+      ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #.
+
+      (use-package which-key
+        :delight
+        :init
+        (which-key-mode)
+        (which-key-setup-minibuffer))
+
+
+        ;; customizations to compilation mode
+
+      (defun ansi ()
+        ;; enable ANSI escape codes in compilation buffer
+        (use-package ansi-color)
+        ;; slightly modified from
+        ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
+        (defun colorize-compilation ()
+          "Colorize from `compilation-filter-start' to `point'."
+          (let ((inhibit-read-only t))
+            (ansi-color-apply-on-region
+             compilation-filter-start (point))))
+
+        (add-hook 'compilation-filter-hook
+                  #'colorize-compilation))
+      (ansi)
+
+      (add-hook 'compilation-mode-hook
+                #'adaptive-wrap-prefix-mode)
+
+      (defun dashboard ()
+        ;; provides a nice looking dashboard at launch
+        ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
+        (use-package all-the-icons) ;; provides optional icons for dashboard
+        (use-package dashboard
+          :config
+          (dashboard-setup-startup-hook)
+          (setq dashboard-startup-banner 'logo)
+          (setq dashboard-center-content t)
+          (setq dashboard-items '((recents  . 5)
+                                  (bookmarks . 5)
+                                  (projects . 5))
+                )
+          ;; (registers . 5)
+          ;; (agenda . 5)
+          )
+        )
+      ;; anything so trivial that there is no config necessary goes here
+      (defun extra-packages ()
+
+        (use-package git-gutter
+          :config
+          (global-git-gutter-mode +1))
+        ;; git-gutter does not play nicely with linum-mode
+        ;; investigate long-term solution?
+
+        ;; provides highlighting of the current line
+        (global-hl-line-mode)
+        (setq global-hl-line-sticky-flag t)
+
+        ;; set up rainbow delimiters for Elisp
+        (use-package rainbow-delimiters
+          :config
+          (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+          )
+
+        (use-package restart-emacs)
+        (use-package yasnippet
+          :delight
+          :config
+          (use-package yasnippet-snippets))
+        (use-package systemd)
+        (use-package ranger)
+        (use-package htmlize)
+        (setq ranger-show-literal nil)
+        ;; themes
+        ;;(use-package color-theme-sanityinc-tomorrow)
+        ;;(use-package leuven-theme)
+        (use-package centered-window)
+        )
+
+      ;; auto-completion
+      (use-package company
+        :delight
+        :config
+        ;; enable it everywhere
+        (add-hook 'after-init-hook 'global-company-mode)
+
+        ;; tab complete!
+        (global-set-key "\t" 'company-complete-common))
+
+      ;; linter
+      (use-package flycheck
+        :delight
+        ;; enable it everywhere
+        :init (global-flycheck-mode))
+
+      ;; helm
+      (defun setup-helm ()
+        "Install and configure helm, the most important command and control center"
+        (use-package helm
+          :delight
+          :config
+          (use-package helm-descbinds
+            :config
+            (helm-descbinds-mode))
+
+          (global-set-key (kbd "M-x") #'helm-M-x)
+          (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+          (setq helm-always-two-windows nil)
+          (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
+          (helm-mode 1)))
+
+      ;; gnu hyperbole
+      (use-package hyperbole
+        :config
+        )
+
+      (setup-projectile)
+      (setup-magit)
+      (setup-helm)
+      (dashboard)
+      (extra-packages))
 #+END_SRC
 
 ** Language Configuration
@@ -601,6 +606,17 @@ Any config that needs to run after languages are loaded should go here.
   (general-create-definer my-local-leader-def
     ;; :prefix my-local-leader
     :prefix "SPC m")
+
+  (general-define-key
+   :states 'normal
+   "zm"   'origami-toggle-node
+   "zM"   'origami-toggle-all-nodes
+
+   "zc"   'origami-close-node
+   "zC"   'origami-close-node-recursively
+
+   "zo"   'origami-open-node
+   "zO"   'origami-open-node-recursively)
 
   ;; global keybindings
   (my-leader-def
