@@ -458,6 +458,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
      ",i" 'lsp-find-implementation
      ",t" 'lsp-find-type-definition
      ",a" 'go-import-add
+     ",x" 'lsp-execute-code-action
      )
 
     (autoload 'go-mode "go-mode" nil t)
