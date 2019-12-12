@@ -610,6 +610,7 @@ Any config that needs to run after languages are loaded should go here.
 
   (general-define-key
    :states 'normal
+   "TAB"  'origami-toggle-node
    "zm"   'origami-toggle-node
    "zM"   'origami-toggle-all-nodes
 
