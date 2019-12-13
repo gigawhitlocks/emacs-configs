@@ -589,6 +589,7 @@ Any config that needs to run after languages are loaded should go here.
 
     ;; helper functions for keybindings
     ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
+    ;; TODO make this behave like alt-tab in Windows, but for buffers
     (defun er-switch-to-previous-buffer ()
       "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
       (interactive)
@@ -599,7 +600,8 @@ Any config that needs to run after languages are loaded should go here.
     (global-set-key (kbd "<end>") 'move-end-of-line)
 
     ;; configure align-regexp to use spaces instead of tabs
-    ;; lifted from StackOverflow https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs
+    ;; lifted from StackOverflow
+    ;; https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs
     (defadvice align-regexp (around align-regexp-with-spaces activate)
       (let ((indent-tabs-mode nil))
         ad-do-it))
@@ -607,100 +609,100 @@ Any config that needs to run after languages are loaded should go here.
 *** Global Keybindings
 
 #+BEGIN_SRC emacs-lisp
-    (general-create-definer my-leader-def
-      ;; :prefix my-leader
-      :prefix "SPC")
+  (general-create-definer my-leader-def
+    ;; :prefix my-leader
+    :prefix "SPC")
 
-    (general-create-definer my-local-leader-def
-      ;; :prefix my-local-leader
-      :prefix "SPC m")
+  (general-create-definer my-local-leader-def
+    ;; :prefix my-local-leader
+    :prefix "SPC m")
 
-    (general-define-key
-     :states 'normal
-     "TAB"  'origami-toggle-node
-     "zm"   'origami-toggle-node
-     "zM"   'origami-toggle-all-nodes
+  (general-define-key
+   :states 'normal
+   "TAB"  'origami-toggle-node
+   "zm"   'origami-toggle-node
+   "zM"   'origami-toggle-all-nodes
 
-     "zc"   'origami-close-node
-     "zC"   'origami-close-node-recursively
+   "zc"   'origami-close-node
+   "zC"   'origami-close-node-recursively
 
-     "zo"   'origami-open-node
-     "zO"   'origami-open-node-recursively)
+   "zo"   'origami-open-node
+   "zO"   'origami-open-node-recursively)
 
-    (defun find-initfile ()
-      "Open main config file."
-      (interactive)
-      (find-file "~/.emacs.d/ian.org"))
+  (defun find-initfile ()
+    "Open main config file."
+    (interactive)
+    (find-file "~/.emacs.d/ian.org"))
 
-    (defun find-initfile-other-frame ()
-      "Open main config file in a new frame."
-      (interactive)
-      (find-file-other-frame "~/.emacs.d/ian.org"))
+  (defun find-initfile-other-frame ()
+    "Open main config file in a new frame."
+    (interactive)
+    (find-file-other-frame "~/.emacs.d/ian.org"))
 
-    (defun reload-initfile ()
-      "Reload the main config file."
-      (interactive)
-      (org-babel-tangle "~/.emacs.d/ian.org")
-      (byte-compile-file "~/.emacs.d/ian.el"))
+  (defun reload-initfile ()
+    "Reload the main config file."
+    (interactive)
+    (org-babel-tangle "~/.emacs.d/ian.org")
+    (byte-compile-file "~/.emacs.d/ian.el"))
 
-    (defun close-client-frame ()
-      "Exit emacsclient."
-      (interactive)
-      (server-edit "Done"))
 
-    ;; global keybindings
-    (my-leader-def
-      :keymaps 'normal
-      "bb"     'switch-to-buffer
-      "TAB"    #'switch-to-prev-buffer
-      "br"     'revert-buffer
-      "bd"     'evil-delete-buffer
-      "cc"     'projectile-compile-project
-      "ec"     'flycheck-clear
-      "el"     'flycheck-list-errors
-      "en"     'flycheck-next-error
-      "ep"     'flycheck-previous-error
-      "Fm"     'make-frame
-      "ff"     'helm-find-files
-      "fr"     'helm-recentf
-      "fed"    'find-initfile
-      "feD"    'find-initfile-other-frame
-      "feR"    'reload-initfile
-      "gb"     'magit-blame
-      "gs"     'magit-status
-      "gg"     'magit
-      "gd"     'magit-diff
-      "h"      'hyperbole
-      "jj"     'bookmark-jump
-      "js"     'bookmark-set
-      "jo"     'org-babel-tangle-jump-to-org
-      "ic"     'insert-char
-      "p"      'projectile-command-map
-      "pf"     'helm-projectile-find-file
-      "pt"     'treemacs-projectile
-      "si"     'yas-insert-snippet
-      "sn"     'yas-new-snippet
-      "sp"     'helm-projectile-ack
-      "qq"     'save-buffers-kill-terminal
-      "qr"     'restart-emacs
-      "qw"     'window--delete
-      "qz"     'close-client-frame
-      "tn"     'linum-mode
-      "tt"     'toggle-transparency
-      "tr"     'treemacs
-      "w-"     'split-window-below
-      "w/"     'split-window-right
-      "wj"     'evil-window-down
-      "wk"     'evil-window-up
-      "wh"     'evil-window-left
-      "wl"     'evil-window-right
-      "wd"     'delete-window
-      "wD"     'delete-other-windows
-      "wo"     'other-window
-      "w="     'balance-windows
-      ";"      'comment-line
-      "SPC"    'helm-M-x
-      )
+  (defun close-client-frame ()
+    "Exit emacsclient."
+    (interactive)
+    (server-edit "Done"))
+
+  ;; global keybindings
+  (my-leader-def
+    :keymaps 'normal
+    "bb"     'switch-to-buffer
+    "TAB"    #'switch-to-prev-buffer
+    "br"     'revert-buffer
+    "bd"     'evil-delete-buffer
+    "cc"     'projectile-compile-project
+    "ec"     'flycheck-clear
+    "el"     'flycheck-list-errors
+    "en"     'flycheck-next-error
+    "ep"     'flycheck-previous-error
+    "Fm"     'make-frame
+    "ff"     'helm-find-files
+    "fr"     'helm-recentf
+    "fed"    'find-initfile
+    "feD"    'find-initfile-other-frame
+    "feR"    'reload-initfile
+    "gb"     'magit-blame
+    "gs"     'magit-status
+    "gg"     'magit
+    "gd"     'magit-diff
+    "h"      'hyperbole
+    "jj"     'bookmark-jump
+    "js"     'bookmark-set
+    "jo"     'org-babel-tangle-jump-to-org
+    "ic"     'insert-char
+    "p"      'projectile-command-map
+    "pf"     'helm-projectile-find-file
+    "pt"     'treemacs-projectile
+    "si"     'yas-insert-snippet
+    "sn"     'yas-new-snippet
+    "sp"     'helm-projectile-ack
+    "qq"     'save-buffers-kill-terminal
+    "qr"     'restart-emacs
+    "qz"     'close-client-frame
+    "tn"     'linum-mode
+    "tt"     'toggle-transparency
+    "tr"     'treemacs
+    "w-"     'split-window-below
+    "w/"     'split-window-right
+    "wj"     'evil-window-down
+    "wk"     'evil-window-up
+    "wh"     'evil-window-left
+    "wl"     'evil-window-right
+    "wd"     'delete-window
+    "wD"     'delete-other-windows
+    "wo"     'other-window
+    "w="     'balance-windows
+    ";"      'comment-line
+    "SPC"    'helm-M-x
+    )
     #+END_SRC
 
 *** Org Mode Settings
@@ -737,12 +739,6 @@ Any config that needs to run after languages are loaded should go here.
     "p" 'org-insert-link
     "x" 'org-babel-execute-src-block
     "e" 'org-edit-src-code)
-
-  (my-local-leader-def
-    :states 'normal
-    :keymaps 'go-mode-map
-    "g"   'go-guru-map)
-
 
   ;; github-flavored markdown
   (use-package ox-gfm)
