@@ -501,15 +501,16 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 
 *** Javascript
 #+BEGIN_SRC emacs-lisp
-  ;; Javascript / React config
+      ;; Javascript / React config
 
-  (defun javascript ()
-    ;; React JSX mode for .jsx files and component/*.js files
-    (use-package rjsx-mode
-      :hook ((rjsx-mode . lsp-deferred))
-      :config
-      (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))))
-
+      (defun javascript ()
+        ;; React JSX mode for .jsx files and component/*.js files
+        (use-package rjsx-mode
+          :hook ((rjsx-mode . lsp-deferred))
+          :config
+          (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+          :init
+          (add-hook 'javascript-mode-hook #'lsp)))
 #+END_SRC
 *** Web
 #+BEGIN_SRC emacs-lisp
