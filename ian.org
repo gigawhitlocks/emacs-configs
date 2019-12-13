@@ -621,6 +621,28 @@ Any config that needs to run after languages are loaded should go here.
    "zo"   'origami-open-node
    "zO"   'origami-open-node-recursively)
 
+  (defun find-initfile ()
+    "Open main config file."
+    (interactive)
+    (find-file "~/.emacs.d/ian.org"))
+
+  (defun find-initfile-other-frame ()
+    "Open main config file in a new frame."
+    (interactive)
+    (find-file-other-frame "~/.emacs.d/ian.org"))
+
+  (defun reload-initfile ()
+    "Reload the main config file."
+    (interactive)
+    (org-babel-tangle "~/.emacs.d/ian.org")
+    (byte-compile-file "~/.emacs.d/ian.el"))
+
+  (defun close-client-frame ()
+    "Exit emacsclient."
+    (interactive)
+    (server-edit "Done"))
+
+
   ;; global keybindings
   (my-leader-def
     :keymaps 'normal
@@ -628,11 +650,11 @@ Any config that needs to run after languages are loaded should go here.
     ;; buffer control
     "bb"	'switch-to-buffer
     "TAB"	#'switch-to-prev-buffer
-    "br"      'revert-buffer
+    "br"  'revert-buffer
     "bd"	'evil-delete-buffer
 
     ;; compile
-    "cc"        'projectile-compile-project
+    "cc"  'projectile-compile-project
 
     ;; errors
     "ec"	'flycheck-clear
@@ -640,19 +662,15 @@ Any config that needs to run after languages are loaded should go here.
     "en"	'flycheck-next-error
     "ep"	'flycheck-previous-error
 
-    "Fm"        'make-frame
+    "Fm"  'make-frame
 
     ;; hmm
     "ff"	'helm-find-files
-    "fr"        'helm-recentf
-    "fed"	'(lambda () (interactive)
-             (find-file "~/.emacs.d/ian.org"))
+    "fr"  'helm-recentf
+    "fed"	'find-initfile
 
-    "feD"	'(lambda () (interactive)
-             (find-file-other-frame "~/.emacs.d/ian.org"))
-    "feR"	'(lambda () (interactive)
-             (org-babel-tangle "~/.emacs.d/ian.org")
-             (byte-compile-file "~/.emacs.d/ian.el"))
+    "feD"	'find-initfile-other-frame
+    "feR"	'reload-initfile
 
     ;; git
     "gb"	'magit-blame
@@ -660,47 +678,42 @@ Any config that needs to run after languages are loaded should go here.
     "gg"	'magit
     "gd"	'magit-diff
 
-    ;; hyperbole
-    "h"        'hyperbole
-    ;; bookmarks (j for jump)
+    "h"   'hyperbole
     "jj"	'bookmark-jump
     "js"	'bookmark-set
-    "jo"        'org-babel-tangle-jump-to-org
+    "jo"  'org-babel-tangle-jump-to-org
 
-    "ic"         'insert-char
-    ;; projectile
+    "ic"  'insert-char
+    ;;	projectile
     "p"	'projectile-command-map
     "pf"	'helm-projectile-find-file
-    "pt"       'treemacs-projectile
+    "pt"  'treemacs-projectile
     "sp"	'helm-projectile-ack
 
-    ;; quitting
+    ;;	quitting
     "qq"	'save-buffers-kill-terminal
     "qr"	'restart-emacs
-    "qz"       '(lambda () (interactive) (server-edit "Done"))
+    "qw"  'window--delete
+    "qz"  'close-client-frame
 
-    ;; simple toggles
+    ;;	simple toggles
     "tn"	'linum-mode
-    "tt"        'toggle-transparency
-    "tr"       'treemacs
+    "tt"  'toggle-transparency
+    "tr"  'treemacs
 
-    ;; window control
+    ;;	window control
     "w-"	'split-window-below
     "w/"	'split-window-right
-    "wj"	(lambda () (interactive)
-            (select-window (window-in-direction 'below)))
-    "wk"	(lambda () (interactive)
-            (select-window (window-in-direction 'above)))
-    "wh"	(lambda () (interactive)
-            (select-window (window-in-direction 'left)))
-    "wl"	(lambda () (interactive)
-            (select-window (window-in-direction 'right)))
+    "wj"  'evil-window-down
+    "wk"	'evil-window-up
+    "wh"	'evil-window-left
+    "wl"  'evil-window-right
     "wd"	'delete-window
     "wD"	'delete-other-windows
     "wo"	'other-window
-    "w="        'balance-windows
+    "w="  'balance-windows
 
-    ";"         'comment-line
+    ";"   'comment-line
 
     "SPC"	'helm-M-x
     )
