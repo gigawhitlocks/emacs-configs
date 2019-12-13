@@ -569,34 +569,39 @@ Any config that needs to run after languages are loaded should go here.
 ** Configuration Variables
 *** Global Configuration
 #+BEGIN_SRC emacs-lisp
-   (defun config ()
-     "Global configuration variables and such. Global functions with keybindings must go here."
+  (defun config ()
+    "Global configuration variables and such. Global functions with keybindings must go here."
 
-     ;; I definitely lifted this from somewhere but failed to document where I got it :\
-     ;; Probably from Spacemacs. Thanks, Spacemacs.
-     (defun toggle-transparency ()
-       (interactive)
-       (let ((alpha (frame-parameter nil 'alpha)))
-         (set-frame-parameter
-          nil 'alpha
-          (if (eql (cond ((numberp alpha) alpha)
-                         ((numberp (cdr alpha)) (cdr alpha))
-                         ;; Also handle undocumented (<active> <inactive>) form.
-                         ((numberp (cadr alpha)) (cadr alpha)))
-                   100)
-              '95 '(100 . 100)))))
+    ;; I definitely lifted this from somewhere but failed to document where I got it :\
+    ;; Probably from Spacemacs. Thanks, Spacemacs.
+    (defun toggle-transparency ()
+      (interactive)
+      (let ((alpha (frame-parameter nil 'alpha)))
+        (set-frame-parameter
+         nil 'alpha
+         (if (eql (cond ((numberp alpha) alpha)
+                        ((numberp (cdr alpha)) (cdr alpha))
+                        ;; Also handle undocumented (<active> <inactive>) form.
+                        ((numberp (cadr alpha)) (cadr alpha)))
+                  100)
+             '95 '(100 . 100)))))
 
-     ;; helper functions for keybindings
-     ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
-     (defun er-switch-to-previous-buffer ()
-       "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
-       (interactive)
-       (switch-to-buffer (other-buffer (current-buffer) 1)))
+    ;; helper functions for keybindings
+    ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
+    (defun er-switch-to-previous-buffer ()
+      "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+      (interactive)
+      (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-     ;; override Home/End behavior to be more like modern applications
-     (global-set-key (kbd "<home>") 'move-beginning-of-line)
-     (global-set-key (kbd "<end>") 'move-end-of-line)
+    ;; override Home/End behavior to be more like modern applications
+    (global-set-key (kbd "<home>") 'move-beginning-of-line)
+    (global-set-key (kbd "<end>") 'move-end-of-line)
 
+    ;; configure align-regexp to use spaces instead of tabs
+    ;; lifted from StackOverflow https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs
+    (defadvice align-regexp (around align-regexp-with-spaces activate)
+      (let ((indent-tabs-mode nil))
+        ad-do-it))
      #+END_SRC
 *** Global Keybindings
 
@@ -645,55 +650,55 @@ Any config that needs to run after languages are loaded should go here.
     ;; global keybindings
     (my-leader-def
       :keymaps 'normal
-      "bb"	'switch-to-buffer
-      "TAB"	#'switch-to-prev-buffer
-      "br"	'revert-buffer
-      "bd"	'evil-delete-buffer
-      "cc"	'projectile-compile-project
-      "ec"	'flycheck-clear
-      "el"	'flycheck-list-errors
-      "en"	'flycheck-next-error
-      "ep"	'flycheck-previous-error
-      "Fm"	'make-frame
-      "ff"	'helm-find-files
-      "fr"	'helm-recentf
-      "fed"	'find-initfile
-      "feD"	'find-initfile-other-frame
-      "feR"	'reload-initfile
-      "gb"	'magit-blame
-      "gs"	'magit-status
-      "gg"	'magit
-      "gd"	'magit-diff
-      "h"		'hyperbole
-      "jj"	'bookmark-jump
-      "js"	'bookmark-set
-      "jo"	'org-babel-tangle-jump-to-org
-      "ic"	'insert-char
-      "p"		'projectile-command-map
-      "pf"	'helm-projectile-find-file
-      "pt"	'treemacs-projectile
-      "si"	'yas-insert-snippet
-      "sn"	'yas-new-snippet
-      "sp"	'helm-projectile-ack
-      "qq"	'save-buffers-kill-terminal
-      "qr"	'restart-emacs
-      "qw"	'window--delete
-      "qz"	'close-client-frame
-      "tn"	'linum-mode
-      "tt"	'toggle-transparency
-      "tr"	'treemacs
-      "w-"	'split-window-below
-      "w/"	'split-window-right
-      "wj"	'evil-window-down
-      "wk"	'evil-window-up
-      "wh"	'evil-window-left
-      "wl"	'evil-window-right
-      "wd"	'delete-window
-      "wD"	'delete-other-windows
-      "wo"	'other-window
-      "w="	'balance-windows
-      ";"		'comment-line
-      "SPC"	'helm-M-x
+      "bb"     'switch-to-buffer
+      "TAB"    #'switch-to-prev-buffer
+      "br"     'revert-buffer
+      "bd"     'evil-delete-buffer
+      "cc"     'projectile-compile-project
+      "ec"     'flycheck-clear
+      "el"     'flycheck-list-errors
+      "en"     'flycheck-next-error
+      "ep"     'flycheck-previous-error
+      "Fm"     'make-frame
+      "ff"     'helm-find-files
+      "fr"     'helm-recentf
+      "fed"    'find-initfile
+      "feD"    'find-initfile-other-frame
+      "feR"    'reload-initfile
+      "gb"     'magit-blame
+      "gs"     'magit-status
+      "gg"     'magit
+      "gd"     'magit-diff
+      "h"      'hyperbole
+      "jj"     'bookmark-jump
+      "js"     'bookmark-set
+      "jo"     'org-babel-tangle-jump-to-org
+      "ic"     'insert-char
+      "p"      'projectile-command-map
+      "pf"     'helm-projectile-find-file
+      "pt"     'treemacs-projectile
+      "si"     'yas-insert-snippet
+      "sn"     'yas-new-snippet
+      "sp"     'helm-projectile-ack
+      "qq"     'save-buffers-kill-terminal
+      "qr"     'restart-emacs
+      "qw"     'window--delete
+      "qz"     'close-client-frame
+      "tn"     'linum-mode
+      "tt"     'toggle-transparency
+      "tr"     'treemacs
+      "w-"     'split-window-below
+      "w/"     'split-window-right
+      "wj"     'evil-window-down
+      "wk"     'evil-window-up
+      "wh"     'evil-window-left
+      "wl"     'evil-window-right
+      "wd"     'delete-window
+      "wD"     'delete-other-windows
+      "wo"     'other-window
+      "w="     'balance-windows
+      ";"      'comment-line
+      "SPC"    'helm-M-x
       )
     #+END_SRC
 
