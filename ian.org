@@ -157,7 +157,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
     (use-package delight))
 #+END_SRC
 
-** Global Package Installation and Configuration
+** Package Installation and Configuration
 The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 Also this is the one part I have not managed to break up and it's a giant blob. Good luck, any readers, including me.
@@ -254,8 +254,8 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 
       (add-hook 'compilation-filter-hook
                 #'colorize-compilation))
-    (ansi)
 
+    (ansi)
     (add-hook 'compilation-mode-hook
               #'adaptive-wrap-prefix-mode)
 
@@ -722,7 +722,6 @@ Any config that needs to run after languages are loaded should go here.
     "wD"     'delete-other-windows
     "wo"     'other-window
     "w="     'balance-windows
-    ";"      'comment-line
     "SPC"    'helm-M-x
     )
     #+END_SRC
@@ -790,7 +789,6 @@ This would be a neat feature to expand on at some point.
 
        (load (concat "~/.emacs.d/local/" hostname ".el"))
        (require 'local)))
-
 #+END_SRC
 
 *** Misc Settings
