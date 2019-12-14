@@ -777,6 +777,10 @@ Then Emacs tangles that .org file to a .el file and executes it, allowing config
 This would be a neat feature to expand on at some point.
 
 #+BEGIN_SRC emacs-lisp
+  ;; simplifies setting a font and changing it immediately
+  (defun set-font (font)
+    (set-face-attribute 'default nil :font font )
+    (set-frame-font font nil t))
 
   (let ;; find the hostname and assign it to a variable
        ((hostname (string-trim-right

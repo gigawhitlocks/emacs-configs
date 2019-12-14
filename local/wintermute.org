@@ -4,13 +4,8 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
 
 * Font
-
 #+BEGIN_SRC emacs-lisp
-  ;; TODO abstract this function out so I can use it in the other local configs
-    (defun set-font (font)
-                      (set-face-attribute 'default nil :font font )
-                      (set-frame-font font nil t))
-    (set-font "Inconsolata-13" )
+    (set-font "Inconsolata-11")
 #+END_SRC
 
 * Theme
@@ -21,20 +16,19 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
     (enable-theme 'dracula)
     )
 
-
   ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;;(set-frame-parameter (selected-frame) 'alpha <both>)
-  (set-frame-parameter (selected-frame) 'alpha 95)
-  (add-to-list 'default-frame-alist '(alpha . 95))
+  ;; (set-frame-parameter (selected-frame) 'alpha 95)
+  ;; (add-to-list 'default-frame-alist '(alpha . 95))
 
 #+End_SRC
 
 * Local bugfixes
-
 Idk, the novelty footer in dashboard.el is missing the icon for some reason so just disable it for now
 #+BEGIN_SRC emacs-lisp
   (setq dashboard-set-footer nil)
 #+END_SRC
+
 * Footer
 #+BEGIN_SRC emacs-lisp
   (provide 'local)
