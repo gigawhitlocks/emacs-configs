@@ -541,6 +541,8 @@ Any config that needs to run after languages are loaded should go here.
                             (adaptive-wrap-prefix-mode)))))
 
       (mapc 'adaptive-and-visual-line-mode (list
+      ;;; I originally wrote this hack for Go but I like it in a lot of modes
+      ;;; this annoying comment is because I should move this stuff out of here
                                             'markdown-mode
                                             'go-mode-hook
                                             'js2-mode-hook
