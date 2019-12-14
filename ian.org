@@ -517,14 +517,27 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 #+END_SRC
 *** Web
 #+BEGIN_SRC emacs-lisp
-    (defun web ()
-      (use-package web-mode
-        :mode (("\\.html$" . web-mode)
-               ("\\.css$"  . web-mode))
-        :config
-        (setq web-mode-enable-css-colorization t)
-        (setq web-mode-enable-auto-pairing t))
-      )
+  (defun web ()
+    (use-package web-mode
+      :mode (("\\.html$" . web-mode)
+             ("\\.css$"  . web-mode))
+      :config
+      (setq web-mode-enable-css-colorization t)
+      (setq web-mode-enable-auto-pairing t))
+
+    ;; web-mode can provide syntax highlighting for many template
+    ;; engines, but it can't detect the right one if the template uses a generic ending.
+    ;; If a project uses a generic ending for its templates, such
+    ;; as .html, add it below. It would be more elegant to handle this by
+    ;; setting this variable in .dir-locals.el for each project,
+    ;; unfortunately due to this https://github.com/fxbois//issues/799 that
+    ;; is not possible :(
+
+    (setq web-mode-engines-alist '(
+            ("go" . ".*foo.party/themes/blank/.*\\.html\\'")
+            ;; add more projects here..
+            ))
+    )
 #+END_SRC
 *** Post-Config
 Any config that needs to run after languages are loaded should go here.
