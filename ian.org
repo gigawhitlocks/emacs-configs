@@ -692,6 +692,7 @@ Any config that needs to run after languages are loaded should go here.
     "tn"     'linum-mode
     "tt"     'toggle-transparency
     "tr"     'treemacs
+    "ta"     'treemacs-add-project-to-workspace
     "w-"     'split-window-below
     "w/"     'split-window-right
     "wj"     'evil-window-down
