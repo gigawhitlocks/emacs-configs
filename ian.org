@@ -517,18 +517,14 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 #+END_SRC
 *** Web
 #+BEGIN_SRC emacs-lisp
-  (defun web ()
-    (use-package web-mode)
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
-    (setq web-mode-enable-css-colorization t)
-    (setq web-mode-enable-auto-pairing t)
-
-    (use-package impatient-mode
-      :config
-      (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
-      (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
-    )
+    (defun web ()
+      (use-package web-mode
+        :mode (("\\.html$" . web-mode)
+               ("\\.css$"  . web-mode))
+        :config
+        (setq web-mode-enable-css-colorization t)
+        (setq web-mode-enable-auto-pairing t))
+      )
 #+END_SRC
 *** Post-Config
 Any config that needs to run after languages are loaded should go here.
