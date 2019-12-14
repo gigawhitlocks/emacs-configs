@@ -682,7 +682,6 @@ Any config that needs to run after languages are loaded should go here.
     "ic"     'insert-char
     "p"      'projectile-command-map
     "pf"     'helm-projectile-find-file
-    "pt"     'treemacs-projectile
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
     "sp"     'helm-projectile-ack
