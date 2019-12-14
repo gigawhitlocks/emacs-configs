@@ -846,18 +846,9 @@ This would be a neat feature to expand on at some point.
 
   ;; turn off startup
   (setq inhibit-startup-screen t))
-
     #+END_SRC
 
-*** Publish to README.md
-#+BEGIN_SRC emacs-lisp
-  (defun publish ()
-    "Publishes (to github flavored markdown for now."
-    (org-gfm-export-to-markdown)
-    (rename-file "ian.md" "README.md"))
-#+END_SRC
-
-*** Run Stuff
+** Run Stuff
 Main is called in ~init.el~ and runs the rest of of the config.
 #+BEGIN_SRC emacs-lisp
 
