@@ -280,6 +280,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
     (defun extra-packages ()
 
       (use-package git-gutter
+        :delight
         :config
         (global-git-gutter-mode +1))
       ;; git-gutter does not play nicely with linum-mode
@@ -806,11 +807,10 @@ This would be a neat feature to expand on at some point.
   (add-to-list 'default-frame-alist '(width . 128))
   (add-to-list 'default-frame-alist '(height . 60))
 
-  ;; hide some modes that are eveyrwhere
+  ;; hide some modes that are everywhere
   (diminish 'eldoc-mode)
   (diminish 'undo-tree-mode)
   (diminish 'auto-revert-mode)
-  (diminish 'git-gutter-mode)
 
   ;; less annoying bell (from emacs wiki)
   ;; flashes the modeline foreground
