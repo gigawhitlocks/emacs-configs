@@ -277,7 +277,13 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
     ;; anything so trivial that there is no config necessary goes here
     (defun extra-packages ()
 
-      (use-package git-gutter
+      ;; hugo blog management
+      (use-package easy-hugo
+        :config
+        (setq easy-hugo-basedir "~/foo.party")
+        (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
+
+    (use-package git-gutter
         :delight
         :config
         (global-git-gutter-mode +1))
@@ -694,7 +700,10 @@ Any config that needs to run after languages are loaded should go here.
     "gs"     'magit-status
     "gg"     'magit
     "gd"     'magit-diff
-    "h"      'hyperbole
+    "hy"     'hyperbole
+    "hu"     'easy-hugo
+    "hn"     'easy-hugo-newpost
+    "hp"     'easy-hugo-preview
     "jj"     'bookmark-jump
     "js"     'bookmark-set
     "jo"     'org-babel-tangle-jump-to-org
