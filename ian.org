@@ -533,7 +533,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
     ;; is not possible :(
 
     (setq web-mode-engines-alist '(
-            ("go" . ".*foo.party/themes/blank/.*\\.html\\'")
+            ("go" . ".*foo.party/.*\\.html\\'")
             ;; add more projects here..
             ))
     )
