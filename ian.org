@@ -809,6 +809,9 @@ This would be a neat feature to expand on at some point.
   ;; backups to /tmp
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
+  (setq delete-old-versions t)
+  (auto-save-visited-mode
+      :diminish)
 
   ;; set default window size
   (add-to-list 'default-frame-alist '(width . 128))
