@@ -10,17 +10,8 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (use-package dracula-theme
-    :config
-    (load-theme 'dracula t)
-    (enable-theme 'dracula)
-    )
-
-  ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
-  ;;(set-frame-parameter (selected-frame) 'alpha <both>)
-  ;; (set-frame-parameter (selected-frame) 'alpha 95)
-  ;; (add-to-list 'default-frame-alist '(alpha . 95))
-
+  (load-theme 'adwaita t)
+  (enable-theme 'adwaita)
 #+End_SRC
 
 * Local bugfixes
