@@ -1,15 +1,12 @@
-#+TITLE: The Laptop's Config
+#+TITLE: The Work Laptop's Config
 
-Stuff that's specific to my Thinkpad's Emacs config.
+Stuff that's specific to my work (X1) Thinkpad's Emacs config.
 
 
 * Font
 
 #+BEGIN_SRC emacs-lisp
-
-  (set-face-attribute 'default nil :font "Inconsolata-12" )
-  (set-frame-font "Inconsolata-12" nil t)
-
+  (set-font "Inconsolata-12")
 #+END_SRC
 
 * Theme

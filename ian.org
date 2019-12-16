@@ -149,207 +149,214 @@ The bootstrap function sets up the main software repository for downloading 3rd 
     (require 'use-package-ensure)
     (setq use-package-always-ensure t)
 
+    (use-package use-package-ensure-system-package)
+
     ;; these go in bootstrap because packages installed
     ;; with use-package use :diminish and :delight
     (use-package diminish)
     (use-package delight))
 #+END_SRC
 
-** Global Package Installation and Configuration
+** Package Installation and Configuration
 The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 Also this is the one part I have not managed to break up and it's a giant blob. Good luck, any readers, including me.
 #+BEGIN_SRC emacs-lisp
-    (defun global-packages ()
-      "Install and configure packages used with many modes and standalone modes and applications."
+  (defun global-packages ()
+    "Install and configure packages used with many modes and standalone modes and applications."
 
-      ;; left hand side tree view like neotree
-      ;; nice for exploring smaller projects
-      (use-package treemacs)
+    ;; left hand side tree view like neotree
+    ;; nice for exploring smaller projects
+    (use-package treemacs)
 
-      ;; clean whitespace on save in all modes
-      (add-hook 'before-save-hook 'whitespace-cleanup)
+    ;; clean whitespace on save in all modes
+    (add-hook 'before-save-hook 'whitespace-cleanup)
 
-      ;; 🙌 Emoji! 🙌
-      (use-package emojify
-        :config
-        (setq emojify-download-emojis-p t)
-        (emojify-set-emoji-styles '(unicode))
-        (add-hook 'after-init-hook #'global-emojify-mode))
+    ;; 🙌 Emoji! 🙌
+    (use-package emojify
+      :config
+      (setq emojify-download-emojis-p t)
+      (emojify-set-emoji-styles '(unicode))
+      (add-hook 'after-init-hook #'global-emojify-mode))
 
-      ;; recent files mode
-      (recentf-mode 1)
-      (setq recentf-max-menu-items 25)
-      (setq recentf-max-saved-items 25)
+    ;; recent files mode
+    (recentf-mode 1)
+    (setq recentf-max-menu-items 25)
+    (setq recentf-max-saved-items 25)
 
-      (defun setup-projectile ()
-        (use-package projectile
-          :delight)
-        (use-package helm-projectile)
-        (use-package treemacs-projectile)
-        (projectile-mode +1))
+    (defun setup-projectile ()
+      (use-package projectile
+        :delight)
+      (use-package helm-projectile)
+      (use-package treemacs-projectile)
+      (projectile-mode +1))
 
-      (defun setup-evil ()
-        "Install and configure evil-mode and related bindings."
-        (use-package evil
-          :init
-          (setq evil-want-keybinding nil)
-          (setq evil-want-integration t)
-          :config
-          (evil-mode 1))
-
-        (use-package evil-collection
-          :after evil
-          :config
-          (evil-collection-init))
-
-        ;; add fd as a remap for esc
-        (use-package evil-escape
-          :delight)
-
-        (evil-escape-mode 1)
-        (setq-default evil-escape-key-sequence "fd"))
-      ;; sane keybindings from the start
-
-      (use-package general
+    (defun setup-evil ()
+      "Install and configure evil-mode and related bindings."
+      (use-package evil
         :init
-        (setup-evil)
+        (setq evil-want-keybinding nil)
+        (setq evil-want-integration t)
         :config
-        (general-evil-setup))
+        (evil-mode 1))
 
-      (defun setup-magit ()
-        (use-package magit)
-        ;; disable the default emacs vc because git is all I use,
-        ;; for I am a simple man
-        (setq vc-handled-backends nil)
-        (use-package evil-magit))
+      (use-package evil-collection
+        :after evil
+        :config
+        (evil-collection-init))
 
-      ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
-      (use-package forge
-        :after magit)
-      ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
-      ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #.
+      ;; add fd as a remap for esc
+      (use-package evil-escape
+        :delight)
 
-      (use-package which-key
-        :delight
-        :init
-        (which-key-mode)
-        (which-key-setup-minibuffer))
+      (evil-escape-mode 1)
+      (setq-default evil-escape-key-sequence "fd"))
+    ;; sane keybindings from the start
+
+    (use-package general
+      :init
+      (setup-evil)
+      :config
+      (general-evil-setup))
+
+    (defun setup-magit ()
+      (use-package magit)
+      ;; disable the default emacs vc because git is all I use,
+      ;; for I am a simple man
+      (setq vc-handled-backends nil)
+      (use-package evil-magit))
+
+    ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
+    (use-package forge
+      :after magit)
+    ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
+    ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #.
+
+    (use-package which-key
+      :delight
+      :init
+      (which-key-mode)
+      (which-key-setup-minibuffer))
 
 
-        ;; customizations to compilation mode
+    ;; customizations to compilation mode
 
-      (defun ansi ()
-        ;; enable ANSI escape codes in compilation buffer
-        (use-package ansi-color)
-        ;; slightly modified from
-        ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
-        (defun colorize-compilation ()
-          "Colorize from `compilation-filter-start' to `point'."
-          (let ((inhibit-read-only t))
-            (ansi-color-apply-on-region
-             compilation-filter-start (point))))
+    (defun ansi ()
+      ;; enable ANSI escape codes in compilation buffer
+      (use-package ansi-color)
+      ;; slightly modified from
+      ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
+      (defun colorize-compilation ()
+        "Colorize from `compilation-filter-start' to `point'."
+        (let ((inhibit-read-only t))
+          (ansi-color-apply-on-region
+           compilation-filter-start (point))))
 
-        (add-hook 'compilation-filter-hook
-                  #'colorize-compilation))
-      (ansi)
+      (add-hook 'compilation-filter-hook
+                #'colorize-compilation))
 
-      (add-hook 'compilation-mode-hook
-                #'adaptive-wrap-prefix-mode)
+    (ansi)
 
-      (defun dashboard ()
-        ;; provides a nice looking dashboard at launch
-        ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
-        (use-package all-the-icons) ;; provides optional icons for dashboard
-        (use-package dashboard
-          :config
-          (dashboard-setup-startup-hook)
-          (setq dashboard-startup-banner 'logo)
-          (setq dashboard-center-content t)
-          (setq dashboard-items '((recents  . 5)
-                                  (bookmarks . 5)
-                                  (projects . 5))
-                )
-          ;; (registers . 5)
-          ;; (agenda . 5)
-          )
+    (defun dashboard ()
+      ;; provides a nice looking dashboard at launch
+      ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
+      (use-package all-the-icons) ;; provides optional icons for dashboard
+      (use-package dashboard
+        :config
+        (dashboard-setup-startup-hook)
+        (setq dashboard-startup-banner 'logo)
+        (setq dashboard-center-content t)
+        (setq dashboard-items '((recents  . 5)
+                                (bookmarks . 5)
+                                (projects . 5))
+              )
+        ;; (registers . 5)
+        ;; (agenda . 5)
         )
-      ;; anything so trivial that there is no config necessary goes here
-      (defun extra-packages ()
+      )
+    ;; anything so trivial that there is no config necessary goes here
+    (defun extra-packages ()
 
-        (use-package git-gutter
-          :config
-          (global-git-gutter-mode +1))
-        ;; git-gutter does not play nicely with linum-mode
-        ;; investigate long-term solution?
+      ;; hugo blog management
+      (use-package easy-hugo
+        :config
+        (setq easy-hugo-basedir "~/foo.party")
+        (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
 
-        ;; provides highlighting of the current line
-        (global-hl-line-mode)
-        (setq global-hl-line-sticky-flag t)
-
-        ;; set up rainbow delimiters for Elisp
-        (use-package rainbow-delimiters
-          :config
-          (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-          )
-
-        (use-package restart-emacs)
-        (use-package yasnippet
-          :delight
-          :config
-          (use-package yasnippet-snippets))
-        (use-package systemd)
-        (use-package ranger)
-        (use-package htmlize)
-        (setq ranger-show-literal nil)
-        ;; themes
-        ;;(use-package color-theme-sanityinc-tomorrow)
-        ;;(use-package leuven-theme)
-        (use-package centered-window)
-        )
-
-      ;; auto-completion
-      (use-package company
+    (use-package git-gutter
         :delight
         :config
-        ;; enable it everywhere
-        (add-hook 'after-init-hook 'global-company-mode)
+        (global-git-gutter-mode +1))
+      ;; git-gutter does not play nicely with linum-mode
+      ;; investigate long-term solution?
 
-        ;; tab complete!
-        (global-set-key "\t" 'company-complete-common))
+      ;; provides highlighting of the current line
+      (global-hl-line-mode)
+      (setq global-hl-line-sticky-flag t)
 
-      ;; linter
-      (use-package flycheck
-        :delight
-        ;; enable it everywhere
-        :init (global-flycheck-mode))
-
-      ;; helm
-      (defun setup-helm ()
-        "Install and configure helm, the most important command and control center"
-        (use-package helm
-          :delight
-          :config
-          (use-package helm-descbinds
-            :config
-            (helm-descbinds-mode))
-
-          (global-set-key (kbd "M-x") #'helm-M-x)
-          (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-          (setq helm-always-two-windows nil)
-          (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-          (helm-mode 1)))
-
-      ;; gnu hyperbole
-      (use-package hyperbole
+      ;; set up rainbow delimiters for Elisp
+      (use-package rainbow-delimiters
         :config
+        (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
         )
 
-      (setup-projectile)
-      (setup-magit)
-      (setup-helm)
-      (dashboard)
-      (extra-packages))
+      (use-package restart-emacs)
+      (use-package yasnippet
+        :delight
+        :config
+        (use-package yasnippet-snippets))
+      (use-package systemd)
+      (use-package ranger)
+      (use-package htmlize)
+      (setq ranger-show-literal nil)
+      ;; themes
+      ;;(use-package color-theme-sanityinc-tomorrow)
+      ;;(use-package leuven-theme)
+      (use-package centered-window)
+      )
+
+    ;; auto-completion
+    (use-package company
+      :delight
+      :config
+      ;; enable it everywhere
+      (add-hook 'after-init-hook 'global-company-mode)
+
+      ;; tab complete!
+      (global-set-key "\t" 'company-complete-common))
+
+    ;; linter
+    (use-package flycheck
+      :delight
+      ;; enable it everywhere
+      :init (global-flycheck-mode))
+
+    ;; helm
+    (defun setup-helm ()
+      "Install and configure helm, the most important command and control center"
+      (use-package helm
+        :delight
+        :config
+        (use-package helm-descbinds
+          :config
+          (helm-descbinds-mode))
+
+        (global-set-key (kbd "M-x") #'helm-M-x)
+        (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+        (setq helm-always-two-windows nil)
+        (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
+        (helm-mode 1)))
+
+    ;; gnu hyperbole
+    (use-package hyperbole
+      :config
+      )
+
+    (setup-projectile)
+    (setup-magit)
+    (setup-helm)
+    (dashboard)
+    (extra-packages))
 #+END_SRC
 
 ** Language Configuration
@@ -516,16 +523,25 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 *** Web
 #+BEGIN_SRC emacs-lisp
   (defun web ()
-    (use-package web-mode)
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-    (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
-    (setq web-mode-enable-css-colorization t)
-    (setq web-mode-enable-auto-pairing t)
-
-    (use-package impatient-mode
+    (use-package web-mode
+      :mode (("\\.html$" . web-mode)
+             ("\\.css$"  . web-mode))
       :config
-      (add-to-list 'auto-mode-alist '("\\.html?\\'" . impatient-mode-hook))
-      (add-to-list 'auto-mode-alist '("\\.html?\\'" . httpd-start-hook)))
+      (setq web-mode-enable-css-colorization t)
+      (setq web-mode-enable-auto-pairing t))
+
+    ;; web-mode can provide syntax highlighting for many template
+    ;; engines, but it can't detect the right one if the template uses a generic ending.
+    ;; If a project uses a generic ending for its templates, such
+    ;; as .html, add it below. It would be more elegant to handle this by
+    ;; setting this variable in .dir-locals.el for each project,
+    ;; unfortunately due to this https://github.com/fxbois//issues/799 that
+    ;; is not possible :(
+
+    (setq web-mode-engines-alist '(
+            ("go" . ".*foo.party/.*\\.html\\'")
+            ;; add more projects here..
+            ))
     )
 #+END_SRC
 *** Post-Config
@@ -548,6 +564,8 @@ Any config that needs to run after languages are loaded should go here.
                                             'js2-mode-hook
                                             'yaml-mode-hook
                                             'rjsx-mode-hook))
+      (add-hook 'compilation-mode-hook
+                #'adaptive-wrap-prefix-mode)
       )
 
     ;; sane tab-width
@@ -570,41 +588,50 @@ Any config that needs to run after languages are loaded should go here.
 ** Configuration Variables
 *** Global Configuration
 #+BEGIN_SRC emacs-lisp
-  (defun config ()
-    "Global configuration variables and such. Global functions with keybindings must go here."
+    (defun config ()
+      "Global configuration variables and such. Global functions with keybindings must go here."
 
-    ;; I definitely lifted this from somewhere but failed to document where I got it :\
-    ;; Probably from Spacemacs. Thanks, Spacemacs.
-    (defun toggle-transparency ()
-      (interactive)
-      (let ((alpha (frame-parameter nil 'alpha)))
-        (set-frame-parameter
-         nil 'alpha
-         (if (eql (cond ((numberp alpha) alpha)
-                        ((numberp (cdr alpha)) (cdr alpha))
-                        ;; Also handle undocumented (<active> <inactive>) form.
-                        ((numberp (cadr alpha)) (cadr alpha)))
-                  100)
-             '95 '(100 . 100)))))
+      ;; Automatically calls disable-theme on the current theme before
+      ;; loading a new theme! Allows easy theme switching with just M-x load-theme
+      ;; Thanks to https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-emacs-themes/
+      (defun load-theme--disable-old-theme(theme &rest args)
+        "Disable current theme before loading new one."
+        (mapcar #'disable-theme custom-enabled-themes))
+      (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 
-    ;; helper functions for keybindings
-    ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
-    ;; TODO make this behave like alt-tab in Windows, but for buffers
-    (defun er-switch-to-previous-buffer ()
-      "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
-      (interactive)
-      (switch-to-buffer (other-buffer (current-buffer) 1)))
 
-    ;; override Home/End behavior to be more like modern applications
-    (global-set-key (kbd "<home>") 'move-beginning-of-line)
-    (global-set-key (kbd "<end>") 'move-end-of-line)
+      ;; I definitely lifted this from somewhere but failed to document where I got it :\
+      ;; Probably from Spacemacs. Thanks, Spacemacs.
+      (defun toggle-transparency ()
+        (interactive)
+        (let ((alpha (frame-parameter nil 'alpha)))
+          (set-frame-parameter
+           nil 'alpha
+           (if (eql (cond ((numberp alpha) alpha)
+                          ((numberp (cdr alpha)) (cdr alpha))
+                          ;; Also handle undocumented (<active> <inactive>) form.
+                          ((numberp (cadr alpha)) (cadr alpha)))
+                    100)
+               '95 '(100 . 100)))))
 
-    ;; configure align-regexp to use spaces instead of tabs
-    ;; lifted from StackOverflow
-    ;; https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs
-    (defadvice align-regexp (around align-regexp-with-spaces activate)
-      (let ((indent-tabs-mode nil))
-        ad-do-it))
+      ;; helper functions for keybindings
+      ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
+      ;; TODO make this behave like alt-tab in Windows, but for buffers
+      (defun er-switch-to-previous-buffer ()
+        "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+        (interactive)
+        (switch-to-buffer (other-buffer (current-buffer) 1)))
+
+      ;; override Home/End behavior to be more like modern applications
+      (global-set-key (kbd "<home>") 'move-beginning-of-line)
+      (global-set-key (kbd "<end>") 'move-end-of-line)
+
+      ;; configure align-regexp to use spaces instead of tabs
+      ;; lifted from StackOverflow
+      ;; https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs
+      (defadvice align-regexp (around align-regexp-with-spaces activate)
+        (let ((indent-tabs-mode nil))
+          ad-do-it))
      #+END_SRC
 *** Global Keybindings
 
@@ -673,14 +700,16 @@ Any config that needs to run after languages are loaded should go here.
     "gs"     'magit-status
     "gg"     'magit
     "gd"     'magit-diff
-    "h"      'hyperbole
+    "hy"     'hyperbole
+    "hu"     'easy-hugo
+    "hn"     'easy-hugo-newpost
+    "hp"     'easy-hugo-preview
     "jj"     'bookmark-jump
     "js"     'bookmark-set
     "jo"     'org-babel-tangle-jump-to-org
     "ic"     'insert-char
     "p"      'projectile-command-map
     "pf"     'helm-projectile-find-file
-    "pt"     'treemacs-projectile
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
     "sp"     'helm-projectile-ack
@@ -690,6 +719,7 @@ Any config that needs to run after languages are loaded should go here.
     "tn"     'linum-mode
     "tt"     'toggle-transparency
     "tr"     'treemacs
+    "ta"     'treemacs-add-project-to-workspace
     "w-"     'split-window-below
     "w/"     'split-window-right
     "wj"     'evil-window-down
@@ -700,7 +730,6 @@ Any config that needs to run after languages are loaded should go here.
     "wD"     'delete-other-windows
     "wo"     'other-window
     "w="     'balance-windows
-    ";"      'comment-line
     "SPC"    'helm-M-x
     )
     #+END_SRC
@@ -756,6 +785,10 @@ Then Emacs tangles that .org file to a .el file and executes it, allowing config
 This would be a neat feature to expand on at some point.
 
 #+BEGIN_SRC emacs-lisp
+  ;; simplifies setting a font and changing it immediately
+  (defun set-font (font)
+    (set-face-attribute 'default nil :font font )
+    (set-frame-font font nil t))
 
   (let ;; find the hostname and assign it to a variable
        ((hostname (string-trim-right
@@ -768,7 +801,6 @@ This would be a neat feature to expand on at some point.
 
        (load (concat "~/.emacs.d/local/" hostname ".el"))
        (require 'local)))
-
 #+END_SRC
 
 *** Misc Settings
@@ -777,12 +809,15 @@ This would be a neat feature to expand on at some point.
   ;; backups to /tmp
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
+  (setq delete-old-versions t)
+  (auto-save-visited-mode
+      :diminish)
 
   ;; set default window size
   (add-to-list 'default-frame-alist '(width . 128))
   (add-to-list 'default-frame-alist '(height . 60))
 
-  ;; hide some modes that are eveyrwhere
+  ;; hide some modes that are everywhere
   (diminish 'eldoc-mode)
   (diminish 'undo-tree-mode)
   (diminish 'auto-revert-mode)
@@ -844,18 +879,9 @@ This would be a neat feature to expand on at some point.
 
   ;; turn off startup
   (setq inhibit-startup-screen t))
-
     #+END_SRC
 
-*** Publish to README.md
-#+BEGIN_SRC emacs-lisp
-  (defun publish ()
-    "Publishes (to github flavored markdown for now."
-    (org-gfm-export-to-markdown)
-    (rename-file "ian.md" "README.md"))
-#+END_SRC
-
-*** Run Stuff
+** Run Stuff
 Main is called in ~init.el~ and runs the rest of of the config.
 #+BEGIN_SRC emacs-lisp
 

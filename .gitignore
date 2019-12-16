@@ -21,6 +21,7 @@ bin
 forge-database.sqlite
 .#recentf
 recentf
+recentf~
 local/*.el
 .org-id-locations
 emojis/
