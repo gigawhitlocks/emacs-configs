@@ -652,6 +652,10 @@ Any config that needs to run after languages are loaded should go here.
   (general-define-key
    :states 'normal
    "TAB"  'origami-toggle-node
+
+   "J"    'evil-scroll-page-down
+   "K"    'evil-scroll-page-up
+
    "zm"   'origami-toggle-node
    "zM"   'origami-toggle-all-nodes
 
