@@ -788,7 +788,7 @@ Any config that needs to run after languages are loaded should go here.
       '(require 'ox-gfm nil t)))
 #+END_SRC
 *** Hostname-based Tweaks
-Looks for Org files in ~~/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
+Looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
 I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
 Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
 This would be a neat feature to expand on at some point.
