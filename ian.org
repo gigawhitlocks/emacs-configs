@@ -400,6 +400,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
            ("\\.md\\'" . gfm-mode)
            ("\\.markdown\\'" . gfm-mode)))
   (add-hook 'markdown-mode-hook 'visual-line-mode)
+  (add-hook 'markdown-mode-hook 'variable-pitch-mode)
 
   ;; this can go here because it affects Markdown's live preview mode
   ;; but I should consider putting it somewhere more general maybe?
@@ -814,6 +815,8 @@ This would be a neat feature to expand on at some point.
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
   (setq delete-old-versions t)
+
+  ;; autosave
   (auto-save-visited-mode
       :diminish)
 
@@ -839,7 +842,7 @@ This would be a neat feature to expand on at some point.
                                  (lambda (fg) (set-face-foreground 'mode-line fg))
                                  orig-fg))))
 
-  ;; easily take gifs (if byzanz-record is available.. might only work in Linux? not tested)
+  ;; easily take gifs (if byzanz-record is available.. only works in X11)
   (defun create-gif (duration)
     "Create a gif of the current frame with the DURATION provided."
     (interactive "sDuration: ")
