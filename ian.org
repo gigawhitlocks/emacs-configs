@@ -280,7 +280,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
       ;; hugo blog management
       (use-package easy-hugo
         :config
-        (setq easy-hugo-basedir "~/foo.party")
+        (setq easy-hugo-basedir "~/keming.org")
         (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
 
     (use-package git-gutter
@@ -700,6 +700,7 @@ Any config that needs to run after languages are loaded should go here.
     "en"     'flycheck-next-error
     "ep"     'flycheck-previous-error
     "Fm"     'make-frame
+    "Fd"     'delete-frame
     "ff"     'helm-find-files
     "fr"     'helm-recentf
     "fed"    'find-initfile
@@ -719,12 +720,12 @@ Any config that needs to run after languages are loaded should go here.
     "ic"     'insert-char
     "p"      'projectile-command-map
     "pf"     'helm-projectile-find-file
+    "p!"     'projectile-run-async-shell-command-in-root
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
     "sp"     'helm-projectile-ack
     "qq"     'save-buffers-kill-terminal
     "qr"     'restart-emacs
-    "qz"     'close-client-frame
     "tn"     'linum-mode
     "tt"     'toggle-transparency
     "tr"     'treemacs
