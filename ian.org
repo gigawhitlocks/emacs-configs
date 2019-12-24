@@ -898,23 +898,20 @@ This would be a neat feature to expand on at some point.
     #+END_SRC
 
 *** ERC
-**** Credential Management
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
 ~machine HOSTNAME login USER password PASSWORD port PORTNUMBER~
 
 So we can use ~sed~ and ~grep~ which are available on all of my machines to look up the nick, and then once we have the nick, Emacs will get the rest automatically. Then I manage ~.authinfo~ manually on each machine.
 
-First, write a new command to get the nick:
-(TODO eliminate this dependency by just doing this in elisp directly?)
+I wrote a quick Bash one-liner to extract the login. Maybe I could've done this in elisp but Emacs makes it easy enough to mix languages, so here is the one-liner, which will tangle out to ~get-nick.bash~:
 
 #+BEGIN_SRC bash :tangle ~/.emacs.d/get-nick.bash :shebang /bin/bash
 cat ~/.authinfo | grep "$1" | sed 's/.*login \([^ ]\+ \).*/\1/g'
 #+END_SRC
 
-Then configure Emacs to use this to find the nick:
+Then configure Emacs to use this to find the nick (and put in place the rest of the configuration that I would like for ERC):
 
-**** Elisp configuration
 #+BEGIN_SRC emacs-lisp
   (defun irc ()
     "Connect to IRC."
@@ -929,11 +926,13 @@ Then configure Emacs to use this to find the nick:
            ))
 
       (erc-tls
+       ;; these days I only use Freenode
        :server "irc.freenode.net"
        :port 6697
        :nick nick)
       )
 
+    ;; if this list gets longer I probably don't want to keep it in public
     (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" )))
     (setq erc-hide-list '("JOIN" "PART" "QUIT"))
     (setq erc-rename-buffers t)
