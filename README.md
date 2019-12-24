@@ -1,27 +1,25 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org354e39a)
-  - [Justification](#orgb6180bf)
-  - [Featuring](#orgef2d805)
-- [Entrypoint for Loading the Org Config](#org8e68cf7)
-- [My Environment](#org04a813c)
-  - [Bootstrap](#orgebcd74f)
-  - [Package Installation and Configuration](#orge6bddc2)
-  - [Language Configuration](#org9de980b)
-  - [Global Environment Configuration](#orgd97ee1f)
-  - [Render this file for display on Github](#org1b31309)
-  - [Run Stuff](#org204a6aa)
-- [Packages to Try](#orgde17096)
-  - [emmet-mode](#org5e24baf)
-  - [yasnippet-snippets](#org9119f0f)
-- [Notes and Such](#org1ba50f3)
-  - [System-local settings](#orgf715284)
-  - [Hyperbole](#org8d9fff8)
-  - [Monospace Fonts](#org1722943)
-  - [Proportional Fonts](#org294cfa0)
-  - [Authentication and Secrets in Emacs](#org35cd7ea)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org6cc290c)
+  - [Justification](#org32b52ce)
+  - [Featuring](#orgd4e6a3d)
+- [Entrypoint](#org268f301)
+- [My Environment](#orga0fcd67)
+  - [Bootstrap](#org311a1b7)
+  - [Package Installation and Configuration](#org4674026)
+  - [Language Configuration](#org5a4fbf0)
+  - [Global Environment Configuration](#org5c70761)
+  - [Render this file for display on Github](#org73b4e95)
+  - [Run Stuff](#org992fb82)
+- [Notes and Such](#orge3de7a0)
+  - [System-local settings](#org8b6f3d0)
+  - [Hyperbole](#org563e2d3)
+  - [Monospace Fonts](#orgbc8b182)
+  - [Proportional Fonts](#org173aae2)
+  - [Authentication and Secrets in Emacs](#org92bd316)
+  - [Packages to Try](#orgaf81db4)
 
 
 
-<a id="org354e39a"></a>
+<a id="org6cc290c"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -30,7 +28,7 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="orgb6180bf"></a>
+<a id="org32b52ce"></a>
 
 ## Justification
 
@@ -59,7 +57,7 @@ Org Mode is a display mode for content written in the Org markup language, which
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="orgef2d805"></a>
+<a id="orgd4e6a3d"></a>
 
 ## Featuring
 
@@ -101,11 +99,11 @@ Pops up a window to show available commands, given a prefix. Awesome for discove
 Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
 
 
-<a id="org8e68cf7"></a>
+<a id="org268f301"></a>
 
-# Entrypoint for Loading the Org Config
+# Entrypoint
 
-Using Org for my configuration is a personal choice &#x2013; Emacs runs `init.el` at the beginning of execution. This piece of code tangles to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file and executes `main`, so it is this piece of code that starts the whole process of loading all of this configuration.
+This is `init.el`. Using Org for my configuration is a personal choice &#x2013; Emacs runs `init.el` at the beginning of execution. This piece of code tangles to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file and executes `main`, so it is this piece of code that starts the whole process of loading all of this configuration.
 
 `init.el` just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of `init.el`. I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output from the call to tangle, run `main`, and I'm done.
 
@@ -150,7 +148,7 @@ Using Org for my configuration is a personal choice &#x2013; Emacs runs `init.el
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org04a813c"></a>
+<a id="orga0fcd67"></a>
 
 # My Environment
 
@@ -163,7 +161,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgebcd74f"></a>
+<a id="org311a1b7"></a>
 
 ## Bootstrap
 
@@ -216,7 +214,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 ```
 
 
-<a id="orge6bddc2"></a>
+<a id="org4674026"></a>
 
 ## Package Installation and Configuration
 
@@ -227,9 +225,6 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 ```emacs-lisp
 (defun global-packages ()
   "Install and configure packages used with many modes and standalone modes and applications."
-
-  ;; provides helpful string manipulation shortcut functions
-  (use-package s)
 
   ;; left hand side tree view like neotree
   ;; nice for exploring smaller projects
@@ -365,18 +360,18 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 	  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 	  )
 
+
 	(use-package restart-emacs)
+	(use-package s) ;; elisp string manipulation utility lib
 	(use-package yasnippet
 	  :delight
 	  :config
 	  (use-package yasnippet-snippets))
 	(use-package systemd)
-	(use-package ranger)
+	(use-package ranger
+	  :config
+	  (setq ranger-show-literal nil))
 	(use-package htmlize)
-	(setq ranger-show-literal nil)
-	;; themes
-	;;(use-package color-theme-sanityinc-tomorrow)
-	;;(use-package leuven-theme)
 	(use-package centered-window)
 	)
 
@@ -425,7 +420,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 ```
 
 
-<a id="org9de980b"></a>
+<a id="org5a4fbf0"></a>
 
 ## Language Configuration
 
@@ -684,7 +679,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="orgd97ee1f"></a>
+<a id="org5c70761"></a>
 
 ## Global Environment Configuration
 
@@ -1043,7 +1038,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org1b31309"></a>
+<a id="org73b4e95"></a>
 
 ## Render this file for display on Github
 
@@ -1064,7 +1059,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org204a6aa"></a>
+<a id="org992fb82"></a>
 
 ## Run Stuff
 
@@ -1086,35 +1081,14 @@ Main is called in `init.el` and runs the rest of of the config.
 ```
 
 
-<a id="orgde17096"></a>
-
-# Packages to Try
-
-These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
-
-
-<a id="org5e24baf"></a>
-
-## emmet-mode
-
-Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.com/smihica/emmet-mode>
-
-
-<a id="org9119f0f"></a>
-
-## yasnippet-snippets
-
-Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
-
-
-<a id="org1ba50f3"></a>
+<a id="orge3de7a0"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="orgf715284"></a>
+<a id="org8b6f3d0"></a>
 
 ## DONE System-local settings
 
@@ -1125,7 +1099,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 3.  That's it, there is no three.
 
 
-<a id="org8d9fff8"></a>
+<a id="org563e2d3"></a>
 
 ## DONE Hyperbole
 
@@ -1137,7 +1111,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 ```
 
 
-<a id="org1722943"></a>
+<a id="orgbc8b182"></a>
 
 ## DONE Monospace Fonts
 
@@ -1169,17 +1143,34 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org294cfa0"></a>
+<a id="org173aae2"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org35cd7ea"></a>
+<a id="org92bd316"></a>
 
 ## Authentication and Secrets in Emacs
 
 Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secrets. Should probably learn how to do this (I bet it is super simple) because it will allow me to store configuration that relies on secrets more easily.
 
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
+
+
+<a id="orgaf81db4"></a>
+
+## Packages to Try
+
+These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
+
+
+### emmet-mode
+
+Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.com/smihica/emmet-mode>
+
+
+### yasnippet-snippets
+
+Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>

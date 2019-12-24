@@ -51,12 +51,12 @@ Pops up a window to show available commands, given a prefix. Awesome for discove
 *** leuven-theme
 Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
 
-* Entrypoint for Loading the Org Config
+* Entrypoint
 :properties:
 :header-args: :tangle ~/.emacs.d/init.el :comments link
 :end:
 
-Using Org for my configuration is a personal choice -- Emacs runs ~init.el~ at the beginning of execution. This piece of code tangles to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file and executes ~main~, so it is this piece of code that starts the whole process of loading all of this configuration.
+This is ~init.el~. Using Org for my configuration is a personal choice -- Emacs runs ~init.el~ at the beginning of execution. This piece of code tangles to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file and executes ~main~, so it is this piece of code that starts the whole process of loading all of this configuration.
 
 ~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output from the call to tangle, run ~main~, and I'm done.
 
@@ -170,9 +170,6 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 #+BEGIN_SRC emacs-lisp
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
-
-    ;; provides helpful string manipulation shortcut functions
-    (use-package s)
 
     ;; left hand side tree view like neotree
     ;; nice for exploring smaller projects
@@ -308,18 +305,18 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
         (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
         )
 
+
       (use-package restart-emacs)
+      (use-package s) ;; elisp string manipulation utility lib
       (use-package yasnippet
         :delight
         :config
         (use-package yasnippet-snippets))
       (use-package systemd)
-      (use-package ranger)
+      (use-package ranger
+        :config
+        (setq ranger-show-literal nil))
       (use-package htmlize)
-      (setq ranger-show-literal nil)
-      ;; themes
-      ;;(use-package color-theme-sanityinc-tomorrow)
-      ;;(use-package leuven-theme)
       (use-package centered-window)
       )
 
@@ -977,15 +974,6 @@ Main is called in ~init.el~ and runs the rest of of the config.
   ;;; ian.el ends here
 #+END_SRC
 
-* Packages to Try
-These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
-** emmet-mode
-Emmet is the "zen coding" plugin for really fast HTML authoring
-[[https://github.com/smihica/emmet-mode]]
-** yasnippet-snippets
-Some default snippets -- don't install until we're ready to figure out how to use them
-[[https://github.com/AndreaCrotti/yasnippet-snippets]]
-
 * Notes and Such
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** DONE System-local settings
@@ -1032,3 +1020,11 @@ Just stumbled on the use of ~~/.authinfo.gpg~ files with Emacs for storing secre
 Should probably learn how to do this (I bet it is super simple) because it will allow me to store configuration that relies on secrets more easily.
 
 [[https://www.emacswiki.org/emacs/GnusAuthinfo]]
+** Packages to Try
+These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
+*** emmet-mode
+Emmet is the "zen coding" plugin for really fast HTML authoring
+[[https://github.com/smihica/emmet-mode]]
+*** yasnippet-snippets
+Some default snippets -- don't install until we're ready to figure out how to use them
+[[https://github.com/AndreaCrotti/yasnippet-snippets]]
