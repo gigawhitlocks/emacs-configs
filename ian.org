@@ -1,5 +1,6 @@
 #+TITLE: Ian's Custom Emacs Environment with Associated Notes and Commentary
 #+AUTHOR: Ian Whitlock
+#+OPTIONS: toc:nil
 This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
 There are many configurations like this one, but this one is mine.
@@ -938,6 +939,23 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
     (setq erc-rename-buffers t)
 
     )
+#+END_SRC
+
+** Render this file for display on Github
+This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the Github home page, but in the correct format and everything.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-save-hook
+            '(lambda ()
+               (when (string=
+                      (file-name-nondirectory (buffer-file-name))
+                      "ian.org")
+                 (org-gfm-export-to-markdown)
+                 (if (find-buffer-visiting "~/.emacs.d/README.md")
+                     (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
+                 (delete-file "README.md" t)
+                 (rename-file "ian.md" "README.md")
+                 )))
 #+END_SRC
 
 ** Run Stuff
