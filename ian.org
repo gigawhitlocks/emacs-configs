@@ -1,6 +1,7 @@
 #+TITLE: Ian's Custom Emacs Environment with Associated Notes and Commentary
 #+AUTHOR: Ian Whitlock
-#+OPTIONS: toc:nil
+#+OPTIONS: toc:2
+* Ian's Custom Emacs Environment with Associated Notes and Commentary
 This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
 There are many configurations like this one, but this one is mine.
@@ -597,8 +598,8 @@ Any config that needs to run after languages are loaded should go here.
   (web)
   (post-config))
 #+END_SRC
-** Configuration Variables
-*** Global Configuration
+** Global Environment Configuration
+*** Misc Configuration
 #+BEGIN_SRC emacs-lisp
     (defun config ()
       "Global configuration variables and such. Global functions with keybindings must go here."
