@@ -1,31 +1,27 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#orgc416334)
-  - [Justification](#orge175606)
-  - [Featuring](#org29a0bcd)
-- [Entrypoint for Loading the Org Config](#org37e0173)
-- [My Environment](#orge62d969)
-  - [Bootstrap](#org8c2c499)
-  - [Package Installation and Configuration](#org1619043)
-  - [Language Configuration](#orgb5ba410)
-  - [Global Environment Configuration](#org25cea42)
-  - [Render this file for display on Github](#orge906bee)
-  - [Run Stuff](#org42d194a)
-- [Packages to Try](#org5d3fd5c)
-  - [emmet-mode](#orgf3bd241)
-  - [yasnippet-snippets](#orgc76cb66)
-- [Notes and Such](#org387e17b)
-  - [System-local settings](#org34e606b)
-  - [Hyperbole](#orgbe8f9b2)
-  - [Monospace Fonts](#org9ad6049)
-  - [Proportional Fonts](#org28d67df)
-  - [ERC](#orgf322079)
-  - [Mail](#orgf091ed7)
-  - [Emoji](#org4098dad)
-  - [Emacs for Prose](#org7d41723)
-  - [Authentication and Secrets in Emacs](#orgd540d78)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org354e39a)
+  - [Justification](#orgb6180bf)
+  - [Featuring](#orgef2d805)
+- [Entrypoint for Loading the Org Config](#org8e68cf7)
+- [My Environment](#org04a813c)
+  - [Bootstrap](#orgebcd74f)
+  - [Package Installation and Configuration](#orge6bddc2)
+  - [Language Configuration](#org9de980b)
+  - [Global Environment Configuration](#orgd97ee1f)
+  - [Render this file for display on Github](#org1b31309)
+  - [Run Stuff](#org204a6aa)
+- [Packages to Try](#orgde17096)
+  - [emmet-mode](#org5e24baf)
+  - [yasnippet-snippets](#org9119f0f)
+- [Notes and Such](#org1ba50f3)
+  - [System-local settings](#orgf715284)
+  - [Hyperbole](#org8d9fff8)
+  - [Monospace Fonts](#org1722943)
+  - [Proportional Fonts](#org294cfa0)
+  - [Authentication and Secrets in Emacs](#org35cd7ea)
 
 
 
-<a id="orgc416334"></a>
+<a id="org354e39a"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -34,7 +30,7 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="orge175606"></a>
+<a id="orgb6180bf"></a>
 
 ## Justification
 
@@ -63,7 +59,7 @@ Org Mode is a display mode for content written in the Org markup language, which
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="org29a0bcd"></a>
+<a id="orgef2d805"></a>
 
 ## Featuring
 
@@ -105,7 +101,7 @@ Pops up a window to show available commands, given a prefix. Awesome for discove
 Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
 
 
-<a id="org37e0173"></a>
+<a id="org8e68cf7"></a>
 
 # Entrypoint for Loading the Org Config
 
@@ -154,7 +150,7 @@ Using Org for my configuration is a personal choice &#x2013; Emacs runs `init.el
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orge62d969"></a>
+<a id="org04a813c"></a>
 
 # My Environment
 
@@ -167,7 +163,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org8c2c499"></a>
+<a id="orgebcd74f"></a>
 
 ## Bootstrap
 
@@ -220,7 +216,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 ```
 
 
-<a id="org1619043"></a>
+<a id="orge6bddc2"></a>
 
 ## Package Installation and Configuration
 
@@ -429,7 +425,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 ```
 
 
-<a id="orgb5ba410"></a>
+<a id="org9de980b"></a>
 
 ## Language Configuration
 
@@ -688,7 +684,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="org25cea42"></a>
+<a id="orgd97ee1f"></a>
 
 ## Global Environment Configuration
 
@@ -922,15 +918,16 @@ Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the sam
 ### Misc Settings
 
 ```emacs-lisp
-
 ;; backups to /tmp
 (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
 (setq backup-by-copying t)
 (setq delete-old-versions t)
 
 ;; autosave
+(setq auto-save-visited-interval 300)
 (auto-save-visited-mode
-	:diminish)
+ :diminish
+ )
 
 ;; set default window size
 (add-to-list 'default-frame-alist '(width . 128))
@@ -1046,7 +1043,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orge906bee"></a>
+<a id="org1b31309"></a>
 
 ## Render this file for display on Github
 
@@ -1067,7 +1064,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org42d194a"></a>
+<a id="org204a6aa"></a>
 
 ## Run Stuff
 
@@ -1089,35 +1086,35 @@ Main is called in `init.el` and runs the rest of of the config.
 ```
 
 
-<a id="org5d3fd5c"></a>
+<a id="orgde17096"></a>
 
 # Packages to Try
 
 These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
 
 
-<a id="orgf3bd241"></a>
+<a id="org5e24baf"></a>
 
 ## emmet-mode
 
 Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.com/smihica/emmet-mode>
 
 
-<a id="orgc76cb66"></a>
+<a id="org9119f0f"></a>
 
 ## yasnippet-snippets
 
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org387e17b"></a>
+<a id="org1ba50f3"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org34e606b"></a>
+<a id="orgf715284"></a>
 
 ## DONE System-local settings
 
@@ -1128,7 +1125,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 3.  That's it, there is no three.
 
 
-<a id="orgbe8f9b2"></a>
+<a id="org8d9fff8"></a>
 
 ## DONE Hyperbole
 
@@ -1140,7 +1137,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 ```
 
 
-<a id="org9ad6049"></a>
+<a id="org1722943"></a>
 
 ## DONE Monospace Fonts
 
@@ -1172,42 +1169,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org28d67df"></a>
+<a id="org294cfa0"></a>
 
 ## Proportional Fonts
 
-I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org! Xah Lee has an example where he does something similar to what I'd want <http://ergoemacs.org/emacs/emacs_proportional_font.html>
+I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="orgf322079"></a>
-
-## ERC
-
-This is something I'd like eventually. Maybe? Here's a Reddit thread on the topic. <https://www.reddit.com/r/emacs/comments/8ml6na/tip_how_to_make_erc_fun_to_use/>
-
-
-<a id="orgf091ed7"></a>
-
-## Mail
-
-Eventually.
-
-
-<a id="org4098dad"></a>
-
-## DONE Emoji
-
-<https://github.com/iqbalansari/emacs-emojify>
-
-
-<a id="org7d41723"></a>
-
-## Emacs for Prose
-
-> 13:23 user0: have you seen: <https://www.youtube.com/watch?v=FtieBc3KptU> 13:23 user0: not a fiction writer, but a writer using emacs 13:24 user1: Org exports to PDF using Latex, no need for extra packages (just install textlive-full&#x2026;) 13:24 user1: flyspell+aspell takes care of spell checking 13:25 user1: engine is awesome to make some commands to search words right from Emacs in several online dictionaries, and there's also wordnut for an offline dictionary and thesaurus 13:25 user1: engine-mode, look it up. Theres also a mode for google translate 13:26 user1: for regular prose there's nothing better than Org in my opinion, but Markdown is good too 13:26 user1: there's also Fountain Mode for screenplays that is really awesome 13:26 user2: also switching to proportional fonts can be a big help for prose 13:27 user1: user2, yes, the poet-theme is made specifically for that. I don't like variable pitch, though. YMMV. 13:28 user1: You can use proselint for grammar, but it has a very limited scoped compared to tools like Grammarly&#x2026; 13:29 user1: and since almost everything I write goes into the browser eventually, I just use Grammarly (it would be awesome if someone made a package to access Grammarly from Emacs&#x2026;) 13:29 user1: I think that's it&#x2026; you're set ;) 13:33 user1: there's also a package for exporting directly to epub 13:33 user1: ox-epub
-
-
-<a id="orgd540d78"></a>
+<a id="org35cd7ea"></a>
 
 ## Authentication and Secrets in Emacs
 

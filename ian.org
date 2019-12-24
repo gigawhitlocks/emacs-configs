@@ -821,15 +821,16 @@ This would be a neat feature to expand on at some point.
 
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
-
   ;; backups to /tmp
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
   (setq delete-old-versions t)
 
   ;; autosave
+  (setq auto-save-visited-interval 300)
   (auto-save-visited-mode
-      :diminish)
+   :diminish
+   )
 
   ;; set default window size
   (add-to-list 'default-frame-alist '(width . 128))
@@ -1025,37 +1026,7 @@ I mean, it's called "Hack"
 
 ** Proportional Fonts
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
-Xah Lee has an example where he does something similar to what I'd want [[http://ergoemacs.org/emacs/emacs_proportional_font.html]]
 
-** ERC
-This is something I'd like eventually. Maybe?
-Here's a Reddit thread on the topic. [[https://www.reddit.com/r/emacs/comments/8ml6na/tip_how_to_make_erc_fun_to_use/]]
-
-** Mail
-Eventually.
-
-** DONE Emoji
-https://github.com/iqbalansari/emacs-emojify
-
-** Emacs for Prose
-#+BEGIN_QUOTE
-13:23 user0:  have you seen: https://www.youtube.com/watch?v=FtieBc3KptU
-13:23 user0: not a fiction writer, but a writer using emacs
-13:24 user1: Org exports to PDF using Latex, no need for extra packages (just install textlive-full...)
-13:24 user1: flyspell+aspell takes care of spell checking
-13:25 user1: engine is awesome to make some commands to search words right from Emacs in several online dictionaries, and there's also wordnut for an offline dictionary and thesaurus
-13:25 user1: engine-mode, look it up. Theres also a mode for google translate
-13:26 user1: for regular prose there's nothing better than Org in my opinion, but Markdown is good too
-13:26 user1: there's also Fountain Mode for screenplays that is really awesome
-13:26 user2: also switching to proportional fonts can be a big help for prose
-13:27 user1: user2, yes, the poet-theme is made specifically for that. I don't like variable pitch, though. YMMV.
-13:28 user1: You can use proselint for grammar, but it has a very limited scoped compared to tools like Grammarly...
-13:29 user1: and since almost everything I write goes into the browser eventually, I just use Grammarly (it would be awesome if someone made a package to access Grammarly from Emacs...)
-13:29 user1: I think that's it... you're set ;)
-13:33 user1: there's also a package for exporting directly to epub
-13:33 user1: ox-epub
-
-#+END_QUOTE
 ** Authentication and Secrets in Emacs
 Just stumbled on the use of ~~/.authinfo.gpg~ files with Emacs for storing secrets.
 Should probably learn how to do this (I bet it is super simple) because it will allow me to store configuration that relies on secrets more easily.
