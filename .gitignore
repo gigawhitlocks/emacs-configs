@@ -25,3 +25,5 @@ recentf~
 local/*.el
 .org-id-locations
 emojis/
+get-nick.bash
+eshell/*
