@@ -23,33 +23,9 @@ Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode
 *** Org Mode
 This configuration is written in Org syntax.
 
-Org Mode is a display mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as ~org-babel~. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
+[[https://orgmode.org][Org Mode]] is a display mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as ~org-babel~. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
 
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
-
-** Featuring
-My config features many 3rd party packages. I'd like to give special attention to some of my favorites
-
-*** evil-mode
-Bringing a sane editing experience to Emacs.
-
-*** helm
-Helm brings an awesome command UI to Emacs that completely alters the experience (for the better, in my opinion).
-
-*** magit
-The best ~git~ UI on the planet.
-
-*** projectile
-Allowing jumping around inside of version-controlled projects, searching, all kinds of goodies.
-
-*** general
-Sane key bindings.
-
-*** which-key
-Pops up a window to show available commands, given a prefix. Awesome for discoverability, which is essential for a platform as extensible as Emacs.
-
-*** leuven-theme
-Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
 
 * Entrypoint
 :properties:

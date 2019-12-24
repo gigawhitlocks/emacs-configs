@@ -1,25 +1,24 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org6cc290c)
-  - [Justification](#org32b52ce)
-  - [Featuring](#orgd4e6a3d)
-- [Entrypoint](#org268f301)
-- [My Environment](#orga0fcd67)
-  - [Bootstrap](#org311a1b7)
-  - [Package Installation and Configuration](#org4674026)
-  - [Language Configuration](#org5a4fbf0)
-  - [Global Environment Configuration](#org5c70761)
-  - [Render this file for display on Github](#org73b4e95)
-  - [Run Stuff](#org992fb82)
-- [Notes and Such](#orge3de7a0)
-  - [System-local settings](#org8b6f3d0)
-  - [Hyperbole](#org563e2d3)
-  - [Monospace Fonts](#orgbc8b182)
-  - [Proportional Fonts](#org173aae2)
-  - [Authentication and Secrets in Emacs](#org92bd316)
-  - [Packages to Try](#orgaf81db4)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org261cae5)
+  - [Justification](#orgbcef5e0)
+- [Entrypoint](#org7a04db3)
+- [My Environment](#orga95857d)
+  - [Bootstrap](#org1afe5cd)
+  - [Package Installation and Configuration](#orgb87ac1b)
+  - [Language Configuration](#orgc27b67a)
+  - [Global Environment Configuration](#org893e0dc)
+  - [Render this file for display on Github](#org997e14d)
+  - [Run Stuff](#org6ec3400)
+- [Notes and Such](#orgdc48c87)
+  - [System-local settings](#org08658f4)
+  - [Hyperbole](#org5976941)
+  - [Monospace Fonts](#orgaf8d2db)
+  - [Proportional Fonts](#orgb4471bf)
+  - [Authentication and Secrets in Emacs](#org7bf927e)
+  - [Packages to Try](#org11fd78b)
 
 
 
-<a id="org6cc290c"></a>
+<a id="org261cae5"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -28,7 +27,7 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="org32b52ce"></a>
+<a id="orgbcef5e0"></a>
 
 ## Justification
 
@@ -52,54 +51,12 @@ Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode
 
 This configuration is written in Org syntax.
 
-Org Mode is a display mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as `org-babel`. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
+[Org Mode](https://orgmode.org) is a display mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as `org-babel`. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
 
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="orgd4e6a3d"></a>
-
-## Featuring
-
-My config features many 3rd party packages. I'd like to give special attention to some of my favorites
-
-
-### evil-mode
-
-Bringing a sane editing experience to Emacs.
-
-
-### helm
-
-Helm brings an awesome command UI to Emacs that completely alters the experience (for the better, in my opinion).
-
-
-### magit
-
-The best `git` UI on the planet.
-
-
-### projectile
-
-Allowing jumping around inside of version-controlled projects, searching, all kinds of goodies.
-
-
-### general
-
-Sane key bindings.
-
-
-### which-key
-
-Pops up a window to show available commands, given a prefix. Awesome for discoverability, which is essential for a platform as extensible as Emacs.
-
-
-### leuven-theme
-
-Beautiful old-school light theme. Eventually I'll choose a dark theme to accompany this one.
-
-
-<a id="org268f301"></a>
+<a id="org7a04db3"></a>
 
 # Entrypoint
 
@@ -148,7 +105,7 @@ This is `init.el`. Using Org for my configuration is a personal choice &#x2013; 
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orga0fcd67"></a>
+<a id="orga95857d"></a>
 
 # My Environment
 
@@ -161,7 +118,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org311a1b7"></a>
+<a id="org1afe5cd"></a>
 
 ## Bootstrap
 
@@ -214,7 +171,7 @@ The bootstrap function sets up the main software repository for downloading 3rd 
 ```
 
 
-<a id="org4674026"></a>
+<a id="orgb87ac1b"></a>
 
 ## Package Installation and Configuration
 
@@ -420,7 +377,7 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 ```
 
 
-<a id="org5a4fbf0"></a>
+<a id="orgc27b67a"></a>
 
 ## Language Configuration
 
@@ -679,7 +636,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="org5c70761"></a>
+<a id="org893e0dc"></a>
 
 ## Global Environment Configuration
 
@@ -1038,7 +995,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org73b4e95"></a>
+<a id="org997e14d"></a>
 
 ## Render this file for display on Github
 
@@ -1059,7 +1016,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org992fb82"></a>
+<a id="org6ec3400"></a>
 
 ## Run Stuff
 
@@ -1081,14 +1038,14 @@ Main is called in `init.el` and runs the rest of of the config.
 ```
 
 
-<a id="orge3de7a0"></a>
+<a id="orgdc48c87"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org8b6f3d0"></a>
+<a id="org08658f4"></a>
 
 ## DONE System-local settings
 
@@ -1099,7 +1056,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 3.  That's it, there is no three.
 
 
-<a id="org563e2d3"></a>
+<a id="org5976941"></a>
 
 ## DONE Hyperbole
 
@@ -1111,7 +1068,7 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 ```
 
 
-<a id="orgbc8b182"></a>
+<a id="orgaf8d2db"></a>
 
 ## DONE Monospace Fonts
 
@@ -1143,14 +1100,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org173aae2"></a>
+<a id="orgb4471bf"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org92bd316"></a>
+<a id="org7bf927e"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1159,7 +1116,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgaf81db4"></a>
+<a id="org11fd78b"></a>
 
 ## Packages to Try
 
