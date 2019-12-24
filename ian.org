@@ -98,12 +98,16 @@ Using Org for my configuration is a personal choice -- Emacs runs ~init.el~ at t
 
 The rest of the code that is executed begins with the routines defined by this file.
 
-* My Customizations
+* My Environment
 :properties:
 :header-args: :tangle yes :comments link :noweb yes
 :end:
 
-*This is where my customizations really begin*
+The point of Emacs, and the reason every Emacs user should write his or her own configuration, is to build your own environment so that it behaves how you want it to.
+
+This may seem to be a lot of work, and it is. But if a serious guitar player might have a custom guitar built, I see no reason I shouldn't use a custom environment for my craft.
+
+*This is where my environment definition begins*
 
 After running the ~init.el~ entrypoint, this file is tangled to ~ian.el~ and executed. Right now all configuration other than the entrypoint is in this file.
 
@@ -164,6 +168,9 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 #+BEGIN_SRC emacs-lisp
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
+
+    ;; provides helpful string manipulation shortcut functions
+    (use-package s)
 
     ;; left hand side tree view like neotree
     ;; nice for exploring smaller projects
@@ -237,7 +244,6 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
       :init
       (which-key-mode)
       (which-key-setup-minibuffer))
-
 
     ;; customizations to compilation mode
 
@@ -681,16 +687,14 @@ Any config that needs to run after languages are loaded should go here.
     (org-babel-tangle "~/.emacs.d/ian.org")
     (byte-compile-file "~/.emacs.d/ian.el"))
 
-
   (defun close-client-frame ()
     "Exit emacsclient."
     (interactive)
     (server-edit "Done"))
 
   ;; global keybindings
-  (my-leader-def
-    :keymaps 'normal
-    "bb"     'switch-to-buffer
+  (my-leader-def 'normal 'override
+    "bb"     'helm-mini
     "TAB"    #'switch-to-prev-buffer
     "br"     'revert-buffer
     "bd"     'evil-delete-buffer
@@ -892,6 +896,50 @@ This would be a neat feature to expand on at some point.
   ;; turn off startup
   (setq inhibit-startup-screen t))
     #+END_SRC
+
+*** ERC
+**** Credential Management
+I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
+
+~machine HOSTNAME login USER password PASSWORD port PORTNUMBER~
+
+So we can use ~sed~ and ~grep~ which are available on all of my machines to look up the nick, and then once we have the nick, Emacs will get the rest automatically. Then I manage ~.authinfo~ manually on each machine.
+
+First, write a new command to get the nick:
+(TODO eliminate this dependency by just doing this in elisp directly?)
+
+#+BEGIN_SRC bash :tangle ~/.emacs.d/get-nick.bash :shebang /bin/bash
+cat ~/.authinfo | grep "$1" | sed 's/.*login \([^ ]\+ \).*/\1/g'
+#+END_SRC
+
+Then configure Emacs to use this to find the nick:
+
+**** Elisp configuration
+#+BEGIN_SRC emacs-lisp
+  (defun irc ()
+    "Connect to IRC."
+    (interactive)
+
+    (add-hook 'erc-mode-hook 'variable-pitch-mode)
+    (add-hook 'erc-mode-hook 'visual-line-mode)
+
+    (let ((
+           nick  (s-trim (shell-command-to-string
+                          "~/.emacs.d/get-nick.bash freenode"))
+           ))
+
+      (erc-tls
+       :server "irc.freenode.net"
+       :port 6697
+       :nick nick)
+      )
+
+    (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" )))
+    (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+    (setq erc-rename-buffers t)
+
+    )
+#+END_SRC
 
 ** Run Stuff
 Main is called in ~init.el~ and runs the rest of of the config.
