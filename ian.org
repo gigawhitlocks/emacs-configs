@@ -851,7 +851,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
       '(require 'ox-md nil t)
       '(require 'ox-gfm nil t)))
 #+END_SRC
-*** Hostname-based Tweaks
+*** Hostname-based tweaks
 Looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
 I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
 Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
@@ -886,7 +886,7 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
   (setq backup-by-copying t)
   (setq delete-old-versions t)
 #+END_SRC
-*** Clean Whitespace On Save In All Modes
+*** Clean whitespace on save in all modes
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'whitespace-cleanup)
 #+END_SRC
@@ -913,7 +913,7 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
   (diminish 'undo-tree-mode)
   (diminish 'auto-revert-mode)
 #+END_SRC
-*** Less Annoying Bell
+*** Less annoying bell
 Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function
@@ -966,7 +966,7 @@ Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byza
     (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
     duration (width) (height) (x) (y) (filename))))
 #+END_SRC
-*** Remove Toolbar and Menu
+*** Remove toolbar and menu
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M-x~ for everything.
 #+BEGIN_SRC emacs-lisp
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
