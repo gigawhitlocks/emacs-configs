@@ -1,24 +1,23 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org261cae5)
-  - [Justification](#orgbcef5e0)
-- [Entrypoint](#org7a04db3)
-- [My Environment](#orga95857d)
-  - [Bootstrap](#org1afe5cd)
-  - [Package Installation and Configuration](#orgb87ac1b)
-  - [Language Configuration](#orgc27b67a)
-  - [Global Environment Configuration](#org893e0dc)
-  - [Render this file for display on Github](#org997e14d)
-  - [Run Stuff](#org6ec3400)
-- [Notes and Such](#orgdc48c87)
-  - [System-local settings](#org08658f4)
-  - [Hyperbole](#org5976941)
-  - [Monospace Fonts](#orgaf8d2db)
-  - [Proportional Fonts](#orgb4471bf)
-  - [Authentication and Secrets in Emacs](#org7bf927e)
-  - [Packages to Try](#org11fd78b)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org0de70eb)
+  - [Justification](#org0eda228)
+- [Entrypoint](#orgc15c243)
+- [My Environment](#orgf83fac5)
+  - [Bootstrap](#orgfa6d4c7)
+  - [Package Installation and Configuration](#org9fb2dc6)
+  - [Language Configuration](#orgbecc63b)
+  - [Global Environment Configuration](#org39c6696)
+  - [Render this file for display on Github](#org0004d84)
+  - [Run Stuff](#org14b1ff4)
+- [Notes and Such](#org77284f8)
+  - [Hyperbole](#orgce248d7)
+  - [Monospace Fonts](#org4837db0)
+  - [Proportional Fonts](#orgb9cb841)
+  - [Authentication and Secrets in Emacs](#org31155f2)
+  - [Packages to Try](#orgc3e421b)
 
 
 
-<a id="org261cae5"></a>
+<a id="org0de70eb"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -27,7 +26,7 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="orgbcef5e0"></a>
+<a id="org0eda228"></a>
 
 ## Justification
 
@@ -51,18 +50,20 @@ Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode
 
 This configuration is written in Org syntax.
 
-[Org Mode](https://orgmode.org) is a display mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as `org-babel`. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
+[Org Mode](https://orgmode.org) is a major mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as `org-babel`. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
 
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="org7a04db3"></a>
+<a id="orgc15c243"></a>
 
 # Entrypoint
 
-This is `init.el`. Using Org for my configuration is a personal choice &#x2013; Emacs runs `init.el` at the beginning of execution. This piece of code tangles to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file and executes `main`, so it is this piece of code that starts the whole process of loading all of this configuration.
+This is `init.el`. Using Org for my configuration is a personal choice, so I want Emacs to load this file first when it starts up. By default, Emacs runs `init.el` at the beginning of execution. This piece of code tangles to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file and executes `main`, so ****it is this piece of code that starts the whole process of loading all of this configuration****.
 
-`init.el` just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of `init.el`. I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output from the call to tangle, run `main`, and I'm done.
+`init.el` just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of `init.el`. I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
+
+****NOTE**** The filename `ian.org` is hardcoded in this entrypoint routine in the place of the main configuration file. This is because, despite the public nature of my config, it is not intended to be used in whole by anyone but me. This allows me certain shortcuts, like hostname-specific configuration, and convention-over-configuration in ways I find intuitive without overly detailed documentation. It is <span class="underline">my</span> config, after all, so my main config file is `ian.org`.
 
 ```emacs-lisp
 ;;; init --- the Emacs entrypoint
@@ -105,7 +106,7 @@ This is `init.el`. Using Org for my configuration is a personal choice &#x2013; 
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orga95857d"></a>
+<a id="orgf83fac5"></a>
 
 # My Environment
 
@@ -118,11 +119,13 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org1afe5cd"></a>
+<a id="orgfa6d4c7"></a>
 
 ## Bootstrap
 
-The bootstrap function sets up the main software repository for downloading 3rd party packages and a tool for managing installing those packages.
+The first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with `git`, so I use `use-package` to ensure that packages are installed from my configuration file.
+
+Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, installs [`use-package`](https://github.com/jwiegley/use-package) if it is not found, configures `use-package` and installs a few extra packages that acoutrement `use-package` and will be used heavily throughout.
 
 ```emacs-lisp
 ;;; ian.el --- my custom emacs config with no one else considered because fuck you
@@ -170,214 +173,394 @@ The bootstrap function sets up the main software repository for downloading 3rd 
   (use-package delight))
 ```
 
+Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
-<a id="orgb87ac1b"></a>
+
+<a id="org9fb2dc6"></a>
 
 ## Package Installation and Configuration
 
-The `global-packages` function is responsible for installing deep dependencies. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
-
-Also this is the one part I have not managed to break up and it's a giant blob. Good luck, any readers, including me.
+The `global-packages` function is responsible for installing packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 ```emacs-lisp
 (defun global-packages ()
   "Install and configure packages used with many modes and standalone modes and applications."
+```
 
-  ;; left hand side tree view like neotree
-  ;; nice for exploring smaller projects
-  (use-package treemacs)
 
-  ;; clean whitespace on save in all modes
-  (add-hook 'before-save-hook 'whitespace-cleanup)
+### Install and Configure Treemacs
 
-  ;; 🙌 Emoji! 🙌
-  (use-package emojify
-	:config
-	(setq emojify-download-emojis-p t)
-	(emojify-set-emoji-styles '(unicode))
-	(add-hook 'after-init-hook #'global-emojify-mode))
+Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between modes. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
 
-  ;; recent files mode
-  (recentf-mode 1)
-  (setq recentf-max-menu-items 25)
-  (setq recentf-max-saved-items 25)
+```emacs-lisp
+;; left hand side tree view like neotree
+;; nice for exploring smaller projects
+(use-package treemacs)
+```
 
-  (defun setup-projectile ()
-	(use-package projectile
-	  :delight)
-	(use-package helm-projectile)
-	(use-package treemacs-projectile)
-	(projectile-mode +1))
 
-  (defun setup-evil ()
-	"Install and configure evil-mode and related bindings."
-	(use-package evil
-	  :init
-	  (setq evil-want-keybinding nil)
-	  (setq evil-want-integration t)
-	  :config
-	  (evil-mode 1))
+### Emoji 🙏
 
-	(use-package evil-collection
-	  :after evil
-	  :config
-	  (evil-collection-init))
+Provided by [emojify](https://github.com/iqbalansari/emacs-emojify).
 
-	;; add fd as a remap for esc
-	(use-package evil-escape
-	  :delight)
+```emacs-lisp
+;; 🙌 Emoji! 🙌
+(use-package emojify
+  :config
+  (setq emojify-download-emojis-p t)
+  (emojify-set-emoji-styles '(unicode))
+  (add-hook 'after-init-hook #'global-emojify-mode))
+```
 
-	(evil-escape-mode 1)
-	(setq-default evil-escape-key-sequence "fd"))
-  ;; sane keybindings from the start
 
-  (use-package general
+### Configure Recent File Tracking
+
+Emacs comes with `recentf-mode` which helps me remember what I was doing after I restart my session.
+
+```emacs-lisp
+;; recent files mode
+(recentf-mode 1)
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+```
+
+
+### Install and Configure Projectile
+
+[`projectile`](https://projectile.readthedocs.io/en/latest/) is a fantastic package that provides all kinds of project context-aware functions for things like:
+
+-   running grep, but only inside the project
+-   compiling the project from the project root without doing anything
+-   find files within the project, again without having to do anything extra
+
+It's great, it gets installed early, can't live without it. 💘 `projectile`
+
+```emacs-lisp
+(defun setup-projectile ()
+  (use-package projectile
+	:delight)
+  (use-package helm-projectile)
+  (use-package treemacs-projectile)
+  (projectile-mode +1))
+```
+
+Oh yeah and it integrates with Helm and Treemacs, beautiful.
+
+
+### Install and Configure Evil Mode
+
+[`evil-mode`](https://github.com/emacs-evil/evil) fundamentally changes Emacs so that while editing all of the modes and keybindings from `vim` are present. It's controversial but I think modal editing is brilliant and have been using `vim` bindings since the mid-aughts. No going back.
+
+```emacs-lisp
+(defun setup-evil ()
+  "Install and configure evil-mode and related bindings."
+  (use-package evil
 	:init
-	(setup-evil)
+	(setq evil-want-keybinding nil)
+	(setq evil-want-integration t)
 	:config
-	(general-evil-setup))
+	(evil-mode 1))
 
-  (defun setup-magit ()
-	(use-package magit)
-	;; disable the default emacs vc because git is all I use,
-	;; for I am a simple man
-	(setq vc-handled-backends nil)
-	(use-package evil-magit))
+  (use-package evil-collection
+	:after evil
+	:config
+	(evil-collection-init))
 
-  ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
-  (use-package forge
-	:after magit)
-  ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
-  ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #.
+  ;; add fd as a remap for esc
+  (use-package evil-escape
+	:delight)
 
-  (use-package which-key
-	:delight
-	:init
-	(which-key-mode)
-	(which-key-setup-minibuffer))
+  (evil-escape-mode 1)
+  (setq-default evil-escape-key-sequence "fd"))
+```
 
-  ;; customizations to compilation mode
 
-  (defun ansi ()
-	;; enable ANSI escape codes in compilation buffer
-	(use-package ansi-color)
-	;; slightly modified from
-	;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
-	(defun colorize-compilation ()
-	  "Colorize from `compilation-filter-start' to `point'."
-	  (let ((inhibit-read-only t))
-	(ansi-color-apply-on-region
-	 compilation-filter-start (point))))
+### Install and Configure General
 
-	(add-hook 'compilation-filter-hook
-		  #'colorize-compilation))
+[General](https://github.com/noctuid/general.el) provides more convenient keybindings, especially with `evil-mode`.
 
-  (ansi)
+```emacs-lisp
+(use-package general
+  :init
+  (setup-evil)
+  :config
+  (general-evil-setup))
+```
 
-  (defun dashboard ()
-	;; provides a nice looking dashboard at launch
-	;; see more here https://github.com/emacs-dashboard/emacs-dashboard
-	(use-package all-the-icons) ;; provides optional icons for dashboard
-	(use-package dashboard
-	  :config
-	  (dashboard-setup-startup-hook)
-	  (setq dashboard-startup-banner 'logo)
-	  (setq dashboard-center-content t)
-	  (setq dashboard-items '((recents  . 5)
-				  (bookmarks . 5)
-				  (projects . 5))
-		)
-	  ;; (registers . 5)
-	  ;; (agenda . 5)
+
+### Install and Configure Magit
+
+[Magit](https://github.com/magit/magit) is an incredible integrated `git` UI for Emacs.
+
+```emacs-lisp
+(defun setup-magit ()
+  (use-package magit)
+  ;; disable the default emacs vc because git is all I use,
+  ;; for I am a simple man
+  (setq vc-handled-backends nil)
+  (use-package evil-magit))
+
+;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
+(use-package forge
+  :after magit)
+```
+
+
+### Install and Configure `which-key`
+
+It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [`which-key`](https://github.com/justbur/emacs-which-key) pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
+
+```emacs-lisp
+(use-package which-key
+  :delight
+  :init
+  (which-key-mode)
+  (which-key-setup-minibuffer))
+
+;; customizations to compilation mode
+```
+
+
+### Colorize ANSI colors in `*compilation*`
+
+If you run a command through `M-x compile` by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the `*compilation*` buffer.
+
+```emacs-lisp
+(defun ansi ()
+  ;; enable ANSI escape codes in compilation buffer
+  (use-package ansi-color)
+  ;; slightly modified from
+  ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
+  (defun colorize-compilation ()
+	"Colorize from `compilation-filter-start' to `point'."
+	(let ((inhibit-read-only t))
+	  (ansi-color-apply-on-region
+	   compilation-filter-start (point))))
+
+  (add-hook 'compilation-filter-hook
+		#'colorize-compilation))
+
+(ansi)
+```
+
+
+### Install and Configure Aesthetic Dashboard
+
+Following Spacemacs' style, uses the [`emacs-dashboard`](https://github.com/emacs-dashboard/emacs-dashboard) project and [`all-the-icons`](https://github.com/domtronn/all-the-icons.el) to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
+
+```emacs-lisp
+(defun dashboard ()
+  ;; provides a nice looking dashboard at launch
+  ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
+  (use-package all-the-icons) ;; provides optional icons for dashboard
+  (use-package dashboard
+	:config
+	(dashboard-setup-startup-hook)
+	(setq dashboard-startup-banner 'logo)
+	(setq dashboard-center-content t)
+	(setq dashboard-items '((recents  . 5)
+				(bookmarks . 5)
+				(projects . 5))
 	  )
+	;; (registers . 5)
+	;; (agenda . 5)
 	)
+  )
+  ;; hugo blog management
+```
+
+
+### Install and Configure Blogging Tools
+
+Easy Hugo is an interactive UI for managing a Hugo site.
+
+```emacs-lisp
+(use-package easy-hugo
+  :init
+  (setup-evil)
+  :config
+  (setq easy-hugo-basedir "~/keming.org")
+  (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
+```
+
+
+### YASnippet
+
+Snippets are really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more. [Here are the YASnippet docs.](https://www.emacswiki.org/emacs/Yasnippet)
+
+```emacs-lisp
+(use-package yasnippet
+  :delight
+  :config
+  (use-package yasnippet-snippets))
+```
+
+
+### Extra Packages
+
+Packages with a smaller effect on the experience.
+
+```emacs-lisp
   ;; anything so trivial that there is no config necessary goes here
-  (defun extra-packages ()
+(defun extra-packages ()
+```
 
-	;; hugo blog management
-	(use-package easy-hugo
-	  :config
-	  (setq easy-hugo-basedir "~/keming.org")
-	  (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
+1.  git-gutter shows unstaged changes in the gutter
 
-  (use-package git-gutter
-	  :delight
-	  :config
-	  (global-git-gutter-mode +1))
-	;; git-gutter does not play nicely with linum-mode
-	;; investigate long-term solution?
+	```emacs-lisp
+	(use-package git-gutter
+		:delight
+		:config
+		(global-git-gutter-mode +1))
+	  ;; git-gutter does not play nicely with linum-mode
+	  ;; investigate long-term solution?
+	```
 
-	;; provides highlighting of the current line
+2.  a config setting highlighting of the current line
+
+	I like to highlight the current line so that it is easy to identify where my cursor is.
+
+	```emacs-lisp
 	(global-hl-line-mode)
 	(setq global-hl-line-sticky-flag t)
+	```
 
+3.  Rainbow delimiters make it easier to identify matching parentheses
+
+	```emacs-lisp
 	;; set up rainbow delimiters for Elisp
 	(use-package rainbow-delimiters
 	  :config
 	  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
 	  )
+	```
 
+4.  restart-emacs does what it says on the tin
 
+	```emacs-lisp
 	(use-package restart-emacs)
-	(use-package s) ;; elisp string manipulation utility lib
-	(use-package yasnippet
-	  :delight
-	  :config
-	  (use-package yasnippet-snippets))
+	```
+
+5.  s is a string manipulation utility
+
+	I use this for a trim() function far down below. I think it gets pulled in as a dependency anyway, but in any case it provides a bunch of helper functions and stuff. [Docs are here.](https://github.com/magnars/s.el)
+
+	```emacs-lisp
+	(use-package s)
+	```
+
+6.  a systemd file mode
+
+	```emacs-lisp
 	(use-package systemd)
+	```
+
+7.  ranger is a standalone file browser
+
+	```emacs-lisp
 	(use-package ranger
 	  :config
 	  (setq ranger-show-literal nil))
+	```
+
+8.  I don't remember what htmlize is or does
+
+	```emacs-lisp
 	(use-package htmlize)
+	```
+
+9.  centered-window centers the text in a column
+
+	Seems to be similar to `olivetti-mode` and might be what was interfering with that.
+
+	```emacs-lisp
 	(use-package centered-window)
 	)
+	```
 
-  ;; auto-completion
-  (use-package company
-	:delight
-	:config
-	;; enable it everywhere
-	(add-hook 'after-init-hook 'global-company-mode)
 
-	;; tab complete!
-	(global-set-key "\t" 'company-complete-common))
+### Install and Configure Company for Auto-Completion
 
-  ;; linter
-  (use-package flycheck
-	:delight
-	;; enable it everywhere
-	:init (global-flycheck-mode))
+Great tab-complete and auto-complete with [Company Mode](https://github.com/company-mode/company-mode).
 
-  ;; helm
-  (defun setup-helm ()
-	"Install and configure helm, the most important command and control center"
-	(use-package helm
-	  :delight
-	  :config
-	  (use-package helm-descbinds
-	:config
-	(helm-descbinds-mode))
+```emacs-lisp
+;; auto-completion
+(use-package company
+  :delight
+  :config
+  ;; enable it everywhere
+  (add-hook 'after-init-hook 'global-company-mode)
 
-	  (global-set-key (kbd "M-x") #'helm-M-x)
-	  (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-	  (setq helm-always-two-windows nil)
-	  (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-	  (helm-mode 1)))
-
-  ;; gnu hyperbole
-  (use-package hyperbole
-	:config
-	)
-
-  (setup-projectile)
-  (setup-magit)
-  (setup-helm)
-  (dashboard)
-  (extra-packages))
+  ;; tab complete!
+  (global-set-key "\t" 'company-complete-common))
 ```
 
 
-<a id="orgc27b67a"></a>
+### Install and Configure Flycheck for Linting
+
+Flycheck is an on-the-fly checker that hooks into most language backends.
+
+```emacs-lisp
+;; linter
+(use-package flycheck
+  :delight
+  ;; enable it everywhere
+  :init (global-flycheck-mode))
+```
+
+
+### Install and Configure Helm for Command and Control
+
+Helm is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press `M-x` (with the way I have it configured, anyway).
+
+```emacs-lisp
+;; helm
+(defun setup-helm ()
+  "Install and configure helm, the most important command and control center"
+  (use-package helm
+	:delight
+	:config
+	(use-package helm-descbinds
+	  :config
+	  (helm-descbinds-mode))
+
+	(global-set-key (kbd "M-x") #'helm-M-x)
+	(define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+	(setq helm-always-two-windows nil)
+	(setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
+	(helm-mode 1)))
+
+```
+
+
+### Install and Configure GNU Hyperbole
+
+GNU Hyperbole adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
+
+It adds a slew of other features as well &#x2013; hyperlinks between documents, a rolodex, a list builder. I don't use it all, but the parts I use are pretty critical.
+
+```emacs-lisp
+;; gnu hyperbole
+(use-package hyperbole)
+```
+
+
+### Run everything that is in a function
+
+I think I intended for this to be more modular but really I should remove these functions and separate things with Org instead..
+
+1.  TODO refactor and remove this
+
+	```emacs-lisp
+	(setup-projectile)
+	(setup-magit)
+	(setup-helm)
+	(dashboard)
+	(extra-packages))
+	```
+
+
+<a id="orgbecc63b"></a>
 
 ## Language Configuration
 
@@ -596,31 +779,39 @@ Any config that needs to run after languages are loaded should go here.
 ```emacs-lisp
 (defun post-config ()
   (use-package adaptive-wrap
-	:config
-	(setq-default adaptive-wrap-extra-indent 2)
-
-	(defun adaptive-and-visual-line-mode (hook)
-	  (add-hook hook (lambda ()
-			(progn
-			  (visual-line-mode)
-			  (adaptive-wrap-prefix-mode)))))
-
-	(mapc 'adaptive-and-visual-line-mode (list
-					  'markdown-mode
-					  'go-mode-hook
-					  'js2-mode-hook
-					  'yaml-mode-hook
-					  'rjsx-mode-hook))
-	(add-hook 'compilation-mode-hook
-		  #'adaptive-wrap-prefix-mode)
-	)
-
-  ;; sane tab-width
-  ;; I mean seriously Emacs, 8??
-  ;; (setq tab-width 2)
-
-  )
 ```
+
+1.  Adaptive Wrap and Visual Line Mode
+
+	Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [`adaptive-wrap-prefix-mode`](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
+
+	```emacs-lisp
+	  :config
+	  (setq-default adaptive-wrap-extra-indent 2)
+	  (defun adaptive-and-visual-line-mode (hook)
+		(add-hook hook (lambda ()
+				  (progn
+				(visual-line-mode)
+				(adaptive-wrap-prefix-mode)))))
+
+	  (mapc 'adaptive-and-visual-line-mode (list
+						'markdown-mode
+						'go-mode-hook
+						'js2-mode-hook
+						'yaml-mode-hook
+						'rjsx-mode-hook))
+	  (add-hook 'compilation-mode-hook
+			#'adaptive-wrap-prefix-mode)
+	  )
+
+	;; sane tab-width
+	;; I mean seriously Emacs, 8??
+	;; (setq tab-width 2)
+
+	)
+	```
+
+	1.  TODO I'll take some pics sometime.
 
 
 ### Enable modes
@@ -636,7 +827,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="org893e0dc"></a>
+<a id="org39c6696"></a>
 
 ## Global Environment Configuration
 
@@ -696,53 +887,53 @@ Any config that needs to run after languages are loaded should go here.
 ```emacs-lisp
 (general-create-definer my-leader-def
   ;; :prefix my-leader
-  :prefix "SPC")
+  :prefix "spc")
 
 (general-create-definer my-local-leader-def
   ;; :prefix my-local-leader
-  :prefix "SPC m")
+  :prefix "spc m")
 
 (general-define-key
  :states 'normal
- "TAB"  'origami-toggle-node
+ "tab"  'origami-toggle-node
 
- "J"    'evil-scroll-page-down
- "K"    'evil-scroll-page-up
+ "j"    'evil-scroll-page-down
+ "k"    'evil-scroll-page-up
 
  "zm"   'origami-toggle-node
- "zM"   'origami-toggle-all-nodes
+ "zm"   'origami-toggle-all-nodes
 
  "zc"   'origami-close-node
- "zC"   'origami-close-node-recursively
+ "zc"   'origami-close-node-recursively
 
  "zo"   'origami-open-node
- "zO"   'origami-open-node-recursively)
+ "zo"   'origami-open-node-recursively)
 
 (defun find-initfile ()
-  "Open main config file."
+  "open main config file."
   (interactive)
   (find-file "~/.emacs.d/ian.org"))
 
 (defun find-initfile-other-frame ()
-  "Open main config file in a new frame."
+  "open main config file in a new frame."
   (interactive)
   (find-file-other-frame "~/.emacs.d/ian.org"))
 
 (defun reload-initfile ()
-  "Reload the main config file."
+  "reload the main config file."
   (interactive)
   (org-babel-tangle "~/.emacs.d/ian.org")
   (byte-compile-file "~/.emacs.d/ian.el"))
 
 (defun close-client-frame ()
-  "Exit emacsclient."
+  "exit emacsclient."
   (interactive)
-  (server-edit "Done"))
+  (server-edit "done"))
 
 ;; global keybindings
 (my-leader-def 'normal 'override
   "bb"     'helm-mini
-  "TAB"    #'switch-to-prev-buffer
+  "tab"    #'switch-to-prev-buffer
   "br"     'revert-buffer
   "bd"     'evil-delete-buffer
   "cc"     'projectile-compile-project
@@ -750,21 +941,18 @@ Any config that needs to run after languages are loaded should go here.
   "el"     'flycheck-list-errors
   "en"     'flycheck-next-error
   "ep"     'flycheck-previous-error
-  "Fm"     'make-frame
-  "Fd"     'delete-frame
+  "fm"     'make-frame
+  "fd"     'delete-frame
   "ff"     'helm-find-files
   "fr"     'helm-recentf
   "fed"    'find-initfile
-  "feD"    'find-initfile-other-frame
-  "feR"    'reload-initfile
+  "fed"    'find-initfile-other-frame
+  "fer"    'reload-initfile
   "gb"     'magit-blame
   "gs"     'magit-status
   "gg"     'magit
   "gd"     'magit-diff
-  "hy"     'hyperbole
-  "hu"     'easy-hugo
-  "hn"     'easy-hugo-newpost
-  "hp"     'easy-hugo-preview
+  "h"     'hyperbole
   "jj"     'bookmark-jump
   "js"     'bookmark-set
   "jo"     'org-babel-tangle-jump-to-org
@@ -788,11 +976,11 @@ Any config that needs to run after languages are loaded should go here.
   "wh"     'evil-window-left
   "wl"     'evil-window-right
   "wd"     'delete-window
-  "wD"     'delete-other-windows
+  "wd"     'delete-other-windows
   "wo"     'other-window
   "w="     'balance-windows
-  "SPC"    'helm-M-x
-  )
+  "spc"    'helm-m-x
+   )
 ```
 
 
@@ -874,6 +1062,9 @@ Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the sam
 (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
 (setq backup-by-copying t)
 (setq delete-old-versions t)
+
+;; clean whitespace on save in all modes
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; autosave
 (setq auto-save-visited-interval 300)
@@ -995,7 +1186,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org997e14d"></a>
+<a id="org0004d84"></a>
 
 ## Render this file for display on Github
 
@@ -1016,11 +1207,11 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org6ec3400"></a>
+<a id="org14b1ff4"></a>
 
 ## Run Stuff
 
-Main is called in `init.el` and runs the rest of of the config.
+Main is called in `init.el` and runs the rest of of the config. No configuration should be added after this.
 
 ```emacs-lisp
 
@@ -1038,25 +1229,14 @@ Main is called in `init.el` and runs the rest of of the config.
 ```
 
 
-<a id="orgdc48c87"></a>
+<a id="org77284f8"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org08658f4"></a>
-
-## DONE System-local settings
-
-Include all `.el` files from the untracked folder `local-variables/` and run them as the final step. This allows for customization at the end of the configuration for specific things that are dependent on the computer on which this config is being run. For instance, anything with sensitive details or URLs can be symlinked from a private repo to this one for inclusion in the config without sharing secrets with the whole Internet.
-
-1.  Ensure that `local-variables/` exists and create it if it does not.
-2.  Load anything that's in there &#x2013; be sure to fail sanely if there's nothing there!
-3.  That's it, there is no three.
-
-
-<a id="org5976941"></a>
+<a id="orgce248d7"></a>
 
 ## DONE Hyperbole
 
@@ -1068,9 +1248,9 @@ Include all `.el` files from the untracked folder `local-variables/` and run the
 ```
 
 
-<a id="orgaf8d2db"></a>
+<a id="org4837db0"></a>
 
-## DONE Monospace Fonts
+## Monospace Fonts
 
 Just going to keep note of some options
 
@@ -1100,14 +1280,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orgb4471bf"></a>
+<a id="orgb9cb841"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org7bf927e"></a>
+<a id="org31155f2"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1116,7 +1296,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org11fd78b"></a>
+<a id="orgc3e421b"></a>
 
 ## Packages to Try
 

@@ -23,7 +23,7 @@ Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode
 *** Org Mode
 This configuration is written in Org syntax.
 
-[[https://orgmode.org][Org Mode]] is a display mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as ~org-babel~. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
+[[https://orgmode.org][Org Mode]] is a major mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as ~org-babel~. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
 
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
@@ -32,9 +32,11 @@ Org Mode allows you to easily collapse heading subtrees, execute code blocks, ed
 :header-args: :tangle ~/.emacs.d/init.el :comments link
 :end:
 
-This is ~init.el~. Using Org for my configuration is a personal choice -- Emacs runs ~init.el~ at the beginning of execution. This piece of code tangles to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file and executes ~main~, so it is this piece of code that starts the whole process of loading all of this configuration.
+This is ~init.el~. Using Org for my configuration is a personal choice, so I want Emacs to load this file first when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. This piece of code tangles to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file and executes ~main~, so **it is this piece of code that starts the whole process of loading all of this configuration**.
 
-~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output from the call to tangle, run ~main~, and I'm done.
+~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
+
+**NOTE** The filename ~ian.org~ is hardcoded in this entrypoint routine in the place of the main configuration file. This is because, despite the public nature of my config, it is not intended to be used in whole by anyone but me. This allows me certain shortcuts, like hostname-specific configuration, and convention-over-configuration in ways I find intuitive without overly detailed documentation. It is _my_ config, after all, so my main config file is ~ian.org~.
 
 #+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
   ;;; init --- the Emacs entrypoint
@@ -90,8 +92,9 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the ~init.el~ entrypoint, this file is tangled to ~ian.el~ and executed. Right now all configuration other than the entrypoint is in this file.
 
 ** Bootstrap
+The first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with ~git~, so I use ~use-package~ to ensure that packages are installed from my configuration file.
 
-The bootstrap function sets up the main software repository for downloading 3rd party packages and a tool for managing installing those packages.
+Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, installs [[https://github.com/jwiegley/use-package][~use-package~]] if it is not found, configures ~use-package~ and installs a few extra packages that acoutrement ~use-package~ and will be used heavily throughout.
 
 #+BEGIN_SRC emacs-lisp
   ;;; ian.el --- my custom emacs config with no one else considered because fuck you
@@ -139,40 +142,58 @@ The bootstrap function sets up the main software repository for downloading 3rd 
     (use-package delight))
 #+END_SRC
 
-** Package Installation and Configuration
-The ~global-packages~ function is responsible for installing deep dependencies. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
+Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
-Also this is the one part I have not managed to break up and it's a giant blob. Good luck, any readers, including me.
+** Package Installation and Configuration
+The ~global-packages~ function is responsible for installing packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 #+BEGIN_SRC emacs-lisp
   (defun global-packages ()
     "Install and configure packages used with many modes and standalone modes and applications."
-
+#+END_SRC
+*** Install and Configure Treemacs
+Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between modes. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
+#+BEGIN_SRC emacs-lisp
     ;; left hand side tree view like neotree
     ;; nice for exploring smaller projects
     (use-package treemacs)
-
-    ;; clean whitespace on save in all modes
-    (add-hook 'before-save-hook 'whitespace-cleanup)
-
+#+END_SRC
+*** Emoji 🙏
+Provided by [[https://github.com/iqbalansari/emacs-emojify][emojify]].
+#+BEGIN_SRC emacs-lisp
     ;; 🙌 Emoji! 🙌
     (use-package emojify
       :config
       (setq emojify-download-emojis-p t)
       (emojify-set-emoji-styles '(unicode))
       (add-hook 'after-init-hook #'global-emojify-mode))
-
+#+END_SRC
+*** Configure Recent File Tracking
+Emacs comes with ~recentf-mode~ which helps me remember what I was doing after I restart my session.
+#+BEGIN_SRC emacs-lisp
     ;; recent files mode
     (recentf-mode 1)
     (setq recentf-max-menu-items 25)
     (setq recentf-max-saved-items 25)
-
+#+END_SRC
+*** Install and Configure Projectile
+[[https://projectile.readthedocs.io/en/latest/][~projectile~]] is a fantastic package that provides all kinds of project context-aware functions for things like:
+- running grep, but only inside the project
+- compiling the project from the project root without doing anything
+- find files within the project, again without having to do anything extra
+It's great, it gets installed early, can't live without it. 💘 ~projectile~
+#+BEGIN_SRC emacs-lisp
     (defun setup-projectile ()
       (use-package projectile
         :delight)
       (use-package helm-projectile)
       (use-package treemacs-projectile)
       (projectile-mode +1))
-
+#+END_SRC
+Oh yeah and it integrates with Helm and Treemacs, beautiful.
+*** Install and Configure Evil Mode
+[[https://github.com/emacs-evil/evil][~evil-mode~]] fundamentally changes Emacs so that while editing all of the modes and keybindings from ~vim~ are present.
+It's controversial but I think modal editing is brilliant and have been using ~vim~ bindings since the mid-aughts. No going back.
+#+BEGIN_SRC emacs-lisp
     (defun setup-evil ()
       "Install and configure evil-mode and related bindings."
       (use-package evil
@@ -193,14 +214,20 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 
       (evil-escape-mode 1)
       (setq-default evil-escape-key-sequence "fd"))
-    ;; sane keybindings from the start
+#+END_SRC
 
+*** Install and Configure General
+[[https://github.com/noctuid/general.el][General]] provides more convenient keybindings, especially with ~evil-mode~.
+#+BEGIN_SRC emacs-lisp
     (use-package general
       :init
       (setup-evil)
       :config
       (general-evil-setup))
-
+#+END_SRC
+*** Install and Configure Magit
+[[https://github.com/magit/magit][Magit]] is an incredible integrated ~git~ UI for Emacs.
+#+BEGIN_SRC emacs-lisp
     (defun setup-magit ()
       (use-package magit)
       ;; disable the default emacs vc because git is all I use,
@@ -211,9 +238,10 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
     ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
     (use-package forge
       :after magit)
-    ;; If you store the token in a file like ~/.authinfo, then note that auth-source’s parsing of that file is brittle.
-    ;; Make sure the file ends with a newline character, that there are no empty or invalid lines, and that all comments are prefixed with #.
-
+#+END_SRC
+*** Install and Configure ~which-key~
+It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [[https://github.com/justbur/emacs-which-key][~which-key~]] pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
+#+BEGIN_SRC emacs-lisp
     (use-package which-key
       :delight
       :init
@@ -221,7 +249,10 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
       (which-key-setup-minibuffer))
 
     ;; customizations to compilation mode
-
+#+END_SRC
+*** Colorize ANSI colors in ~*compilation*~
+If you run a command through ~M-x compile~ by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the ~*compilation*~ buffer.
+#+BEGIN_SRC emacs-lisp
     (defun ansi ()
       ;; enable ANSI escape codes in compilation buffer
       (use-package ansi-color)
@@ -237,7 +268,10 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
                 #'colorize-compilation))
 
     (ansi)
-
+#+END_SRC
+*** Install and Configure Aesthetic Dashboard
+Following Spacemacs' style, uses the [[https://github.com/emacs-dashboard/emacs-dashboard][~emacs-dashboard~]] project and [[https://github.com/domtronn/all-the-icons.el][~all-the-icons~]] to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
+#+BEGIN_SRC emacs-lisp
     (defun dashboard ()
       ;; provides a nice looking dashboard at launch
       ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
@@ -255,47 +289,91 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
         ;; (agenda . 5)
         )
       )
-    ;; anything so trivial that there is no config necessary goes here
-    (defun extra-packages ()
-
       ;; hugo blog management
-      (use-package easy-hugo
-        :config
-        (setq easy-hugo-basedir "~/keming.org")
-        (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
+#+END_SRC
+*** Install and Configure Blogging Tools
+Easy Hugo is an interactive UI for managing a Hugo site.
+#+BEGIN_SRC emacs-lisp
+    (use-package easy-hugo
+      :init
+      (setup-evil)
+      :config
+      (setq easy-hugo-basedir "~/keming.org")
+      (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
+#+END_SRC
+*** YASnippet
+Snippets are really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more.
+[[https://www.emacswiki.org/emacs/Yasnippet][Here are the YASnippet docs.]]
 
+#+BEGIN_SRC emacs-lisp
+     (use-package yasnippet
+       :delight
+       :config
+       (use-package yasnippet-snippets))
+#+END_SRC
+
+*** Extra Packages
+Packages with a smaller effect on the experience.
+#+BEGIN_SRC emacs-lisp
+    ;; anything so trivial that there is no config necessary goes here
+  (defun extra-packages ()
+#+END_SRC
+**** git-gutter shows unstaged changes in the gutter
+#+BEGIN_SRC emacs-lisp
     (use-package git-gutter
         :delight
         :config
         (global-git-gutter-mode +1))
       ;; git-gutter does not play nicely with linum-mode
       ;; investigate long-term solution?
-
-      ;; provides highlighting of the current line
+#+END_SRC
+**** a config setting highlighting of the current line
+I like to highlight the current line so that it is easy to identify where my cursor is.
+#+BEGIN_SRC emacs-lisp
       (global-hl-line-mode)
       (setq global-hl-line-sticky-flag t)
-
+#+END_SRC
+**** Rainbow delimiters make it easier to identify matching parentheses
+#+BEGIN_SRC emacs-lisp
       ;; set up rainbow delimiters for Elisp
       (use-package rainbow-delimiters
         :config
         (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
         )
-
-
+#+END_SRC
+**** restart-emacs does what it says on the tin
+#+BEGIN_SRC emacs-lisp
       (use-package restart-emacs)
-      (use-package s) ;; elisp string manipulation utility lib
-      (use-package yasnippet
-        :delight
-        :config
-        (use-package yasnippet-snippets))
+#+END_SRC
+****  s is a string manipulation utility
+I use this for a trim() function far down below. I think it gets pulled in as a dependency anyway, but in any case it provides a bunch of helper functions and stuff. [[https://github.com/magnars/s.el][Docs are here.]]
+#+BEGIN_SRC emacs-lisp
+      (use-package s)
+#+END_SRC
+**** a systemd file mode
+#+BEGIN_SRC emacs-lisp
       (use-package systemd)
+#+END_SRC
+**** ranger is a standalone file browser
+#+BEGIN_SRC emacs-lisp
       (use-package ranger
         :config
         (setq ranger-show-literal nil))
+#+END_SRC
+**** I don't remember what htmlize is or does
+#+BEGIN_SRC emacs-lisp
       (use-package htmlize)
+#+END_SRC
+**** centered-window centers the text in a column
+Seems to be similar to ~olivetti-mode~ and might be what was interfering with that.
+#+BEGIN_SRC emacs-lisp
       (use-package centered-window)
       )
+#+END_SRC
 
+*** Install and Configure Company for Auto-Completion
+Great tab-complete and auto-complete with [[https://github.com/company-mode/company-mode][Company Mode]].
+#+BEGIN_SRC emacs-lisp
     ;; auto-completion
     (use-package company
       :delight
@@ -305,13 +383,19 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
 
       ;; tab complete!
       (global-set-key "\t" 'company-complete-common))
-
+#+END_SRC
+*** Install and Configure Flycheck for Linting
+Flycheck is an on-the-fly checker that hooks into most language backends.
+#+BEGIN_SRC emacs-lisp
     ;; linter
     (use-package flycheck
       :delight
       ;; enable it everywhere
       :init (global-flycheck-mode))
-
+#+END_SRC
+*** Install and Configure Helm for Command and Control
+Helm is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press ~M-x~ (with the way I have it configured, anyway).
+#+BEGIN_SRC emacs-lisp
     ;; helm
     (defun setup-helm ()
       "Install and configure helm, the most important command and control center"
@@ -328,11 +412,20 @@ Also this is the one part I have not managed to break up and it's a giant blob. 
         (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
         (helm-mode 1)))
 
-    ;; gnu hyperbole
-    (use-package hyperbole
-      :config
-      )
+#+END_SRC
+*** Install and Configure GNU Hyperbole
+GNU Hyperbole adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
 
+It adds a slew of other features as well -- hyperlinks between documents, a rolodex, a list builder. I don't use it all, but the parts I use are pretty critical.
+#+BEGIN_SRC emacs-lisp
+    ;; gnu hyperbole
+    (use-package hyperbole)
+#+END_SRC
+
+*** Run everything that is in a function
+I think I intended for this to be more modular but really I should remove these functions and separate things with Org instead..
+**** TODO refactor and remove this
+#+BEGIN_SRC emacs-lisp
     (setup-projectile)
     (setup-magit)
     (setup-helm)
@@ -535,9 +628,12 @@ Any config that needs to run after languages are loaded should go here.
 #+BEGIN_SRC emacs-lisp
   (defun post-config ()
     (use-package adaptive-wrap
+#+END_SRC
+**** Adaptive Wrap and Visual Line Mode
+Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][~adaptive-wrap-prefix-mode~]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
+#+BEGIN_SRC emacs-lisp
       :config
       (setq-default adaptive-wrap-extra-indent 2)
-
       (defun adaptive-and-visual-line-mode (hook)
         (add-hook hook (lambda ()
                           (progn
@@ -560,7 +656,7 @@ Any config that needs to run after languages are loaded should go here.
 
     )
 #+END_SRC
-
+***** TODO I'll take some pics sometime.
 *** Enable modes
 #+BEGIN_SRC emacs-lisp
   (setup-lsp)
@@ -799,6 +895,9 @@ This would be a neat feature to expand on at some point.
   (setq backup-by-copying t)
   (setq delete-old-versions t)
 
+  ;; clean whitespace on save in all modes
+  (add-hook 'before-save-hook 'whitespace-cleanup)
+
   ;; autosave
   (setq auto-save-visited-interval 300)
   (auto-save-visited-mode
@@ -934,7 +1033,7 @@ This function registers a hook that will export this file to Github flavored Mar
 #+END_SRC
 
 ** Run Stuff
-Main is called in ~init.el~ and runs the rest of of the config.
+Main is called in ~init.el~ and runs the rest of of the config. No configuration should be added after this.
 #+BEGIN_SRC emacs-lisp
 
   (defun main()
@@ -952,14 +1051,6 @@ Main is called in ~init.el~ and runs the rest of of the config.
 
 * Notes and Such
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
-** DONE System-local settings
-Include all ~.el~ files from the untracked folder ~local-variables/~ and run them as the final step.
-This allows for customization at the end of the configuration for specific things that are dependent on the computer on which this config is being run. For instance, anything with sensitive details or URLs can be symlinked from a private repo to this one for inclusion in the config without sharing secrets with the whole Internet.
-
-1) Ensure that ~local-variables/~ exists and create it if it does not.
-2) Load anything that's in there -- be sure to fail sanely if there's nothing there!
-3) That's it, there is no three.
-
 ** DONE Hyperbole
 #+BEGIN_SRC
 17:41 user1: is there a way to do the equivalent of C-x C-e on a #+INCLUDE: directive in Org?
@@ -968,7 +1059,7 @@ This allows for customization at the end of the configuration for specific thing
 17:52 user1: that'd be the correct behavior
 #+END_SRC
 
-** DONE Monospace Fonts
+** Monospace Fonts
 Just going to keep note of some options
 
 *** https://github.com/adobe-fonts/source-code-pro/tree/master

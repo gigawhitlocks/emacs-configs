@@ -1,4 +1,4 @@
-;; [[file:~/.emacs.d/ian.org::*Entrypoint%20for%20Loading%20the%20Org%20Config][Entrypoint for Loading the Org Config:1]]
+;; [[file:~/.emacs.d/ian.org::*Entrypoint][Entrypoint:1]]
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
 ;;;
@@ -34,4 +34,4 @@
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
 (load custom-file)
 (provide 'init)
-;; Entrypoint for Loading the Org Config:1 ends here
+;; Entrypoint:1 ends here
