@@ -1,6 +1,6 @@
 #+TITLE: Ian's Custom Emacs Environment with Associated Notes and Commentary
 #+AUTHOR: Ian Whitlock
-#+OPTIONS: toc:2
+#+OPTIONS: toc:3
 * Ian's Custom Emacs Environment with Associated Notes and Commentary
 This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
 
