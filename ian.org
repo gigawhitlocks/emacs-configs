@@ -696,12 +696,16 @@ This one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-b
 
 TODO: Make this behave like alt-tab in Windows, but for buffers. I think ~hycontrol~ may come in handy (Hyperbole).
 #+BEGIN_SRC emacs-lisp
-      (defun er-switch-to-previous-buffer ()
-        "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
+    (defun er-switch-to-previous-buffer ()
+      (concat
+        "Switch to previously open buffer."
+        "Repeated invocations toggle between the two most recently open buffers.")
         (interactive)
         (switch-to-buffer (other-buffer (current-buffer) 1)))
-
-      ;; override Home/End behavior to be more like modern applications
+#+END_SRC
+*** Fix Home/End keys
+Emacs has weird behavior by default for Home and End and this change makes the behavior "normal" again.
+#+BEGIN_SRC emacs-lisp
       (global-set-key (kbd "<home>") 'move-beginning-of-line)
       (global-set-key (kbd "<end>") 'move-end-of-line)
 #+END_SRC
