@@ -958,9 +958,9 @@ Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byza
     (if (not (file-directory-p "~/emacs-gifs"))
         (make-directory "~/emacs-gifs"))
     (start-process-shell-command
-    "create-gif" "*Messages*"
-    (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
-    duration (width) (height) (x) (y) (filename))))
+     "create-gif" "*Messages*"
+     (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
+             duration (width) (height) (x) (y) (filename))))
 #+END_SRC
 *** Remove toolbar and menu
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M-x~ for everything.
