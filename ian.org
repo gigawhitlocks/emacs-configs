@@ -927,6 +927,7 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 *** Easily create gifs of current Emacs frames
 Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byzanz-record~ is installed (it's in the repos in most distros) and only works in X11.
 
+This was also my first substantial interactive Emacs Lisp function 😃 although this version doesn't look much like the original did.
 #+BEGIN_SRC emacs-lisp
   (defun create-gif (duration)
     "Create a gif of the current frame with the DURATION provided."
@@ -970,8 +971,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
   (scroll-bar-mode -1)
 #+END_SRC
 
-*** Close global config section
-Yeah, seriously lol
+Close global config section
 #+BEGIN_SRC emacs-lisp
 )
 #+END_SRC
@@ -1046,11 +1046,11 @@ This function registers a hook that will export this file to Github flavored Mar
                  )))
 #+END_SRC
 
-** Run Stuff
+** Run Stuff (~main~)
 Main is called in ~init.el~ and runs the rest of of the config. No configuration should be added after this.
 #+BEGIN_SRC emacs-lisp
 
-  (defun main()
+  (defun main ()
     "Initialize everything!"
     (bootstrap)
     (global-packages)
