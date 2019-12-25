@@ -879,8 +879,9 @@ This would be a neat feature to expand on at some point.
 There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 *** Configure automatic backups/recovery files
+I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in ~/tmp~.
+
 #+BEGIN_SRC emacs-lisp
-  ;; backups to /tmp
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
   (setq delete-old-versions t)
@@ -890,6 +891,7 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
   (add-hook 'before-save-hook 'whitespace-cleanup)
 #+END_SRC
 *** Autosave
+Automatically saves the file when it's been idle for 5 minutes.
 #+BEGIN_SRC emacs-lisp
   ;; autosave
   (setq auto-save-visited-interval 300)
@@ -898,11 +900,13 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
    )
 #+END_SRC
 *** Default window size
+Just a bigger size that I prefer..
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(width . 128))
   (add-to-list 'default-frame-alist '(height . 60))
 #+END_SRC
 *** Unclutter global modeline
+Some global minor modes put themselves in the modeline and it gets noisy, so remove them from the modeline.
 #+BEGIN_SRC emacs-lisp
   ;; hide some modes that are everywhere
   (diminish 'eldoc-mode)
@@ -910,7 +914,6 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
   (diminish 'auto-revert-mode)
 #+END_SRC
 *** Less Annoying Bell
-(from emacs wiki)
 Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function
@@ -924,6 +927,7 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
                                  (lambda (fg) (set-face-foreground 'mode-line fg))
                                  orig-fg))))
 #+END_SRC
+(from Emacs wiki)
 *** Easily create gifs of current Emacs frames
 Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byzanz-record~ is installed (it's in the repos in most distros) and only works in X11.
 

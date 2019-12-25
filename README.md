@@ -1,24 +1,24 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org76bd584)
-  - [Justification](#orgb46f877)
-- [Entrypoint](#org6f364d1)
-- [My Environment](#orgbfd415a)
-  - [Bootstrap](#orga1baa61)
-  - [Package Installation and Configuration](#org2f6d4f8)
-  - [Language Configuration](#orgb3b73c7)
-  - [Post-Config](#orgb24df7b)
-  - [Global Environment Configuration](#orgf2eb4f2)
-  - [ERC (IRC config)](#org4ad4b9c)
-  - [Render this file for display on Github](#org8d381ec)
-  - [Run Stuff](#orgce138d0)
-- [Notes and Such](#org4d171f2)
-  - [Monospace Fonts](#org0ab12bb)
-  - [Proportional Fonts](#orgfb687a4)
-  - [Authentication and Secrets in Emacs](#org5ca1c1c)
-  - [Packages to Try](#org74e19cf)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org0665f04)
+  - [Justification](#org887e6e8)
+- [Entrypoint](#org895171a)
+- [My Environment](#org6be9316)
+  - [Bootstrap](#orgda0b282)
+  - [Package Installation and Configuration](#org6f1178a)
+  - [Language Configuration](#org8e87de5)
+  - [Post-Config](#org45fbda3)
+  - [Global Environment Configuration](#org584f321)
+  - [ERC (IRC config)](#org277f01a)
+  - [Render this file for display on Github](#orgf4ff6fa)
+  - [Run Stuff](#org6800158)
+- [Notes and Such](#org0010924)
+  - [Monospace Fonts](#org39520f4)
+  - [Proportional Fonts](#org5bdb6e0)
+  - [Authentication and Secrets in Emacs](#org91ec797)
+  - [Packages to Try](#org0eac806)
 
 
 
-<a id="org76bd584"></a>
+<a id="org0665f04"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -27,7 +27,7 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="orgb46f877"></a>
+<a id="org887e6e8"></a>
 
 ## Justification
 
@@ -56,7 +56,7 @@ This configuration is written in Org syntax.
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="org6f364d1"></a>
+<a id="org895171a"></a>
 
 # Entrypoint
 
@@ -107,7 +107,7 @@ This is `init.el`. Using Org for my configuration is a personal choice, so I wan
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgbfd415a"></a>
+<a id="org6be9316"></a>
 
 # My Environment
 
@@ -120,7 +120,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orga1baa61"></a>
+<a id="orgda0b282"></a>
 
 ## Bootstrap
 
@@ -177,7 +177,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org2f6d4f8"></a>
+<a id="org6f1178a"></a>
 
 ## Package Installation and Configuration
 
@@ -558,7 +558,7 @@ I think I intended for this to be more modular but really I should remove these 
 	```
 
 
-<a id="orgb3b73c7"></a>
+<a id="org8e87de5"></a>
 
 ## Language Configuration
 
@@ -770,7 +770,7 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
-<a id="orgb24df7b"></a>
+<a id="org45fbda3"></a>
 
 ## Post-Config
 
@@ -821,7 +821,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgf2eb4f2"></a>
+<a id="org584f321"></a>
 
 ## Global Environment Configuration
 
@@ -1053,8 +1053,9 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 
 ### Configure automatic backups/recovery files
 
+I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in `/tmp`.
+
 ```emacs-lisp
-;; backups to /tmp
 (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
 (setq backup-by-copying t)
 (setq delete-old-versions t)
@@ -1070,6 +1071,8 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 
 ### Autosave
 
+Automatically saves the file when it's been idle for 5 minutes.
+
 ```emacs-lisp
 ;; autosave
 (setq auto-save-visited-interval 300)
@@ -1081,6 +1084,8 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 
 ### Default window size
 
+Just a bigger size that I prefer..
+
 ```emacs-lisp
 (add-to-list 'default-frame-alist '(width . 128))
 (add-to-list 'default-frame-alist '(height . 60))
@@ -1088,6 +1093,8 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 
 
 ### Unclutter global modeline
+
+Some global minor modes put themselves in the modeline and it gets noisy, so remove them from the modeline.
 
 ```emacs-lisp
 ;; hide some modes that are everywhere
@@ -1099,7 +1106,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 
 ### Less Annoying Bell
 
-(from emacs wiki) Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
+Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
 
 ```emacs-lisp
 (setq ring-bell-function
@@ -1113,6 +1120,8 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 				   (lambda (fg) (set-face-foreground 'mode-line fg))
 				   orig-fg))))
 ```
+
+(from Emacs wiki)
 
 
 ### Easily create gifs of current Emacs frames
@@ -1167,7 +1176,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org4ad4b9c"></a>
+<a id="org277f01a"></a>
 
 ## ERC (IRC config)
 
@@ -1214,7 +1223,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org8d381ec"></a>
+<a id="orgf4ff6fa"></a>
 
 ## Render this file for display on Github
 
@@ -1235,7 +1244,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgce138d0"></a>
+<a id="org6800158"></a>
 
 ## Run Stuff
 
@@ -1256,14 +1265,14 @@ Main is called in `init.el` and runs the rest of of the config. No configuration
 ```
 
 
-<a id="org4d171f2"></a>
+<a id="org0010924"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org0ab12bb"></a>
+<a id="org39520f4"></a>
 
 ## Monospace Fonts
 
@@ -1295,14 +1304,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orgfb687a4"></a>
+<a id="org5bdb6e0"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org5ca1c1c"></a>
+<a id="org91ec797"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1311,7 +1320,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org74e19cf"></a>
+<a id="org0eac806"></a>
 
 ## Packages to Try
 
