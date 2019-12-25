@@ -309,13 +309,13 @@ Snippets are really cool and allow fast insertion of boilerplate using templates
        (use-package yasnippet-snippets))
 #+END_SRC
 
-*** Extra Packages
+** Extra Packages
 Packages with a smaller effect on the experience.
 #+BEGIN_SRC emacs-lisp
     ;; anything so trivial that there is no config necessary goes here
   (defun extra-packages ()
 #+END_SRC
-**** git-gutter shows unstaged changes in the gutter
+*** git-gutter shows unstaged changes in the gutter
 #+BEGIN_SRC emacs-lisp
     (use-package git-gutter
         :delight
@@ -324,13 +324,13 @@ Packages with a smaller effect on the experience.
       ;; git-gutter does not play nicely with linum-mode
       ;; investigate long-term solution?
 #+END_SRC
-**** a config setting highlighting of the current line
+*** a config setting highlighting of the current line
 I like to highlight the current line so that it is easy to identify where my cursor is.
 #+BEGIN_SRC emacs-lisp
       (global-hl-line-mode)
       (setq global-hl-line-sticky-flag t)
 #+END_SRC
-**** Rainbow delimiters make it easier to identify matching parentheses
+*** Rainbow delimiters make it easier to identify matching parentheses
 #+BEGIN_SRC emacs-lisp
       ;; set up rainbow delimiters for Elisp
       (use-package rainbow-delimiters
@@ -338,35 +338,33 @@ I like to highlight the current line so that it is easy to identify where my cur
         (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
         )
 #+END_SRC
-**** restart-emacs does what it says on the tin
+*** restart-emacs does what it says on the tin
 #+BEGIN_SRC emacs-lisp
       (use-package restart-emacs)
 #+END_SRC
-**** s is a string manipulation utility
+*** s is a string manipulation utility
 I use this for a trim() function far down below. I think it gets pulled in as a dependency anyway, but in any case it provides a bunch of helper functions and stuff. [[https://github.com/magnars/s.el][Docs are here.]]
 #+BEGIN_SRC emacs-lisp
       (use-package s)
 #+END_SRC
-**** a systemd file mode
+*** a systemd file mode
 #+BEGIN_SRC emacs-lisp
       (use-package systemd)
 #+END_SRC
-**** ranger is a standalone file browser
+*** ranger is a standalone file browser
 #+BEGIN_SRC emacs-lisp
       (use-package ranger
         :config
         (setq ranger-show-literal nil))
 #+END_SRC
-**** I don't remember what htmlize is or does
-#+BEGIN_SRC emacs-lisp
-      (use-package htmlize)
-#+END_SRC
-**** centered-window centers the text in a column
+*** centered-window centers the text in a column
 Seems to be similar to ~olivetti-mode~ and might be what was interfering with that.
 #+BEGIN_SRC emacs-lisp
       (use-package centered-window)
       )
 #+END_SRC
+
+Also this is the end of ~extra-packages~, which I should probably refactor out.
 
 *** Install and Configure Company for Auto-Completion
 Great tab-complete and auto-complete with [[https://github.com/company-mode/company-mode][Company Mode]].
