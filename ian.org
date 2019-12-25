@@ -659,22 +659,26 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (post-config))
 #+END_SRC
 ** Global Environment Configuration
-*** Misc Configuration
 #+BEGIN_SRC emacs-lisp
-    (defun config ()
-      "Global configuration variables and such. Global functions with keybindings must go here."
+  (defun config ()
+    "Global configuration variables and such. Global functions with keybindings must go here."
+#+END_SRC
+*** Switch theme
+Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just ~M-x load-theme~.
 
-      ;; Automatically calls disable-theme on the current theme before
-      ;; loading a new theme! Allows easy theme switching with just M-x load-theme
-      ;; Thanks to https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-emacs-themes/
+Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-emacs-themes/]].
+
+#+BEGIN_SRC emacs-lisp
       (defun load-theme--disable-old-theme(theme &rest args)
         "Disable current theme before loading new one."
         (mapcar #'disable-theme custom-enabled-themes))
       (advice-add 'load-theme :before #'load-theme--disable-old-theme)
+#+END_SRC
+*** Transparency toggle
+I definitely lifted this from somewhere but failed to document where I got it :\
 
-
-      ;; I definitely lifted this from somewhere but failed to document where I got it :\
-      ;; Probably from Spacemacs. Thanks, Spacemacs.
+Probably from Spacemacs. Thanks, Spacemacs.
+#+BEGIN_SRC emacs-lisp
       (defun toggle-transparency ()
         (interactive)
         (let ((alpha (frame-parameter nil 'alpha)))
@@ -686,10 +690,12 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
                           ((numberp (cadr alpha)) (cadr alpha)))
                     100)
                '95 '(100 . 100)))))
+#+END_SRC
+*** Switch to last buffer
+This one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
 
-      ;; helper functions for keybindings
-      ;; this one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
-      ;; TODO make this behave like alt-tab in Windows, but for buffers
+TODO: Make this behave like alt-tab in Windows, but for buffers. I think ~hycontrol~ may come in handy (Hyperbole).
+#+BEGIN_SRC emacs-lisp
       (defun er-switch-to-previous-buffer ()
         "Switch to previously open buffer. Repeated invocations toggle between the two most recently open buffers."
         (interactive)
@@ -698,10 +704,14 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
       ;; override Home/End behavior to be more like modern applications
       (global-set-key (kbd "<home>") 'move-beginning-of-line)
       (global-set-key (kbd "<end>") 'move-end-of-line)
+#+END_SRC
+*** Tweak align-regexp
+Configure align-regexp to use spaces instead of tabs. This is mostly for this file. When my keybindings are in two columns and ~M-x align-regexp~ uses tabs, the columns look aligned in Emacs but unaligned on GitHub. Using spaces faces this. This snippet effects that change.
 
-      ;; configure align-regexp to use spaces instead of tabs
-      ;; lifted from StackOverflow
-      ;; https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs
+Lifted from StackOverflow:
+
+[[https://stackoverflow.com/questions/22710040/emacs-align-regexp-with-spaces-instead-of-tabs]]
+#+BEGIN_SRC emacs-lisp
       (defadvice align-regexp (around align-regexp-with-spaces activate)
         (let ((indent-tabs-mode nil))
           ad-do-it))
