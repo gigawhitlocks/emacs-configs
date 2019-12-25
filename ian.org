@@ -342,7 +342,7 @@ I like to highlight the current line so that it is easy to identify where my cur
 #+BEGIN_SRC emacs-lisp
       (use-package restart-emacs)
 #+END_SRC
-****  s is a string manipulation utility
+**** s is a string manipulation utility
 I use this for a trim() function far down below. I think it gets pulled in as a dependency anyway, but in any case it provides a bunch of helper functions and stuff. [[https://github.com/magnars/s.el][Docs are here.]]
 #+BEGIN_SRC emacs-lisp
       (use-package s)
@@ -382,7 +382,7 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
       (global-set-key "\t" 'company-complete-common))
 #+END_SRC
 *** Install and Configure Flycheck for Linting
-Flycheck is an on-the-fly checker that hooks into most language backends.
+[[https://www.flycheck.org/en/latest/][Flycheck]] is an on-the-fly checker that hooks into most language backends.
 #+BEGIN_SRC emacs-lisp
     ;; linter
     (use-package flycheck
@@ -391,7 +391,7 @@ Flycheck is an on-the-fly checker that hooks into most language backends.
       :init (global-flycheck-mode))
 #+END_SRC
 *** Install and Configure Helm for Command and Control
-Helm is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press ~M-x~ (with the way I have it configured, anyway).
+[[https://github.com/emacs-helm/helm][Helm]] is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press ~M-x~ (with the way I have it configured, anyway).
 #+BEGIN_SRC emacs-lisp
     ;; helm
     (defun setup-helm ()
