@@ -1,23 +1,23 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org0de70eb)
-  - [Justification](#org0eda228)
-- [Entrypoint](#orgc15c243)
-- [My Environment](#orgf83fac5)
-  - [Bootstrap](#orgfa6d4c7)
-  - [Package Installation and Configuration](#org9fb2dc6)
-  - [Language Configuration](#orgbecc63b)
-  - [Global Environment Configuration](#org39c6696)
-  - [Render this file for display on Github](#org0004d84)
-  - [Run Stuff](#org14b1ff4)
-- [Notes and Such](#org77284f8)
-  - [Hyperbole](#orgce248d7)
-  - [Monospace Fonts](#org4837db0)
-  - [Proportional Fonts](#orgb9cb841)
-  - [Authentication and Secrets in Emacs](#org31155f2)
-  - [Packages to Try](#orgc3e421b)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org722561d)
+  - [Justification](#org54ca3d3)
+- [Entrypoint](#orgee4d44a)
+- [My Environment](#org2a76f48)
+  - [Bootstrap](#orgc388db4)
+  - [Package Installation and Configuration](#orge3389bf)
+  - [Language Configuration](#org6c8bd5d)
+  - [Post-Config](#org659a25d)
+  - [Global Environment Configuration](#orgf773c08)
+  - [Render this file for display on Github](#org9b73d6c)
+  - [Run Stuff](#org9729cbe)
+- [Notes and Such](#org09affc4)
+  - [Monospace Fonts](#org3e71010)
+  - [Proportional Fonts](#org8f45c4f)
+  - [Authentication and Secrets in Emacs](#org8f13062)
+  - [Packages to Try](#orge26482c)
 
 
 
-<a id="org0de70eb"></a>
+<a id="org722561d"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -26,7 +26,7 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="org0eda228"></a>
+<a id="org54ca3d3"></a>
 
 ## Justification
 
@@ -55,7 +55,7 @@ This configuration is written in Org syntax.
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="orgc15c243"></a>
+<a id="orgee4d44a"></a>
 
 # Entrypoint
 
@@ -106,7 +106,7 @@ This is `init.el`. Using Org for my configuration is a personal choice, so I wan
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgf83fac5"></a>
+<a id="org2a76f48"></a>
 
 # My Environment
 
@@ -119,7 +119,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgfa6d4c7"></a>
+<a id="orgc388db4"></a>
 
 ## Bootstrap
 
@@ -176,7 +176,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org9fb2dc6"></a>
+<a id="orge3389bf"></a>
 
 ## Package Installation and Configuration
 
@@ -535,7 +535,7 @@ Helm is a full-featured command and control package that fundamentally alters a 
 
 ### Install and Configure GNU Hyperbole
 
-GNU Hyperbole adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
+[GNU Hyperbole](https://www.gnu.org/software/hyperbole/) adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
 
 It adds a slew of other features as well &#x2013; hyperlinks between documents, a rolodex, a list builder. I don't use it all, but the parts I use are pretty critical.
 
@@ -560,7 +560,7 @@ I think I intended for this to be more modular but really I should remove these 
 	```
 
 
-<a id="orgbecc63b"></a>
+<a id="org6c8bd5d"></a>
 
 ## Language Configuration
 
@@ -772,7 +772,9 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
-### Post-Config
+<a id="org659a25d"></a>
+
+## Post-Config
 
 Any config that needs to run after languages are loaded should go here.
 
@@ -781,37 +783,31 @@ Any config that needs to run after languages are loaded should go here.
   (use-package adaptive-wrap
 ```
 
-1.  Adaptive Wrap and Visual Line Mode
 
-	Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [`adaptive-wrap-prefix-mode`](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
+### Adaptive Wrap and Visual Line Mode
 
-	```emacs-lisp
-	  :config
-	  (setq-default adaptive-wrap-extra-indent 2)
-	  (defun adaptive-and-visual-line-mode (hook)
-		(add-hook hook (lambda ()
-				  (progn
-				(visual-line-mode)
-				(adaptive-wrap-prefix-mode)))))
+Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [`adaptive-wrap-prefix-mode`](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 
-	  (mapc 'adaptive-and-visual-line-mode (list
-						'markdown-mode
-						'go-mode-hook
-						'js2-mode-hook
-						'yaml-mode-hook
-						'rjsx-mode-hook))
-	  (add-hook 'compilation-mode-hook
-			#'adaptive-wrap-prefix-mode)
-	  )
+```emacs-lisp
+  :config
+  (setq-default adaptive-wrap-extra-indent 2)
+  (defun adaptive-and-visual-line-mode (hook)
+	(add-hook hook (lambda ()
+			  (progn
+			(visual-line-mode)
+			(adaptive-wrap-prefix-mode)))))
 
-	;; sane tab-width
-	;; I mean seriously Emacs, 8??
-	;; (setq tab-width 2)
-
-	)
-	```
-
-	1.  TODO I'll take some pics sometime.
+  (mapc 'adaptive-and-visual-line-mode (list
+					'markdown-mode
+					'go-mode-hook
+					'js2-mode-hook
+					'yaml-mode-hook
+					'rjsx-mode-hook))
+  (add-hook 'compilation-mode-hook
+		#'adaptive-wrap-prefix-mode)
+  )
+)
+```
 
 
 ### Enable modes
@@ -827,7 +823,7 @@ Any config that needs to run after languages are loaded should go here.
 ```
 
 
-<a id="org39c6696"></a>
+<a id="orgf773c08"></a>
 
 ## Global Environment Configuration
 
@@ -887,53 +883,53 @@ Any config that needs to run after languages are loaded should go here.
 ```emacs-lisp
 (general-create-definer my-leader-def
   ;; :prefix my-leader
-  :prefix "spc")
+  :prefix "SPC")
 
 (general-create-definer my-local-leader-def
   ;; :prefix my-local-leader
-  :prefix "spc m")
+  :prefix "SPC m")
 
 (general-define-key
  :states 'normal
- "tab"  'origami-toggle-node
+ "TAB"  'origami-toggle-node
 
- "j"    'evil-scroll-page-down
- "k"    'evil-scroll-page-up
+ "J"    'evil-scroll-page-down
+ "K"    'evil-scroll-page-up
 
  "zm"   'origami-toggle-node
- "zm"   'origami-toggle-all-nodes
+ "zM"   'origami-toggle-all-nodes
 
  "zc"   'origami-close-node
- "zc"   'origami-close-node-recursively
+ "zC"   'origami-close-node-recursively
 
  "zo"   'origami-open-node
- "zo"   'origami-open-node-recursively)
+ "zO"   'origami-open-node-recursively)
 
 (defun find-initfile ()
-  "open main config file."
+  "Open main config file."
   (interactive)
   (find-file "~/.emacs.d/ian.org"))
 
 (defun find-initfile-other-frame ()
-  "open main config file in a new frame."
+  "Open main config file in a new frame."
   (interactive)
   (find-file-other-frame "~/.emacs.d/ian.org"))
 
 (defun reload-initfile ()
-  "reload the main config file."
+  "Reload the main config file."
   (interactive)
   (org-babel-tangle "~/.emacs.d/ian.org")
   (byte-compile-file "~/.emacs.d/ian.el"))
 
 (defun close-client-frame ()
-  "exit emacsclient."
+  "Exit emacsclient."
   (interactive)
-  (server-edit "done"))
+  (server-edit "Done"))
 
 ;; global keybindings
 (my-leader-def 'normal 'override
   "bb"     'helm-mini
-  "tab"    #'switch-to-prev-buffer
+  "TAB"    #'switch-to-prev-buffer
   "br"     'revert-buffer
   "bd"     'evil-delete-buffer
   "cc"     'projectile-compile-project
@@ -941,13 +937,13 @@ Any config that needs to run after languages are loaded should go here.
   "el"     'flycheck-list-errors
   "en"     'flycheck-next-error
   "ep"     'flycheck-previous-error
-  "fm"     'make-frame
-  "fd"     'delete-frame
+  "Fm"     'make-frame
+  "Fd"     'delete-frame
   "ff"     'helm-find-files
   "fr"     'helm-recentf
   "fed"    'find-initfile
-  "fed"    'find-initfile-other-frame
-  "fer"    'reload-initfile
+  "feD"    'find-initfile-other-frame
+  "feR"    'reload-initfile
   "gb"     'magit-blame
   "gs"     'magit-status
   "gg"     'magit
@@ -976,11 +972,11 @@ Any config that needs to run after languages are loaded should go here.
   "wh"     'evil-window-left
   "wl"     'evil-window-right
   "wd"     'delete-window
-  "wd"     'delete-other-windows
+  "wD"     'delete-other-windows
   "wo"     'other-window
   "w="     'balance-windows
-  "spc"    'helm-m-x
-   )
+  "SPC"    'helm-M-x
+  )
 ```
 
 
@@ -1152,7 +1148,7 @@ So we can use `sed` and `grep` which are available on all of my machines to look
 I wrote a quick Bash one-liner to extract the login. Maybe I could've done this in elisp but Emacs makes it easy enough to mix languages, so here is the one-liner, which will tangle out to `get-nick.bash`:
 
 ```bash
-cat ~/.authinfo | grep "$1" | sed 's/.*login \([^ ]\+ \).*/\1/g'
+grep "$1" ~/.authinfo | sed 's/.*login \([^ ]\+ \).*/\1/g'
 ```
 
 Then configure Emacs to use this to find the nick (and put in place the rest of the configuration that I would like for ERC):
@@ -1186,7 +1182,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org0004d84"></a>
+<a id="org9b73d6c"></a>
 
 ## Render this file for display on Github
 
@@ -1207,7 +1203,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org14b1ff4"></a>
+<a id="org9729cbe"></a>
 
 ## Run Stuff
 
@@ -1221,7 +1217,6 @@ Main is called in `init.el` and runs the rest of of the config. No configuration
   (global-packages)
   (languages)
   (config)
-  ;;(publish)
   (server-start))
 
 (provide '~/.emacs.d/ian.el)
@@ -1229,26 +1224,14 @@ Main is called in `init.el` and runs the rest of of the config. No configuration
 ```
 
 
-<a id="org77284f8"></a>
+<a id="org09affc4"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="orgce248d7"></a>
-
-## DONE Hyperbole
-
-```
-17:41 user1: is there a way to do the equivalent of C-x C-e on a #+INCLUDE: directive in Org?
-17:46 user2: Of course: C-a C-c ' C-x h M-w M-x org-mark-ring-goto C-y C-k
-17:51 user1: I could probably transform that string of commands into a Lisp function.. and then write an implicit button rule for Hyperbole so that I can shift+middle-click on an #+INCLUDE: directive and have it drop the contents of the file inside my org file..
-17:52 user1: that'd be the correct behavior
-```
-
-
-<a id="org4837db0"></a>
+<a id="org3e71010"></a>
 
 ## Monospace Fonts
 
@@ -1280,14 +1263,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orgb9cb841"></a>
+<a id="org8f45c4f"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org31155f2"></a>
+<a id="org8f13062"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1296,7 +1279,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgc3e421b"></a>
+<a id="orge26482c"></a>
 
 ## Packages to Try
 

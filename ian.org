@@ -414,7 +414,7 @@ Helm is a full-featured command and control package that fundamentally alters a 
 
 #+END_SRC
 *** Install and Configure GNU Hyperbole
-GNU Hyperbole adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
+[[https://www.gnu.org/software/hyperbole/][GNU Hyperbole]] adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
 
 It adds a slew of other features as well -- hyperlinks between documents, a rolodex, a list builder. I don't use it all, but the parts I use are pretty critical.
 #+BEGIN_SRC emacs-lisp
@@ -623,13 +623,13 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
             ))
     )
 #+END_SRC
-*** Post-Config
+** Post-Config
 Any config that needs to run after languages are loaded should go here.
 #+BEGIN_SRC emacs-lisp
   (defun post-config ()
     (use-package adaptive-wrap
 #+END_SRC
-**** Adaptive Wrap and Visual Line Mode
+*** Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][~adaptive-wrap-prefix-mode~]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 #+BEGIN_SRC emacs-lisp
       :config
@@ -649,14 +649,8 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
       (add-hook 'compilation-mode-hook
                 #'adaptive-wrap-prefix-mode)
       )
-
-    ;; sane tab-width
-    ;; I mean seriously Emacs, 8??
-    ;; (setq tab-width 2)
-
     )
 #+END_SRC
-***** TODO I'll take some pics sometime.
 *** Enable modes
 #+BEGIN_SRC emacs-lisp
   (setup-lsp)
@@ -785,10 +779,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "gs"     'magit-status
     "gg"     'magit
     "gd"     'magit-diff
-    "hy"     'hyperbole
-    "hu"     'easy-hugo
-    "hn"     'easy-hugo-newpost
-    "hp"     'easy-hugo-preview
+    "h"     'hyperbole
     "jj"     'bookmark-jump
     "js"     'bookmark-set
     "jo"     'org-babel-tangle-jump-to-org
@@ -982,7 +973,7 @@ So we can use ~sed~ and ~grep~ which are available on all of my machines to look
 I wrote a quick Bash one-liner to extract the login. Maybe I could've done this in elisp but Emacs makes it easy enough to mix languages, so here is the one-liner, which will tangle out to ~get-nick.bash~:
 
 #+BEGIN_SRC bash :tangle ~/.emacs.d/get-nick.bash :shebang /bin/bash
-cat ~/.authinfo | grep "$1" | sed 's/.*login \([^ ]\+ \).*/\1/g'
+grep "$1" ~/.authinfo | sed 's/.*login \([^ ]\+ \).*/\1/g'
 #+END_SRC
 
 Then configure Emacs to use this to find the nick (and put in place the rest of the configuration that I would like for ERC):
@@ -1042,7 +1033,6 @@ Main is called in ~init.el~ and runs the rest of of the config. No configuration
     (global-packages)
     (languages)
     (config)
-    ;;(publish)
     (server-start))
 
   (provide '~/.emacs.d/ian.el)
@@ -1051,14 +1041,6 @@ Main is called in ~init.el~ and runs the rest of of the config. No configuration
 
 * Notes and Such
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
-** DONE Hyperbole
-#+BEGIN_SRC
-17:41 user1: is there a way to do the equivalent of C-x C-e on a #+INCLUDE: directive in Org?
-17:46 user2: Of course: C-a C-c ' C-x h M-w M-x org-mark-ring-goto C-y C-k
-17:51 user1: I could probably transform that string of commands into a Lisp function.. and then write an implicit button rule for Hyperbole so that I can shift+middle-click on an #+INCLUDE: directive and have it drop the contents of the file inside my org file..
-17:52 user1: that'd be the correct behavior
-#+END_SRC
-
 ** Monospace Fonts
 Just going to keep note of some options
 
