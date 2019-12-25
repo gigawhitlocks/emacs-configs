@@ -1,23 +1,23 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#org722561d)
-  - [Justification](#org54ca3d3)
-- [Entrypoint](#orgee4d44a)
-- [My Environment](#org2a76f48)
-  - [Bootstrap](#orgc388db4)
-  - [Package Installation and Configuration](#orge3389bf)
-  - [Language Configuration](#org6c8bd5d)
-  - [Post-Config](#org659a25d)
-  - [Global Environment Configuration](#orgf773c08)
-  - [Render this file for display on Github](#org9b73d6c)
-  - [Run Stuff](#org9729cbe)
-- [Notes and Such](#org09affc4)
-  - [Monospace Fonts](#org3e71010)
-  - [Proportional Fonts](#org8f45c4f)
-  - [Authentication and Secrets in Emacs](#org8f13062)
-  - [Packages to Try](#orge26482c)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#orgaab774e)
+  - [Justification](#org51a123d)
+- [Entrypoint](#orge737348)
+- [My Environment](#org3ee1bfd)
+  - [Bootstrap](#orgd26813c)
+  - [Package Installation and Configuration](#org9b4b8d5)
+  - [Language Configuration](#org64bfa6e)
+  - [Post-Config](#org36cdc53)
+  - [Global Environment Configuration](#orgf03e978)
+  - [Render this file for display on Github](#org2786586)
+  - [Run Stuff](#org0b2be9b)
+- [Notes and Such](#orgc776790)
+  - [Monospace Fonts](#org86aa3df)
+  - [Proportional Fonts](#orga28eeac)
+  - [Authentication and Secrets in Emacs](#orgc26f3e9)
+  - [Packages to Try](#org3d1c145)
 
 
 
-<a id="org722561d"></a>
+<a id="orgaab774e"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -26,7 +26,7 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="org54ca3d3"></a>
+<a id="org51a123d"></a>
 
 ## Justification
 
@@ -55,7 +55,7 @@ This configuration is written in Org syntax.
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="orgee4d44a"></a>
+<a id="orge737348"></a>
 
 # Entrypoint
 
@@ -106,7 +106,7 @@ This is `init.el`. Using Org for my configuration is a personal choice, so I wan
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org2a76f48"></a>
+<a id="org3ee1bfd"></a>
 
 # My Environment
 
@@ -119,7 +119,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgc388db4"></a>
+<a id="orgd26813c"></a>
 
 ## Bootstrap
 
@@ -176,7 +176,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orge3389bf"></a>
+<a id="org9b4b8d5"></a>
 
 ## Package Installation and Configuration
 
@@ -560,7 +560,7 @@ I think I intended for this to be more modular but really I should remove these 
 	```
 
 
-<a id="org6c8bd5d"></a>
+<a id="org64bfa6e"></a>
 
 ## Language Configuration
 
@@ -772,7 +772,7 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
-<a id="org659a25d"></a>
+<a id="org36cdc53"></a>
 
 ## Post-Config
 
@@ -823,7 +823,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgf773c08"></a>
+<a id="orgf03e978"></a>
 
 ## Global Environment Configuration
 
@@ -1050,6 +1050,8 @@ Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the sam
 	 (require 'local)))
 ```
 
+There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
+
 
 ### Misc Settings
 
@@ -1182,7 +1184,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org9b73d6c"></a>
+<a id="org2786586"></a>
 
 ## Render this file for display on Github
 
@@ -1203,7 +1205,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org9729cbe"></a>
+<a id="org0b2be9b"></a>
 
 ## Run Stuff
 
@@ -1224,14 +1226,14 @@ Main is called in `init.el` and runs the rest of of the config. No configuration
 ```
 
 
-<a id="org09affc4"></a>
+<a id="orgc776790"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org3e71010"></a>
+<a id="org86aa3df"></a>
 
 ## Monospace Fonts
 
@@ -1263,14 +1265,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org8f45c4f"></a>
+<a id="orga28eeac"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org8f13062"></a>
+<a id="orgc26f3e9"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1279,7 +1281,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orge26482c"></a>
+<a id="org3d1c145"></a>
 
 ## Packages to Try
 

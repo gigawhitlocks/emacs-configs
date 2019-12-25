@@ -879,6 +879,8 @@ This would be a neat feature to expand on at some point.
        (require 'local)))
 #+END_SRC
 
+There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
+
 *** Misc Settings
 #+BEGIN_SRC emacs-lisp
   ;; backups to /tmp
