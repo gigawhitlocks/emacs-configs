@@ -67,7 +67,6 @@ This is ~init.el~. Using Org for my configuration is a personal choice, so I wan
   (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
 
   (require '~/.emacs.d/ian.el)
-  (main)
 
   ;; Load automatic and interactive customizations from this computer
   (shell-command "touch ~/.emacs.d/.emacs-custom.el")
@@ -108,9 +107,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
   ;;;
   ;;; Code:
 
-  (defun bootstrap ()
-    "Install use-package and melpa to prepare for installation of other packages."
-
     ;; manual PATH management
     (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
     (add-to-list 'exec-path "/usr/local/bin" t)
@@ -139,17 +135,13 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
     ;; these go in bootstrap because packages installed
     ;; with use-package use :diminish and :delight
     (use-package diminish)
-    (use-package delight))
+    (use-package delight)
 #+END_SRC
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 ** Package Installation and Configuration
 The ~global-packages~ function is responsible for installing packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
-#+BEGIN_SRC emacs-lisp
-  (defun global-packages ()
-    "Install and configure packages used with many modes and standalone modes and applications."
-#+END_SRC
 *** Install and Configure Treemacs
 Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between modes. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
 #+BEGIN_SRC emacs-lisp
@@ -404,39 +396,26 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
       :init (global-flycheck-mode))
 #+END_SRC
 
-*** Run everything that is in a function
-I think I intended for this to be more modular but really I should remove these functions and separate things with Org instead..
-**** TODO refactor and remove this
-#+BEGIN_SRC emacs-lisp
-    )
-#+END_SRC
-
 ** Language Configuration
-*** General
+*** Language Server Protocol
+LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured first.
+
 #+BEGIN_SRC emacs-lisp
-  (defun languages ()
-    "Setup for specific programming languages."
+  (use-package lsp-mode
+    :init
+    ;; use flycheck
+    (setq lsp-prefer-flymake nil))
 
-    (defun setup-lsp ()
-      "Enable nice rendering of diagnostics like compile errors."
-      (use-package lsp-mode
-        :init
-        (setq lsp-prefer-flymake nil)) ;; use flycheck
+    (use-package lsp-ui
+      :config
+      (setq lsp-ui-doc-position 'bottom))
 
-        (use-package lsp-ui)
-        (use-package lsp-ui
-          :config
-          (setq lsp-ui-doc-position 'bottom))
+  (use-package helm-lsp)
 
-      ;; (use-package lsp-ui
-      ;;   :init (setq lsp-ui-doc-position 'bottom))
-
-      (use-package helm-lsp)
-
-      ;; Add lsp backend for other tools
-      (use-package lsp-treemacs)
-      (use-package company-lsp)
-      (use-package lsp-origami))
+  ;; Add lsp backend for other tools
+  (use-package lsp-treemacs)
+  (use-package company-lsp)
+  (use-package lsp-origami)
 #+END_SRC
 
 *** YAML
@@ -461,23 +440,20 @@ I think I intended for this to be more modular but really I should remove these 
 
 *** Docker
 #+BEGIN_SRC emacs-lisp
-  (defun docker ()
     (use-package dockerfile-mode)
     (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
-    (put 'dockerfile-image-name 'safe-local-variable #'stringp))
+    (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 #+END_SRC
 
 *** Python
 #+BEGIN_SRC emacs-lisp
-  (defun python ()
-
     (use-package auto-virtualenv)
     (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
 
     (use-package anaconda-mode
       :config
       (add-hook 'python-mode-hook 'anaconda-mode)
-      (add-hook 'python-mode-hook 'anaconda-eldoc-mode)))
+      (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 
     (setenv "WORKON_HOME" "~/.virtualenvs")
 
@@ -492,158 +468,126 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 - ~go install~ ~godef~ for definitions [[https://github.com/rogpeppe/godef]]`
 - ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]
 #+BEGIN_SRC emacs-lisp
-  (defun go ()
-    ;;
+  (defun set-gopls-lib-dirs ()
+    "Add $GOPATH/pkg/mod to the 'library path'."
+    ;; stops lsp from continually asking if Go projects should be imported
+    (setq lsp-clients-go-library-directories
+          (list
+           "/usr"
+           (concat (getenv "GOPATH") "/pkg/mod"))))
 
-    (defun set-gopls-lib-dirs ()
-      "Add $GOPATH/pkg/mod to the 'library path'."
-      ;; stops lsp from continually asking if Go projects should be imported
-      (setq lsp-clients-go-library-directories
-            (list
-             "/usr"
-             (concat (getenv "GOPATH") "/pkg/mod"))))
+  ;; native go mode
+  (use-package go-mode
+    :hook ((go-mode . lsp-deferred)
+           (go-mode . set-gopls-lib-dirs))
+    :config
+    ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+    ;; presumably for lsp this is #'lsp-find-definition here instead
+    (evil-add-command-properties #'godef-jump :jump t))
 
-    ;; native go mode
-    (use-package go-mode
-      :hook ((go-mode . lsp-deferred)
-             (go-mode . set-gopls-lib-dirs))
-      :config
-      ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-      ;; presumably for lsp this is #'lsp-find-definition here instead
-      (evil-add-command-properties #'godef-jump :jump t))
+  (general-define-key
+   :states  'normal
+   :keymaps 'go-mode-map
+   ",a"     'go-import-add
+   ",d"     'lsp-describe-thing-at-point
+   ",g"     'lsp-find-definition
+   ",i"     'lsp-find-implementation
+   ",n"     'lsp-rename
+   ",r"     'lsp-find-references
+   ",t"     'lsp-find-type-definition
+   ",x"     'lsp-execute-code-action
+   "gd"     'lsp-find-definition
+   )
 
-    (general-define-key
-     :states  'normal
-     :keymaps 'go-mode-map
-     ",a"     'go-import-add
-     ",d"     'lsp-describe-thing-at-point
-     ",g"     'lsp-find-definition
-     ",i"     'lsp-find-implementation
-     ",n"     'lsp-rename
-     ",r"     'lsp-find-references
-     ",t"     'lsp-find-type-definition
-     ",x"     'lsp-execute-code-action
-     "gd"     'lsp-find-definition
-     )
+  (autoload 'go-mode "go-mode" nil t)
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
-    (autoload 'go-mode "go-mode" nil t)
-    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  ;; autocompletion
+  ;; https://github.com/mdempsky/gocode
+  ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
+  ;;  (use-package company-go)
 
-    ;; autocompletion
-    ;; https://github.com/mdempsky/gocode
-    ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
-    ;;  (use-package company-go)
+  ;; disable auto-completion of non-Go things in Go files
+  ;; (add-hook 'go-mode-hook (lambda ()
+  ;;			    (set (make-local-variable 'company-backends) '(company-go))
+  ;;			    (company-mode)))
 
-    ;; disable auto-completion of non-Go things in Go files
-    ;; (add-hook 'go-mode-hook (lambda ()
-    ;;			    (set (make-local-variable 'company-backends) '(company-go))
-    ;;			    (company-mode)))
+  ;; disable "Organize Imports" warning that never goes away
+  (add-hook 'go-mode-hook
+            (lambda ()
+              (origami-mode)
+              (setq-local lsp-ui-sideline-show-code-actions nil)))
 
-    ;; disable "Organize Imports" warning that never goes away
-    (add-hook 'go-mode-hook
-              (lambda ()
-                (origami-mode)
-                (setq-local lsp-ui-sideline-show-code-actions nil)))
+  ;; super important -- eldoc support adds things like type signatures in modeline
+  ;; but I think LSP might provide this functionality, too? we'll see..
+  ;; (use-package go-eldoc)
+  ;; (add-hook 'go-mode-hook 'go-eldoc-setup)
 
-    ;; super important -- eldoc support adds things like type signatures in modeline
-    ;; but I think LSP might provide this functionality, too? we'll see..
-    ;; (use-package go-eldoc)
-    ;; (add-hook 'go-mode-hook 'go-eldoc-setup)
+  ;; sets the visual tab width to 2 spaces per tab in Go buffers
+  (add-hook 'go-mode-hook (lambda ()
+                            (set (make-local-variable 'tab-width) 2)))
+  ;; gofmt before save
+  (add-hook 'before-save-hook 'gofmt-before-save)
 
-    ;; sets the visual tab width to 2 spaces per tab in Go buffers
-    (add-hook 'go-mode-hook (lambda ()
-                              (set (make-local-variable 'tab-width) 2)))
-    ;; gofmt before save
-    (add-hook 'before-save-hook 'gofmt-before-save)
-
-    (load-file "~/.emacs.d/vendor/go-dlv.el")
-    (require 'go-dlv)
-    )
-
-
-  ;; go
+  (load-file "~/.emacs.d/vendor/go-dlv.el")
+  (require 'go-dlv)
 #+END_SRC
 
 *** Javascript
 #+BEGIN_SRC emacs-lisp
-      ;; Javascript / React config
-
-      (defun javascript ()
-        ;; React JSX mode for .jsx files and component/*.js files
-        (use-package rjsx-mode
-          :hook ((rjsx-mode . lsp-deferred))
-          :config
-          (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-          :init
-          (add-hook 'javascript-mode-hook #'lsp)))
+  ;; React JSX mode for .jsx files and component/*.js files
+  (use-package rjsx-mode
+    :hook ((rjsx-mode . lsp-deferred))
+    :config
+    (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
+    :init
+    (add-hook 'javascript-mode-hook #'lsp))
 #+END_SRC
 *** Web
 #+BEGIN_SRC emacs-lisp
-  (defun web ()
-    (use-package web-mode
-      :mode (("\\.html$" . web-mode)
-             ("\\.css$"  . web-mode))
-      :config
-      (setq web-mode-enable-css-colorization t)
-      (setq web-mode-enable-auto-pairing t))
+  (use-package web-mode
+    :mode (("\\.html$" . web-mode)
+           ("\\.css$"  . web-mode))
+    :config
+    (setq web-mode-enable-css-colorization t)
+    (setq web-mode-enable-auto-pairing t))
 
-    ;; web-mode can provide syntax highlighting for many template
-    ;; engines, but it can't detect the right one if the template uses a generic ending.
-    ;; If a project uses a generic ending for its templates, such
-    ;; as .html, add it below. It would be more elegant to handle this by
-    ;; setting this variable in .dir-locals.el for each project,
-    ;; unfortunately due to this https://github.com/fxbois//issues/799 that
-    ;; is not possible :(
+  ;; web-mode can provide syntax highlighting for many template
+  ;; engines, but it can't detect the right one if the template uses a generic ending.
+  ;; If a project uses a generic ending for its templates, such
+  ;; as .html, add it below. It would be more elegant to handle this by
+  ;; setting this variable in .dir-locals.el for each project,
+  ;; unfortunately due to this https://github.com/fxbois//issues/799 that
+  ;; is not possible :(
 
-    (setq web-mode-engines-alist '(
-            ("go" . ".*foo.party/.*\\.html\\'")
-            ;; add more projects here..
-            ))
-    )
-#+END_SRC
-** Post-Config
-Any config that needs to run after languages are loaded should go here.
-#+BEGIN_SRC emacs-lisp
-  (defun post-config ()
-    (use-package adaptive-wrap
+  (setq web-mode-engines-alist '(
+          ("go" . ".*foo.party/.*\\.html\\'")
+          ;; add more projects here..
+          ))
 #+END_SRC
 *** Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][~adaptive-wrap-prefix-mode~]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 #+BEGIN_SRC emacs-lisp
-      :config
-      (setq-default adaptive-wrap-extra-indent 2)
-      (defun adaptive-and-visual-line-mode (hook)
-        (add-hook hook (lambda ()
-                          (progn
-                            (visual-line-mode)
-                            (adaptive-wrap-prefix-mode)))))
+  (use-package adaptive-wrap
+    :config
+    (setq-default adaptive-wrap-extra-indent 2)
+    (defun adaptive-and-visual-line-mode (hook)
+      (add-hook hook (lambda ()
+                        (progn
+                          (visual-line-mode)
+                          (adaptive-wrap-prefix-mode)))))
 
-      (mapc 'adaptive-and-visual-line-mode (list
-                                            'markdown-mode
-                                            'go-mode-hook
-                                            'js2-mode-hook
-                                            'yaml-mode-hook
-                                            'rjsx-mode-hook))
-      (add-hook 'compilation-mode-hook
-                #'adaptive-wrap-prefix-mode)
-      )
+    (mapc 'adaptive-and-visual-line-mode
+          (list
+           'markdown-mode
+           'go-mode-hook
+           'js2-mode-hook
+           'yaml-mode-hook
+           'rjsx-mode-hook))
+
+    (add-hook 'compilation-mode-hook
+              #'adaptive-wrap-prefix-mode)
     )
-#+END_SRC
-*** Enable modes
-#+BEGIN_SRC emacs-lisp
-  (setup-lsp)
-  (go)
-  (python)
-  (docker)
-  (javascript)
-  (web)
-  (post-config))
-#+END_SRC
-*** Begin Global Environment Configuration
-All the config is wrapped so that it gets run last, down below.
-#+BEGIN_SRC emacs-lisp
-  (defun config ()
-    "Global configuration variables and such. Global functions with keybindings must go here."
 #+END_SRC
 ** Global Keybindings
 
@@ -927,7 +871,6 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 *** Easily create gifs of current Emacs frames
 Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byzanz-record~ is installed (it's in the repos in most distros) and only works in X11.
 
-This was also my first substantial interactive Emacs Lisp function 😃 although this version doesn't look much like the original did.
 #+BEGIN_SRC emacs-lisp
   (defun create-gif (duration)
     "Create a gif of the current frame with the DURATION provided."
@@ -971,10 +914,6 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
   (scroll-bar-mode -1)
 #+END_SRC
 
-Close global config section
-#+BEGIN_SRC emacs-lisp
-)
-#+END_SRC
 ** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
@@ -1046,18 +985,9 @@ This function registers a hook that will export this file to Github flavored Mar
                  )))
 #+END_SRC
 
-** Run Stuff (~main~)
-Main is called in ~init.el~ and runs the rest of of the config. No configuration should be added after this.
+** Footer
 #+BEGIN_SRC emacs-lisp
-
-  (defun main ()
-    "Initialize everything!"
-    (bootstrap)
-    (global-packages)
-    (languages)
-    (config)
-    (server-start))
-
+  (server-start)
   (provide '~/.emacs.d/ian.el)
   ;;; ian.el ends here
 #+END_SRC

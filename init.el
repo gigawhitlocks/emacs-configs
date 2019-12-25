@@ -27,7 +27,6 @@
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
 
 (require '~/.emacs.d/ian.el)
-(main)
 
 ;; Load automatic and interactive customizations from this computer
 (shell-command "touch ~/.emacs.d/.emacs-custom.el")
