@@ -272,24 +272,21 @@ If you run a command through ~M-x compile~ by default Emacs prints ANSI codes li
 *** Install and Configure Aesthetic Dashboard
 Following Spacemacs' style, uses the [[https://github.com/emacs-dashboard/emacs-dashboard][~emacs-dashboard~]] project and [[https://github.com/domtronn/all-the-icons.el][~all-the-icons~]] to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
 #+BEGIN_SRC emacs-lisp
-    (defun dashboard ()
-      ;; provides a nice looking dashboard at launch
-      ;; see more here https://github.com/emacs-dashboard/emacs-dashboard
-      (use-package all-the-icons) ;; provides optional icons for dashboard
-      (use-package dashboard
-        :config
-        (dashboard-setup-startup-hook)
-        (setq dashboard-startup-banner 'logo)
-        (setq dashboard-center-content t)
-        (setq dashboard-items '((recents  . 5)
-                                (bookmarks . 5)
-                                (projects . 5))
-              )
-        ;; (registers . 5)
-        ;; (agenda . 5)
-        )
+  (defun dashboard ()
+    ;; first disable the default startup screen
+    (setq inhibit-startup-screen t)
+    (use-package all-the-icons)
+    (use-package dashboard
+      :config
+      (dashboard-setup-startup-hook)
+      (setq dashboard-startup-banner 'logo)
+      (setq dashboard-center-content t)
+      (setq dashboard-items '((recents  . 5)
+                              (bookmarks . 5)
+                              (projects . 5))
+            )
       )
-      ;; hugo blog management
+    )
 #+END_SRC
 *** Install and Configure Blogging Tools
 Easy Hugo is an interactive UI for managing a Hugo site.
@@ -881,33 +878,41 @@ This would be a neat feature to expand on at some point.
 
 There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
-*** Misc Settings
+*** Configure automatic backups/recovery files
 #+BEGIN_SRC emacs-lisp
   ;; backups to /tmp
   (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
   (setq delete-old-versions t)
-
-  ;; clean whitespace on save in all modes
+#+END_SRC
+*** Clean Whitespace On Save In All Modes
+#+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'whitespace-cleanup)
-
+#+END_SRC
+*** Autosave
+#+BEGIN_SRC emacs-lisp
   ;; autosave
   (setq auto-save-visited-interval 300)
   (auto-save-visited-mode
    :diminish
    )
-
-  ;; set default window size
+#+END_SRC
+*** Default window size
+#+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(width . 128))
   (add-to-list 'default-frame-alist '(height . 60))
-
+#+END_SRC
+*** Unclutter global modeline
+#+BEGIN_SRC emacs-lisp
   ;; hide some modes that are everywhere
   (diminish 'eldoc-mode)
   (diminish 'undo-tree-mode)
   (diminish 'auto-revert-mode)
-
-  ;; less annoying bell (from emacs wiki)
-  ;; flashes the modeline foreground
+#+END_SRC
+*** Less Annoying Bell
+(from emacs wiki)
+Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
+#+BEGIN_SRC emacs-lisp
   (setq ring-bell-function
         (lambda ()
           (let ((orig-fg (face-foreground 'mode-line)))
@@ -918,8 +923,11 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
             (run-with-idle-timer 0.1 nil
                                  (lambda (fg) (set-face-foreground 'mode-line fg))
                                  orig-fg))))
+#+END_SRC
+*** Easily create gifs of current Emacs frames
+Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byzanz-record~ is installed (it's in the repos in most distros) and only works in X11.
 
-  ;; easily take gifs (if byzanz-record is available.. only works in X11)
+#+BEGIN_SRC emacs-lisp
   (defun create-gif (duration)
     "Create a gif of the current frame with the DURATION provided."
     (interactive "sDuration: ")
@@ -953,19 +961,15 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
     "create-gif" "*Messages*"
     (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
     duration (width) (height) (x) (y) (filename))))
-
-
-
-  ;; remove extraneous window chrome
+#+END_SRC
+*** Remove Toolbar and Menu
+Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M-x~ for everything.
+#+BEGIN_SRC emacs-lisp
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (scroll-bar-mode -1)
-
-  ;; turn off startup
-  (setq inhibit-startup-screen t))
-    #+END_SRC
-
-*** ERC
+  (scroll-bar-mode -1))
+#+END_SRC
+** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
 ~machine HOSTNAME login USER password PASSWORD port PORTNUMBER~
