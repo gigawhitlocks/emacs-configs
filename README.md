@@ -1,82 +1,82 @@
-- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#orgc1d3a37)
-  - [Justification](#orgd3e56d7)
-	- [It's actually an interactive Lisp interpreter](#org3846481)
-	- [Org Mode](#org558fb87)
-- [Entrypoint](#org0c27841)
-- [My Environment](#orgc2d2259)
-  - [Bootstrap](#org94dd682)
-  - [Package Installation and Configuration](#orgce96daf)
-	- [Install and Configure Treemacs](#org37e0a7d)
-	- [Emoji 🙏](#orgf0d9d16)
-	- [Configure Recent File Tracking](#org93f3580)
-	- [Install and Configure Projectile](#orgc3deab1)
-	- [Install and Configure Evil Mode](#org0469464)
-	- [Install and Configure Keybindings Helper](#org01699ff)
-	- [Install and Configure Helm for Command and Control](#orgf3c84bb)
-	- [Install and Configure Magit](#org4ac74e3)
-	- [Install and Configure `which-key`](#org0ce0d5a)
-	- [Colorize ANSI colors in `*compilation*`](#org8506408)
-	- [Configure the Startup Splashscreen](#orge664fb8)
-	- [Install and Configure Blogging Tools](#orgcdc71ab)
-	- [Install and Configure GNU Hyperbole](#orgaeb0c45)
-	- [Install templating tool and default snippets](#org7edb75c)
-  - [Extra Packages](#orgd4bdbfe)
-	- [git-gutter shows unstaged changes in the gutter](#org8da517f)
-	- [Highlight the current line](#org29a4192)
-	- [Rainbow delimiters make it easier to identify matching parentheses](#orgf0cd524)
-	- [restart-emacs does what it says on the tin](#org51ecf15)
-	- [s is a string manipulation utility](#orge3026c7)
-	- [a systemd file mode](#org5747635)
-	- [ranger is a standalone file browser](#org02208a6)
-	- [centered-window centers the text in a column](#org373b064)
-	- [Install and Configure Company for Auto-Completion](#org12eabd3)
-	- [Install and Configure Flycheck for Linting](#org1a9ebe6)
-  - [Language Configuration](#orgbc5e309)
-	- [Language Server Protocol](#orge0ce8d9)
-	- [YAML](#org8ebed64)
-	- [Markdown](#org55abc56)
-	- [Docker](#orge02d739)
-	- [Python](#org893d3fe)
-	- [Go](#org5781e62)
-	- [Javascript](#orgd307253)
-	- [Web](#org129c417)
-	- [Adaptive Wrap and Visual Line Mode](#orgcdf4a23)
-  - [Global Keybindings](#orgf708cac)
-  - [Org Mode Settings](#org484e059)
-  - [Hostname-based tweaks](#org84ae98d)
-  - [Miscellaneous standalone global configuration changes](#org2e9635f)
-	- [Switch theme](#org7553e0e)
-	- [Transparency toggle](#org5472b38)
-	- [Switch to last buffer](#orgbc749b9)
-	- [Fix Home/End keys](#orgecbcd2f)
-	- [Tweak align-regexp](#org66e21b6)
-	- [Configure automatic backups/recovery files](#orgfca7dbf)
-	- [Clean whitespace on save in all modes](#org8ea8367)
-	- [Autosave](#orgfe31203)
-	- [Default window size](#org94b3cfc)
-	- [Unclutter global modeline](#org6eec835)
-	- [Less annoying bell](#org200ce32)
-	- [Easily create gifs of current Emacs frames](#org7dbf8b6)
-	- [Remove toolbar and menu](#orgdab9879)
-  - [ERC (IRC config)](#org3a7a92c)
-  - [Render this file for display on Github](#org0d21fe6)
-  - [Footer](#orgb7e93f7)
-- [Notes and Such](#org71684f6)
-  - [Monospace Fonts](#org533d9d9)
-	- [<https://github.com/adobe-fonts/source-code-pro/tree/master>](#org9eb336e)
-	- [<https://github.com/be5invis/Iosevka>](#org117fad3)
-	- [<https://github.com/googlefonts/Inconsolata>](#org3e8bcc9)
-	- [<https://github.com/tonsky/FiraCode>](#org2fa9a9b)
-	- [<https://github.com/source-foundry/Hack>](#org9d580cb)
-  - [Proportional Fonts](#orgc83624d)
-  - [Authentication and Secrets in Emacs](#org847e708)
-  - [Packages to Try](#orgd823eee)
-	- [emmet-mode](#orgfd14890)
-	- [yasnippet-snippets](#org1f11a62)
+- [Ian's Custom Emacs Environment with Associated Notes and Commentary](#orgb0e1ee5)
+  - [Justification](#orgfa76b91)
+	- [It's actually an interactive Lisp interpreter](#org82e680c)
+	- [Org Mode](#orgf2c6472)
+- [Entrypoint](#org4d0fb0e)
+- [My Environment](#orgfc6b816)
+  - [Bootstrap](#org3164423)
+  - [Package Installation and Configuration](#org886bab3)
+	- [Install and Configure Treemacs](#orgdc00b5d)
+	- [Emoji 🙏](#org7c70dd3)
+	- [Configure Recent File Tracking](#orgd8fad63)
+	- [Install and Configure Projectile](#org764f071)
+	- [Install and Configure Evil Mode](#orge5e62b3)
+	- [Install and Configure Keybindings Helper](#orgdbc9ce3)
+	- [Install and Configure Helm for Command and Control](#org12e5f89)
+	- [Install and Configure Magit](#org118379d)
+	- [Install and Configure `which-key`](#orgdce8a18)
+	- [Colorize ANSI colors in `*compilation*`](#orgcefba3b)
+	- [Configure the Startup Splashscreen](#orgc9eb06d)
+	- [Install and Configure Blogging Tools](#org0ea82c5)
+	- [Install and Configure GNU Hyperbole](#orge663a8c)
+	- [Install templating tool and default snippets](#org47e906c)
+  - [Extra Packages](#orgc551ec8)
+	- [git-gutter shows unstaged changes in the gutter](#org2e2d32e)
+	- [Highlight the current line](#orge3b8150)
+	- [Rainbow delimiters make it easier to identify matching parentheses](#org7870e41)
+	- [restart-emacs does what it says on the tin](#org4d269c6)
+	- [s is a string manipulation utility](#org2a3c416)
+	- [a systemd file mode](#org8ab0651)
+	- [ranger is a standalone file browser](#org7e10411)
+	- [centered-window centers the text in a column](#org8cebf2d)
+	- [Install and Configure Company for Auto-Completion](#orgb1d29d5)
+	- [Install and Configure Flycheck for Linting](#org39ed8a6)
+  - [Language Configuration](#org07a5a7a)
+	- [Language Server Protocol](#org59c51be)
+	- [YAML](#org9506c0c)
+	- [Markdown](#org4e5ddee)
+	- [Docker](#orgc9d8311)
+	- [Python](#org52699bf)
+	- [Go](#orgcdbaa94)
+	- [Javascript](#org1fe66ec)
+	- [Web](#org773f471)
+	- [Adaptive Wrap and Visual Line Mode](#org2d94eb5)
+  - [Global Keybindings](#org81a92f1)
+  - [Org Mode Settings](#org973e3fd)
+  - [Hostname-based tweaks](#org805fff1)
+  - [Miscellaneous standalone global configuration changes](#org9a2668d)
+	- [Switch theme](#org5604eb7)
+	- [Transparency toggle](#org027a6b3)
+	- [Switch to last buffer](#org1a0e806)
+	- [Fix Home/End keys](#org214d5a8)
+	- [Tweak align-regexp](#org66a7929)
+	- [Configure automatic backups/recovery files](#org2d8c767)
+	- [Clean whitespace on save in all modes](#org18159a9)
+	- [Autosave](#org29d26b8)
+	- [Default window size](#orga961e8e)
+	- [Unclutter global modeline](#org68b0483)
+	- [Less annoying bell](#org1a4f276)
+	- [Easily create gifs of current Emacs frames](#org69382df)
+	- [Remove toolbar and menu](#org783d5d5)
+  - [ERC (IRC config)](#org5d69597)
+  - [Render this file for display on Github](#org00d3148)
+  - [Footer](#orge59cc32)
+- [Notes and Such](#orgd328029)
+  - [Monospace Fonts](#org4953faf)
+	- [<https://github.com/adobe-fonts/source-code-pro/tree/master>](#orgb54a348)
+	- [<https://github.com/be5invis/Iosevka>](#orgc42972a)
+	- [<https://github.com/googlefonts/Inconsolata>](#orgd02c320)
+	- [<https://github.com/tonsky/FiraCode>](#orga107f44)
+	- [<https://github.com/source-foundry/Hack>](#org3dee90d)
+  - [Proportional Fonts](#org0e841ec)
+  - [Authentication and Secrets in Emacs](#org72e1bb3)
+  - [Packages to Try](#org37a288a)
+	- [emmet-mode](#orgb088086)
+	- [yasnippet-snippets](#orgf1aba2e)
 
 
 
-<a id="orgc1d3a37"></a>
+<a id="orgb0e1ee5"></a>
 
 # Ian's Custom Emacs Environment with Associated Notes and Commentary
 
@@ -85,14 +85,14 @@ This file contains the configuration necessary to transform a GNU Emacs 26 insta
 There are many configurations like this one, but this one is mine.
 
 
-<a id="orgd3e56d7"></a>
+<a id="orgfa76b91"></a>
 
 ## Justification
 
 Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
 
 
-<a id="org3846481"></a>
+<a id="org82e680c"></a>
 
 ### It's actually an interactive Lisp interpreter
 
@@ -107,7 +107,7 @@ Here's a trivial example. A new Emacs user does the tutorial and learns that `M-
 Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode.
 
 
-<a id="org558fb87"></a>
+<a id="orgf2c6472"></a>
 
 ### Org Mode
 
@@ -118,7 +118,7 @@ This configuration is written in Org syntax.
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="org0c27841"></a>
+<a id="org4d0fb0e"></a>
 
 # Entrypoint
 
@@ -168,7 +168,7 @@ This is `init.el`. Using Org for my configuration is a personal choice, so I wan
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgc2d2259"></a>
+<a id="orgfc6b816"></a>
 
 # My Environment
 
@@ -181,7 +181,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org94dd682"></a>
+<a id="org3164423"></a>
 
 ## Bootstrap
 
@@ -235,14 +235,14 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgce96daf"></a>
+<a id="org886bab3"></a>
 
 ## Package Installation and Configuration
 
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 
-<a id="org37e0a7d"></a>
+<a id="orgdc00b5d"></a>
 
 ### Install and Configure Treemacs
 
@@ -255,7 +255,7 @@ Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bin
 ```
 
 
-<a id="orgf0d9d16"></a>
+<a id="org7c70dd3"></a>
 
 ### Emoji 🙏
 
@@ -271,7 +271,7 @@ Provided by [emojify](https://github.com/iqbalansari/emacs-emojify).
 ```
 
 
-<a id="org93f3580"></a>
+<a id="orgd8fad63"></a>
 
 ### Configure Recent File Tracking
 
@@ -285,7 +285,7 @@ Emacs comes with `recentf-mode` which helps me remember what I was doing after I
 ```
 
 
-<a id="orgc3deab1"></a>
+<a id="org764f071"></a>
 
 ### Install and Configure Projectile
 
@@ -306,7 +306,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 ```
 
 
-<a id="org0469464"></a>
+<a id="orge5e62b3"></a>
 
 ### Install and Configure Evil Mode
 
@@ -336,13 +336,13 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 ```
 
 
-<a id="org01699ff"></a>
+<a id="orgdbc9ce3"></a>
 
 ### Install and Configure Keybindings Helper
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgf708cac) section.
+It's mostly used below in the [global keybindings](#org81a92f1) section.
 
 ```emacs-lisp
 (use-package general
@@ -353,7 +353,7 @@ It's mostly used below in the [global keybindings](#orgf708cac) section.
 ```
 
 
-<a id="orgf3c84bb"></a>
+<a id="org12e5f89"></a>
 
 ### Install and Configure Helm for Command and Control
 
@@ -375,7 +375,7 @@ It's mostly used below in the [global keybindings](#orgf708cac) section.
 ```
 
 
-<a id="org4ac74e3"></a>
+<a id="org118379d"></a>
 
 ### Install and Configure Magit
 
@@ -394,7 +394,7 @@ It's mostly used below in the [global keybindings](#orgf708cac) section.
 ```
 
 
-<a id="org0ce0d5a"></a>
+<a id="orgdce8a18"></a>
 
 ### Install and Configure `which-key`
 
@@ -411,7 +411,7 @@ It can be difficult to to remember and discover all of the available shortcuts i
 ```
 
 
-<a id="org8506408"></a>
+<a id="orgcefba3b"></a>
 
 ### Colorize ANSI colors in `*compilation*`
 
@@ -436,7 +436,7 @@ If you run a command through `M-x compile` by default Emacs prints ANSI codes li
 ```
 
 
-<a id="orge664fb8"></a>
+<a id="orgc9eb06d"></a>
 
 ### Configure the Startup Splashscreen
 
@@ -461,7 +461,7 @@ Actually, looking at the project page, the icons don't seem to be working for me
 ```
 
 
-<a id="orgcdc71ab"></a>
+<a id="org0ea82c5"></a>
 
 ### Install and Configure Blogging Tools
 
@@ -475,7 +475,7 @@ Easy Hugo is an interactive UI for managing a Hugo site.
 ```
 
 
-<a id="orgaeb0c45"></a>
+<a id="orge663a8c"></a>
 
 ### Install and Configure GNU Hyperbole
 
@@ -489,7 +489,7 @@ It adds a slew of other features as well &#x2013; hyperlinks between documents, 
 ```
 
 
-<a id="org7edb75c"></a>
+<a id="org47e906c"></a>
 
 ### Install templating tool and default snippets
 
@@ -503,14 +503,14 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="orgd4bdbfe"></a>
+<a id="orgc551ec8"></a>
 
 ## Extra Packages
 
 Packages with a smaller effect on the experience.
 
 
-<a id="org8da517f"></a>
+<a id="org2e2d32e"></a>
 
 ### git-gutter shows unstaged changes in the gutter
 
@@ -524,7 +524,7 @@ Packages with a smaller effect on the experience.
 ```
 
 
-<a id="org29a4192"></a>
+<a id="orge3b8150"></a>
 
 ### Highlight the current line
 
@@ -536,7 +536,7 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-<a id="orgf0cd524"></a>
+<a id="org7870e41"></a>
 
 ### Rainbow delimiters make it easier to identify matching parentheses
 
@@ -549,7 +549,7 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-<a id="org51ecf15"></a>
+<a id="org4d269c6"></a>
 
 ### restart-emacs does what it says on the tin
 
@@ -558,7 +558,7 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-<a id="orge3026c7"></a>
+<a id="org2a3c416"></a>
 
 ### s is a string manipulation utility
 
@@ -569,7 +569,7 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 ```
 
 
-<a id="org5747635"></a>
+<a id="org8ab0651"></a>
 
 ### a systemd file mode
 
@@ -578,7 +578,7 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 ```
 
 
-<a id="org02208a6"></a>
+<a id="org7e10411"></a>
 
 ### ranger is a standalone file browser
 
@@ -589,7 +589,7 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 ```
 
 
-<a id="org373b064"></a>
+<a id="org8cebf2d"></a>
 
 ### centered-window centers the text in a column
 
@@ -599,10 +599,8 @@ Seems to be similar to `olivetti-mode` and might be what was interfering with th
 (use-package centered-window)
 ```
 
-Also this is the end of `extra-packages`, which I should probably refactor out.
 
-
-<a id="org12eabd3"></a>
+<a id="orgb1d29d5"></a>
 
 ### Install and Configure Company for Auto-Completion
 
@@ -621,7 +619,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org1a9ebe6"></a>
+<a id="org39ed8a6"></a>
 
 ### Install and Configure Flycheck for Linting
 
@@ -636,16 +634,16 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="orgbc5e309"></a>
+<a id="org07a5a7a"></a>
 
 ## Language Configuration
 
 
-<a id="orge0ce8d9"></a>
+<a id="org59c51be"></a>
 
 ### Language Server Protocol
 
-LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured first.
+LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
 ```emacs-lisp
 (use-package lsp-mode
@@ -653,20 +651,18 @@ LSP provides a generic interface for text editors to talk to various language se
   ;; use flycheck
   (setq lsp-prefer-flymake nil))
 
-  (use-package lsp-ui
-	:config
-	(setq lsp-ui-doc-position 'bottom))
+(use-package lsp-ui
+  :config
+  (setq lsp-ui-doc-position 'bottom))
 
-(use-package helm-lsp)
-
-;; Add lsp backend for other tools
-(use-package lsp-treemacs)
 (use-package company-lsp)
 (use-package lsp-origami)
+(use-package lsp-treemacs)
+(use-package helm-lsp)
 ```
 
 
-<a id="org8ebed64"></a>
+<a id="org9506c0c"></a>
 
 ### YAML
 
@@ -675,7 +671,7 @@ LSP provides a generic interface for text editors to talk to various language se
 ```
 
 
-<a id="org55abc56"></a>
+<a id="org4e5ddee"></a>
 
 ### Markdown
 
@@ -694,7 +690,7 @@ LSP provides a generic interface for text editors to talk to various language se
 ```
 
 
-<a id="orge02d739"></a>
+<a id="orgc9d8311"></a>
 
 ### Docker
 
@@ -705,25 +701,37 @@ LSP provides a generic interface for text editors to talk to various language se
 ```
 
 
-<a id="org893d3fe"></a>
+<a id="org52699bf"></a>
 
 ### Python
 
-```emacs-lisp
-(use-package auto-virtualenv)
-(add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+My Python config is really lazy. I think there's a Python language server and that's probably better than anaconda-mode. Incidentally, `anaconda-mode` doesn't seem to be related to anaconda.io, and I always thought it was. 🤷
 
+Anyway `anaconda-mode` provides pretty-good completion and goto-definition and that sort of feature, for Python.
+
+```emacs-lisp
 (use-package anaconda-mode
   :config
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
-
-(setenv "WORKON_HOME" "~/.virtualenvs")
-
 ```
 
+I haven't written Python in awhile so hopefully I remember how this all works. `auto-virtualenv` looks in `$WORKON_HOME` for virtualenvs, and then I can run `M-x pyvenv-workon RET project RET` to choose my virtualenv for `project`, found in `$WORKON_HOME`, or a symlink anyway.
 
-<a id="org5781e62"></a>
+```emacs-lisp
+(use-package auto-virtualenv)
+(add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+(setenv "WORKON_HOME" "~/.virtualenvs")
+```
+
+So the convention for use is:
+
+1.  Create a virtualenv as usual for the project
+2.  Symlink it inside ~/.virtualenvs
+3.  `M-x pyvenv-workon`
+
+
+<a id="orgcdbaa94"></a>
 
 ### Go
 
@@ -749,7 +757,6 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 	 (go-mode . set-gopls-lib-dirs))
   :config
   ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-  ;; presumably for lsp this is #'lsp-find-definition here instead
   (evil-add-command-properties #'godef-jump :jump t))
 
 (general-define-key
@@ -801,7 +808,7 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
-<a id="orgd307253"></a>
+<a id="org1fe66ec"></a>
 
 ### Javascript
 
@@ -816,7 +823,7 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
-<a id="org129c417"></a>
+<a id="org773f471"></a>
 
 ### Web
 
@@ -843,11 +850,11 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
-<a id="orgcdf4a23"></a>
+<a id="org2d94eb5"></a>
 
 ### Adaptive Wrap and Visual Line Mode
 
-Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [`adaptive-wrap-prefix-mode`](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
+Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 
 ```emacs-lisp
 (use-package adaptive-wrap
@@ -873,7 +880,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgf708cac"></a>
+<a id="org81a92f1"></a>
 
 ## Global Keybindings
 
@@ -975,7 +982,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org484e059"></a>
+<a id="org973e3fd"></a>
 
 ## Org Mode Settings
 
@@ -1032,7 +1039,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org84ae98d"></a>
+<a id="org805fff1"></a>
 
 ## Hostname-based tweaks
 
@@ -1060,12 +1067,12 @@ Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the sam
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org2e9635f"></a>
+<a id="org9a2668d"></a>
 
 ## Miscellaneous standalone global configuration changes
 
 
-<a id="org7553e0e"></a>
+<a id="org5604eb7"></a>
 
 ### Switch theme
 
@@ -1081,7 +1088,7 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 ```
 
 
-<a id="org5472b38"></a>
+<a id="org027a6b3"></a>
 
 ### Transparency toggle
 
@@ -1104,7 +1111,7 @@ Probably from Spacemacs. Thanks, Spacemacs.
 ```
 
 
-<a id="orgbc749b9"></a>
+<a id="org1a0e806"></a>
 
 ### Switch to last buffer
 
@@ -1122,7 +1129,7 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think `hycont
 ```
 
 
-<a id="orgecbcd2f"></a>
+<a id="org214d5a8"></a>
 
 ### Fix Home/End keys
 
@@ -1134,7 +1141,7 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 ```
 
 
-<a id="org66e21b6"></a>
+<a id="org66a7929"></a>
 
 ### Tweak align-regexp
 
@@ -1151,7 +1158,7 @@ Lifted from StackOverflow:
 ```
 
 
-<a id="orgfca7dbf"></a>
+<a id="org2d8c767"></a>
 
 ### Configure automatic backups/recovery files
 
@@ -1164,7 +1171,7 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 ```
 
 
-<a id="org8ea8367"></a>
+<a id="org18159a9"></a>
 
 ### Clean whitespace on save in all modes
 
@@ -1173,7 +1180,7 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 ```
 
 
-<a id="orgfe31203"></a>
+<a id="org29d26b8"></a>
 
 ### Autosave
 
@@ -1188,7 +1195,7 @@ Automatically saves the file when it's been idle for 5 minutes.
 ```
 
 
-<a id="org94b3cfc"></a>
+<a id="orga961e8e"></a>
 
 ### Default window size
 
@@ -1200,7 +1207,7 @@ Just a bigger size that I prefer..
 ```
 
 
-<a id="org6eec835"></a>
+<a id="org68b0483"></a>
 
 ### Unclutter global modeline
 
@@ -1214,7 +1221,7 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
 ```
 
 
-<a id="org200ce32"></a>
+<a id="org1a4f276"></a>
 
 ### Less annoying bell
 
@@ -1236,7 +1243,7 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 (from Emacs wiki)
 
 
-<a id="org7dbf8b6"></a>
+<a id="org69382df"></a>
 
 ### Easily create gifs of current Emacs frames
 
@@ -1279,7 +1286,7 @@ Figures out the frame size and passes it to `byzanz-record`. Only works if `byza
 ```
 
 
-<a id="orgdab9879"></a>
+<a id="org783d5d5"></a>
 
 ### Remove toolbar and menu
 
@@ -1292,7 +1299,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org3a7a92c"></a>
+<a id="org5d69597"></a>
 
 ## ERC (IRC config)
 
@@ -1350,7 +1357,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org0d21fe6"></a>
+<a id="org00d3148"></a>
 
 ## Render this file for display on Github
 
@@ -1371,7 +1378,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgb7e93f7"></a>
+<a id="orge59cc32"></a>
 
 ## Footer
 
@@ -1382,63 +1389,63 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org71684f6"></a>
+<a id="orgd328029"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org533d9d9"></a>
+<a id="org4953faf"></a>
 
 ## Monospace Fonts
 
 Just going to keep note of some options
 
 
-<a id="org9eb336e"></a>
+<a id="orgb54a348"></a>
 
 ### <https://github.com/adobe-fonts/source-code-pro/tree/master>
 
 Default in Spacemacs
 
 
-<a id="org117fad3"></a>
+<a id="orgc42972a"></a>
 
 ### <https://github.com/be5invis/Iosevka>
 
 Kinda tall, skinny
 
 
-<a id="org3e8bcc9"></a>
+<a id="orgd02c320"></a>
 
 ### <https://github.com/googlefonts/Inconsolata>
 
 Has ligatures
 
 
-<a id="org2fa9a9b"></a>
+<a id="orga107f44"></a>
 
 ### <https://github.com/tonsky/FiraCode>
 
 More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/FiraCode/wiki/Emacs-instructions> Described as "cool" on IRC
 
 
-<a id="org9d580cb"></a>
+<a id="org3dee90d"></a>
 
 ### <https://github.com/source-foundry/Hack>
 
 I mean, it's called "Hack"
 
 
-<a id="orgc83624d"></a>
+<a id="org0e841ec"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org847e708"></a>
+<a id="org72e1bb3"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1447,21 +1454,21 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgd823eee"></a>
+<a id="org37a288a"></a>
 
 ## Packages to Try
 
 These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
 
 
-<a id="orgfd14890"></a>
+<a id="orgb088086"></a>
 
 ### emmet-mode
 
 Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.com/smihica/emmet-mode>
 
 
-<a id="org1f11a62"></a>
+<a id="orgf1aba2e"></a>
 
 ### yasnippet-snippets
 

@@ -371,9 +371,6 @@ Seems to be similar to ~olivetti-mode~ and might be what was interfering with th
 #+BEGIN_SRC emacs-lisp
       (use-package centered-window)
 #+END_SRC
-
-Also this is the end of ~extra-packages~, which I should probably refactor out.
-
 *** Install and Configure Company for Auto-Completion
 Great tab-complete and auto-complete with [[https://github.com/company-mode/company-mode][Company Mode]].
 #+BEGIN_SRC emacs-lisp
@@ -399,7 +396,7 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 
 ** Language Configuration
 *** Language Server Protocol
-LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured first.
+LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
 #+BEGIN_SRC emacs-lisp
   (use-package lsp-mode
@@ -407,16 +404,14 @@ LSP provides a generic interface for text editors to talk to various language se
     ;; use flycheck
     (setq lsp-prefer-flymake nil))
 
-    (use-package lsp-ui
-      :config
-      (setq lsp-ui-doc-position 'bottom))
+  (use-package lsp-ui
+    :config
+    (setq lsp-ui-doc-position 'bottom))
 
-  (use-package helm-lsp)
-
-  ;; Add lsp backend for other tools
-  (use-package lsp-treemacs)
   (use-package company-lsp)
   (use-package lsp-origami)
+  (use-package lsp-treemacs)
+  (use-package helm-lsp)
 #+END_SRC
 
 *** YAML
@@ -441,24 +436,35 @@ LSP provides a generic interface for text editors to talk to various language se
 
 *** Docker
 #+BEGIN_SRC emacs-lisp
-    (use-package dockerfile-mode)
-    (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
-    (put 'dockerfile-image-name 'safe-local-variable #'stringp)
+  (use-package dockerfile-mode)
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 #+END_SRC
 
 *** Python
-#+BEGIN_SRC emacs-lisp
-    (use-package auto-virtualenv)
-    (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+My Python config is really lazy. I think there's a Python language server and that's probably better than anaconda-mode. Incidentally, ~anaconda-mode~ doesn't seem to be related to anaconda.io, and I always thought it was. 🤷
 
-    (use-package anaconda-mode
-      :config
-      (add-hook 'python-mode-hook 'anaconda-mode)
-      (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
-
-    (setenv "WORKON_HOME" "~/.virtualenvs")
-
+Anyway ~anaconda-mode~ provides pretty-good completion and goto-definition and that sort of feature, for Python.
+#+Begin_src emacs-lisp
+  (use-package anaconda-mode
+    :config
+    (add-hook 'python-mode-hook 'anaconda-mode)
+    (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
 #+END_SRC
+
+I haven't written Python in awhile so hopefully I remember how this all works. ~auto-virtualenv~ looks in ~$WORKON_HOME~ for virtualenvs, and then I can run ~M-x pyvenv-workon RET project RET~ to choose my virtualenv for ~project~, found in ~$WORKON_HOME~, or a symlink anyway.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package auto-virtualenv)
+  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
+  (setenv "WORKON_HOME" "~/.virtualenvs")
+#+END_SRC
+
+So the convention for use is:
+
+1) Create a virtualenv as usual for the project
+2) Symlink it inside ~/.virtualenvs
+3) ~M-x pyvenv-workon~
 
 *** Go
 Go support requires some dependencies. I will try to list them all here.
@@ -483,7 +489,6 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
            (go-mode . set-gopls-lib-dirs))
     :config
     ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-    ;; presumably for lsp this is #'lsp-find-definition here instead
     (evil-add-command-properties #'godef-jump :jump t))
 
   (general-define-key
@@ -567,7 +572,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
           ))
 #+END_SRC
 *** Adaptive Wrap and Visual Line Mode
-Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][~adaptive-wrap-prefix-mode~]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
+Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap-prefix-mode]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 #+BEGIN_SRC emacs-lisp
   (use-package adaptive-wrap
     :config
