@@ -1,10 +1,9 @@
 #+TITLE: Ian's Custom Emacs Environment with Associated Notes and Commentary
-#+AUTHOR: Ian Whitlock
-#+OPTIONS: toc:3
-* Ian's Custom Emacs Environment with Associated Notes and Commentary
-This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
+#+OPTIONS: toc:2 html-style:nil num:nil author:nil timestamp:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
 
-There are many configurations like this one, but this one is mine.
+* Ian's Emacs Configuration as an Experiment in Literate Programming, or Something
+This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future. It also contains my thoughts on the topic as I go.
 
 ** Justification
 Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
@@ -695,7 +694,6 @@ Image drag-and-drop for org-mode
 [[file:My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif]]
 
 #+BEGIN_SRC emacs-lisp
-
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
 
@@ -968,7 +966,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 #+END_SRC
 
 ** Render this file for display on Github
-This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the Github home page, but in the correct format and everything.
+This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
 #+BEGIN_SRC emacs-lisp
   (add-hook
@@ -996,6 +994,18 @@ This function registers a hook that will export this file to Github flavored Mar
   ;;; ian.el ends here
 #+END_SRC
 
+** Styles for HTML export
+#+BEGIN_SRC css :tangle ./styles.css
+  body {
+      width: 90%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  .validation {
+      display: none;
+  }
+#+END_SRC
 * Notes and Such
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** Monospace Fonts
