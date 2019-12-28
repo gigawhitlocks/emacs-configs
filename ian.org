@@ -502,7 +502,20 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
    ",t"     'lsp-find-type-definition
    ",x"     'lsp-execute-code-action
    "gd"     'lsp-find-definition
-   )
+
+
+  ;; origami-mode works better with lsp than regular evil-mode
+   "TAB"    'origami-toggle-node
+
+   "zm"     'origami-toggle-node
+   "zM"     'origami-toggle-all-nodes
+
+   "zc"     'origami-close-node
+   "zC"     'origami-close-node-recursively
+
+   "zo"     'origami-open-node
+   "zO"     'origami-open-node-recursively
+  )
 
   (autoload 'go-mode "go-mode" nil t)
   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
@@ -589,22 +602,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (general-create-definer my-local-leader-def
     :prefix "SPC m")
 
-  (general-define-key
-   :states 'normal
-   "TAB"  'origami-toggle-node
-
-   "J"    'evil-scroll-page-down
-   "K"    'evil-scroll-page-up
-
-   "zm"   'origami-toggle-node
-   "zM"   'origami-toggle-all-nodes
-
-   "zc"   'origami-close-node
-   "zC"   'origami-close-node-recursively
-
-   "zo"   'origami-open-node
-   "zO"   'origami-open-node-recursively)
-
   (defun find-initfile ()
     "Open main config file."
     (interactive)
@@ -626,7 +623,12 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     (interactive)
     (server-edit "Done"))
 
-  ;; global keybindings
+  (general-define-key
+   :states 'normal
+   "J"     'evil-scroll-page-down
+   "K"     'evil-scroll-page-up)
+
+  ;; global keybindings with LEADER
   (my-leader-def 'normal 'override
     "bb"     'helm-mini
     "TAB"    #'switch-to-prev-buffer
@@ -713,12 +715,17 @@ Image drag-and-drop for org-mode
                                )
 
   (my-local-leader-def
-    :states 'normal
+    :states  'normal
     :keymaps 'org-mode-map
-    "y" 'org-store-link
-    "p" 'org-insert-link
-    "x" 'org-babel-execute-src-block
-    "e" 'org-edit-src-code)
+    "y"      'org-store-link
+    "p"      'org-insert-link
+    "x"      'org-babel-execute-src-block
+    "e"      'org-edit-src-code)
+
+  (general-define-key
+   :states  'normal
+   :keymaps 'org-mode-map
+   "TAB"    'evil-toggle-fold)
 
   ;; github-flavored markdown
   (use-package ox-gfm)
