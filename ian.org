@@ -1,10 +1,9 @@
 #+TITLE: Ian's Custom Emacs Environment with Associated Notes and Commentary
-#+AUTHOR: Ian Whitlock
-#+OPTIONS: toc:3
-* Ian's Custom Emacs Environment with Associated Notes and Commentary
-This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future.
+#+OPTIONS: toc:2 html-style:nil num:nil author:nil timestamp:nil
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
 
-There are many configurations like this one, but this one is mine.
+* Ian's Emacs Configuration as an Experiment in Literate Programming, or Something
+This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future. It also contains my thoughts on the topic as I go.
 
 ** Justification
 Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
@@ -32,9 +31,9 @@ Org Mode allows you to easily collapse heading subtrees, execute code blocks, ed
 :header-args: :tangle ~/.emacs.d/init.el :comments link
 :end:
 
-This is ~init.el~. Using Org for my configuration is a personal choice, so I want Emacs to load this file first when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. This piece of code tangles to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file and executes ~main~, so **it is this piece of code that starts the whole process of loading all of this configuration**.
+Using Org for my configuration is a personal choice, so I want Emacs to load this file (~ian.org~) first when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code tangles to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
 
-~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
+Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
 
 **NOTE** The filename ~ian.org~ is hardcoded in this entrypoint routine in the place of the main configuration file. This is because, despite the public nature of my config, it is not intended to be used in whole by anyone but me. This allows me certain shortcuts, like hostname-specific configuration, and convention-over-configuration in ways I find intuitive without overly detailed documentation. It is _my_ config, after all, so my main config file is ~ian.org~.
 
@@ -503,31 +502,30 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
    ",t"     'lsp-find-type-definition
    ",x"     'lsp-execute-code-action
    "gd"     'lsp-find-definition
-   )
+
+
+  ;; origami-mode works better with lsp than regular evil-mode
+   "TAB"    'origami-toggle-node
+
+   "zm"     'origami-toggle-node
+   "zM"     'origami-toggle-all-nodes
+
+   "zc"     'origami-close-node
+   "zC"     'origami-close-node-recursively
+
+   "zo"     'origami-open-node
+   "zO"     'origami-open-node-recursively
+  )
 
   (autoload 'go-mode "go-mode" nil t)
   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-
-  ;; autocompletion
-  ;; https://github.com/mdempsky/gocode
-  ;; and https://github.com/mdempsky/gocode/tree/master/emacs-company
-  ;;  (use-package company-go)
-
-  ;; disable auto-completion of non-Go things in Go files
-  ;; (add-hook 'go-mode-hook (lambda ()
-  ;;			    (set (make-local-variable 'company-backends) '(company-go))
-  ;;			    (company-mode)))
 
   ;; disable "Organize Imports" warning that never goes away
   (add-hook 'go-mode-hook
             (lambda ()
               (origami-mode)
-              (setq-local lsp-ui-sideline-show-code-actions nil)))
 
-  ;; super important -- eldoc support adds things like type signatures in modeline
-  ;; but I think LSP might provide this functionality, too? we'll see..
-  ;; (use-package go-eldoc)
-  ;; (add-hook 'go-mode-hook 'go-eldoc-setup)
+              (setq-local lsp-ui-sideline-show-code-actions nil)))
 
   ;; sets the visual tab width to 2 spaces per tab in Go buffers
   (add-hook 'go-mode-hook (lambda ()
@@ -604,22 +602,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (general-create-definer my-local-leader-def
     :prefix "SPC m")
 
-  (general-define-key
-   :states 'normal
-   "TAB"  'origami-toggle-node
-
-   "J"    'evil-scroll-page-down
-   "K"    'evil-scroll-page-up
-
-   "zm"   'origami-toggle-node
-   "zM"   'origami-toggle-all-nodes
-
-   "zc"   'origami-close-node
-   "zC"   'origami-close-node-recursively
-
-   "zo"   'origami-open-node
-   "zO"   'origami-open-node-recursively)
-
   (defun find-initfile ()
     "Open main config file."
     (interactive)
@@ -641,7 +623,12 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     (interactive)
     (server-edit "Done"))
 
-  ;; global keybindings
+  (general-define-key
+   :states 'normal
+   "J"     'evil-scroll-page-down
+   "K"     'evil-scroll-page-up)
+
+  ;; global keybindings with LEADER
   (my-leader-def 'normal 'override
     "bb"     'helm-mini
     "TAB"    #'switch-to-prev-buffer
@@ -709,7 +696,6 @@ Image drag-and-drop for org-mode
 [[file:My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif]]
 
 #+BEGIN_SRC emacs-lisp
-
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
 
@@ -729,12 +715,17 @@ Image drag-and-drop for org-mode
                                )
 
   (my-local-leader-def
-    :states 'normal
+    :states  'normal
     :keymaps 'org-mode-map
-    "y" 'org-store-link
-    "p" 'org-insert-link
-    "x" 'org-babel-execute-src-block
-    "e" 'org-edit-src-code)
+    "y"      'org-store-link
+    "p"      'org-insert-link
+    "x"      'org-babel-execute-src-block
+    "e"      'org-edit-src-code)
+
+  (general-define-key
+   :states  'normal
+   :keymaps 'org-mode-map
+   "TAB"    'evil-toggle-fold)
 
   ;; github-flavored markdown
   (use-package ox-gfm)
@@ -982,20 +973,25 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 #+END_SRC
 
 ** Render this file for display on Github
-This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the Github home page, but in the correct format and everything.
+This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'after-save-hook
-            '(lambda ()
-               (when (string=
-                      (file-name-nondirectory (buffer-file-name))
-                      "ian.org")
-                 (org-gfm-export-to-markdown)
-                 (if (find-buffer-visiting "~/.emacs.d/README.md")
-                     (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
-                 (delete-file "README.md" t)
-                 (rename-file "ian.md" "README.md")
-                 )))
+  (add-hook
+   'after-save-hook
+   '(lambda ()
+      (when (string=
+             (file-name-nondirectory (buffer-file-name))
+             "ian.org")
+
+        (org-gfm-export-to-markdown)
+
+        (if (find-buffer-visiting "~/.emacs.d/README.md")
+            (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
+
+        (delete-file "README.md" t)
+        (rename-file "ian.md" "README.md")
+
+        )))
 #+END_SRC
 
 ** Footer
@@ -1005,6 +1001,18 @@ This function registers a hook that will export this file to Github flavored Mar
   ;;; ian.el ends here
 #+END_SRC
 
+** Styles for HTML export
+#+BEGIN_SRC css :tangle ./styles.css
+  body {
+      width: 90%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+  }
+  .validation {
+      display: none;
+  }
+#+END_SRC
 * Notes and Such
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** Monospace Fonts
