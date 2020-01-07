@@ -240,11 +240,25 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
     ;; for I am a simple man
     (setq vc-handled-backends nil)
     (use-package evil-magit)
+#+END_SRC
 
-    ;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
+The Magit author publishes an additional package called [[https://emacsair.me/2018/12/19/forge-0.1/][forge]]. Forge lets you interact with Github and Gitlab from inside of Emacs. There's planned support for Gogs, Gitea, etc.
+
+#+BEGIN_SRC emacs-lisp
     (use-package forge
       :after magit)
 #+END_SRC
+
+Forge has to be configured with something like ~.authinfo~ or preferably ~authinfo.gpg~. Create a access token through the web UI of Github and place on the first line in ~$HOME/.authinfo~ with the following format:
+
+#+BEGIN_SRC
+host api.github.com login gigawhitlocks^forge password TOKEN
+#+END_SRC
+
+but obviously replace ~TOKEN~ with the access token. And [[https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources][use ~.authinfo.gpg~ and encrypt it]]. Don't just use ~.authinfo~.
+
+Also, I've only tried this with Github.
+
 *** Install and Configure ~git-timemachine~
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine)
