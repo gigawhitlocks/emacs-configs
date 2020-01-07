@@ -245,6 +245,19 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
     (use-package forge
       :after magit)
 #+END_SRC
+*** Install and Configure ~git-timemachine~
+#+BEGIN_SRC emacs-lisp
+  (use-package git-timemachine)
+
+  ;; This lets git-timemachine's bindings take precedence over evils'
+  ;; (got lucky and happened to find this while looking for the package name, ha!)
+  ;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
+  (eval-after-load 'git-timemachine
+    '(progn
+       (evil-make-overriding-map git-timemachine-mode-map 'normal)
+       ;; force update evil keymaps after git-timemachine-mode loaded
+       (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps)))
+#+END_SRC
 *** Install and Configure ~which-key~
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [[https://github.com/justbur/emacs-which-key][~which-key~]] pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 #+BEGIN_SRC emacs-lisp
@@ -649,6 +662,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "gb"     'magit-blame
     "gs"     'magit-status
     "gg"     'magit
+    "gt"     'git-timemachine
     "gd"     'magit-diff
     "h"      'hyperbole
     "jj"     'bookmark-jump
