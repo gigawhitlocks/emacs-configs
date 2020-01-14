@@ -966,6 +966,10 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
     "Connect to IRC."
     (interactive)
 
+    ;; tangle this file to produce the bash script
+    (org-babel-tangle "~/.emacs.d/ian.org")
+
+    ;; some visual tweaks
     (add-hook 'erc-mode-hook 'variable-pitch-mode)
     (add-hook 'erc-mode-hook 'visual-line-mode)
 
