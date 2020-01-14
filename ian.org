@@ -260,6 +260,11 @@ but obviously replace ~TOKEN~ with the access token. And [[https://www.mastering
 Also, I've only tried this with Github.
 
 *** Install and Configure ~git-timemachine~
+~git-timeline~ lets you step through the history of a file.
+
+#+DOWNLOADED: file:///home/ian/emacs-gifs/2020-01-11T23:15:54.gif @ 2020-01-11 23:23:47
+[[file:My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif]]
+
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine)
 
