@@ -352,7 +352,10 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
        :config
        (use-package yasnippet-snippets))
 #+END_SRC
-
+*** Install and configure Swiper
+#+BEGIN_SRC emacs-lisp
+  (use-package swiper-helm)
+  #+END_SRC
 ** Extra Packages
 Packages with a smaller effect on the experience.
 *** git-gutter shows unstaged changes in the gutter
@@ -656,9 +659,9 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     (server-edit "Done"))
 
   (general-define-key
-   :states 'normal
-   "J"     'evil-scroll-page-down
-   "K"     'evil-scroll-page-up)
+   :keymaps '(normal emacs)
+   "J"      'evil-scroll-page-down
+   "K"      'evil-scroll-page-up)
 
   ;; global keybindings with LEADER
   (my-leader-def 'normal 'override
@@ -711,6 +714,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "wo"     'other-window
     "w="     'balance-windows
     "SPC"    'helm-M-x
+    "/"      'swiper-helm
     )
     #+END_SRC
 
