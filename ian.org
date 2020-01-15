@@ -662,7 +662,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 
   ;; global keybindings with LEADER
   (my-leader-def 'normal 'override
-    "bb"     'helm-mini
+    "bb"     'helm-buffers-list
     "TAB"    #'switch-to-prev-buffer
     "br"     'revert-buffer
     "bd"     'evil-delete-buffer
