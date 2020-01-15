@@ -1,0 +1,11 @@
+/* [[file:~/.emacs.d/ian.org::*Styles%20for%20HTML%20export][Styles for HTML export:1]] */
+body {
+    width: 90%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.validation {
+    display: none;
+}
+/* Styles for HTML export:1 ends here */
