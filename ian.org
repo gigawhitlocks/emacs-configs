@@ -257,7 +257,11 @@ host api.github.com login gigawhitlocks^forge password TOKEN
 
 but obviously replace ~TOKEN~ with the access token. And [[https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources][use ~.authinfo.gpg~ and encrypt it]]. Don't just use ~.authinfo~.
 
-Also, I've only tried this with Github.
+Also, I've only tried this with GitHub. But at least in the case of GitHub, once Forge is set up, it adds some niceties like this to the Magit overview. In this case, I'm looking at the history of a project and Forge automatically adds a link to the PR displayed as part of the commit title in history:
+
+#+DOWNLOADED: file:///home/ian/Downloads/2020-01-14T13_58_07.gif @ 2020-01-15 13:17:16
+[[file:My_Environment/2020-01-15_13-17-16_2020-01-14T13_58_07.gif]]
+
 
 *** Install and Configure ~git-timemachine~
 ~git-timeline~ lets you step through the history of a file.
