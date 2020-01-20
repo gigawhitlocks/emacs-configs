@@ -356,10 +356,6 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
        :config
        (use-package yasnippet-snippets))
 #+END_SRC
-*** Install and configure Swiper
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper-helm)
-  #+END_SRC
 ** Extra Packages
 Packages with a smaller effect on the experience.
 *** git-gutter shows unstaged changes in the gutter
