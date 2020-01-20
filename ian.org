@@ -536,6 +536,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
    ",r"     'lsp-find-references
    ",t"     'lsp-find-type-definition
    ",x"     'lsp-execute-code-action
+   ",lsp"   'lsp-workspace-restart
    "gd"     'lsp-find-definition
 
 
