@@ -724,7 +724,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "wo"     'other-window
     "w="     'balance-windows
     "SPC"    'helm-M-x
-    "/"      'swiper-helm
     )
     #+END_SRC
 
@@ -880,6 +879,7 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 *** Clean whitespace on save in all modes
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'whitespace-cleanup)
+
 #+END_SRC
 *** Autosave
 Automatically saves the file when it's been idle for 5 minutes.
@@ -1102,3 +1102,6 @@ Emmet is the "zen coding" plugin for really fast HTML authoring
 *** yasnippet-snippets
 Some default snippets -- don't install until we're ready to figure out how to use them
 [[https://github.com/AndreaCrotti/yasnippet-snippets]]
+** To do
+1. origami mode is kinda broken?
+2. restart-lsp-workspace shortcut
