@@ -559,15 +559,16 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
   ;; disable "Organize Imports" warning that never goes away
   (add-hook 'go-mode-hook
             (lambda ()
+              ;; gofmt before save
+              (add-hook 'before-save-hook 'gofmt-before-save nil 'local)
+              ;; Go likes origami-mode
               (origami-mode)
-
+              ;; lsp ui sideline code actions are annoying in Go
               (setq-local lsp-ui-sideline-show-code-actions nil)))
 
   ;; sets the visual tab width to 2 spaces per tab in Go buffers
   (add-hook 'go-mode-hook (lambda ()
                             (set (make-local-variable 'tab-width) 2)))
-  ;; gofmt before save
-  (add-hook 'before-save-hook 'gofmt-before-save)
 
   (load-file "~/.emacs.d/vendor/go-dlv.el")
   (require 'go-dlv)
