@@ -10,8 +10,6 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'adwaita t)
-  (enable-theme 'adwaita)
 #+End_SRC
 
 * Local bugfixes
