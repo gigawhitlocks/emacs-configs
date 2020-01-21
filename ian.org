@@ -335,7 +335,6 @@ Easy Hugo is an interactive UI for managing a Hugo site.
 #+BEGIN_SRC emacs-lisp
     (use-package easy-hugo
       :config
-      (setq easy-hugo-basedir "~/keming.org")
       (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
 #+END_SRC
 *** Install and Configure GNU Hyperbole
@@ -356,10 +355,6 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
        :config
        (use-package yasnippet-snippets))
 #+END_SRC
-*** Install and configure Swiper
-#+BEGIN_SRC emacs-lisp
-  (use-package swiper-helm)
-  #+END_SRC
 ** Extra Packages
 Packages with a smaller effect on the experience.
 *** git-gutter shows unstaged changes in the gutter
@@ -535,6 +530,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
    ",r"     'lsp-find-references
    ",t"     'lsp-find-type-definition
    ",x"     'lsp-execute-code-action
+   ",lsp"   'lsp-workspace-restart
    "gd"     'lsp-find-definition
 
 
@@ -557,15 +553,16 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
   ;; disable "Organize Imports" warning that never goes away
   (add-hook 'go-mode-hook
             (lambda ()
+              ;; gofmt before save
+              (add-hook 'before-save-hook 'gofmt-before-save nil 'local)
+              ;; Go likes origami-mode
               (origami-mode)
-
+              ;; lsp ui sideline code actions are annoying in Go
               (setq-local lsp-ui-sideline-show-code-actions nil)))
 
   ;; sets the visual tab width to 2 spaces per tab in Go buffers
   (add-hook 'go-mode-hook (lambda ()
                             (set (make-local-variable 'tab-width) 2)))
-  ;; gofmt before save
-  (add-hook 'before-save-hook 'gofmt-before-save)
 
   (load-file "~/.emacs.d/vendor/go-dlv.el")
   (require 'go-dlv)
@@ -602,6 +599,14 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
           ("go" . ".*foo.party/.*\\.html\\'")
           ;; add more projects here..
           ))
+#+END_SRC
+*** Shell
+Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
+But for now, disable ~indent-tabs-mode~ in shell script editing mode because I have been observing behavior from ~whitespace-cleanup-mode~ that when ~indent-tabs-mode~ is ~t~ it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'sh-mode-hook
+            (lambda ()
+              (defvar-local indent-tabs-mode nil)))
 #+END_SRC
 *** Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap-prefix-mode]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -713,7 +718,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "wo"     'other-window
     "w="     'balance-windows
     "SPC"    'helm-M-x
-    "/"      'swiper-helm
     )
     #+END_SRC
 
@@ -869,6 +873,7 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 *** Clean whitespace on save in all modes
 #+BEGIN_SRC emacs-lisp
   (add-hook 'before-save-hook 'whitespace-cleanup)
+
 #+END_SRC
 *** Autosave
 Automatically saves the file when it's been idle for 5 minutes.
@@ -1091,3 +1096,6 @@ Emmet is the "zen coding" plugin for really fast HTML authoring
 *** yasnippet-snippets
 Some default snippets -- don't install until we're ready to figure out how to use them
 [[https://github.com/AndreaCrotti/yasnippet-snippets]]
+** To do
+1. origami mode is kinda broken?
+2. restart-lsp-workspace shortcut

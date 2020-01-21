@@ -1,35 +1,36 @@
-- [Ian's Emacs Configuration as an Experiment in Literate Programming, or Something](#org43a0462)
-  - [Justification](#org1127045)
-- [Entrypoint](#org57ce3a9)
-- [My Environment](#org07166cd)
-  - [Bootstrap](#org44db997)
-  - [Package Installation and Configuration](#org3118654)
-  - [Extra Packages](#org6289a39)
-  - [Language Configuration](#orge98d561)
-  - [Global Keybindings](#orgbeb227e)
-  - [Org Mode Settings](#orgfe92744)
-  - [Hostname-based tweaks](#orgf7ff289)
-  - [Miscellaneous standalone global configuration changes](#org896dce5)
-  - [ERC (IRC config)](#orgb25b843)
-  - [Render this file for display on Github](#org57c9465)
-  - [Footer](#org2f68800)
-  - [Styles for HTML export](#org33c87d6)
-- [Notes and Such](#org7e84551)
-  - [Monospace Fonts](#org02eab89)
-  - [Proportional Fonts](#org25f0846)
-  - [Authentication and Secrets in Emacs](#org506427a)
-  - [Packages to Try](#org918a66a)
+- [Ian's Emacs Configuration as an Experiment in Literate Programming, or Something](#orgd155f4e)
+  - [Justification](#org892c914)
+- [Entrypoint](#org46ac267)
+- [My Environment](#orgcb7ee5a)
+  - [Bootstrap](#orgf4ed7c5)
+  - [Package Installation and Configuration](#org1075c7c)
+  - [Extra Packages](#org9455795)
+  - [Language Configuration](#org4124881)
+  - [Global Keybindings](#org2f42640)
+  - [Org Mode Settings](#org0c7d470)
+  - [Hostname-based tweaks](#orgfb365af)
+  - [Miscellaneous standalone global configuration changes](#orgc58df45)
+  - [ERC (IRC config)](#org73a5b26)
+  - [Render this file for display on Github](#org03d7f29)
+  - [Footer](#orgec630d3)
+  - [Styles for HTML export](#org21d5316)
+- [Notes and Such](#org5577749)
+  - [Monospace Fonts](#org8f33ba0)
+  - [Proportional Fonts](#org4544607)
+  - [Authentication and Secrets in Emacs](#org6515b9d)
+  - [Packages to Try](#orgd4e9770)
+  - [To do](#org1275020)
 
 
 
-<a id="org43a0462"></a>
+<a id="orgd155f4e"></a>
 
 # Ian's Emacs Configuration as an Experiment in Literate Programming, or Something
 
 This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future. It also contains my thoughts on the topic as I go.
 
 
-<a id="org1127045"></a>
+<a id="org892c914"></a>
 
 ## Justification
 
@@ -58,7 +59,7 @@ This configuration is written in Org syntax.
 Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
 
 
-<a id="org57ce3a9"></a>
+<a id="org46ac267"></a>
 
 # Entrypoint
 
@@ -108,7 +109,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org07166cd"></a>
+<a id="orgcb7ee5a"></a>
 
 # My Environment
 
@@ -121,7 +122,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org44db997"></a>
+<a id="orgf4ed7c5"></a>
 
 ## Bootstrap
 
@@ -175,7 +176,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org3118654"></a>
+<a id="org1075c7c"></a>
 
 ## Package Installation and Configuration
 
@@ -270,7 +271,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgbeb227e) section.
+It's mostly used below in the [global keybindings](#org2f42640) section.
 
 ```emacs-lisp
 (use-package general
@@ -450,14 +451,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-### Install and configure Swiper
-
-```emacs-lisp
-(use-package swiper-helm)
-```
-
-
-<a id="org6289a39"></a>
+<a id="org9455795"></a>
 
 ## Extra Packages
 
@@ -568,7 +562,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="orge98d561"></a>
+<a id="org4124881"></a>
 
 ## Language Configuration
 
@@ -655,80 +649,6 @@ So the convention for use is:
 3.  `M-x pyvenv-workon`
 
 
-### Go
-
-Go support requires some dependencies. I will try to list them all here. Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
-
--   First, `go` itself, install however you choose. I like to add my GOPATH and GOROOT to `~/.profile` so that they show up in both my shell and in Emacs.
-
--   `go install` `godef` for definitions <https://github.com/rogpeppe/godef>\`
--   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>
-
-```emacs-lisp
-(defun set-gopls-lib-dirs ()
-  "Add $GOPATH/pkg/mod to the 'library path'."
-  ;; stops lsp from continually asking if Go projects should be imported
-  (setq lsp-clients-go-library-directories
-	(list
-	 "/usr"
-	 (concat (getenv "GOPATH") "/pkg/mod"))))
-
-;; native go mode
-(use-package go-mode
-  :hook ((go-mode . lsp-deferred)
-	 (go-mode . set-gopls-lib-dirs))
-  :config
-  ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-  (evil-add-command-properties #'godef-jump :jump t))
-
-(general-define-key
- :states  'normal
- :keymaps 'go-mode-map
- ",a"     'go-import-add
- ",d"     'lsp-describe-thing-at-point
- ",g"     'lsp-find-definition
- ",i"     'lsp-find-implementation
- ",n"     'lsp-rename
- ",r"     'lsp-find-references
- ",t"     'lsp-find-type-definition
- ",x"     'lsp-execute-code-action
- "gd"     'lsp-find-definition
-
-
-;; origami-mode works better with lsp than regular evil-mode
- "TAB"    'origami-toggle-node
-
- "zm"     'origami-toggle-node
- "zM"     'origami-toggle-all-nodes
-
- "zc"     'origami-close-node
- "zC"     'origami-close-node-recursively
-
- "zo"     'origami-open-node
- "zO"     'origami-open-node-recursively
-)
-
-(autoload 'go-mode "go-mode" nil t)
-(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-
-;; disable "Organize Imports" warning that never goes away
-(add-hook 'go-mode-hook
-	  (lambda ()
-		(origami-mode)
-
-		(setq-local lsp-ui-sideline-show-code-actions nil)))
-
-;; sets the visual tab width to 2 spaces per tab in Go buffers
-(add-hook 'go-mode-hook (lambda ()
-			  (set (make-local-variable 'tab-width) 2)))
-;; gofmt before save
-(add-hook 'before-save-hook 'gofmt-before-save)
-
-(load-file "~/.emacs.d/vendor/go-dlv.el")
-(require 'go-dlv)
-```
-
-
 ### Javascript
 
 ```emacs-lisp
@@ -767,6 +687,17 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
+### Shell
+
+Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this. But for now, disable `indent-tabs-mode` in shell script editing mode because I have been observing behavior from `whitespace-cleanup-mode` that when `indent-tabs-mode` is `t` it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
+
+```emacs-lisp
+(add-hook 'sh-mode-hook
+	  (lambda ()
+		(defvar-local indent-tabs-mode nil)))
+```
+
+
 ### Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -795,7 +726,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgbeb227e"></a>
+<a id="org2f42640"></a>
 
 ## Global Keybindings
 
@@ -883,12 +814,11 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "wo"     'other-window
   "w="     'balance-windows
   "SPC"    'helm-M-x
-  "/"      'swiper-helm
   )
 ```
 
 
-<a id="orgfe92744"></a>
+<a id="org0c7d470"></a>
 
 ## Org Mode Settings
 
@@ -949,7 +879,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="orgf7ff289"></a>
+<a id="orgfb365af"></a>
 
 ## Hostname-based tweaks
 
@@ -977,7 +907,7 @@ Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the sam
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org896dce5"></a>
+<a id="orgc58df45"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1073,6 +1003,7 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 
 ```emacs-lisp
 (add-hook 'before-save-hook 'whitespace-cleanup)
+
 ```
 
 
@@ -1183,7 +1114,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="orgb25b843"></a>
+<a id="org73a5b26"></a>
 
 ## ERC (IRC config)
 
@@ -1245,7 +1176,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org57c9465"></a>
+<a id="org03d7f29"></a>
 
 ## Render this file for display on Github
 
@@ -1271,7 +1202,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org2f68800"></a>
+<a id="orgec630d3"></a>
 
 ## Footer
 
@@ -1282,7 +1213,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org33c87d6"></a>
+<a id="org21d5316"></a>
 
 ## Styles for HTML export
 
@@ -1299,14 +1230,14 @@ body {
 ```
 
 
-<a id="org7e84551"></a>
+<a id="org5577749"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org02eab89"></a>
+<a id="org8f33ba0"></a>
 
 ## Monospace Fonts
 
@@ -1338,14 +1269,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org25f0846"></a>
+<a id="org4544607"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org506427a"></a>
+<a id="org6515b9d"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1354,7 +1285,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org918a66a"></a>
+<a id="orgd4e9770"></a>
 
 ## Packages to Try
 
@@ -1369,3 +1300,11 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 ### yasnippet-snippets
 
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
+
+
+<a id="org1275020"></a>
+
+## To do
+
+1.  origami mode is kinda broken?
+2.  restart-lsp-workspace shortcut
