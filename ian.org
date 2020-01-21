@@ -404,11 +404,6 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
         :config
         (setq ranger-show-literal nil))
 #+END_SRC
-*** centered-window centers the text in a column
-Seems to be similar to ~olivetti-mode~ and might be what was interfering with that.
-#+BEGIN_SRC emacs-lisp
-      (use-package centered-window)
-#+END_SRC
 *** Install and Configure Company for Auto-Completion
 Great tab-complete and auto-complete with [[https://github.com/company-mode/company-mode][Company Mode]].
 #+BEGIN_SRC emacs-lisp
