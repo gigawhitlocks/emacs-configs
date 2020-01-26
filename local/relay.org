@@ -1,6 +1,6 @@
-#+TITLE: The Work Laptop's Config
+#+TITLE: The Server's Config
 
-Stuff that's specific to my work (X1) Thinkpad's Emacs config.
+Stuff that's specific to my NUC's Emacs config.
 
 
 * Font
