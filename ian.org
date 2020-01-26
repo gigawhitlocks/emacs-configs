@@ -490,10 +490,10 @@ So the convention for use is:
 Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
-- First, ~go~ itself, install however you choose. I like to add my GOPATH and GOROOT to ~~/.profile~ so that they show up in both my shell and in Emacs.
+- First, ~go~ itself must be installed, install however, and avalailable on the ~PATH~.
 
-- ~go install~ ~godef~ for definitions [[https://github.com/rogpeppe/godef]]`
-- ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]
+- ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]. I have been just running this off of ~master~ so I can experience all the latest +bugs+ features, so clone the gopls project (TODO find the url for it and put a link here) and ~go install~ it. After you're done ~gopls~ should also be on the ~PATH~.
+
 #+BEGIN_SRC emacs-lisp
   (defun set-gopls-lib-dirs ()
     "Add $GOPATH/pkg/mod to the 'library path'."
