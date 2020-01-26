@@ -1,68 +1,52 @@
-- [Ian's Emacs Configuration as an Experiment in Literate Programming, or Something](#org0a4a2d3)
-  - [Justification](#orga09f9e5)
-- [Entrypoint](#org0426fd2)
-- [My Environment](#org81a0a00)
-  - [Bootstrap](#org7d34687)
-  - [Package Installation and Configuration](#orgcf1bdf4)
-  - [Extra Packages](#org0dbdd56)
-  - [Language Configuration](#orgf27e818)
-  - [Global Keybindings](#org2d3169e)
-  - [Org Mode Settings](#org852bbe5)
-  - [Hostname-based tweaks](#org73edcef)
-  - [Miscellaneous standalone global configuration changes](#orged13d78)
-  - [ERC (IRC config)](#orgd1e4fea)
-  - [Render this file for display on Github](#orga57c5ed)
-  - [Footer](#org1a53a7b)
-  - [Styles for HTML export](#org14745a7)
-- [Notes and Such](#org7eef978)
-  - [Monospace Fonts](#orgecf32d2)
-  - [Proportional Fonts](#org309ccd8)
-  - [Authentication and Secrets in Emacs](#org597014d)
-  - [Packages to Try](#org2c652f6)
+- [What is this?](#orgf36b1f6)
+- [Entrypoint](#org77231d3)
+- [My Environment](#orge54d35b)
+  - [Bootstrap](#orgd9f50d8)
+  - [Package Installation and Configuration](#orgb6d88d4)
+  - [Extra Packages](#org1244417)
+  - [Language Configuration](#org55b071a)
+  - [Global Keybindings](#orgf984382)
+  - [Org Mode Settings](#orge79130b)
+  - [Hostname-based tweaks](#org6f9e7b3)
+  - [Miscellaneous standalone global configuration changes](#orga071fbe)
+  - [ERC (IRC config)](#org85641ca)
+  - [Render this file for display on the web](#org37d278c)
+  - [Footer](#orgbb7ddeb)
+  - [Styles for HTML export](#org751e84e)
+- [Notes and Such](#orga8da6bf)
+  - [Monospace Fonts](#org203d320)
+  - [Proportional Fonts](#orga85296b)
+  - [Authentication and Secrets in Emacs](#org1e53b6a)
+  - [Packages to Try](#orgf471974)
+  - [To do](#org6c619ba)
 
 
 
-<a id="org0a4a2d3"></a>
+<a id="orgf36b1f6"></a>
 
-# Ian's Emacs Configuration as an Experiment in Literate Programming, or Something
+# What is this?
 
-This file contains the configuration necessary to transform a GNU Emacs 26 installation (only tested on Linux) into my very own personalized, hand-crafted, artisanal programming and text-editing environment maintained for my own use, hopefully in a way that can remain maintainable for the ongoing future. It also contains my thoughts on the topic as I go.
+This is my Emacs configuration file, which I install at `~/.emacs.d/ian.org`. It's written in Org mode syntax, which exports to a number of other formats, including HTML and Markdown, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment.
 
+I have chosen to write a fully custom Emacs environment, eschewing projects like Spacemacs and Doom Emacs for my own custom configuration because I find Emacs Lisp a joy to write &#x2013; combined with its native environment, Emacs, Emacs Lisp is an incredibly powerful addition to my workflow, and writing my own config has helped me master both the editor and the language it is largely written in, and also customized with.
 
-<a id="orga09f9e5"></a>
+If you're reading this on the web, the source code for this file can be found [on Github](https://github.com/gigawhitlocks/emacs-configs). If you want to try out this configuration file, run the following:
 
-## Justification
+```bash
+#!/bin/bash
+git clone https://github.com/gigawhitlocks/emacs-configs ~/.emacs.d
+mv ~/.emacs.d/local/wintermute.org ~/.emacs.d/local/"$(hostname)".org
+emacs
+```
 
-Emacs is an abberation among modern software, and it is my favorite piece of software. It's actually ancient software, but it is still actively maintained and has an excited and crafty userbase as a community. It's a text editor on the surface, and certainly Emacs can be used fairly quickly (after following the tutorial) for basic text editing, and perhaps its author even thought of it as merely a text editor. But..
-
-
-### It's actually an interactive Lisp interpreter
-
-It's really a text editor with a Lisp interpreter attached, and Lisp turns out to be especially good at parsing text and for building domain specific languages (DSLs) for adding functionality to the existing language. Now, it just so happens that this particular dialect of Lisp comes with a native GUI library &#x2013; Emacs itself &#x2013; that it understands natively.
-
-Suddenly using the program and programming it become similar tasks. This is the brilliance of Emacs. "But I don't have time to program my editor!" Yeah, nobody really does, that's why this repository is open source (in case someone can use it) and it's why we lean heavily on third party packages.
-
-But because Emacs is primarily written in Emacs Lisp, you can explore the source code of Emacs directly from the editor itself, edit it, and execute the new version and have it affect your current session at runtime.
-
-Here's a trivial example. A new Emacs user does the tutorial and learns that `M-x` runs a command. One of the first ones they learn is `find-file`. `find-file` queries the user for a file location and then opens that file in a new buffer and displays it in the current window. It's also accessible via `C-x C-f` by default. The same function is `(find-file)` in Emacs Lisp. Run with an argument, it won't query the user. Any action you can do interactively can be automated through Emacs Lisp. Because of this flexibility, the world of 3rd party packages is *awesome*.
-
-Oh yeah, and then there's Org Mode. Learning Emacs is worth it just for Org Mode.
+No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
 
 
-### Org Mode
-
-This configuration is written in Org syntax.
-
-[Org Mode](https://orgmode.org) is a major mode for content written in the Org markup language, which provides syntax for annotating the content similar to Markdown, as well as syntax for attaching metadata to the content so that it can be acted upon from Emacs Lisp or other languages, through an extension called Babel, which is often referred to as `org-babel`. Org and Babel allow you to write prose alongside code and export ("tangle") it to source files or execute it interactively while writing the document and automatically include the results of execution alongside the code and commentary in the document.
-
-Org Mode allows you to easily collapse heading subtrees, execute code blocks, edit code blocks in the native mode of the language present in the code block, and write software in the literate programming style, where there's more explanation and exposition than code, like this configuration.
-
-
-<a id="org0426fd2"></a>
+<a id="org77231d3"></a>
 
 # Entrypoint
 
-Using Org for my configuration is a personal choice, so I want Emacs to load this file (`ian.org`) first when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code tangles to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`ian.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
+Using Org for one's configuration is not standard Emacs behavior, so I must first configure Emacs to load this file (`ian.org`) as its first action when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code [tangles](https://orgmode.org/manual/Extracting-source-code.html) to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`ian.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
 
 Since I want most of the configuration here in `ian.org`, `init.el` just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of `init.el`. I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
 
@@ -108,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org81a0a00"></a>
+<a id="orge54d35b"></a>
 
 # My Environment
 
@@ -121,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org7d34687"></a>
+<a id="orgd9f50d8"></a>
 
 ## Bootstrap
 
@@ -175,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgcf1bdf4"></a>
+<a id="orgb6d88d4"></a>
 
 ## Package Installation and Configuration
 
@@ -270,7 +254,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org2d3169e) section.
+It's mostly used below in the [global keybindings](#orgf984382) section.
 
 ```emacs-lisp
 (use-package general
@@ -311,10 +295,45 @@ It's mostly used below in the [global keybindings](#org2d3169e) section.
 ;; for I am a simple man
 (setq vc-handled-backends nil)
 (use-package evil-magit)
+```
 
-;; forge lets us interact with git forges e.g. GitHub, Gogs, Gitlab
+The Magit author publishes an additional package called [forge](https://emacsair.me/2018/12/19/forge-0.1/). Forge lets you interact with Github and Gitlab from inside of Emacs. There's planned support for Gogs, Gitea, etc.
+
+```emacs-lisp
 (use-package forge
   :after magit)
+```
+
+Forge has to be configured with something like `.authinfo` or preferably `authinfo.gpg`. Create a access token through the web UI of Github and place on the first line in `$HOME/.authinfo` with the following format:
+
+```
+host api.github.com login gigawhitlocks^forge password TOKEN
+```
+
+but obviously replace `TOKEN` with the access token. And [use `.authinfo.gpg` and encrypt it](https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources). Don't just use `.authinfo`.
+
+Also, I've only tried this with GitHub. But at least in the case of GitHub, once Forge is set up, it adds some niceties like this to the Magit overview. In this case, I'm looking at the history of a project and Forge automatically adds a link to the PR displayed as part of the commit title in history:
+
+![img](My_Environment/2020-01-15_13-17-16_2020-01-14T13_58_07.gif)
+
+
+### Install and Configure `git-timemachine`
+
+`git-timeline` lets you step through the history of a file.
+
+![img](My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif)
+
+```emacs-lisp
+(use-package git-timemachine)
+
+;; This lets git-timemachine's bindings take precedence over evils'
+;; (got lucky and happened to find this while looking for the package name, ha!)
+;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
+(eval-after-load 'git-timemachine
+  '(progn
+	 (evil-make-overriding-map git-timemachine-mode-map 'normal)
+	 ;; force update evil keymaps after git-timemachine-mode loaded
+	 (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps)))
 ```
 
 
@@ -386,7 +405,6 @@ Easy Hugo is an interactive UI for managing a Hugo site.
 ```emacs-lisp
 (use-package easy-hugo
   :config
-  (setq easy-hugo-basedir "~/keming.org")
   (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
 ```
 
@@ -415,7 +433,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="org0dbdd56"></a>
+<a id="org1244417"></a>
 
 ## Extra Packages
 
@@ -487,15 +505,6 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 ```
 
 
-### centered-window centers the text in a column
-
-Seems to be similar to `olivetti-mode` and might be what was interfering with that.
-
-```emacs-lisp
-(use-package centered-window)
-```
-
-
 ### Install and Configure Company for Auto-Completion
 
 Great tab-complete and auto-complete with [Company Mode](https://github.com/company-mode/company-mode).
@@ -526,7 +535,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="orgf27e818"></a>
+<a id="org55b071a"></a>
 
 ## Language Configuration
 
@@ -650,6 +659,7 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
  ",r"     'lsp-find-references
  ",t"     'lsp-find-type-definition
  ",x"     'lsp-execute-code-action
+ ",lsp"   'lsp-workspace-restart
  "gd"     'lsp-find-definition
 
 
@@ -672,15 +682,16 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ;; disable "Organize Imports" warning that never goes away
 (add-hook 'go-mode-hook
 	  (lambda ()
+		;; gofmt before save
+		(add-hook 'before-save-hook 'gofmt-before-save nil 'local)
+		;; Go likes origami-mode
 		(origami-mode)
-
+		;; lsp ui sideline code actions are annoying in Go
 		(setq-local lsp-ui-sideline-show-code-actions nil)))
 
 ;; sets the visual tab width to 2 spaces per tab in Go buffers
 (add-hook 'go-mode-hook (lambda ()
 			  (set (make-local-variable 'tab-width) 2)))
-;; gofmt before save
-(add-hook 'before-save-hook 'gofmt-before-save)
 
 (load-file "~/.emacs.d/vendor/go-dlv.el")
 (require 'go-dlv)
@@ -725,6 +736,17 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 ```
 
 
+### Shell
+
+Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this. But for now, disable `indent-tabs-mode` in shell script editing mode because I have been observing behavior from `whitespace-cleanup-mode` that when `indent-tabs-mode` is `t` it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
+
+```emacs-lisp
+(add-hook 'sh-mode-hook
+	  (lambda ()
+		(defvar-local indent-tabs-mode nil)))
+```
+
+
 ### Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -753,7 +775,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org2d3169e"></a>
+<a id="orgf984382"></a>
 
 ## Global Keybindings
 
@@ -786,13 +808,13 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (server-edit "Done"))
 
 (general-define-key
- :states 'normal
- "J"     'evil-scroll-page-down
- "K"     'evil-scroll-page-up)
+ :keymaps '(normal emacs)
+ "J"      'evil-scroll-page-down
+ "K"      'evil-scroll-page-up)
 
 ;; global keybindings with LEADER
 (my-leader-def 'normal 'override
-  "bb"     'helm-mini
+  "bb"     'helm-buffers-list
   "TAB"    #'switch-to-prev-buffer
   "br"     'revert-buffer
   "bd"     'evil-delete-buffer
@@ -811,6 +833,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "gb"     'magit-blame
   "gs"     'magit-status
   "gg"     'magit
+  "gt"     'git-timemachine
   "gd"     'magit-diff
   "h"      'hyperbole
   "jj"     'bookmark-jump
@@ -844,7 +867,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org852bbe5"></a>
+<a id="orge79130b"></a>
 
 ## Org Mode Settings
 
@@ -905,11 +928,18 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org73edcef"></a>
+<a id="org6f9e7b3"></a>
 
 ## Hostname-based tweaks
 
-Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the same as the hostname of the machine. I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call `hostname` to determine the hostname. Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation. This would be a neat feature to expand on at some point.
+Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the same as the hostname of the machine. I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call `hostname` to determine the hostname. Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
+
+Right now I have three configurations:
+
+-   [my server](./local/relay.md)
+-   [my work machine](./local/rocinante.md)
+-   [my laptop](./local/wintermute.md)
+-   [my&#x2026; desktop?](./local/terminus.md)
 
 ```emacs-lisp
 ;; simplifies setting a font and changing it immediately
@@ -933,7 +963,7 @@ Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the sam
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="orged13d78"></a>
+<a id="orga071fbe"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1029,6 +1059,7 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 
 ```emacs-lisp
 (add-hook 'before-save-hook 'whitespace-cleanup)
+
 ```
 
 
@@ -1139,7 +1170,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="orgd1e4fea"></a>
+<a id="org85641ca"></a>
 
 ## ERC (IRC config)
 
@@ -1162,6 +1193,10 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
   "Connect to IRC."
   (interactive)
 
+  ;; tangle this file to produce the bash script
+  (org-babel-tangle "~/.emacs.d/ian.org")
+
+  ;; some visual tweaks
   (add-hook 'erc-mode-hook 'variable-pitch-mode)
   (add-hook 'erc-mode-hook 'visual-line-mode)
 
@@ -1197,9 +1232,9 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orga57c5ed"></a>
+<a id="org37d278c"></a>
 
-## Render this file for display on Github
+## Render this file for display on the web
 
 This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
@@ -1211,6 +1246,7 @@ This function registers a hook that will export this file to Github flavored Mar
 	   (file-name-nondirectory (buffer-file-name))
 	   "ian.org")
 
+	  (org-html-export-to-html)
 	  (org-gfm-export-to-markdown)
 
 	  (if (find-buffer-visiting "~/.emacs.d/README.md")
@@ -1223,7 +1259,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org1a53a7b"></a>
+<a id="orgbb7ddeb"></a>
 
 ## Footer
 
@@ -1234,7 +1270,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org14745a7"></a>
+<a id="org751e84e"></a>
 
 ## Styles for HTML export
 
@@ -1251,14 +1287,14 @@ body {
 ```
 
 
-<a id="org7eef978"></a>
+<a id="orga8da6bf"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="orgecf32d2"></a>
+<a id="org203d320"></a>
 
 ## Monospace Fonts
 
@@ -1290,14 +1326,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org309ccd8"></a>
+<a id="orga85296b"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org597014d"></a>
+<a id="org1e53b6a"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1306,7 +1342,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org2c652f6"></a>
+<a id="orgf471974"></a>
 
 ## Packages to Try
 
@@ -1321,3 +1357,11 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 ### yasnippet-snippets
 
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
+
+
+<a id="org6c619ba"></a>
+
+## To do
+
+1.  origami mode is kinda broken?
+2.  restart-lsp-workspace shortcut
