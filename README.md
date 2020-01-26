@@ -1,34 +1,34 @@
-- [What is this?](#orgf36b1f6)
-- [Entrypoint](#org77231d3)
-- [My Environment](#orge54d35b)
-  - [Bootstrap](#orgd9f50d8)
-  - [Package Installation and Configuration](#orgb6d88d4)
-  - [Extra Packages](#org1244417)
-  - [Language Configuration](#org55b071a)
-  - [Global Keybindings](#orgf984382)
-  - [Org Mode Settings](#orge79130b)
-  - [Hostname-based tweaks](#org6f9e7b3)
-  - [Miscellaneous standalone global configuration changes](#orga071fbe)
-  - [ERC (IRC config)](#org85641ca)
-  - [Render this file for display on the web](#org37d278c)
-  - [Footer](#orgbb7ddeb)
-  - [Styles for HTML export](#org751e84e)
-- [Notes and Such](#orga8da6bf)
-  - [Monospace Fonts](#org203d320)
-  - [Proportional Fonts](#orga85296b)
-  - [Authentication and Secrets in Emacs](#org1e53b6a)
-  - [Packages to Try](#orgf471974)
-  - [To do](#org6c619ba)
+- [What is this?](#orge10ffbc)
+- [Entrypoint](#orgd7ddde1)
+- [My Environment](#org464d6f6)
+  - [Bootstrap](#orge509ba1)
+  - [Package Installation and Configuration](#org9c8706b)
+  - [Extra Packages](#org3588e5e)
+  - [Language Configuration](#org11635c9)
+  - [Global Keybindings](#org05294e6)
+  - [Org Mode Settings](#orgc6de22a)
+  - [Hostname-based tweaks](#org364881b)
+  - [Miscellaneous standalone global configuration changes](#orge51dd1d)
+  - [ERC (IRC config)](#orgac413e7)
+  - [Render this file for display on the web](#org8a93908)
+  - [Footer](#org635383e)
+  - [Styles for HTML export](#orga3e4baa)
+- [Notes and Such](#org3d6cbf8)
+  - [Monospace Fonts](#orge1cbe1c)
+  - [Proportional Fonts](#org748ab91)
+  - [Authentication and Secrets in Emacs](#org56ec8ae)
+  - [Packages to Try](#orgd9d3785)
+  - [To do](#org73a50a9)
 
 
 
-<a id="orgf36b1f6"></a>
+<a id="orge10ffbc"></a>
 
 # What is this?
 
 This is my Emacs configuration file, which I install at `~/.emacs.d/ian.org`. It's written in Org mode syntax, which exports to a number of other formats, including HTML and Markdown, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment.
 
-I have chosen to write a fully custom Emacs environment, eschewing projects like Spacemacs and Doom Emacs for my own custom configuration because I find Emacs Lisp a joy to write &#x2013; combined with its native environment, Emacs, Emacs Lisp is an incredibly powerful addition to my workflow, and writing my own config has helped me master both the editor and the language it is largely written in, and also customized with.
+I have chosen to write a fully custom Emacs environment, eschewing projects like Spacemacs and Doom Emacs for my own custom configuration because I find Emacs Lisp a joy to write &#x2013; combined with its native environment, Emacs, Emacs Lisp is an incredibly powerful addition to my workflow, and writing my own config has helped me master both the editor and the language it is largely written in, and with which it is customized.
 
 If you're reading this on the web, the source code for this file can be found [on Github](https://github.com/gigawhitlocks/emacs-configs). If you want to try out this configuration file, run the following:
 
@@ -42,7 +42,7 @@ emacs
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
 
 
-<a id="org77231d3"></a>
+<a id="orgd7ddde1"></a>
 
 # Entrypoint
 
@@ -92,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orge54d35b"></a>
+<a id="org464d6f6"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgd9f50d8"></a>
+<a id="orge509ba1"></a>
 
 ## Bootstrap
 
@@ -159,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgb6d88d4"></a>
+<a id="org9c8706b"></a>
 
 ## Package Installation and Configuration
 
@@ -254,7 +254,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgf984382) section.
+It's mostly used below in the [global keybindings](#org05294e6) section.
 
 ```emacs-lisp
 (use-package general
@@ -433,7 +433,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="org1244417"></a>
+<a id="org3588e5e"></a>
 
 ## Extra Packages
 
@@ -535,7 +535,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org55b071a"></a>
+<a id="org11635c9"></a>
 
 ## Language Configuration
 
@@ -775,7 +775,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgf984382"></a>
+<a id="org05294e6"></a>
 
 ## Global Keybindings
 
@@ -867,7 +867,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orge79130b"></a>
+<a id="orgc6de22a"></a>
 
 ## Org Mode Settings
 
@@ -928,7 +928,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org6f9e7b3"></a>
+<a id="org364881b"></a>
 
 ## Hostname-based tweaks
 
@@ -963,7 +963,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="orga071fbe"></a>
+<a id="orge51dd1d"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1170,7 +1170,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org85641ca"></a>
+<a id="orgac413e7"></a>
 
 ## ERC (IRC config)
 
@@ -1232,7 +1232,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org37d278c"></a>
+<a id="org8a93908"></a>
 
 ## Render this file for display on the web
 
@@ -1259,7 +1259,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgbb7ddeb"></a>
+<a id="org635383e"></a>
 
 ## Footer
 
@@ -1270,7 +1270,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org751e84e"></a>
+<a id="orga3e4baa"></a>
 
 ## Styles for HTML export
 
@@ -1287,14 +1287,14 @@ body {
 ```
 
 
-<a id="orga8da6bf"></a>
+<a id="org3d6cbf8"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org203d320"></a>
+<a id="orge1cbe1c"></a>
 
 ## Monospace Fonts
 
@@ -1326,14 +1326,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orga85296b"></a>
+<a id="org748ab91"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org1e53b6a"></a>
+<a id="org56ec8ae"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1342,7 +1342,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgf471974"></a>
+<a id="orgd9d3785"></a>
 
 ## Packages to Try
 
@@ -1359,7 +1359,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org6c619ba"></a>
+<a id="org73a50a9"></a>
 
 ## To do
 
