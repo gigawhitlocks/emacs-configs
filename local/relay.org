@@ -6,7 +6,7 @@ Stuff that's specific to my work (X1) Thinkpad's Emacs config.
 * Font
 
 #+BEGIN_SRC emacs-lisp
-  (set-font "Inconsolata-12")
+;;  (set-font "Inconsolata-12")
 #+END_SRC
 
 * Theme
