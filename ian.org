@@ -511,13 +511,24 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
     ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
     ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
     (evil-add-command-properties #'godef-jump :jump t))
-
-
 #+END_SRC
-**** Specific Keybindings
+**** REPL
+[[https://github.com/motemen/gore][Gore]] provides a REPL and [[https://github.com/manute/gorepl-mode][gorepl-mode]] lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
+#+BEGIN_SRC sh
+go get -u github.com/motemen/gore/cmd/gore
+#+END_SRC
+Gore also uses gocode for code completion, so install that (even though Emacs uses go-pls for the same).
+#+BEGIN_SRC sh
+go get -u github.com/mdempsky/gocode
+#+END_SRC
 
+Once that's done ~gorepl-mode~ is ready to be installed:
 #+BEGIN_SRC emacs-lisp
+  (use-package gorepl-mode)
+#+END_SRC
 
+**** Specific Keybindings
+#+BEGIN_SRC emacs-lisp
   (general-define-key
    :states  'normal
    :keymaps 'go-mode-map
@@ -532,6 +543,12 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
    ",lsp"   'lsp-workspace-restart
    "gd"     'lsp-find-definition
 
+   ;; using the ,c namespace for repl stuff to follow the C-c convention
+   ;; found in other places in Emacs
+   ",cg"     'gorepl-run
+   ",cc"     'gorepl-run-load-current-file
+   ",cx"     'gorepl-eval-region
+   ",cl"     'gorepl-eval-line
 
   ;; origami-mode works better with lsp than regular evil-mode
    "TAB"    'origami-toggle-node
@@ -549,6 +566,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
   (autoload 'go-mode "go-mode" nil t)
   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 #+END_SRC
+
 **** Hooks
 #+BEGIN_SRC emacs-lisp
 
@@ -570,7 +588,6 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
   (load-file "~/.emacs.d/vendor/go-dlv.el")
   (require 'go-dlv)
 #+END_SRC
-
 *** Javascript
 #+BEGIN_SRC emacs-lisp
   ;; React JSX mode for .jsx files and component/*.js files
