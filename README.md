@@ -1,28 +1,28 @@
-- [What is this?](#org9c8ad9c)
-- [Entrypoint](#org1486268)
-- [My Environment](#org7185f6a)
-  - [Bootstrap](#org835e2cf)
-  - [Package Installation and Configuration](#org91f5f97)
-  - [Extra Packages](#org73df2c9)
-  - [Language Configuration](#orgb7d9b3c)
-  - [Global Keybindings](#org64cfa27)
-  - [Org Mode Settings](#org17015bf)
-  - [Hostname-based tweaks](#org718a62a)
-  - [Miscellaneous standalone global configuration changes](#org51c4c32)
-  - [ERC (IRC config)](#orgd3ae7a5)
-  - [Render this file for display on the web](#orgc6451a7)
-  - [Footer](#org416046e)
-  - [Styles for HTML export](#org77a3575)
-- [Notes and Such](#orgeef1ed3)
-  - [Monospace Fonts](#org64150c2)
-  - [Proportional Fonts](#org3c1ea8c)
-  - [Authentication and Secrets in Emacs](#org9b469a4)
-  - [Packages to Try](#org6c6e147)
-  - [To do](#orga232680)
+- [What is this?](#org3e3ad05)
+- [Entrypoint](#orgacb466b)
+- [My Environment](#orga7aef49)
+  - [Bootstrap](#orga52ff30)
+  - [Package Installation and Configuration](#org5d66fb7)
+  - [Extra Packages](#org07f74f1)
+  - [Language Configuration](#org6e0d6b6)
+  - [Global Keybindings](#orgeb160f9)
+  - [Org Mode Settings](#orgb3203a1)
+  - [Hostname-based tweaks](#orgaf640f3)
+  - [Miscellaneous standalone global configuration changes](#org95bb210)
+  - [ERC (IRC config)](#orgc7ddd74)
+  - [Render this file for display on the web](#org7b2b8c5)
+  - [Footer](#org531451e)
+  - [Styles for HTML export](#orgbc77faa)
+- [Notes and Such](#org4e32b9f)
+  - [Monospace Fonts](#org7bc7c26)
+  - [Proportional Fonts](#orgc995d4a)
+  - [Authentication and Secrets in Emacs](#orge7a94cf)
+  - [Packages to Try](#orgc42e58a)
+  - [To do](#orgc75f039)
 
 
 
-<a id="org9c8ad9c"></a>
+<a id="org3e3ad05"></a>
 
 # What is this?
 
@@ -42,7 +42,7 @@ emacs
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
 
 
-<a id="org1486268"></a>
+<a id="orgacb466b"></a>
 
 # Entrypoint
 
@@ -92,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org7185f6a"></a>
+<a id="orga7aef49"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org835e2cf"></a>
+<a id="orga52ff30"></a>
 
 ## Bootstrap
 
@@ -159,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org91f5f97"></a>
+<a id="org5d66fb7"></a>
 
 ## Package Installation and Configuration
 
@@ -254,7 +254,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org64cfa27) section.
+It's mostly used below in the [global keybindings](#orgeb160f9) section.
 
 ```emacs-lisp
 (use-package general
@@ -433,7 +433,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="org73df2c9"></a>
+<a id="org07f74f1"></a>
 
 ## Extra Packages
 
@@ -535,7 +535,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="orgb7d9b3c"></a>
+<a id="org6e0d6b6"></a>
 
 ## Language Configuration
 
@@ -688,8 +688,8 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 
 	 ;; using the ,c namespace for repl stuff to follow the C-c convention
 	 ;; found in other places in Emacs
-	 ",cg"     'gorepl-run
-	 ",cc"     'gorepl-run-load-current-file
+	 ",cc"     'gorepl-run
+	 ",cg"     'gorepl-run-load-current-file
 	 ",cx"     'gorepl-eval-region
 	 ",cl"     'gorepl-eval-line
 
@@ -704,6 +704,9 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 
 	 "zo"     'origami-open-node
 	 "zO"     'origami-open-node-recursively
+
+	 ;; except for when it totally breaks lol
+	 "zr"     'origami-reset
 	)
 
 	(autoload 'go-mode "go-mode" nil t)
@@ -713,8 +716,6 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 -   Hooks
 
 	```emacs-lisp
-
-	(add-hook 'before-save-hook 'gofmt-before-save)
 	;; disable "Organize Imports" warning that never goes away
 	(add-hook 'go-mode-hook
 		  (lambda ()
@@ -729,8 +730,12 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 	(add-hook 'go-mode-hook (lambda ()
 				  (set (make-local-variable 'tab-width) 2)))
 
-	(load-file "~/.emacs.d/vendor/go-dlv.el")
-	(require 'go-dlv)
+
+	(defun lsp-go-install-save-hooks ()
+	  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+	  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+	(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 	```
 
 
@@ -811,7 +816,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org64cfa27"></a>
+<a id="orgeb160f9"></a>
 
 ## Global Keybindings
 
@@ -903,7 +908,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org17015bf"></a>
+<a id="orgb3203a1"></a>
 
 ## Org Mode Settings
 
@@ -964,7 +969,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org718a62a"></a>
+<a id="orgaf640f3"></a>
 
 ## Hostname-based tweaks
 
@@ -999,7 +1004,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org51c4c32"></a>
+<a id="org95bb210"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1206,7 +1211,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="orgd3ae7a5"></a>
+<a id="orgc7ddd74"></a>
 
 ## ERC (IRC config)
 
@@ -1268,7 +1273,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgc6451a7"></a>
+<a id="org7b2b8c5"></a>
 
 ## Render this file for display on the web
 
@@ -1295,7 +1300,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org416046e"></a>
+<a id="org531451e"></a>
 
 ## Footer
 
@@ -1306,7 +1311,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org77a3575"></a>
+<a id="orgbc77faa"></a>
 
 ## Styles for HTML export
 
@@ -1323,14 +1328,14 @@ body {
 ```
 
 
-<a id="orgeef1ed3"></a>
+<a id="org4e32b9f"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org64150c2"></a>
+<a id="org7bc7c26"></a>
 
 ## Monospace Fonts
 
@@ -1362,14 +1367,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org3c1ea8c"></a>
+<a id="orgc995d4a"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org9b469a4"></a>
+<a id="orge7a94cf"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1378,7 +1383,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org6c6e147"></a>
+<a id="orgc42e58a"></a>
 
 ## Packages to Try
 
@@ -1395,7 +1400,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="orga232680"></a>
+<a id="orgc75f039"></a>
 
 ## To do
 
