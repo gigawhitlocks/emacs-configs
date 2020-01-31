@@ -1,28 +1,28 @@
-- [What is this?](#org3e3ad05)
-- [Entrypoint](#orgacb466b)
-- [My Environment](#orga7aef49)
-  - [Bootstrap](#orga52ff30)
-  - [Package Installation and Configuration](#org5d66fb7)
-  - [Extra Packages](#org07f74f1)
-  - [Language Configuration](#org6e0d6b6)
-  - [Global Keybindings](#orgeb160f9)
-  - [Org Mode Settings](#orgb3203a1)
-  - [Hostname-based tweaks](#orgaf640f3)
-  - [Miscellaneous standalone global configuration changes](#org95bb210)
-  - [ERC (IRC config)](#orgc7ddd74)
-  - [Render this file for display on the web](#org7b2b8c5)
-  - [Footer](#org531451e)
-  - [Styles for HTML export](#orgbc77faa)
-- [Notes and Such](#org4e32b9f)
-  - [Monospace Fonts](#org7bc7c26)
-  - [Proportional Fonts](#orgc995d4a)
-  - [Authentication and Secrets in Emacs](#orge7a94cf)
-  - [Packages to Try](#orgc42e58a)
-  - [To do](#orgc75f039)
+- [What is this?](#org39ffc1d)
+- [Entrypoint](#org2a144c4)
+- [My Environment](#orgd10286f)
+  - [Bootstrap](#org14a8a1d)
+  - [Package Installation and Configuration](#org8360c0e)
+  - [Extra Packages](#org2fe0f9a)
+  - [Language Configuration](#orgbc8a9e5)
+  - [Global Keybindings](#orgc6e6505)
+  - [Org Mode Settings](#org5988cac)
+  - [Hostname-based tweaks](#org7e6ff71)
+  - [Miscellaneous standalone global configuration changes](#orgdce40cd)
+  - [ERC (IRC config)](#org1150dfe)
+  - [Render this file for display on the web](#orgef6ebb5)
+  - [Footer](#org94862dd)
+  - [Styles for HTML export](#orgb5f5b0d)
+- [Notes and Such](#orgcef114c)
+  - [Monospace Fonts](#org7f361b3)
+  - [Proportional Fonts](#org942e90d)
+  - [Authentication and Secrets in Emacs](#org288b4c5)
+  - [Packages to Try](#org0a8f216)
+  - [To do](#org512e799)
 
 
 
-<a id="org3e3ad05"></a>
+<a id="org39ffc1d"></a>
 
 # What is this?
 
@@ -42,7 +42,7 @@ emacs
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
 
 
-<a id="orgacb466b"></a>
+<a id="org2a144c4"></a>
 
 # Entrypoint
 
@@ -92,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orga7aef49"></a>
+<a id="orgd10286f"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orga52ff30"></a>
+<a id="org14a8a1d"></a>
 
 ## Bootstrap
 
@@ -159,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org5d66fb7"></a>
+<a id="org8360c0e"></a>
 
 ## Package Installation and Configuration
 
@@ -254,7 +254,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgeb160f9) section.
+It's mostly used below in the [global keybindings](#orgc6e6505) section.
 
 ```emacs-lisp
 (use-package general
@@ -433,7 +433,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="org07f74f1"></a>
+<a id="org2fe0f9a"></a>
 
 ## Extra Packages
 
@@ -535,7 +535,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org6e0d6b6"></a>
+<a id="orgbc8a9e5"></a>
 
 ## Language Configuration
 
@@ -816,7 +816,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgeb160f9"></a>
+<a id="orgc6e6505"></a>
 
 ## Global Keybindings
 
@@ -881,6 +881,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "js"     'bookmark-set
   "jo"     'org-babel-tangle-jump-to-org
   "ic"     'insert-char
+  "is"     'yas-insert-snippet
   "p"      'projectile-command-map
   "pf"     'helm-projectile-find-file
   "p!"     'projectile-run-async-shell-command-in-root
@@ -908,7 +909,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgb3203a1"></a>
+<a id="org5988cac"></a>
 
 ## Org Mode Settings
 
@@ -969,7 +970,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="orgaf640f3"></a>
+<a id="org7e6ff71"></a>
 
 ## Hostname-based tweaks
 
@@ -1004,7 +1005,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org95bb210"></a>
+<a id="orgdce40cd"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1211,7 +1212,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="orgc7ddd74"></a>
+<a id="org1150dfe"></a>
 
 ## ERC (IRC config)
 
@@ -1273,7 +1274,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org7b2b8c5"></a>
+<a id="orgef6ebb5"></a>
 
 ## Render this file for display on the web
 
@@ -1300,7 +1301,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org531451e"></a>
+<a id="org94862dd"></a>
 
 ## Footer
 
@@ -1311,7 +1312,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgbc77faa"></a>
+<a id="orgb5f5b0d"></a>
 
 ## Styles for HTML export
 
@@ -1328,14 +1329,14 @@ body {
 ```
 
 
-<a id="org4e32b9f"></a>
+<a id="orgcef114c"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org7bc7c26"></a>
+<a id="org7f361b3"></a>
 
 ## Monospace Fonts
 
@@ -1367,14 +1368,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orgc995d4a"></a>
+<a id="org942e90d"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="orge7a94cf"></a>
+<a id="org288b4c5"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1383,7 +1384,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgc42e58a"></a>
+<a id="org0a8f216"></a>
 
 ## Packages to Try
 
@@ -1400,7 +1401,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="orgc75f039"></a>
+<a id="org512e799"></a>
 
 ## To do
 

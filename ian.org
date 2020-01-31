@@ -720,6 +720,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "js"     'bookmark-set
     "jo"     'org-babel-tangle-jump-to-org
     "ic"     'insert-char
+    "is"     'yas-insert-snippet
     "p"      'projectile-command-map
     "pf"     'helm-projectile-find-file
     "p!"     'projectile-run-async-shell-command-in-root
