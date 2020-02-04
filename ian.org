@@ -426,7 +426,7 @@ LSP provides a generic interface for text editors to talk to various language se
 
   (use-package lsp-ui
     :config
-    (setq lsp-ui-doc-position 'bottom))
+    (setq lsp-ui-doc-use-childframe nil))
 
   (use-package company-lsp)
   (use-package lsp-origami)
