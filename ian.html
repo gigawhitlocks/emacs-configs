@@ -63,39 +63,39 @@ for the JavaScript code in this tag.
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#org936f66e">What is this?</a></li>
-<li><a href="#orgd724d27">Entrypoint</a></li>
-<li><a href="#org71850ad">My Environment</a>
+<li><a href="#org67e0a9a">What is this?</a></li>
+<li><a href="#org8e26ec6">Entrypoint</a></li>
+<li><a href="#org2ac4189">My Environment</a>
 <ul>
-<li><a href="#orgb850740">Bootstrap</a></li>
-<li><a href="#orga167c77">Package Installation and Configuration</a></li>
-<li><a href="#org34c4aab">Extra Packages</a></li>
-<li><a href="#org79ae81e">Language Configuration</a></li>
-<li><a href="#orgefb3eb0">Global Keybindings</a></li>
-<li><a href="#org265e4ab">Org Mode Settings</a></li>
-<li><a href="#org2c4c177">Hostname-based tweaks</a></li>
-<li><a href="#org6608a07">Miscellaneous standalone global configuration changes</a></li>
-<li><a href="#org8d5a770">ERC (IRC config)</a></li>
-<li><a href="#org0172dab">Render this file for display on the web</a></li>
-<li><a href="#orgf71ad19">Footer</a></li>
-<li><a href="#org6c787a2">Styles for HTML export</a></li>
+<li><a href="#orgcd12b52">Bootstrap</a></li>
+<li><a href="#orgb69e6b0">Package Installation and Configuration</a></li>
+<li><a href="#orgafd0bac">Extra Packages</a></li>
+<li><a href="#org1f69fca">Language Configuration</a></li>
+<li><a href="#org900623e">Global Keybindings</a></li>
+<li><a href="#orgf2512dc">Org Mode Settings</a></li>
+<li><a href="#org312f9de">Hostname-based tweaks</a></li>
+<li><a href="#org4fe8e30">Miscellaneous standalone global configuration changes</a></li>
+<li><a href="#org139f980">ERC (IRC config)</a></li>
+<li><a href="#org0f6ac01">Render this file for display on the web</a></li>
+<li><a href="#org14858f1">Footer</a></li>
+<li><a href="#orgea53a58">Styles for HTML export</a></li>
 </ul>
 </li>
-<li><a href="#org03dbc5a">Notes and Such</a>
+<li><a href="#orge037f89">Notes and Such</a>
 <ul>
-<li><a href="#org0b2edb8">Monospace Fonts</a></li>
-<li><a href="#org44b21fd">Proportional Fonts</a></li>
-<li><a href="#orged4541e">Authentication and Secrets in Emacs</a></li>
-<li><a href="#orgd7cfa09">Packages to Try</a></li>
-<li><a href="#org75d61f3">To do</a></li>
+<li><a href="#orgc516487">Monospace Fonts</a></li>
+<li><a href="#org3889259">Proportional Fonts</a></li>
+<li><a href="#orgb693ba5">Authentication and Secrets in Emacs</a></li>
+<li><a href="#orga1feb94">Packages to Try</a></li>
+<li><a href="#org64a24ff">To do</a></li>
 </ul>
 </li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org936f66e" class="outline-2">
-<h2 id="org936f66e">What is this?</h2>
-<div class="outline-text-2" id="text-org936f66e">
+<div id="outline-container-org67e0a9a" class="outline-2">
+<h2 id="org67e0a9a">What is this?</h2>
+<div class="outline-text-2" id="text-org67e0a9a">
 <p>
 This is my Emacs configuration file, which I install at <code>~/.emacs.d/ian.org</code>. It's written in Org mode syntax, which exports to a number of other formats, including HTML and Markdown, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment.
 </p>
@@ -123,9 +123,9 @@ No guarantees, though. This stuff is for personal use, so it isn't tested on sys
 </div>
 </div>
 
-<div id="outline-container-orgd724d27" class="outline-2">
-<h2 id="orgd724d27">Entrypoint</h2>
-<div class="outline-text-2" id="text-orgd724d27">
+<div id="outline-container-org8e26ec6" class="outline-2">
+<h2 id="org8e26ec6">Entrypoint</h2>
+<div class="outline-text-2" id="text-org8e26ec6">
 <p>
 Using Org for one's configuration is not standard Emacs behavior, so I must first configure Emacs to load this file (<code>ian.org</code>) as its first action when it starts up. By default, Emacs runs <code>init.el</code> at the beginning of execution. The following piece of code <a href="https://orgmode.org/manual/Extracting-source-code.html">tangles</a> to <code>init.el</code>, and <code>init.el</code> containing the following must be checked in, because this snippet tangles <i>this</i> file (<code>ian.org</code>), so <b><b>it is this piece of code that starts the whole process of loading all of this configuration</b></b>.
 </p>
@@ -182,9 +182,9 @@ The rest of the code that is executed begins with the routines defined by this f
 </div>
 </div>
 
-<div id="outline-container-org71850ad" class="outline-2">
-<h2 id="org71850ad">My Environment</h2>
-<div class="outline-text-2" id="text-org71850ad">
+<div id="outline-container-org2ac4189" class="outline-2">
+<h2 id="org2ac4189">My Environment</h2>
+<div class="outline-text-2" id="text-org2ac4189">
 <p>
 The point of Emacs, and the reason every Emacs user should write his or her own configuration, is to build your own environment so that it behaves how you want it to.
 </p>
@@ -202,9 +202,9 @@ After running the <code>init.el</code> entrypoint, this file is tangled to <code
 </p>
 </div>
 
-<div id="outline-container-orgb850740" class="outline-3">
-<h3 id="orgb850740">Bootstrap</h3>
-<div class="outline-text-3" id="text-orgb850740">
+<div id="outline-container-orgcd12b52" class="outline-3">
+<h3 id="orgcd12b52">Bootstrap</h3>
+<div class="outline-text-3" id="text-orgcd12b52">
 <p>
 The first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with <code>git</code>, so I use <code>use-package</code> to ensure that packages are installed from my configuration file.
 </p>
@@ -263,16 +263,16 @@ Once this is done I need to install and configure any third party packages that 
 </div>
 </div>
 
-<div id="outline-container-orga167c77" class="outline-3">
-<h3 id="orga167c77">Package Installation and Configuration</h3>
-<div class="outline-text-3" id="text-orga167c77">
+<div id="outline-container-orgb69e6b0" class="outline-3">
+<h3 id="orgb69e6b0">Package Installation and Configuration</h3>
+<div class="outline-text-3" id="text-orgb69e6b0">
 <p>
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 </p>
 </div>
-<div id="outline-container-org243ca86" class="outline-4">
-<h4 id="org243ca86">Install and Configure Treemacs</h4>
-<div class="outline-text-4" id="text-org243ca86">
+<div id="outline-container-org0fbb3fb" class="outline-4">
+<h4 id="org0fbb3fb">Install and Configure Treemacs</h4>
+<div class="outline-text-4" id="text-org0fbb3fb">
 <p>
 Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between projects. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
 </p>
@@ -284,9 +284,9 @@ Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bin
 </div>
 </div>
 </div>
-<div id="outline-container-orgb452cf3" class="outline-4">
-<h4 id="orgb452cf3">Emoji 🙏</h4>
-<div class="outline-text-4" id="text-orgb452cf3">
+<div id="outline-container-org361539f" class="outline-4">
+<h4 id="org361539f">Emoji 🙏</h4>
+<div class="outline-text-4" id="text-org361539f">
 <p>
 Provided by <a href="https://github.com/iqbalansari/emacs-emojify">emojify</a>.
 </p>
@@ -301,9 +301,9 @@ Provided by <a href="https://github.com/iqbalansari/emacs-emojify">emojify</a>.
 </div>
 </div>
 </div>
-<div id="outline-container-org4ca92dd" class="outline-4">
-<h4 id="org4ca92dd">Configure Recent File Tracking</h4>
-<div class="outline-text-4" id="text-org4ca92dd">
+<div id="outline-container-orgac4dee2" class="outline-4">
+<h4 id="orgac4dee2">Configure Recent File Tracking</h4>
+<div class="outline-text-4" id="text-orgac4dee2">
 <p>
 Emacs comes with <code>recentf-mode</code> which helps me remember what I was doing after I restart my session.
 </p>
@@ -317,9 +317,9 @@ Emacs comes with <code>recentf-mode</code> which helps me remember what I was do
 </div>
 </div>
 </div>
-<div id="outline-container-org6c59f10" class="outline-4">
-<h4 id="org6c59f10">Install and Configure Projectile</h4>
-<div class="outline-text-4" id="text-org6c59f10">
+<div id="outline-container-org38f1cea" class="outline-4">
+<h4 id="org38f1cea">Install and Configure Projectile</h4>
+<div class="outline-text-4" id="text-org38f1cea">
 <p>
 <a href="https://projectile.readthedocs.io/en/latest/"><code>projectile</code></a> is a fantastic package that provides all kinds of project context-aware functions for things like:
 </p>
@@ -341,9 +341,9 @@ It's great, it gets installed early, can't live without it. 💘 <code>projectil
 </div>
 </div>
 </div>
-<div id="outline-container-orge3036ba" class="outline-4">
-<h4 id="orge3036ba">Install and Configure Evil Mode</h4>
-<div class="outline-text-4" id="text-orge3036ba">
+<div id="outline-container-org37cb04a" class="outline-4">
+<h4 id="org37cb04a">Install and Configure Evil Mode</h4>
+<div class="outline-text-4" id="text-org37cb04a">
 <p>
 <a href="https://github.com/emacs-evil/evil"><code>evil-mode</code></a> fundamentally changes Emacs so that while editing all of the modes and keybindings from <code>vim</code> are present.
 It's controversial but I think modal editing is brilliant and have been using <code>vim</code> bindings since the mid-aughts. No going back.
@@ -373,15 +373,15 @@ It's controversial but I think modal editing is brilliant and have been using <c
 </div>
 </div>
 </div>
-<div id="outline-container-orge8691a8" class="outline-4">
-<h4 id="orge8691a8">Install and Configure Keybindings Helper</h4>
-<div class="outline-text-4" id="text-orge8691a8">
+<div id="outline-container-org78536eb" class="outline-4">
+<h4 id="org78536eb">Install and Configure Keybindings Helper</h4>
+<div class="outline-text-4" id="text-org78536eb">
 <p>
 <a href="https://github.com/noctuid/general.el">General</a> provides more consistent and convenient keybindings, especially with <code>evil-mode</code>.
 </p>
 
 <p>
-It's mostly used below in the <a href="#orgefb3eb0">global keybindings</a> section.
+It's mostly used below in the <a href="#org900623e">global keybindings</a> section.
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">general</span>
@@ -393,9 +393,9 @@ It's mostly used below in the <a href="#orgefb3eb0">global keybindings</a> secti
 </div>
 </div>
 </div>
-<div id="outline-container-org2c335ad" class="outline-4">
-<h4 id="org2c335ad">Install and Configure Helm for Command and Control</h4>
-<div class="outline-text-4" id="text-org2c335ad">
+<div id="outline-container-orgd3cd073" class="outline-4">
+<h4 id="orgd3cd073">Install and Configure Helm for Command and Control</h4>
+<div class="outline-text-4" id="text-orgd3cd073">
 <p>
 <a href="https://github.com/emacs-helm/helm">Helm</a> is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press <code>M-x</code> (with the way I have it configured, anyway).
 </p>
@@ -416,9 +416,9 @@ It's mostly used below in the <a href="#orgefb3eb0">global keybindings</a> secti
 </div>
 </div>
 </div>
-<div id="outline-container-org0bc80c5" class="outline-4">
-<h4 id="org0bc80c5">Install and Configure Magit</h4>
-<div class="outline-text-4" id="text-org0bc80c5">
+<div id="outline-container-orgd67ea0b" class="outline-4">
+<h4 id="orgd67ea0b">Install and Configure Magit</h4>
+<div class="outline-text-4" id="text-orgd67ea0b">
 <p>
 <a href="https://github.com/magit/magit">Magit</a> is an incredible integrated <code>git</code> UI for Emacs.
 </p>
@@ -465,9 +465,9 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </div>
 </div>
 
-<div id="outline-container-org35b54ba" class="outline-4">
-<h4 id="org35b54ba">Install and Configure <code>git-timemachine</code></h4>
-<div class="outline-text-4" id="text-org35b54ba">
+<div id="outline-container-orgbbc2265" class="outline-4">
+<h4 id="orgbbc2265">Install and Configure <code>git-timemachine</code></h4>
+<div class="outline-text-4" id="text-orgbbc2265">
 <p>
 <code>git-timeline</code> lets you step through the history of a file.
 </p>
@@ -493,9 +493,9 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </div>
 </div>
 </div>
-<div id="outline-container-org783a18f" class="outline-4">
-<h4 id="org783a18f">Install and Configure <code>which-key</code></h4>
-<div class="outline-text-4" id="text-org783a18f">
+<div id="outline-container-org33e6a38" class="outline-4">
+<h4 id="org33e6a38">Install and Configure <code>which-key</code></h4>
+<div class="outline-text-4" id="text-org33e6a38">
 <p>
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so <a href="https://github.com/justbur/emacs-which-key"><code>which-key</code></a> pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 </p>
@@ -511,9 +511,9 @@ It can be difficult to to remember and discover all of the available shortcuts i
 </div>
 </div>
 </div>
-<div id="outline-container-org05c7825" class="outline-4">
-<h4 id="org05c7825">Colorize ANSI colors in <code>*compilation*</code></h4>
-<div class="outline-text-4" id="text-org05c7825">
+<div id="outline-container-org1d91709" class="outline-4">
+<h4 id="org1d91709">Colorize ANSI colors in <code>*compilation*</code></h4>
+<div class="outline-text-4" id="text-org1d91709">
 <p>
 If you run a command through <code>M-x compile</code> by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the <code>*compilation*</code> buffer.
 </p>
@@ -537,9 +537,9 @@ If you run a command through <code>M-x compile</code> by default Emacs prints AN
 </div>
 </div>
 </div>
-<div id="outline-container-orgbe395ca" class="outline-4">
-<h4 id="orgbe395ca">Configure the Startup Splashscreen</h4>
-<div class="outline-text-4" id="text-orgbe395ca">
+<div id="outline-container-org1bdc9af" class="outline-4">
+<h4 id="org1bdc9af">Configure the Startup Splashscreen</h4>
+<div class="outline-text-4" id="text-org1bdc9af">
 <p>
 Following Spacemacs's style, I use the <a href="https://github.com/emacs-dashboard/emacs-dashboard"><code>emacs-dashboard</code></a> project and <a href="https://github.com/domtronn/all-the-icons.el"><code>all-the-icons</code></a> to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
 </p>
@@ -565,9 +565,9 @@ Actually, looking at the project page, the icons don't seem to be working for me
 </div>
 </div>
 </div>
-<div id="outline-container-org9974309" class="outline-4">
-<h4 id="org9974309">Install and Configure Blogging Tools</h4>
-<div class="outline-text-4" id="text-org9974309">
+<div id="outline-container-org6112f35" class="outline-4">
+<h4 id="org6112f35">Install and Configure Blogging Tools</h4>
+<div class="outline-text-4" id="text-org6112f35">
 <p>
 Easy Hugo is an interactive UI for managing a Hugo site.
 </p>
@@ -579,9 +579,9 @@ Easy Hugo is an interactive UI for managing a Hugo site.
 </div>
 </div>
 </div>
-<div id="outline-container-org234f073" class="outline-4">
-<h4 id="org234f073">Install and Configure GNU Hyperbole</h4>
-<div class="outline-text-4" id="text-org234f073">
+<div id="outline-container-org5e3d899" class="outline-4">
+<h4 id="org5e3d899">Install and Configure GNU Hyperbole</h4>
+<div class="outline-text-4" id="text-org5e3d899">
 <p>
 <a href="https://www.gnu.org/software/hyperbole/">GNU Hyperbole</a> adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
 </p>
@@ -596,9 +596,9 @@ It adds a slew of other features as well &#x2013; hyperlinks between documents, 
 </div>
 </div>
 </div>
-<div id="outline-container-orgab297cc" class="outline-4">
-<h4 id="orgab297cc">Install templating tool and default snippets</h4>
-<div class="outline-text-4" id="text-orgab297cc">
+<div id="outline-container-orgd42b1d5" class="outline-4">
+<h4 id="orgd42b1d5">Install templating tool and default snippets</h4>
+<div class="outline-text-4" id="text-orgd42b1d5">
 <p>
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more.
 <a href="https://www.emacswiki.org/emacs/Yasnippet">Here are the YASnippet docs.</a>
@@ -614,16 +614,16 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 </div>
 </div>
 </div>
-<div id="outline-container-org34c4aab" class="outline-3">
-<h3 id="org34c4aab">Extra Packages</h3>
-<div class="outline-text-3" id="text-org34c4aab">
+<div id="outline-container-orgafd0bac" class="outline-3">
+<h3 id="orgafd0bac">Extra Packages</h3>
+<div class="outline-text-3" id="text-orgafd0bac">
 <p>
 Packages with a smaller effect on the experience.
 </p>
 </div>
-<div id="outline-container-orgfceebc6" class="outline-4">
-<h4 id="orgfceebc6">git-gutter shows unstaged changes in the gutter</h4>
-<div class="outline-text-4" id="text-orgfceebc6">
+<div id="outline-container-orga39ed22" class="outline-4">
+<h4 id="orga39ed22">git-gutter shows unstaged changes in the gutter</h4>
+<div class="outline-text-4" id="text-orga39ed22">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">git-gutter</span>
     <span style="color: #006FE0;">:delight</span>
@@ -635,9 +635,9 @@ Packages with a smaller effect on the experience.
 </div>
 </div>
 </div>
-<div id="outline-container-orgc94ad8f" class="outline-4">
-<h4 id="orgc94ad8f">Highlight the current line</h4>
-<div class="outline-text-4" id="text-orgc94ad8f">
+<div id="outline-container-org674e805" class="outline-4">
+<h4 id="org674e805">Highlight the current line</h4>
+<div class="outline-text-4" id="text-org674e805">
 <p>
 I like to highlight the current line so that it is easy to identify where my cursor is.
 </p>
@@ -648,9 +648,9 @@ I like to highlight the current line so that it is easy to identify where my cur
 </div>
 </div>
 </div>
-<div id="outline-container-org5ef6601" class="outline-4">
-<h4 id="org5ef6601">Rainbow delimiters make it easier to identify matching parentheses</h4>
-<div class="outline-text-4" id="text-org5ef6601">
+<div id="outline-container-org9e65e1b" class="outline-4">
+<h4 id="org9e65e1b">Rainbow delimiters make it easier to identify matching parentheses</h4>
+<div class="outline-text-4" id="text-org9e65e1b">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">rainbow-delimiters</span>
   <span style="color: #006FE0;">:config</span>
@@ -661,18 +661,18 @@ I like to highlight the current line so that it is easy to identify where my cur
 </div>
 </div>
 </div>
-<div id="outline-container-org2d14fc9" class="outline-4">
-<h4 id="org2d14fc9">restart-emacs does what it says on the tin</h4>
-<div class="outline-text-4" id="text-org2d14fc9">
+<div id="outline-container-org5fb391e" class="outline-4">
+<h4 id="org5fb391e">restart-emacs does what it says on the tin</h4>
+<div class="outline-text-4" id="text-org5fb391e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">restart-emacs</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgc115112" class="outline-4">
-<h4 id="orgc115112">s is a string manipulation utility</h4>
-<div class="outline-text-4" id="text-orgc115112">
+<div id="outline-container-orgfa8612a" class="outline-4">
+<h4 id="orgfa8612a">s is a string manipulation utility</h4>
+<div class="outline-text-4" id="text-orgfa8612a">
 <p>
 I use this for a trim() function far down below. I think it gets pulled in as a dependency anyway, but in any case it provides a bunch of helper functions and stuff. <a href="https://github.com/magnars/s.el">Docs are here.</a>
 </p>
@@ -682,18 +682,18 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 </div>
 </div>
 </div>
-<div id="outline-container-org4a63622" class="outline-4">
-<h4 id="org4a63622">a systemd file mode</h4>
-<div class="outline-text-4" id="text-org4a63622">
+<div id="outline-container-org178909f" class="outline-4">
+<h4 id="org178909f">a systemd file mode</h4>
+<div class="outline-text-4" id="text-org178909f">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">systemd</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org7ee59cc" class="outline-4">
-<h4 id="org7ee59cc">ranger is a standalone file browser</h4>
-<div class="outline-text-4" id="text-org7ee59cc">
+<div id="outline-container-org9acaff4" class="outline-4">
+<h4 id="org9acaff4">ranger is a standalone file browser</h4>
+<div class="outline-text-4" id="text-org9acaff4">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">ranger</span>
   <span style="color: #006FE0;">:config</span>
@@ -702,9 +702,9 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 </div>
 </div>
 </div>
-<div id="outline-container-org7cfdd38" class="outline-4">
-<h4 id="org7cfdd38">Install and Configure Company for Auto-Completion</h4>
-<div class="outline-text-4" id="text-org7cfdd38">
+<div id="outline-container-org8d8da0a" class="outline-4">
+<h4 id="org8d8da0a">Install and Configure Company for Auto-Completion</h4>
+<div class="outline-text-4" id="text-org8d8da0a">
 <p>
 Great tab-complete and auto-complete with <a href="https://github.com/company-mode/company-mode">Company Mode</a>.
 </p>
@@ -722,9 +722,9 @@ Great tab-complete and auto-complete with <a href="https://github.com/company-mo
 </div>
 </div>
 </div>
-<div id="outline-container-orge25c84c" class="outline-4">
-<h4 id="orge25c84c">Install and Configure Flycheck for Linting</h4>
-<div class="outline-text-4" id="text-orge25c84c">
+<div id="outline-container-org31fc976" class="outline-4">
+<h4 id="org31fc976">Install and Configure Flycheck for Linting</h4>
+<div class="outline-text-4" id="text-org31fc976">
 <p>
 <a href="https://www.flycheck.org/en/latest/">Flycheck</a> is an on-the-fly checker that hooks into most language backends.
 </p>
@@ -740,13 +740,13 @@ Great tab-complete and auto-complete with <a href="https://github.com/company-mo
 </div>
 </div>
 
-<div id="outline-container-org79ae81e" class="outline-3">
-<h3 id="org79ae81e">Language Configuration</h3>
-<div class="outline-text-3" id="text-org79ae81e">
+<div id="outline-container-org1f69fca" class="outline-3">
+<h3 id="org1f69fca">Language Configuration</h3>
+<div class="outline-text-3" id="text-org1f69fca">
 </div>
-<div id="outline-container-orgf115024" class="outline-4">
-<h4 id="orgf115024">Language Server Protocol</h4>
-<div class="outline-text-4" id="text-orgf115024">
+<div id="outline-container-orgdaaffde" class="outline-4">
+<h4 id="orgdaaffde">Language Server Protocol</h4>
+<div class="outline-text-4" id="text-orgdaaffde">
 <p>
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 </p>
@@ -759,7 +759,7 @@ LSP provides a generic interface for text editors to talk to various language se
 
 <span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">lsp-ui</span>
   <span style="color: #006FE0;">:config</span>
-  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> lsp-ui-doc-position 'bottom<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">setq</span> lsp-ui-doc-use-childframe nil<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 
 <span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">company-lsp</span><span style="color: #707183;">)</span>
 <span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">lsp-origami</span><span style="color: #707183;">)</span>
@@ -770,9 +770,9 @@ LSP provides a generic interface for text editors to talk to various language se
 </div>
 </div>
 
-<div id="outline-container-org1898ba4" class="outline-4">
-<h4 id="org1898ba4">YAML</h4>
-<div class="outline-text-4" id="text-org1898ba4">
+<div id="outline-container-orgd4fc07c" class="outline-4">
+<h4 id="orgd4fc07c">YAML</h4>
+<div class="outline-text-4" id="text-orgd4fc07c">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">yaml-mode</span><span style="color: #707183;">)</span>
 </pre>
@@ -780,9 +780,9 @@ LSP provides a generic interface for text editors to talk to various language se
 </div>
 </div>
 
-<div id="outline-container-org6318714" class="outline-4">
-<h4 id="org6318714">Markdown</h4>
-<div class="outline-text-4" id="text-org6318714">
+<div id="outline-container-org3441538" class="outline-4">
+<h4 id="org3441538">Markdown</h4>
+<div class="outline-text-4" id="text-org3441538">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">markdown-mode</span>
   <span style="color: #006FE0;">:ensure</span> t
@@ -800,9 +800,9 @@ LSP provides a generic interface for text editors to talk to various language se
 </div>
 </div>
 
-<div id="outline-container-org45b654f" class="outline-4">
-<h4 id="org45b654f">Docker</h4>
-<div class="outline-text-4" id="text-org45b654f">
+<div id="outline-container-orgc553fd2" class="outline-4">
+<h4 id="orgc553fd2">Docker</h4>
+<div class="outline-text-4" id="text-orgc553fd2">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">dockerfile-mode</span><span style="color: #707183;">)</span>
 <span style="color: #707183;">(</span>add-to-list 'auto-mode-alist '<span style="color: #7388D6;">(</span><span style="color: #008000;">"Dockerfile\\'"</span> . dockerfile-mode<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
@@ -812,9 +812,9 @@ LSP provides a generic interface for text editors to talk to various language se
 </div>
 </div>
 
-<div id="outline-container-org5121524" class="outline-4">
-<h4 id="org5121524">Python</h4>
-<div class="outline-text-4" id="text-org5121524">
+<div id="outline-container-org84178a5" class="outline-4">
+<h4 id="org84178a5">Python</h4>
+<div class="outline-text-4" id="text-org84178a5">
 <p>
 My Python config is really lazy. I think there's a Python language server and that's probably better than anaconda-mode. Incidentally, <code>anaconda-mode</code> doesn't seem to be related to anaconda.io, and I always thought it was. 🤷
 </p>
@@ -853,9 +853,9 @@ So the convention for use is:
 </div>
 </div>
 
-<div id="outline-container-org6e29392" class="outline-4">
-<h4 id="org6e29392">Go</h4>
-<div class="outline-text-4" id="text-org6e29392">
+<div id="outline-container-orgd921073" class="outline-4">
+<h4 id="orgd921073">Go</h4>
+<div class="outline-text-4" id="text-orgd921073">
 <p>
 Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
@@ -879,17 +879,34 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">native go mode</span>
 <span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">go-mode</span>
   <span style="color: #006FE0;">:hook</span> <span style="color: #7388D6;">(</span><span style="color: #909183;">(</span>go-mode . lsp-deferred<span style="color: #909183;">)</span>
-	 <span style="color: #909183;">(</span>go-mode . set-gopls-lib-dirs<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
+	 <span style="color: #909183;">(</span>go-mode . set-gopls-lib-dirs<span style="color: #909183;">)</span>
+	 <span style="color: #909183;">(</span>go-mode . yas-minor-mode<span style="color: #909183;">)</span><span style="color: #7388D6;">)</span>
   <span style="color: #006FE0;">:config</span>
   <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">fixes ctrl-o after goto-definition by telling evil that godef-jump jumps</span>
   <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">I don't believe I need to do this anymore, as I use lsp instead of godef now</span>
   <span style="color: #7388D6;">(</span>evil-add-command-properties #'godef-jump <span style="color: #006FE0;">:jump</span> t<span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
+
+<span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">a little helper for running the current test</span>
+<span style="color: #707183;">(</span><span style="color: #0000FF;">defun</span> <span style="color: #006699;">go-run-test</span> <span style="color: #7388D6;">()</span>
+  <span style="color: #036A07;">"Run the test at point in Go."</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">interactive</span><span style="color: #7388D6;">)</span>
+  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">save-excursion</span>
+    <span style="color: #909183;">(</span>go-goto-function-name<span style="color: #909183;">)</span>
+    <span style="color: #909183;">(</span><span style="color: #0000FF;">let</span> <span style="color: #709870;">(</span><span style="color: #907373;">(</span>name <span style="color: #6276BA;">(</span>current-word<span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span><span style="color: #0000FF;">let</span> <span style="color: #907373;">(</span><span style="color: #6276BA;">(</span>b <span style="color: #858580;">(</span>get-buffer <span style="color: #008000;">"*go test*"</span><span style="color: #858580;">)</span><span style="color: #6276BA;">)</span><span style="color: #907373;">)</span>
+	<span style="color: #907373;">(</span><span style="color: #0000FF;">if</span> b <span style="color: #6276BA;">(</span>kill-buffer <span style="color: #008000;">"*go test*"</span><span style="color: #6276BA;">)</span><span style="color: #907373;">)</span><span style="color: #709870;">)</span>
+
+      <span style="color: #709870;">(</span>split-window-sensibly<span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span>view-buffer <span style="color: #008000;">"*go test*"</span><span style="color: #709870;">)</span>
+
+      <span style="color: #709870;">(</span>start-process <span style="color: #008000;">"go test"</span> <span style="color: #008000;">"*go test*"</span> <span style="color: #008000;">"go"</span> <span style="color: #008000;">"test"</span> <span style="color: #008000;">"-run"</span> name<span style="color: #709870;">)</span>
+      <span style="color: #709870;">(</span>message <span style="color: #008000;">"Running test %s"</span> name<span style="color: #709870;">)</span><span style="color: #909183;">)</span><span style="color: #7388D6;">)</span><span style="color: #707183;">)</span>
 </pre>
 </div>
 </div>
 <ul class="org-ul">
-<li><a id="org79c1d2e"></a>REPL<br />
-<div class="outline-text-5" id="text-org79c1d2e">
+<li><a id="orgd11576c"></a>REPL<br />
+<div class="outline-text-5" id="text-orgd11576c">
 <p>
 <a href="https://github.com/motemen/gore">Gore</a> provides a REPL and <a href="https://github.com/manute/gorepl-mode">gorepl-mode</a> lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
 </p>
@@ -915,19 +932,20 @@ Once that's done <code>gorepl-mode</code> is ready to be installed:
 </div>
 </li>
 
-<li><a id="orga3e0d2c"></a>Specific Keybindings<br />
-<div class="outline-text-5" id="text-orga3e0d2c">
+<li><a id="org1522d2e"></a>Specific Keybindings<br />
+<div class="outline-text-5" id="text-org1522d2e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>general-define-key
  <span style="color: #006FE0;">:states</span>  'normal
  <span style="color: #006FE0;">:keymaps</span> 'go-mode-map
  <span style="color: #008000;">",a"</span>     'go-import-add
  <span style="color: #008000;">",d"</span>     'lsp-describe-thing-at-point
- <span style="color: #008000;">",g"</span>     'lsp-find-definition
+ <span style="color: #008000;">",gg"</span>    'lsp-find-definition
+ <span style="color: #008000;">",gt"</span>    'lsp-find-type-definition
  <span style="color: #008000;">",i"</span>     'lsp-find-implementation
  <span style="color: #008000;">",n"</span>     'lsp-rename
  <span style="color: #008000;">",r"</span>     'lsp-find-references
- <span style="color: #008000;">",t"</span>     'lsp-find-type-definition
+ <span style="color: #008000;">",t"</span>     'go-run-test
  <span style="color: #008000;">",x"</span>     'lsp-execute-code-action
  <span style="color: #008000;">",lsp"</span>   'lsp-workspace-restart
  <span style="color: #008000;">"gd"</span>     'lsp-find-definition
@@ -962,14 +980,12 @@ Once that's done <code>gorepl-mode</code> is ready to be installed:
 </div>
 </li>
 
-<li><a id="org3a0aa89"></a>Hooks<br />
-<div class="outline-text-5" id="text-org3a0aa89">
+<li><a id="orgc05a13b"></a>Hooks<br />
+<div class="outline-text-5" id="text-orgc05a13b">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">disable "Organize Imports" warning that never goes away</span>
 <span style="color: #707183;">(</span>add-hook 'go-mode-hook
 	  <span style="color: #7388D6;">(</span><span style="color: #0000FF;">lambda</span> <span style="color: #909183;">()</span>
-	    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">gofmt before save</span>
-	    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">(add-hook 'after-save-hook 'gofmt-before-save t 'local)</span>
 	    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">Go likes origami-mode</span>
 	    <span style="color: #909183;">(</span>origami-mode<span style="color: #909183;">)</span>
 	    <span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">lsp ui sideline code actions are annoying in Go</span>
@@ -991,9 +1007,9 @@ Once that's done <code>gorepl-mode</code> is ready to be installed:
 </li>
 </ul>
 </div>
-<div id="outline-container-org1fb6689" class="outline-4">
-<h4 id="org1fb6689">Javascript</h4>
-<div class="outline-text-4" id="text-org1fb6689">
+<div id="outline-container-org87576e5" class="outline-4">
+<h4 id="org87576e5">Javascript</h4>
+<div class="outline-text-4" id="text-org87576e5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #8D8D84;">;; </span><span style="color: #8D8D84; font-style: italic;">React JSX mode for .jsx files and component/*.js files</span>
 <span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">rjsx-mode</span>
@@ -1006,9 +1022,9 @@ Once that's done <code>gorepl-mode</code> is ready to be installed:
 </div>
 </div>
 </div>
-<div id="outline-container-org8779784" class="outline-4">
-<h4 id="org8779784">Web</h4>
-<div class="outline-text-4" id="text-org8779784">
+<div id="outline-container-orga7e0154" class="outline-4">
+<h4 id="orga7e0154">Web</h4>
+<div class="outline-text-4" id="text-orga7e0154">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">use-package</span> <span style="color: #D0372D;">web-mode</span>
   <span style="color: #006FE0;">:mode</span> <span style="color: #7388D6;">(</span><span style="color: #909183;">(</span><span style="color: #008000;">"\\.html$"</span> . web-mode<span style="color: #909183;">)</span>
@@ -1033,9 +1049,9 @@ Once that's done <code>gorepl-mode</code> is ready to be installed:
 </div>
 </div>
 </div>
-<div id="outline-container-org1573e95" class="outline-4">
-<h4 id="org1573e95">Shell</h4>
-<div class="outline-text-4" id="text-org1573e95">
+<div id="outline-container-org7e84570" class="outline-4">
+<h4 id="org7e84570">Shell</h4>
+<div class="outline-text-4" id="text-org7e84570">
 <p>
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
 But for now, disable <code>indent-tabs-mode</code> in shell script editing mode because I have been observing behavior from <code>whitespace-cleanup-mode</code> that when <code>indent-tabs-mode</code> is <code>t</code> it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
@@ -1048,9 +1064,9 @@ But for now, disable <code>indent-tabs-mode</code> in shell script editing mode 
 </div>
 </div>
 </div>
-<div id="outline-container-org6e0c9b3" class="outline-4">
-<h4 id="org6e0c9b3">Adaptive Wrap and Visual Line Mode</h4>
-<div class="outline-text-4" id="text-org6e0c9b3">
+<div id="outline-container-org4d884c2" class="outline-4">
+<h4 id="org4d884c2">Adaptive Wrap and Visual Line Mode</h4>
+<div class="outline-text-4" id="text-org4d884c2">
 <p>
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of <code>visual-line-mode</code> (built-in) and <a href="https://elpa.gnu.org/packages/adaptive-wrap.html">adaptive-wrap-prefix-mode</a> to <b><b>dynamically (visually) wrap and indent long lines in languages like Go with no line length limit</b></b> so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 </p>
@@ -1080,9 +1096,9 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 </div>
 </div>
 </div>
-<div id="outline-container-orgefb3eb0" class="outline-3">
-<h3 id="orgefb3eb0">Global Keybindings</h3>
-<div class="outline-text-3" id="text-orgefb3eb0">
+<div id="outline-container-org900623e" class="outline-3">
+<h3 id="org900623e">Global Keybindings</h3>
+<div class="outline-text-3" id="text-org900623e">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #0000FF;">general-create-definer</span> my-leader-def
   <span style="color: #006FE0;">:prefix</span> <span style="color: #008000;">"SPC"</span><span style="color: #707183;">)</span>
@@ -1174,9 +1190,9 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 </div>
 </div>
 
-<div id="outline-container-org265e4ab" class="outline-3">
-<h3 id="org265e4ab">Org Mode Settings</h3>
-<div class="outline-text-3" id="text-org265e4ab">
+<div id="outline-container-orgf2512dc" class="outline-3">
+<h3 id="orgf2512dc">Org Mode Settings</h3>
+<div class="outline-text-3" id="text-orgf2512dc">
 <p>
 Some default evil bindings
 </p>
@@ -1242,9 +1258,9 @@ Image drag-and-drop for org-mode
 </div>
 </div>
 </div>
-<div id="outline-container-org2c4c177" class="outline-3">
-<h3 id="org2c4c177">Hostname-based tweaks</h3>
-<div class="outline-text-3" id="text-org2c4c177">
+<div id="outline-container-org312f9de" class="outline-3">
+<h3 id="org312f9de">Hostname-based tweaks</h3>
+<div class="outline-text-3" id="text-org312f9de">
 <p>
 Looks for Org files in  <code>/home/$USER/.emacs.d/local/</code> with a name that is the same as the hostname of the machine.
 I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call <code>hostname</code> to determine the hostname.
@@ -1287,13 +1303,13 @@ There must be an Org file in <code>local/</code> named <code>$(hostname).org</co
 </div>
 </div>
 
-<div id="outline-container-org6608a07" class="outline-3">
-<h3 id="org6608a07">Miscellaneous standalone global configuration changes</h3>
-<div class="outline-text-3" id="text-org6608a07">
+<div id="outline-container-org4fe8e30" class="outline-3">
+<h3 id="org4fe8e30">Miscellaneous standalone global configuration changes</h3>
+<div class="outline-text-3" id="text-org4fe8e30">
 </div>
-<div id="outline-container-orgf6ca059" class="outline-4">
-<h4 id="orgf6ca059">Switch theme</h4>
-<div class="outline-text-4" id="text-orgf6ca059">
+<div id="outline-container-org2cd0010" class="outline-4">
+<h4 id="org2cd0010">Switch theme</h4>
+<div class="outline-text-4" id="text-org2cd0010">
 <p>
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just <code>M-x load-theme</code>.
 </p>
@@ -1311,9 +1327,9 @@ Thanks to <a href="https://www.simplify.ba/articles/2016/02/13/loading-and-unloa
 </div>
 </div>
 </div>
-<div id="outline-container-org96d0f07" class="outline-4">
-<h4 id="org96d0f07">Transparency toggle</h4>
-<div class="outline-text-4" id="text-org96d0f07">
+<div id="outline-container-orgf0c672d" class="outline-4">
+<h4 id="orgf0c672d">Transparency toggle</h4>
+<div class="outline-text-4" id="text-orgf0c672d">
 <p>
 I definitely lifted this from somewhere but failed to document where I got it :\
 </p>
@@ -1337,9 +1353,9 @@ Probably from Spacemacs. Thanks, Spacemacs.
 </div>
 </div>
 </div>
-<div id="outline-container-org8c57b4b" class="outline-4">
-<h4 id="org8c57b4b">Switch to last buffer</h4>
-<div class="outline-text-4" id="text-org8c57b4b">
+<div id="outline-container-org99c566a" class="outline-4">
+<h4 id="org99c566a">Switch to last buffer</h4>
+<div class="outline-text-4" id="text-org99c566a">
 <p>
 This one lifted from <a href="https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/">https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/</a>
 </p>
@@ -1358,9 +1374,9 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think <code>h
 </div>
 </div>
 </div>
-<div id="outline-container-org1d27ea3" class="outline-4">
-<h4 id="org1d27ea3">Fix Home/End keys</h4>
-<div class="outline-text-4" id="text-org1d27ea3">
+<div id="outline-container-org694a21a" class="outline-4">
+<h4 id="org694a21a">Fix Home/End keys</h4>
+<div class="outline-text-4" id="text-org694a21a">
 <p>
 Emacs has weird behavior by default for Home and End and this change makes the behavior "normal" again.
 </p>
@@ -1371,9 +1387,9 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 </div>
 </div>
 </div>
-<div id="outline-container-orgd2c0565" class="outline-4">
-<h4 id="orgd2c0565">Tweak align-regexp</h4>
-<div class="outline-text-4" id="text-orgd2c0565">
+<div id="outline-container-orga63ae91" class="outline-4">
+<h4 id="orga63ae91">Tweak align-regexp</h4>
+<div class="outline-text-4" id="text-orga63ae91">
 <p>
 Configure align-regexp to use spaces instead of tabs. This is mostly for this file. When my keybindings are in two columns and <code>M-x align-regexp</code> uses tabs, the columns look aligned in Emacs but unaligned on GitHub. Using spaces faces this. This snippet effects that change.
 </p>
@@ -1394,9 +1410,9 @@ Lifted from StackOverflow:
 </div>
 </div>
 
-<div id="outline-container-org43fe721" class="outline-4">
-<h4 id="org43fe721">Configure automatic backups/recovery files</h4>
-<div class="outline-text-4" id="text-org43fe721">
+<div id="outline-container-org18b6a82" class="outline-4">
+<h4 id="org18b6a82">Configure automatic backups/recovery files</h4>
+<div class="outline-text-4" id="text-org18b6a82">
 <p>
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in <code>/tmp</code>.
 </p>
@@ -1409,9 +1425,9 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 </div>
 </div>
 </div>
-<div id="outline-container-org258108f" class="outline-4">
-<h4 id="org258108f">Clean whitespace on save in all modes</h4>
-<div class="outline-text-4" id="text-org258108f">
+<div id="outline-container-org4e97bd5" class="outline-4">
+<h4 id="org4e97bd5">Clean whitespace on save in all modes</h4>
+<div class="outline-text-4" id="text-org4e97bd5">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>add-hook 'before-save-hook 'whitespace-cleanup<span style="color: #707183;">)</span>
 
@@ -1419,9 +1435,9 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 </div>
 </div>
 </div>
-<div id="outline-container-org23c9d25" class="outline-4">
-<h4 id="org23c9d25">Autosave</h4>
-<div class="outline-text-4" id="text-org23c9d25">
+<div id="outline-container-org2b5304b" class="outline-4">
+<h4 id="org2b5304b">Autosave</h4>
+<div class="outline-text-4" id="text-org2b5304b">
 <p>
 Automatically saves the file when it's been idle for 5 minutes.
 </p>
@@ -1435,9 +1451,9 @@ Automatically saves the file when it's been idle for 5 minutes.
 </div>
 </div>
 </div>
-<div id="outline-container-org785af4d" class="outline-4">
-<h4 id="org785af4d">Default window size</h4>
-<div class="outline-text-4" id="text-org785af4d">
+<div id="outline-container-orgecf99d2" class="outline-4">
+<h4 id="orgecf99d2">Default window size</h4>
+<div class="outline-text-4" id="text-orgecf99d2">
 <p>
 Just a bigger size that I prefer..
 </p>
@@ -1448,9 +1464,9 @@ Just a bigger size that I prefer..
 </div>
 </div>
 </div>
-<div id="outline-container-orgb11ce3f" class="outline-4">
-<h4 id="orgb11ce3f">Unclutter global modeline</h4>
-<div class="outline-text-4" id="text-orgb11ce3f">
+<div id="outline-container-org8f8e251" class="outline-4">
+<h4 id="org8f8e251">Unclutter global modeline</h4>
+<div class="outline-text-4" id="text-org8f8e251">
 <p>
 Some global minor modes put themselves in the modeline and it gets noisy, so remove them from the modeline.
 </p>
@@ -1463,9 +1479,9 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
 </div>
 </div>
 </div>
-<div id="outline-container-orgc0460a3" class="outline-4">
-<h4 id="orgc0460a3">Less annoying bell</h4>
-<div class="outline-text-4" id="text-orgc0460a3">
+<div id="outline-container-orgdf2dfaa" class="outline-4">
+<h4 id="orgdf2dfaa">Less annoying bell</h4>
+<div class="outline-text-4" id="text-orgdf2dfaa">
 <p>
 Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
 </p>
@@ -1487,9 +1503,9 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 </p>
 </div>
 </div>
-<div id="outline-container-orgd2cb54a" class="outline-4">
-<h4 id="orgd2cb54a">Easily create gifs of current Emacs frames</h4>
-<div class="outline-text-4" id="text-orgd2cb54a">
+<div id="outline-container-org1580661" class="outline-4">
+<h4 id="org1580661">Easily create gifs of current Emacs frames</h4>
+<div class="outline-text-4" id="text-org1580661">
 <p>
 Figures out the frame size and passes it to <code>byzanz-record</code>. Only works if <code>byzanz-record</code> is installed (it's in the repos in most distros) and only works in X11.
 </p>
@@ -1532,9 +1548,9 @@ Figures out the frame size and passes it to <code>byzanz-record</code>. Only wor
 </div>
 </div>
 </div>
-<div id="outline-container-org70f5b6a" class="outline-4">
-<h4 id="org70f5b6a">Remove toolbar and menu</h4>
-<div class="outline-text-4" id="text-org70f5b6a">
+<div id="outline-container-org31686c3" class="outline-4">
+<h4 id="org31686c3">Remove toolbar and menu</h4>
+<div class="outline-text-4" id="text-org31686c3">
 <p>
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use <code>M-x</code> for everything.
 </p>
@@ -1548,9 +1564,9 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use <c
 </div>
 </div>
 
-<div id="outline-container-org8d5a770" class="outline-3">
-<h3 id="org8d5a770">ERC (IRC config)</h3>
-<div class="outline-text-3" id="text-org8d5a770">
+<div id="outline-container-org139f980" class="outline-3">
+<h3 id="org139f980">ERC (IRC config)</h3>
+<div class="outline-text-3" id="text-org139f980">
 <p>
 I don't like to check in my IRC nicks into this file, so I've utilized <code>/home/$USER/.authinfo</code> which is apparently a GNU standard. The format for this file follows this pattern:
 </p>
@@ -1622,9 +1638,9 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 </div>
 </div>
 
-<div id="outline-container-org0172dab" class="outline-3">
-<h3 id="org0172dab">Render this file for display on the web</h3>
-<div class="outline-text-3" id="text-org0172dab">
+<div id="outline-container-org0f6ac01" class="outline-3">
+<h3 id="org0f6ac01">Render this file for display on the web</h3>
+<div class="outline-text-3" id="text-org0f6ac01">
 <p>
 This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 </p>
@@ -1652,9 +1668,9 @@ This function registers a hook that will export this file to Github flavored Mar
 </div>
 </div>
 
-<div id="outline-container-orgf71ad19" class="outline-3">
-<h3 id="orgf71ad19">Footer</h3>
-<div class="outline-text-3" id="text-orgf71ad19">
+<div id="outline-container-org14858f1" class="outline-3">
+<h3 id="org14858f1">Footer</h3>
+<div class="outline-text-3" id="text-org14858f1">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #707183;">(</span>server-start<span style="color: #707183;">)</span>
 <span style="color: #707183;">(</span><span style="color: #0000FF;">provide</span> '<span style="color: #D0372D;">~/.emacs.d/ian.el</span><span style="color: #707183;">)</span>
@@ -1664,9 +1680,9 @@ This function registers a hook that will export this file to Github flavored Mar
 </div>
 </div>
 
-<div id="outline-container-org6c787a2" class="outline-3">
-<h3 id="org6c787a2">Styles for HTML export</h3>
-<div class="outline-text-3" id="text-org6c787a2">
+<div id="outline-container-orgea53a58" class="outline-3">
+<h3 id="orgea53a58">Styles for HTML export</h3>
+<div class="outline-text-3" id="text-orgea53a58">
 <div class="org-src-container">
 <pre class="src src-css"><span style="color: #0000ff; font-weight: bold;">body </span>{
     <span style="color: #00AA00;">width</span>: 90%;
@@ -1682,51 +1698,51 @@ This function registers a hook that will export this file to Github flavored Mar
 </div>
 </div>
 </div>
-<div id="outline-container-org03dbc5a" class="outline-2">
-<h2 id="org03dbc5a">Notes and Such</h2>
-<div class="outline-text-2" id="text-org03dbc5a">
+<div id="outline-container-orge037f89" class="outline-2">
+<h2 id="orge037f89">Notes and Such</h2>
+<div class="outline-text-2" id="text-orge037f89">
 <p>
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 </p>
 </div>
-<div id="outline-container-org0b2edb8" class="outline-3">
-<h3 id="org0b2edb8">Monospace Fonts</h3>
-<div class="outline-text-3" id="text-org0b2edb8">
+<div id="outline-container-orgc516487" class="outline-3">
+<h3 id="orgc516487">Monospace Fonts</h3>
+<div class="outline-text-3" id="text-orgc516487">
 <p>
 Just going to keep note of some options
 </p>
 </div>
 
-<div id="outline-container-orge020076" class="outline-4">
-<h4 id="orge020076"><a href="https://github.com/adobe-fonts/source-code-pro/tree/master">https://github.com/adobe-fonts/source-code-pro/tree/master</a></h4>
-<div class="outline-text-4" id="text-orge020076">
+<div id="outline-container-orgfd99663" class="outline-4">
+<h4 id="orgfd99663"><a href="https://github.com/adobe-fonts/source-code-pro/tree/master">https://github.com/adobe-fonts/source-code-pro/tree/master</a></h4>
+<div class="outline-text-4" id="text-orgfd99663">
 <p>
 Default in Spacemacs
 </p>
 </div>
 </div>
 
-<div id="outline-container-org1ffa297" class="outline-4">
-<h4 id="org1ffa297"><a href="https://github.com/be5invis/Iosevka">https://github.com/be5invis/Iosevka</a></h4>
-<div class="outline-text-4" id="text-org1ffa297">
+<div id="outline-container-org5d3c5be" class="outline-4">
+<h4 id="org5d3c5be"><a href="https://github.com/be5invis/Iosevka">https://github.com/be5invis/Iosevka</a></h4>
+<div class="outline-text-4" id="text-org5d3c5be">
 <p>
 Kinda tall, skinny
 </p>
 </div>
 </div>
 
-<div id="outline-container-org471e548" class="outline-4">
-<h4 id="org471e548"><a href="https://github.com/googlefonts/Inconsolata">https://github.com/googlefonts/Inconsolata</a></h4>
-<div class="outline-text-4" id="text-org471e548">
+<div id="outline-container-org414de93" class="outline-4">
+<h4 id="org414de93"><a href="https://github.com/googlefonts/Inconsolata">https://github.com/googlefonts/Inconsolata</a></h4>
+<div class="outline-text-4" id="text-org414de93">
 <p>
 Has ligatures
 </p>
 </div>
 </div>
 
-<div id="outline-container-org2c971e5" class="outline-4">
-<h4 id="org2c971e5"><a href="https://github.com/tonsky/FiraCode">https://github.com/tonsky/FiraCode</a></h4>
-<div class="outline-text-4" id="text-org2c971e5">
+<div id="outline-container-org9b6b82c" class="outline-4">
+<h4 id="org9b6b82c"><a href="https://github.com/tonsky/FiraCode">https://github.com/tonsky/FiraCode</a></h4>
+<div class="outline-text-4" id="text-org9b6b82c">
 <p>
 More ligatures, but you have to Do Stuff in Emacs
 <a href="https://github.com/tonsky/FiraCode/wiki/Emacs-instructions">https://github.com/tonsky/FiraCode/wiki/Emacs-instructions</a>
@@ -1735,9 +1751,9 @@ Described as "cool" on IRC
 </div>
 </div>
 
-<div id="outline-container-org8be330f" class="outline-4">
-<h4 id="org8be330f"><a href="https://github.com/source-foundry/Hack">https://github.com/source-foundry/Hack</a></h4>
-<div class="outline-text-4" id="text-org8be330f">
+<div id="outline-container-org6d951ab" class="outline-4">
+<h4 id="org6d951ab"><a href="https://github.com/source-foundry/Hack">https://github.com/source-foundry/Hack</a></h4>
+<div class="outline-text-4" id="text-org6d951ab">
 <p>
 I mean, it's called "Hack"
 </p>
@@ -1745,18 +1761,18 @@ I mean, it's called "Hack"
 </div>
 </div>
 
-<div id="outline-container-org44b21fd" class="outline-3">
-<h3 id="org44b21fd">Proportional Fonts</h3>
-<div class="outline-text-3" id="text-org44b21fd">
+<div id="outline-container-org3889259" class="outline-3">
+<h3 id="org3889259">Proportional Fonts</h3>
+<div class="outline-text-3" id="text-org3889259">
 <p>
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 </p>
 </div>
 </div>
 
-<div id="outline-container-orged4541e" class="outline-3">
-<h3 id="orged4541e">Authentication and Secrets in Emacs</h3>
-<div class="outline-text-3" id="text-orged4541e">
+<div id="outline-container-orgb693ba5" class="outline-3">
+<h3 id="orgb693ba5">Authentication and Secrets in Emacs</h3>
+<div class="outline-text-3" id="text-orgb693ba5">
 <p>
 Just stumbled on the use of <code>~/.authinfo.gpg</code> files with Emacs for storing secrets.
 Should probably learn how to do this (I bet it is super simple) because it will allow me to store configuration that relies on secrets more easily.
@@ -1767,25 +1783,25 @@ Should probably learn how to do this (I bet it is super simple) because it will 
 </p>
 </div>
 </div>
-<div id="outline-container-orgd7cfa09" class="outline-3">
-<h3 id="orgd7cfa09">Packages to Try</h3>
-<div class="outline-text-3" id="text-orgd7cfa09">
+<div id="outline-container-orga1feb94" class="outline-3">
+<h3 id="orga1feb94">Packages to Try</h3>
+<div class="outline-text-3" id="text-orga1feb94">
 <p>
 These are some things I have heard about and maybe have partially integrated, but haven't had the time for anything serious
 </p>
 </div>
-<div id="outline-container-orgc6c83ae" class="outline-4">
-<h4 id="orgc6c83ae">emmet-mode</h4>
-<div class="outline-text-4" id="text-orgc6c83ae">
+<div id="outline-container-org74e05d1" class="outline-4">
+<h4 id="org74e05d1">emmet-mode</h4>
+<div class="outline-text-4" id="text-org74e05d1">
 <p>
 Emmet is the "zen coding" plugin for really fast HTML authoring
 <a href="https://github.com/smihica/emmet-mode">https://github.com/smihica/emmet-mode</a>
 </p>
 </div>
 </div>
-<div id="outline-container-org5eb1b3d" class="outline-4">
-<h4 id="org5eb1b3d">yasnippet-snippets</h4>
-<div class="outline-text-4" id="text-org5eb1b3d">
+<div id="outline-container-orga73e725" class="outline-4">
+<h4 id="orga73e725">yasnippet-snippets</h4>
+<div class="outline-text-4" id="text-orga73e725">
 <p>
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them
 <a href="https://github.com/AndreaCrotti/yasnippet-snippets">https://github.com/AndreaCrotti/yasnippet-snippets</a>
@@ -1793,9 +1809,9 @@ Some default snippets &#x2013; don't install until we're ready to figure out how
 </div>
 </div>
 </div>
-<div id="outline-container-org75d61f3" class="outline-3">
-<h3 id="org75d61f3">To do</h3>
-<div class="outline-text-3" id="text-org75d61f3">
+<div id="outline-container-org64a24ff" class="outline-3">
+<h3 id="org64a24ff">To do</h3>
+<div class="outline-text-3" id="text-org64a24ff">
 <ol class="org-ol">
 <li>origami mode is kinda broken?</li>
 <li>restart-lsp-workspace shortcut</li>
