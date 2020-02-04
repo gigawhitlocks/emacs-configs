@@ -1,28 +1,28 @@
-- [What is this?](#org62799a0)
-- [Entrypoint](#orgfd28c48)
-- [My Environment](#org5132915)
-  - [Bootstrap](#orgfa6a353)
-  - [Package Installation and Configuration](#orgc9fdddf)
-  - [Extra Packages](#orgd46147c)
-  - [Language Configuration](#orga23f723)
-  - [Global Keybindings](#orgf6dbd2b)
-  - [Org Mode Settings](#org6eda591)
-  - [Hostname-based tweaks](#orgee3f660)
-  - [Miscellaneous standalone global configuration changes](#org54563ea)
-  - [ERC (IRC config)](#org69c81c0)
-  - [Render this file for display on the web](#org7fa281e)
-  - [Footer](#orgc831ba2)
-  - [Styles for HTML export](#org2444daf)
-- [Notes and Such](#org5344109)
-  - [Monospace Fonts](#org2cde33b)
-  - [Proportional Fonts](#orga385e38)
-  - [Authentication and Secrets in Emacs](#org4b934af)
-  - [Packages to Try](#orgadbb850)
-  - [To do](#org7247918)
+- [What is this?](#orgf4d7d5e)
+- [Entrypoint](#org2dfa19a)
+- [My Environment](#org1a35b47)
+  - [Bootstrap](#orgb5f2ad3)
+  - [Package Installation and Configuration](#orgc66d825)
+  - [Extra Packages](#orgf09b505)
+  - [Language Configuration](#org4e07d3d)
+  - [Global Keybindings](#orgd5ae2b5)
+  - [Org Mode Settings](#org7e9cba5)
+  - [Hostname-based tweaks](#orgb056fd6)
+  - [Miscellaneous standalone global configuration changes](#org1e7585f)
+  - [ERC (IRC config)](#orgb700043)
+  - [Render this file for display on the web](#org4d3d17d)
+  - [Footer](#orgc50b778)
+  - [Styles for HTML export](#orgf21512c)
+- [Notes and Such](#orgaa5dc08)
+  - [Monospace Fonts](#org0714c9e)
+  - [Proportional Fonts](#org2fcfed3)
+  - [Authentication and Secrets in Emacs](#orgec2e87a)
+  - [Packages to Try](#org2316cc9)
+  - [To do](#org631e750)
 
 
 
-<a id="org62799a0"></a>
+<a id="orgf4d7d5e"></a>
 
 # What is this?
 
@@ -42,7 +42,7 @@ emacs
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
 
 
-<a id="orgfd28c48"></a>
+<a id="org2dfa19a"></a>
 
 # Entrypoint
 
@@ -92,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org5132915"></a>
+<a id="org1a35b47"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgfa6a353"></a>
+<a id="orgb5f2ad3"></a>
 
 ## Bootstrap
 
@@ -159,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgc9fdddf"></a>
+<a id="orgc66d825"></a>
 
 ## Package Installation and Configuration
 
@@ -254,7 +254,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgf6dbd2b) section.
+It's mostly used below in the [global keybindings](#orgd5ae2b5) section.
 
 ```emacs-lisp
 (use-package general
@@ -433,7 +433,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="orgd46147c"></a>
+<a id="orgf09b505"></a>
 
 ## Extra Packages
 
@@ -535,7 +535,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="orga23f723"></a>
+<a id="org4e07d3d"></a>
 
 ## Language Configuration
 
@@ -630,41 +630,70 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 
 -   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`.
 
-```emacs-lisp
-(defun set-gopls-lib-dirs ()
-  "Add $GOPATH/pkg/mod to the 'library path'."
-  ;; stops lsp from continually asking if Go projects should be imported
-  (setq lsp-clients-go-library-directories
-	(list
-	 "/usr"
-	 (concat (getenv "GOPATH") "/pkg/mod"))))
+-   Initial Setup
 
-;; native go mode
-(use-package go-mode
-  :hook ((go-mode . lsp-deferred)
-	 (go-mode . set-gopls-lib-dirs)
-	 (go-mode . yas-minor-mode))
-  :config
-  ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-  ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
-  (evil-add-command-properties #'godef-jump :jump t))
+	```emacs-lisp
+	(defun set-gopls-lib-dirs ()
+	  "Add $GOPATH/pkg/mod to the 'library path'."
+	  ;; stops lsp from continually asking if Go projects should be imported
+	  (setq lsp-clients-go-library-directories
+		(list
+		 "/usr"
+		 (concat (getenv "GOPATH") "/pkg/mod"))))
 
-;; a little helper for running the current test
-(defun go-run-test ()
-  "Run the test at point in Go."
-  (interactive)
-  (save-excursion
-	(go-goto-function-name)
-	(let ((name (current-word)))
-	  (let ((b (get-buffer "*go test*")))
-	(if b (kill-buffer "*go test*")))
+	;; native go mode
+	(use-package go-mode
+	  :hook ((go-mode . lsp-deferred)
+		 (go-mode . set-gopls-lib-dirs)
+		 (go-mode . yas-minor-mode))
+	  :config
+	  ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+	  ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
+	  (evil-add-command-properties #'godef-jump :jump t))
 
-	  (split-window-sensibly)
-	  (view-buffer "*go test*")
+	```
 
-	  (start-process "go test" "*go test*" "go" "test" "-run" name)
-	  (message "Running test %s" name))))
-```
+-   Functions for Executing Tests
+
+	I find it tedious to run `go test` and type out the filename to test a specific file or even more tedious to type out the name of a test. Instead I've written a few functions to run tests and put the output in a dismissable buffer. Then these get added to the Go mode key bindings later.
+
+	```emacs-lisp
+	(defun delete-go-test-buffer-if-exist ()
+		  (let ((b (get-buffer "*go test*")))
+		(if b (kill-buffer "*go test*"))))
+
+	(defun go-test-project ()
+	  "Run all Go tests in this project."
+	  (interactive)
+	  (projectile-with-default-dir (projectile-project-root)
+		(delete-go-test-buffer-if-exist)
+		(split-window-sensibly)
+		(view-buffer "*go test*")
+		(start-process "go test" "*go test*" "go" "test" "./...")
+		(message "Running all tests for project %s" (projectile-project-name))))
+
+	(defun go-run-tests-in-file ()
+	  "Run all the Go tests in this file."
+	  (interactive)
+	  (let ((filename (buffer-file-name)))
+		(delete-go-test-buffer-if-exist)
+		(split-window-sensibly)
+		(view-buffer "*go test*")
+		(message "Running tests in file %s" filename)
+		(start-process "go test" "*go test*" "go" "test" "-run" (concat "./" filename))))
+
+	(defun go-run-test-at-point ()
+	  "Run the test at point in Go."
+	  (interactive)
+	  (save-excursion
+		(go-goto-function-name)
+		(delete-go-test-buffer-if-exist)
+		(let ((name (current-word)))
+		  (split-window-sensibly)
+		  (view-buffer "*go test*")
+		  (start-process "go test" "*go test*" "go" "test" "-run" name)
+		  (message "Running test %s" name))))
+	```
 
 -   REPL
 
@@ -699,7 +728,9 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 	 ",i"     'lsp-find-implementation
 	 ",n"     'lsp-rename
 	 ",r"     'lsp-find-references
-	 ",t"     'go-run-test
+	 ",tt"    'go-run-test-at-point
+	 ",tp"    'go-test-project
+	 ",tf"    'go-run-tests-in-file
 	 ",x"     'lsp-execute-code-action
 	 ",lsp"   'lsp-workspace-restart
 	 "gd"     'lsp-find-definition
@@ -832,7 +863,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgf6dbd2b"></a>
+<a id="orgd5ae2b5"></a>
 
 ## Global Keybindings
 
@@ -925,7 +956,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org6eda591"></a>
+<a id="org7e9cba5"></a>
 
 ## Org Mode Settings
 
@@ -986,7 +1017,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="orgee3f660"></a>
+<a id="orgb056fd6"></a>
 
 ## Hostname-based tweaks
 
@@ -1021,7 +1052,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org54563ea"></a>
+<a id="org1e7585f"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1228,7 +1259,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org69c81c0"></a>
+<a id="orgb700043"></a>
 
 ## ERC (IRC config)
 
@@ -1290,7 +1321,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org7fa281e"></a>
+<a id="org4d3d17d"></a>
 
 ## Render this file for display on the web
 
@@ -1317,7 +1348,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgc831ba2"></a>
+<a id="orgc50b778"></a>
 
 ## Footer
 
@@ -1328,7 +1359,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org2444daf"></a>
+<a id="orgf21512c"></a>
 
 ## Styles for HTML export
 
@@ -1345,14 +1376,14 @@ body {
 ```
 
 
-<a id="org5344109"></a>
+<a id="orgaa5dc08"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org2cde33b"></a>
+<a id="org0714c9e"></a>
 
 ## Monospace Fonts
 
@@ -1384,14 +1415,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orga385e38"></a>
+<a id="org2fcfed3"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org4b934af"></a>
+<a id="orgec2e87a"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1400,7 +1431,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgadbb850"></a>
+<a id="org2316cc9"></a>
 
 ## Packages to Try
 
@@ -1417,7 +1448,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org7247918"></a>
+<a id="org631e750"></a>
 
 ## To do
 
