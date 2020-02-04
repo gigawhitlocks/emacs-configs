@@ -593,8 +593,6 @@ Once that's done ~gorepl-mode~ is ready to be installed:
   ;; disable "Organize Imports" warning that never goes away
   (add-hook 'go-mode-hook
             (lambda ()
-              ;; gofmt before save
-              ;; (add-hook 'after-save-hook 'gofmt-before-save t 'local)
               ;; Go likes origami-mode
               (origami-mode)
               ;; lsp ui sideline code actions are annoying in Go
