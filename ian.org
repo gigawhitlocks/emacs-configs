@@ -780,7 +780,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "sp"     'helm-projectile-ack
     "qq"     'save-buffers-kill-terminal
     "qr"     'restart-emacs
-    "tn"     'linum-mode
+    "tn"     'display-line-numbers-mode
     "tt"     'toggle-transparency
     "tr"     'treemacs
     "ta"     'treemacs-add-project-to-workspace
