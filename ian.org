@@ -281,8 +281,6 @@ It can be difficult to to remember and discover all of the available shortcuts i
       :init
       (which-key-mode)
       (which-key-setup-minibuffer))
-
-    ;; customizations to compilation mode
 #+END_SRC
 *** Colorize ANSI colors in ~*compilation*~
 If you run a command through ~M-x compile~ by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the ~*compilation*~ buffer.
@@ -501,6 +499,17 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 
 - ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]. I have been just running this off of ~master~ so I can experience all the latest +bugs+ features, so clone the gopls project (TODO find the url for it and put a link here) and ~go install~ it. After you're done ~gopls~ should also be on the ~PATH~.
 
+- ~golint~ has to be installed independently
+
+#+BEGIN_SRC bash
+$ go get https://github.com/golang/lint
+#+END_SRC
+
+Nothing to do with Emacs, but ~eg~ also looks really cool:
+#+BEGIN_SRC bash
+$ go get golang.org/x/tools/cmd/eg
+#+END_SRC
+
 **** Initial Setup
 #+BEGIN_SRC emacs-lisp
   (defun set-gopls-lib-dirs ()
@@ -521,6 +530,10 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
     ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
     (evil-add-command-properties #'godef-jump :jump t))
 
+  ;; install golint
+  (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
+  ;; Emacs thinks this require statement is invalid but it works fine
+  (require 'golint)
     #+END_SRC
 
 **** Functions for Executing Tests
