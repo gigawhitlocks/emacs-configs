@@ -517,6 +517,14 @@ Nothing to do with Emacs, but ~eg~ also looks really cool:
 $ go get golang.org/x/tools/cmd/eg
 #+END_SRC
 
+- [[https://github.com/golangci/golangci-lint][~golangci-lint~]] is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. ~go-metalinter~, I think, is what it was called. Anyway, it used to crash my computer and /apparently/ that was a common experience. Anyway ~golangci-lint~ must be installed independently, too:
+
+#+BEGIN_SRC bash
+# install it into ./bin/
+$ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
+
+#+END_SRC
+
 **** Initial Setup
 #+BEGIN_SRC emacs-lisp
   (defun set-gopls-lib-dirs ()
@@ -537,10 +545,15 @@ $ go get golang.org/x/tools/cmd/eg
     ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
     (evil-add-command-properties #'godef-jump :jump t))
 
-  ;; install golint
-  (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
-  ;; Emacs thinks this require statement is invalid but it works fine
-  (require 'golint)
+  ;; load golint if the project has been added
+
+  (if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
+      (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
+      (require 'golint))
+
+  ;; enable golangci-lint to work with flycheck
+  (use-package flycheck-golangci-lint
+    :hook (go-mode . flycheck-golangci-lint-setup))
     #+END_SRC
 
 **** Functions for Executing Tests
