@@ -5,11 +5,12 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
 * Font
 #+BEGIN_SRC emacs-lisp
-    (set-font "Inconsolata-11")
+    (set-font "Inconsolata-10")
 #+END_SRC
 
 * Theme
 #+BEGIN_SRC emacs-lisp
+  (load-theme 'leuven)
 #+End_SRC
 
 * Local bugfixes

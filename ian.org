@@ -381,6 +381,12 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 #+BEGIN_SRC emacs-lisp
   (use-package s)
 #+END_SRC
+*** ~figlet~
+The description on the package is "Annoy people with big, ascii art text" 🤣
+#+BEGIN_SRC emacs-lisp
+  (use-package figlet
+  :ensure-system-package figlet)
+#+END_SRC
 *** a systemd file mode
 #+BEGIN_SRC emacs-lisp
   (use-package systemd)
@@ -431,9 +437,8 @@ LSP provides a generic interface for text editors to talk to various language se
     ;; use flycheck
     (setq lsp-prefer-flymake nil))
 
-  (use-package lsp-ui
-    :config
-    (setq lsp-ui-doc-use-childframe nil))
+  (use-package lsp-ui)
+  (setq lsp-ui-doc-use-childframe nil)
 
   (use-package company-lsp)
   (use-package lsp-origami)
