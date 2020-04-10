@@ -281,8 +281,6 @@ It can be difficult to to remember and discover all of the available shortcuts i
       :init
       (which-key-mode)
       (which-key-setup-minibuffer))
-
-    ;; customizations to compilation mode
 #+END_SRC
 *** Colorize ANSI colors in ~*compilation*~
 If you run a command through ~M-x compile~ by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the ~*compilation*~ buffer.
@@ -302,6 +300,13 @@ If you run a command through ~M-x compile~ by default Emacs prints ANSI codes li
                 #'colorize-compilation))
 
     (ansi)
+#+END_SRC
+*** Scream when compilation is finished
+#+BEGIN_SRC emacs-lisp
+  (defun isw-play-chime (buffer msg)
+    (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav"))
+
+    (add-to-list 'compilation-finish-functions 'isw-play-chime)
 #+END_SRC
 *** Configure the Startup Splashscreen
 Following Spacemacs's style, I use the [[https://github.com/emacs-dashboard/emacs-dashboard][~emacs-dashboard~]] project and [[https://github.com/domtronn/all-the-icons.el][~all-the-icons~]] to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
@@ -506,6 +511,25 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 
 - ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]. I have been just running this off of ~master~ so I can experience all the latest +bugs+ features, so clone the gopls project (TODO find the url for it and put a link here) and ~go install~ it. After you're done ~gopls~ should also be on the ~PATH~.
 
+- ~golint~ has to be installed independently
+
+#+BEGIN_SRC bash
+$ go get https://github.com/golang/lint
+#+END_SRC
+
+Nothing to do with Emacs, but ~eg~ also looks really cool:
+#+BEGIN_SRC bash
+$ go get golang.org/x/tools/cmd/eg
+#+END_SRC
+
+- [[https://github.com/golangci/golangci-lint][~golangci-lint~]] is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. ~go-metalinter~, I think, is what it was called. Anyway, it used to crash my computer and /apparently/ that was a common experience. Anyway ~golangci-lint~ must be installed independently, too:
+
+#+BEGIN_SRC bash
+# install it into ./bin/
+$ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
+
+#+END_SRC
+
 **** Initial Setup
 #+BEGIN_SRC emacs-lisp
   (defun set-gopls-lib-dirs ()
@@ -526,6 +550,15 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
     ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
     (evil-add-command-properties #'godef-jump :jump t))
 
+  ;; load golint if the project has been added
+
+  (if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
+      (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
+      (require 'golint))
+
+  ;; enable golangci-lint to work with flycheck
+  (use-package flycheck-golangci-lint
+    :hook (go-mode . flycheck-golangci-lint-setup))
     #+END_SRC
 
 **** Functions for Executing Tests

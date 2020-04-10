@@ -1,28 +1,28 @@
-- [What is this?](#orga00ec4b)
-- [Entrypoint](#org9d3dd99)
-- [My Environment](#orgad697d6)
-  - [Bootstrap](#org852de60)
-  - [Package Installation and Configuration](#org725e2fa)
-  - [Extra Packages](#orge7a5797)
-  - [Language Configuration](#org082fe0a)
-  - [Global Keybindings](#org5ec7431)
-  - [Org Mode Settings](#orgcdd9dce)
-  - [Hostname-based tweaks](#org996a93c)
-  - [Miscellaneous standalone global configuration changes](#orgd11e383)
-  - [ERC (IRC config)](#org1f29677)
-  - [Render this file for display on the web](#org98a5b71)
-  - [Footer](#orge2f2a25)
-  - [Styles for HTML export](#org5d10d07)
-- [Notes and Such](#org8d9845c)
-  - [Monospace Fonts](#orgd7becea)
-  - [Proportional Fonts](#orgc13454a)
-  - [Authentication and Secrets in Emacs](#org1ed475a)
-  - [Packages to Try](#org6a8da35)
-  - [To do](#org120c044)
+- [What is this?](#org76a815c)
+- [Entrypoint](#orgda6be63)
+- [My Environment](#org59344ea)
+  - [Bootstrap](#orge918fc4)
+  - [Package Installation and Configuration](#org380e1c8)
+  - [Extra Packages](#orgbc650bc)
+  - [Language Configuration](#org15384ad)
+  - [Global Keybindings](#org1ee281d)
+  - [Org Mode Settings](#org95cc0a3)
+  - [Hostname-based tweaks](#org9d0839c)
+  - [Miscellaneous standalone global configuration changes](#org0429669)
+  - [ERC (IRC config)](#org5fd2a41)
+  - [Render this file for display on the web](#org59e70b3)
+  - [Footer](#org30b5806)
+  - [Styles for HTML export](#orge1f913a)
+- [Notes and Such](#orga42effe)
+  - [Monospace Fonts](#orge26429b)
+  - [Proportional Fonts](#org18fd1eb)
+  - [Authentication and Secrets in Emacs](#org5fdd82f)
+  - [Packages to Try](#org867fa35)
+  - [To do](#org4fea7f3)
 
 
 
-<a id="orga00ec4b"></a>
+<a id="org76a815c"></a>
 
 # What is this?
 
@@ -42,7 +42,7 @@ emacs
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
 
 
-<a id="org9d3dd99"></a>
+<a id="orgda6be63"></a>
 
 # Entrypoint
 
@@ -92,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgad697d6"></a>
+<a id="org59344ea"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org852de60"></a>
+<a id="orge918fc4"></a>
 
 ## Bootstrap
 
@@ -159,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org725e2fa"></a>
+<a id="org380e1c8"></a>
 
 ## Package Installation and Configuration
 
@@ -254,7 +254,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org5ec7431) section.
+It's mostly used below in the [global keybindings](#org1ee281d) section.
 
 ```emacs-lisp
 (use-package general
@@ -347,8 +347,6 @@ It can be difficult to to remember and discover all of the available shortcuts i
   :init
   (which-key-mode)
   (which-key-setup-minibuffer))
-
-;; customizations to compilation mode
 ```
 
 
@@ -372,6 +370,16 @@ If you run a command through `M-x compile` by default Emacs prints ANSI codes li
 		#'colorize-compilation))
 
 (ansi)
+```
+
+
+### Scream when compilation is finished
+
+```emacs-lisp
+(defun isw-play-chime (buffer msg)
+  (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav"))
+
+  (add-to-list 'compilation-finish-functions 'isw-play-chime)
 ```
 
 
@@ -433,7 +441,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="orge7a5797"></a>
+<a id="orgbc650bc"></a>
 
 ## Extra Packages
 
@@ -486,16 +494,6 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 
 ```emacs-lisp
 (use-package s)
-```
-
-
-### `figlet`
-
-The description on the package is "Annoy people with big, ascii art text" 🤣
-
-```emacs-lisp
-(use-package figlet
-:ensure-system-package figlet)
 ```
 
 
@@ -557,7 +555,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org082fe0a"></a>
+<a id="org15384ad"></a>
 
 ## Language Configuration
 
@@ -572,8 +570,9 @@ LSP provides a generic interface for text editors to talk to various language se
   ;; use flycheck
   (setq lsp-prefer-flymake nil))
 
-(use-package lsp-ui)
-(setq lsp-ui-doc-use-childframe nil)
+(use-package lsp-ui
+  :config
+  (setq lsp-ui-doc-use-childframe nil))
 
 (use-package company-lsp)
 (use-package lsp-origami)
@@ -651,6 +650,26 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 
 -   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`.
 
+-   `golint` has to be installed independently
+
+```bash
+$ go get https://github.com/golang/lint
+```
+
+Nothing to do with Emacs, but `eg` also looks really cool:
+
+```bash
+$ go get golang.org/x/tools/cmd/eg
+```
+
+-   [`golangci-lint`](https://github.com/golangci/golangci-lint) is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. `go-metalinter`, I think, is what it was called. Anyway, it used to crash my computer and *apparently* that was a common experience. Anyway `golangci-lint` must be installed independently, too:
+
+```bash
+# install it into ./bin/
+$ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
+
+```
+
 -   Initial Setup
 
 	```emacs-lisp
@@ -672,6 +691,15 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 	  ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
 	  (evil-add-command-properties #'godef-jump :jump t))
 
+	;; load golint if the project has been added
+
+	(if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
+		(add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
+		(require 'golint))
+
+	;; enable golangci-lint to work with flycheck
+	(use-package flycheck-golangci-lint
+	  :hook (go-mode . flycheck-golangci-lint-setup))
 	```
 
 -   Functions for Executing Tests
@@ -884,7 +912,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org5ec7431"></a>
+<a id="org1ee281d"></a>
 
 ## Global Keybindings
 
@@ -977,7 +1005,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgcdd9dce"></a>
+<a id="org95cc0a3"></a>
 
 ## Org Mode Settings
 
@@ -1038,7 +1066,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org996a93c"></a>
+<a id="org9d0839c"></a>
 
 ## Hostname-based tweaks
 
@@ -1073,7 +1101,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="orgd11e383"></a>
+<a id="org0429669"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1280,7 +1308,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org1f29677"></a>
+<a id="org5fd2a41"></a>
 
 ## ERC (IRC config)
 
@@ -1342,7 +1370,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org98a5b71"></a>
+<a id="org59e70b3"></a>
 
 ## Render this file for display on the web
 
@@ -1369,7 +1397,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orge2f2a25"></a>
+<a id="org30b5806"></a>
 
 ## Footer
 
@@ -1380,7 +1408,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org5d10d07"></a>
+<a id="orge1f913a"></a>
 
 ## Styles for HTML export
 
@@ -1397,14 +1425,14 @@ body {
 ```
 
 
-<a id="org8d9845c"></a>
+<a id="orga42effe"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="orgd7becea"></a>
+<a id="orge26429b"></a>
 
 ## Monospace Fonts
 
@@ -1436,14 +1464,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orgc13454a"></a>
+<a id="org18fd1eb"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org1ed475a"></a>
+<a id="org5fdd82f"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1452,7 +1480,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org6a8da35"></a>
+<a id="org867fa35"></a>
 
 ## Packages to Try
 
@@ -1469,7 +1497,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org120c044"></a>
+<a id="org4fea7f3"></a>
 
 ## To do
 
