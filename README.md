@@ -1,28 +1,28 @@
-- [What is this?](#org76a815c)
-- [Entrypoint](#orgda6be63)
-- [My Environment](#org59344ea)
-  - [Bootstrap](#orge918fc4)
-  - [Package Installation and Configuration](#org380e1c8)
-  - [Extra Packages](#orgbc650bc)
-  - [Language Configuration](#org15384ad)
-  - [Global Keybindings](#org1ee281d)
-  - [Org Mode Settings](#org95cc0a3)
-  - [Hostname-based tweaks](#org9d0839c)
-  - [Miscellaneous standalone global configuration changes](#org0429669)
-  - [ERC (IRC config)](#org5fd2a41)
-  - [Render this file for display on the web](#org59e70b3)
-  - [Footer](#org30b5806)
-  - [Styles for HTML export](#orge1f913a)
-- [Notes and Such](#orga42effe)
-  - [Monospace Fonts](#orge26429b)
-  - [Proportional Fonts](#org18fd1eb)
-  - [Authentication and Secrets in Emacs](#org5fdd82f)
-  - [Packages to Try](#org867fa35)
-  - [To do](#org4fea7f3)
+- [What is this?](#org7e83845)
+- [Entrypoint](#org12f247d)
+- [My Environment](#orgf5f88d0)
+  - [Bootstrap](#org445962e)
+  - [Package Installation and Configuration](#org4fe6aa7)
+  - [Extra Packages](#orgef71447)
+  - [Language Configuration](#org453e36d)
+  - [Global Keybindings](#orgeeb72b9)
+  - [Org Mode Settings](#org646ed9a)
+  - [Hostname-based tweaks](#orge7f96e5)
+  - [Miscellaneous standalone global configuration changes](#orgebe1792)
+  - [ERC (IRC config)](#orgbe15917)
+  - [Render this file for display on the web](#orgb29b205)
+  - [Footer](#org4c9b5e4)
+  - [Styles for HTML export](#orgd070a19)
+- [Notes and Such](#org84cde3b)
+  - [Monospace Fonts](#org6fad722)
+  - [Proportional Fonts](#org19edfc8)
+  - [Authentication and Secrets in Emacs](#org0596946)
+  - [Packages to Try](#orgc058148)
+  - [To do](#org8a4327b)
 
 
 
-<a id="org76a815c"></a>
+<a id="org7e83845"></a>
 
 # What is this?
 
@@ -42,7 +42,7 @@ emacs
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
 
 
-<a id="orgda6be63"></a>
+<a id="org12f247d"></a>
 
 # Entrypoint
 
@@ -67,11 +67,11 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 		 "lisp" (expand-file-name
 			 "org" (expand-file-name
 				"src" dotfiles-dir))))
-	   (org-contrib-dir (expand-file-name
+       (org-contrib-dir (expand-file-name
 			 "lisp" (expand-file-name
 				 "contrib" (expand-file-name
-						".." org-dir))))
-	   (load-path (append (list org-dir org-contrib-dir)
+					    ".." org-dir))))
+       (load-path (append (list org-dir org-contrib-dir)
 			  (or load-path nil))))
   ;; load up Org-mode and Org-babel
   (require 'org-install)
@@ -92,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org59344ea"></a>
+<a id="orgf5f88d0"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orge918fc4"></a>
+<a id="org445962e"></a>
 
 ## Bootstrap
 
@@ -131,18 +131,18 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 
   (require 'package)
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			   ("melpa" . "https://melpa.org/packages/")
-			   ("org" . "http://orgmode.org/elpa/")))
+		       ("melpa" . "https://melpa.org/packages/")
+		       ("org" . "http://orgmode.org/elpa/")))
   (package-initialize)
 
   ;; Now install use-package to enable us to use it
   ;; to manage the rest of our packages
 
   (unless (package-installed-p 'use-package)
-	(progn
-	  (unless package-archive-contents
+    (progn
+      (unless package-archive-contents
 	(package-refresh-contents))
-	  (package-install 'use-package)))
+      (package-install 'use-package)))
 
   ;; set ensure to be the default
   (require 'use-package-ensure)
@@ -159,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org380e1c8"></a>
+<a id="org4fe6aa7"></a>
 
 ## Package Installation and Configuration
 
@@ -230,20 +230,20 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 (defun setup-evil ()
   "Install and configure evil-mode and related bindings."
   (use-package evil
-	:init
-	(setq evil-want-keybinding nil)
-	(setq evil-want-integration t)
-	:config
-	(evil-mode 1))
+    :init
+    (setq evil-want-keybinding nil)
+    (setq evil-want-integration t)
+    :config
+    (evil-mode 1))
 
   (use-package evil-collection
-	:after evil
-	:config
-	(evil-collection-init))
+    :after evil
+    :config
+    (evil-collection-init))
 
   ;; add fd as a remap for esc
   (use-package evil-escape
-	:delight)
+    :delight)
 
   (evil-escape-mode 1)
   (setq-default evil-escape-key-sequence "fd"))
@@ -254,7 +254,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org1ee281d) section.
+It's mostly used below in the [global keybindings](#orgeeb72b9) section.
 
 ```emacs-lisp
 (use-package general
@@ -274,8 +274,8 @@ It's mostly used below in the [global keybindings](#org1ee281d) section.
   :delight
   :config
   (use-package helm-descbinds
-	:config
-	(helm-descbinds-mode))
+    :config
+    (helm-descbinds-mode))
 
   (global-set-key (kbd "M-x") #'helm-M-x)
   (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
@@ -331,9 +331,9 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 ;; @see https://bitbucket.org/lyro/evil/issue/511/let-certain-minor-modes-key-bindings
 (eval-after-load 'git-timemachine
   '(progn
-	 (evil-make-overriding-map git-timemachine-mode-map 'normal)
-	 ;; force update evil keymaps after git-timemachine-mode loaded
-	 (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps)))
+     (evil-make-overriding-map git-timemachine-mode-map 'normal)
+     ;; force update evil keymaps after git-timemachine-mode loaded
+     (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps)))
 ```
 
 
@@ -361,13 +361,13 @@ If you run a command through `M-x compile` by default Emacs prints ANSI codes li
   ;; slightly modified from
   ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
   (defun colorize-compilation ()
-	"Colorize from `compilation-filter-start' to `point'."
-	(let ((inhibit-read-only t))
-	  (ansi-color-apply-on-region
-	   compilation-filter-start (point))))
+    "Colorize from `compilation-filter-start' to `point'."
+    (let ((inhibit-read-only t))
+      (ansi-color-apply-on-region
+       compilation-filter-start (point))))
 
   (add-hook 'compilation-filter-hook
-		#'colorize-compilation))
+	    #'colorize-compilation))
 
 (ansi)
 ```
@@ -441,7 +441,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="orgbc650bc"></a>
+<a id="orgef71447"></a>
 
 ## Extra Packages
 
@@ -452,9 +452,9 @@ Packages with a smaller effect on the experience.
 
 ```emacs-lisp
 (use-package git-gutter
-	:delight
-	:config
-	(global-git-gutter-mode +1))
+    :delight
+    :config
+    (global-git-gutter-mode +1))
   ;; git-gutter does not play nicely with linum-mode
   ;; investigate long-term solution?
 ```
@@ -555,7 +555,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org15384ad"></a>
+<a id="org453e36d"></a>
 
 ## Language Configuration
 
@@ -672,180 +672,167 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 
 -   Initial Setup
 
-	```emacs-lisp
-	(defun set-gopls-lib-dirs ()
-	  "Add $GOPATH/pkg/mod to the 'library path'."
-	  ;; stops lsp from continually asking if Go projects should be imported
-	  (setq lsp-clients-go-library-directories
-		(list
-		 "/usr"
-		 (concat (getenv "GOPATH") "/pkg/mod"))))
-
-	;; native go mode
-	(use-package go-mode
-	  :hook ((go-mode . lsp-deferred)
-		 (go-mode . set-gopls-lib-dirs)
-		 (go-mode . yas-minor-mode))
-	  :config
-	  ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-	  ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
-	  (evil-add-command-properties #'godef-jump :jump t))
-
-	;; load golint if the project has been added
-
-	(if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
-		(add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
-		(require 'golint))
-
-	;; enable golangci-lint to work with flycheck
-	(use-package flycheck-golangci-lint
-	  :hook (go-mode . flycheck-golangci-lint-setup))
-	```
+    ```emacs-lisp
+    (defun set-gopls-lib-dirs ()
+      "Add $GOPATH/pkg/mod to the 'library path'."
+      ;; stops lsp from continually asking if Go projects should be imported
+      (setq lsp-clients-go-library-directories
+    	(list
+    	 "/usr"
+    	 (concat (getenv "GOPATH") "/pkg/mod"))))
+    
+    ;; native go mode
+    (use-package go-mode
+      :hook ((go-mode . lsp-deferred)
+    	 (go-mode . set-gopls-lib-dirs)
+    	 (go-mode . yas-minor-mode))
+      :config
+      ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+      ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
+      (evil-add-command-properties #'godef-jump :jump t))
+    
+    ;; load golint if the project has been added
+    
+    (if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
+        (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
+        (require 'golint))
+    
+    ;; enable golangci-lint to work with flycheck
+    (use-package flycheck-golangci-lint
+      :hook (go-mode . flycheck-golangci-lint-setup))
+    ```
 
 -   Functions for Executing Tests
 
-	I find it tedious to run `go test` and type out the filename to test a specific file or even more tedious to type out the name of a test. Instead I've written a few functions to run tests and put the output in a dismissable buffer. Then these get added to the Go mode key bindings later.
-
-	```emacs-lisp
-	(defun delete-go-test-buffer-if-exist ()
-		  (let ((b (get-buffer "*go test*")))
-		(if b (kill-buffer "*go test*"))))
-
-	(defun go-test-project ()
-	  "Run all Go tests in this project."
-	  (interactive)
-	  (projectile-with-default-dir (projectile-project-root)
-		(delete-go-test-buffer-if-exist)
-		(split-window-sensibly)
-		(view-buffer "*go test*")
-		(start-process "go test" "*go test*" "go" "test" "./...")
-		(message "Running all tests for project %s" (projectile-project-name))))
-
-	(defun go-run-tests-in-file ()
-	  "Run all the Go tests in this file."
-	  (interactive)
-	  (let ((filename (buffer-file-name)))
-		(delete-go-test-buffer-if-exist)
-		(split-window-sensibly)
-		(view-buffer "*go test*")
-		(message "Running tests in file %s" filename)
-		(start-process "go test" "*go test*" "go" "test" "-run" (concat "./" filename))))
-
-	(defun go-run-test-at-point ()
-	  "Run the test at point in Go."
-	  (interactive)
-	  (save-excursion
-		(go-goto-function-name)
-		(delete-go-test-buffer-if-exist)
-		(let ((name (current-word)))
-		  (split-window-sensibly)
-		  (view-buffer "*go test*")
-		  (start-process "go test" "*go test*" "go" "test" "-run" name)
-		  (message "Running test %s" name))))
-	```
+    I find it tedious to run `go test` and type out the filename to test a specific file or even more tedious to type out the name of a test. Instead I've written a few functions to run tests and put the output in a dismissable buffer. Then these get added to the Go mode key bindings later.
+    
+    ```emacs-lisp
+    (defun delete-go-test-buffer-if-exist ()
+          (let ((b (get-buffer "*go test*")))
+    	(if b (kill-buffer "*go test*"))))
+    
+    (defun go-test-project ()
+      "Run all Go tests in this project."
+      (interactive)
+      (projectile-with-default-dir (projectile-project-root)
+        (delete-go-test-buffer-if-exist)
+        (split-window-sensibly)
+        (view-buffer "*go test*")
+        (start-process "go test" "*go test*" "go" "test" "./...")
+        (message "Running all tests for project %s" (projectile-project-name))))
+    
+    (defun go-run-tests-in-file ()
+      "Run all the Go tests in this file."
+      (interactive)
+      (let ((filename (buffer-file-name)))
+        (delete-go-test-buffer-if-exist)
+        (split-window-sensibly)
+        (view-buffer "*go test*")
+        (message "Running tests in file %s" filename)
+        (start-process "go test" "*go test*" "go" "test" "-run" (concat "./" filename))))
+    
+    (defun go-run-test-at-point ()
+      "Run the test at point in Go."
+      (interactive)
+      (save-excursion
+        (go-goto-function-name)
+        (delete-go-test-buffer-if-exist)
+        (let ((name (current-word)))
+          (split-window-sensibly)
+          (view-buffer "*go test*")
+          (start-process "go test" "*go test*" "go" "test" "-run" name)
+          (message "Running test %s" name))))
+    ```
 
 -   REPL
 
-	[Gore](https://github.com/motemen/gore) provides a REPL and [gorepl-mode](https://github.com/manute/gorepl-mode) lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
-
-	```sh
-	go get -u github.com/motemen/gore/cmd/gore
-	```
-
-	Gore also uses gocode for code completion, so install that (even though Emacs uses go-pls for the same).
-
-	```sh
-	go get -u github.com/mdempsky/gocode
-	```
-
-	Once that's done `gorepl-mode` is ready to be installed:
-
-	```emacs-lisp
-	(use-package gorepl-mode)
-	```
+    [Gore](https://github.com/motemen/gore) provides a REPL and [gorepl-mode](https://github.com/manute/gorepl-mode) lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
+    
+    ```sh
+    go get -u github.com/motemen/gore/cmd/gore
+    ```
+    
+    Gore also uses gocode for code completion, so install that (even though Emacs uses go-pls for the same).
+    
+    ```sh
+    go get -u github.com/mdempsky/gocode
+    ```
+    
+    Once that's done `gorepl-mode` is ready to be installed:
+    
+    ```emacs-lisp
+    (use-package gorepl-mode)
+    ```
 
 -   Specific Keybindings
 
-	```emacs-lisp
-	(general-define-key
-	 :states  'normal
-	 :keymaps 'go-mode-map
-	 ",a"     'go-import-add
-	 ",d"     'lsp-describe-thing-at-point
-	 ",gg"    'lsp-find-definition
-	 ",gt"    'lsp-find-type-definition
-	 ",i"     'lsp-find-implementation
-	 ",n"     'lsp-rename
-	 ",r"     'lsp-find-references
-	 ",tt"    'go-run-test-at-point
-	 ",tp"    'go-test-project
-	 ",tf"    'go-run-tests-in-file
-	 ",x"     'lsp-execute-code-action
-	 ",lsp"   'lsp-workspace-restart
-	 "gd"     'lsp-find-definition
-
-	 ;; using the ,c namespace for repl stuff to follow the C-c convention
-	 ;; found in other places in Emacs
-	 ",cc"     'gorepl-run
-	 ",cg"     'gorepl-run-load-current-file
-	 ",cx"     'gorepl-eval-region
-	 ",cl"     'gorepl-eval-line
-
-	;; origami-mode works better with lsp than regular evil-mode
-	 "TAB"    'origami-toggle-node
-
-	 "zm"     'origami-toggle-node
-	 "zM"     'origami-toggle-all-nodes
-
-	 "zc"     'origami-close-node
-	 "zC"     'origami-close-node-recursively
-
-	 "zo"     'origami-open-node
-	 "zO"     'origami-open-node-recursively
-
-	 ;; except for when it totally breaks lol
-	 "zr"     'origami-reset
-	)
-
-	(autoload 'go-mode "go-mode" nil t)
-	(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-	```
+    ```emacs-lisp
+    (general-define-key
+     :states  'normal
+     :keymaps 'go-mode-map
+     ",a"     'go-import-add
+     ",d"     'lsp-describe-thing-at-point
+     ",gg"    'lsp-find-definition
+     ",gt"    'lsp-find-type-definition
+     ",i"     'lsp-find-implementation
+     ",n"     'lsp-rename
+     ",r"     'lsp-find-references
+     ",tt"    'go-run-test-at-point
+     ",tp"    'go-test-project
+     ",tf"    'go-run-tests-in-file
+     ",x"     'lsp-execute-code-action
+     ",lsp"   'lsp-workspace-restart
+     "gd"     'lsp-find-definition
+    
+     ;; using the ,c namespace for repl stuff to follow the C-c convention
+     ;; found in other places in Emacs
+     ",cc"     'gorepl-run
+     ",cg"     'gorepl-run-load-current-file
+     ",cx"     'gorepl-eval-region
+     ",cl"     'gorepl-eval-line
+    
+    ;; origami-mode works better with lsp than regular evil-mode
+     "TAB"    'origami-toggle-node
+    
+     "zm"     'origami-toggle-node
+     "zM"     'origami-toggle-all-nodes
+    
+     "zc"     'origami-close-node
+     "zC"     'origami-close-node-recursively
+    
+     "zo"     'origami-open-node
+     "zO"     'origami-open-node-recursively
+    
+     ;; except for when it totally breaks lol
+     "zr"     'origami-reset
+    )
+    
+    (autoload 'go-mode "go-mode" nil t)
+    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+    ```
 
 -   Hooks
 
-	```emacs-lisp
-	;; disable "Organize Imports" warning that never goes away
-	(add-hook 'go-mode-hook
-		  (lambda ()
-			;; Go likes origami-mode
-			(origami-mode)
-			;; lsp ui sideline code actions are annoying in Go
-			(setq-local lsp-ui-sideline-show-code-actions nil)))
-
-	;; sets the visual tab width to 2 spaces per tab in Go buffers
-	(add-hook 'go-mode-hook (lambda ()
-				  (set (make-local-variable 'tab-width) 2)))
-
-
-	(defun lsp-go-install-save-hooks ()
-	  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-	  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-	(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-	```
-
-
-### Javascript
-
-```emacs-lisp
-;; React JSX mode for .jsx files and component/*.js files
-(use-package rjsx-mode
-  :hook ((rjsx-mode . lsp-deferred))
-  :config
-  (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-  :init
-  (add-hook 'javascript-mode-hook #'lsp))
-```
+    ```emacs-lisp
+    ;; disable "Organize Imports" warning that never goes away
+    (add-hook 'go-mode-hook
+    	  (lambda ()
+    	    ;; Go likes origami-mode
+    	    (origami-mode)
+    	    ;; lsp ui sideline code actions are annoying in Go
+    	    (setq-local lsp-ui-sideline-show-code-actions nil)))
+    
+    ;; sets the visual tab width to 2 spaces per tab in Go buffers
+    (add-hook 'go-mode-hook (lambda ()
+    			  (set (make-local-variable 'tab-width) 2)))
+    
+    
+    (defun lsp-go-install-save-hooks ()
+      (add-hook 'before-save-hook #'lsp-format-buffer t t)
+      (add-hook 'before-save-hook #'lsp-organize-imports t t))
+    
+    (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+    ```
 
 
 ### Web
@@ -853,7 +840,14 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 ```emacs-lisp
 (use-package web-mode
   :mode (("\\.html$" . web-mode)
+	 ("\\.js$"   . web-mode)
+	 ("\\.jsx$"  . web-mode)
+	 ("\\.ts$"   . web-mode)
+	 ("\\.tsx$"  . web-mode)
 	 ("\\.css$"  . web-mode))
+  :hook
+  ((web-mode . lsp-deferred))
+
   :config
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-enable-auto-pairing t))
@@ -880,7 +874,7 @@ Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs f
 ```emacs-lisp
 (add-hook 'sh-mode-hook
 	  (lambda ()
-		(defvar-local indent-tabs-mode nil)))
+	    (defvar-local indent-tabs-mode nil)))
 ```
 
 
@@ -893,8 +887,8 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   :config
   (setq-default adaptive-wrap-extra-indent 2)
   (defun adaptive-and-visual-line-mode (hook)
-	(add-hook hook (lambda ()
-			  (progn
+    (add-hook hook (lambda ()
+		      (progn
 			(visual-line-mode)
 			(adaptive-wrap-prefix-mode)))))
 
@@ -907,12 +901,12 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 	 'rjsx-mode-hook))
 
   (add-hook 'compilation-mode-hook
-		#'adaptive-wrap-prefix-mode)
+	    #'adaptive-wrap-prefix-mode)
   )
 ```
 
 
-<a id="org1ee281d"></a>
+<a id="orgeeb72b9"></a>
 
 ## Global Keybindings
 
@@ -1005,7 +999,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org95cc0a3"></a>
+<a id="org646ed9a"></a>
 
 ## Org Mode Settings
 
@@ -1037,10 +1031,10 @@ Image drag-and-drop for org-mode
 
 ;; enable execution of languages from Babel
 (org-babel-do-load-languages 'org-babel-load-languages
-				 '(
-				   (shell . t)
-				   )
-				 )
+			     '(
+			       (shell . t)
+			       )
+			     )
 
 (my-local-leader-def
   :states  'normal
@@ -1061,12 +1055,12 @@ Image drag-and-drop for org-mode
 ;; enable markdown export
 (eval-after-load "org"
   (progn
-	'(require 'ox-md nil t)
-	'(require 'ox-gfm nil t)))
+    '(require 'ox-md nil t)
+    '(require 'ox-gfm nil t)))
 ```
 
 
-<a id="org9d0839c"></a>
+<a id="orge7f96e5"></a>
 
 ## Hostname-based tweaks
 
@@ -1086,22 +1080,22 @@ Right now I have three configurations:
   (set-frame-font font nil t))
 
 (let ;; find the hostname and assign it to a variable
-	 ((hostname (string-trim-right
+     ((hostname (string-trim-right
 		 (shell-command-to-string "hostname"))))
 
    (progn
-	 (org-babel-tangle-file
-	  (concat "~/.emacs.d/local/" hostname ".org")
-	  (concat hostname ".el"))
+     (org-babel-tangle-file
+      (concat "~/.emacs.d/local/" hostname ".org")
+      (concat hostname ".el"))
 
-	 (load (concat "~/.emacs.d/local/" hostname ".el"))
-	 (require 'local)))
+     (load (concat "~/.emacs.d/local/" hostname ".el"))
+     (require 'local)))
 ```
 
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org0429669"></a>
+<a id="orgebe1792"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1130,13 +1124,13 @@ Probably from Spacemacs. Thanks, Spacemacs.
 (defun toggle-transparency ()
   (interactive)
   (let ((alpha (frame-parameter nil 'alpha)))
-	(set-frame-parameter
-	 nil 'alpha
-	 (if (eql (cond ((numberp alpha) alpha)
-			((numberp (cdr alpha)) (cdr alpha))
-			;; Also handle undocumented (<active> <inactive>) form.
-			((numberp (cadr alpha)) (cadr alpha)))
-		  100)
+    (set-frame-parameter
+     nil 'alpha
+     (if (eql (cond ((numberp alpha) alpha)
+		    ((numberp (cdr alpha)) (cdr alpha))
+		    ;; Also handle undocumented (<active> <inactive>) form.
+		    ((numberp (cadr alpha)) (cadr alpha)))
+	      100)
 	 '95 '(100 . 100)))))
 ```
 
@@ -1150,10 +1144,10 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think `hycont
 ```emacs-lisp
 (defun er-switch-to-previous-buffer ()
   (concat
-	"Switch to previously open buffer."
-	"Repeated invocations toggle between the two most recently open buffers.")
-	(interactive)
-	(switch-to-buffer (other-buffer (current-buffer) 1)))
+    "Switch to previously open buffer."
+    "Repeated invocations toggle between the two most recently open buffers.")
+    (interactive)
+    (switch-to-buffer (other-buffer (current-buffer) 1)))
 ```
 
 
@@ -1178,7 +1172,7 @@ Lifted from StackOverflow:
 ```emacs-lisp
 (defadvice align-regexp (around align-regexp-with-spaces activate)
   (let ((indent-tabs-mode nil))
-	ad-do-it))
+    ad-do-it))
 ```
 
 
@@ -1193,11 +1187,12 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 ```
 
 
-### Clean whitespace on save in all modes
+### TODO Clean whitespace on save in all modes
+
+I have to actually go in and configure this because the defaults keep giving me fucking heartburn. It keeps messing with the whitespace in files that are none of its business. Maybe I just need to carefully enable it for certain modes? idk, too much magic, no time to look into it right now.
 
 ```emacs-lisp
-(add-hook 'before-save-hook 'whitespace-cleanup)
-
+;; (add-hook 'before-save-hook 'whitespace-cleanup)
 ```
 
 
@@ -1242,15 +1237,15 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 
 ```emacs-lisp
 (setq ring-bell-function
-	  (lambda ()
+      (lambda ()
 	(let ((orig-fg (face-foreground 'mode-line)))
 	  ;; change the flash color here
 	  ;; overrides themes :P
 	  ;; guess that's one way to do it
 	  (set-face-foreground 'mode-line "#F2804F")
 	  (run-with-idle-timer 0.1 nil
-				   (lambda (fg) (set-face-foreground 'mode-line fg))
-				   orig-fg))))
+			       (lambda (fg) (set-face-foreground 'mode-line fg))
+			       orig-fg))))
 ```
 
 (from Emacs wiki)
@@ -1266,30 +1261,30 @@ Figures out the frame size and passes it to `byzanz-record`. Only works if `byza
   (interactive "sDuration: ")
 
   (defun width ()
-	"get the width of the frame"
-	(+ 10 (frame-pixel-width)))
+    "get the width of the frame"
+    (+ 10 (frame-pixel-width)))
 
   (defun height ()
-	"get the height of the frame"
-	(+ 50 (frame-pixel-height)))
+    "get the height of the frame"
+    (+ 50 (frame-pixel-height)))
 
   (defun y ()
-	"get the y position of the frame"
-	(frame-parameter nil 'top))
+    "get the y position of the frame"
+    (frame-parameter nil 'top))
 
   (defun x ()
-	"get the x position of the frame"
-	(cond ((numberp (frame-parameter nil 'left))
+    "get the x position of the frame"
+    (cond ((numberp (frame-parameter nil 'left))
 	   (frame-parameter nil 'left))
 	  (t
 	   0)))
 
   (defun filename()
-	"get the timestamped filename of the gif"
-	(concat " ~/emacs-gifs/" (format-time-string "%Y-%m-%dT%T") ".gif"))
+    "get the timestamped filename of the gif"
+    (concat " ~/emacs-gifs/" (format-time-string "%Y-%m-%dT%T") ".gif"))
 
   (if (not (file-directory-p "~/emacs-gifs"))
-	  (make-directory "~/emacs-gifs"))
+      (make-directory "~/emacs-gifs"))
   (start-process-shell-command
    "create-gif" "*Messages*"
    (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
@@ -1308,7 +1303,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org5fd2a41"></a>
+<a id="orgbe15917"></a>
 
 ## ERC (IRC config)
 
@@ -1343,12 +1338,12 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 			"~/.emacs.d/get-nick.bash freenode"))
 	 ))
 
-	(erc-tls
-	 ;; these days I only use Freenode
-	 :server "irc.freenode.net"
-	 :port 6697
-	 :nick nick)
-	)
+    (erc-tls
+     ;; these days I only use Freenode
+     :server "irc.freenode.net"
+     :port 6697
+     :nick nick)
+    )
 
   ;; channel subscriptions
   (defvar erc-autojoin-channels-alist)
@@ -1370,7 +1365,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org59e70b3"></a>
+<a id="orgb29b205"></a>
 
 ## Render this file for display on the web
 
@@ -1380,24 +1375,24 @@ This function registers a hook that will export this file to Github flavored Mar
 (add-hook
  'after-save-hook
  '(lambda ()
-	(when (string=
+    (when (string=
 	   (file-name-nondirectory (buffer-file-name))
 	   "ian.org")
 
-	  (org-html-export-to-html)
-	  (org-gfm-export-to-markdown)
+      (org-html-export-to-html)
+      (org-gfm-export-to-markdown)
 
-	  (if (find-buffer-visiting "~/.emacs.d/README.md")
+      (if (find-buffer-visiting "~/.emacs.d/README.md")
 	  (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
 
-	  (delete-file "README.md" t)
-	  (rename-file "ian.md" "README.md")
+      (delete-file "README.md" t)
+      (rename-file "ian.md" "README.md")
 
-	  )))
+      )))
 ```
 
 
-<a id="org30b5806"></a>
+<a id="org4c9b5e4"></a>
 
 ## Footer
 
@@ -1408,31 +1403,31 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orge1f913a"></a>
+<a id="orgd070a19"></a>
 
 ## Styles for HTML export
 
 ```css
 body {
-	width: 90%;
-	max-width: 800px;
-	margin-left: auto;
-	margin-right: auto;
+    width: 90%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 .validation {
-	display: none;
+    display: none;
 }
 ```
 
 
-<a id="orga42effe"></a>
+<a id="org84cde3b"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="orge26429b"></a>
+<a id="org6fad722"></a>
 
 ## Monospace Fonts
 
@@ -1464,14 +1459,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org18fd1eb"></a>
+<a id="org19edfc8"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org5fdd82f"></a>
+<a id="org0596946"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1480,7 +1475,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org867fa35"></a>
+<a id="orgc058148"></a>
 
 ## Packages to Try
 
@@ -1497,7 +1492,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org4fea7f3"></a>
+<a id="org8a4327b"></a>
 
 ## To do
 
