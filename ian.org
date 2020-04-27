@@ -677,21 +677,18 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 #+END_SRC
-*** Javascript
-#+BEGIN_SRC emacs-lisp
-  ;; React JSX mode for .jsx files and component/*.js files
-  (use-package rjsx-mode
-    :hook ((rjsx-mode . lsp-deferred))
-    :config
-    (add-to-list 'auto-mode-alist '("components\\/.*\\.js\\'" . rjsx-mode))
-    :init
-    (add-hook 'javascript-mode-hook #'lsp))
-#+END_SRC
 *** Web
 #+BEGIN_SRC emacs-lisp
   (use-package web-mode
     :mode (("\\.html$" . web-mode)
+           ("\\.js$"   . web-mode)
+           ("\\.jsx$"  . web-mode)
+           ("\\.ts$"   . web-mode)
+           ("\\.tsx$"  . web-mode)
            ("\\.css$"  . web-mode))
+    :hook
+    ((web-mode . lsp-deferred))
+
     :config
     (setq web-mode-enable-css-colorization t)
     (setq web-mode-enable-auto-pairing t))
