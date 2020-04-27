@@ -982,10 +982,11 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
   (setq backup-by-copying t)
   (setq delete-old-versions t)
 #+END_SRC
-*** Clean whitespace on save in all modes
+*** TODO Clean whitespace on save in all modes
+I have to actually go in and configure this because the defaults keep giving me fucking heartburn.
+It keeps messing with the whitespace in files that are none of its business. Maybe I just need to carefully enable it for certain modes? idk, too much magic, no time to look into it right now.
 #+BEGIN_SRC emacs-lisp
-  (add-hook 'before-save-hook 'whitespace-cleanup)
-
+  ;; (add-hook 'before-save-hook 'whitespace-cleanup)
 #+END_SRC
 *** Autosave
 Automatically saves the file when it's been idle for 5 minutes.
