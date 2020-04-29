@@ -328,13 +328,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
           )
     )
 #+END_SRC
-*** Install and Configure Blogging Tools
-Easy Hugo is an interactive UI for managing a Hugo site.
-#+BEGIN_SRC emacs-lisp
-    (use-package easy-hugo
-      :config
-      (add-to-list 'evil-emacs-state-modes 'easy-hugo-mode))
-#+END_SRC
 *** Install and Configure GNU Hyperbole
 [[https://www.gnu.org/software/hyperbole/][GNU Hyperbole]] adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
 
