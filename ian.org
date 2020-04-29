@@ -361,8 +361,6 @@ Packages with a smaller effect on the experience.
       :delight
       :config
       (global-git-gutter-mode +1))
-    ;; git-gutter does not play nicely with linum-mode
-    ;; investigate long-term solution?
 #+END_SRC
 *** Highlight the current line
 I like to highlight the current line so that it is easy to identify where my cursor is.
