@@ -194,8 +194,13 @@ It's controversial but I think modal editing is brilliant and have been using ~v
     ;; add fd as a remap for esc
     (use-package evil-escape
       :delight)
-
     (evil-escape-mode 1)
+
+    (use-package evil-surround
+      :config
+      (global-evil-surround-mode 1))
+
+
     (setq-default evil-escape-key-sequence "fd"))
 #+END_SRC
 *** Install and Configure Keybindings Helper
