@@ -1079,6 +1079,10 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
   (scroll-bar-mode -1)
 #+END_SRC
 
+*** Enable the mouse in the terminal
+#+BEGIN_SRC emacs-lisp
+  (xterm-mouse-mode 1)
+#+END_SRC
 ** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
