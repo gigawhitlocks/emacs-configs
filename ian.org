@@ -440,7 +440,7 @@ LSP provides a generic interface for text editors to talk to various language se
     (setq lsp-prefer-flymake nil))
 
   (use-package lsp-ui)
-  (setq lsp-ui-doc-use-childframe nil)
+  (setq lsp-ui-doc-use-childframe t)
 
   (use-package company-lsp)
   (use-package lsp-origami)
@@ -889,12 +889,25 @@ Image drag-and-drop for org-mode
   ;; github-flavored markdown
   (use-package ox-gfm)
 
+  ;; htmlize prints the current buffer or file, as it would appear in
+  ;; Emacs, but in HTML! It's super cool and TODO I need to move this
+  ;; use-package statement somewhere I can talk about htmlize outside of
+  ;; a comment
+  (use-package htmlize)
+
   ;; enable markdown export
   (eval-after-load "org"
     (progn
       '(require 'ox-md nil t)
       '(require 'ox-gfm nil t)))
+
+  ;; todo states
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "|" "IN PROGRESS(p)" "|" "DONE(d)")
+          (sequence "QUESTION(q)" "|" "ANSWERED(a)")
+          (sequence "AGENDA(a)" "|" "DONE(d)" )))
 #+END_SRC
+
 ** Hostname-based tweaks
 Looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
 I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
@@ -1179,13 +1192,30 @@ This function registers a hook that will export this file to Github flavored Mar
 ** Styles for HTML export
 #+BEGIN_SRC css :tangle ./styles.css
   body {
+      font-family: Sans;
       width: 90%;
-      max-width: 800px;
+      max-width: 950px;
       margin-left: auto;
       margin-right: auto;
   }
+
   .validation {
       display: none;
+  }
+
+  div.org-src-container {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+  }
+
+  pre.src {
+      width: 100%;
+      background-color: #FFFFE0;
+      height: 100%;
+      overflow: scroll;
+      padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
+      box-sizing: content-box; /* So the width will be 100% + 17px */
   }
 #+END_SRC
 * Notes and Such
