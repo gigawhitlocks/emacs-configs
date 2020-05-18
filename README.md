@@ -1,28 +1,28 @@
-- [What is this?](#org109497e)
-- [Entrypoint](#org95c85ac)
-- [My Environment](#org9db4f5d)
-  - [Bootstrap](#org7b4fb0b)
-  - [Package Installation and Configuration](#org3b91d4b)
-  - [Extra Packages](#org8203e30)
-  - [Language Configuration](#org84726b9)
-  - [Global Keybindings](#org2b41c47)
-  - [Org Mode Settings](#orgbf42c9e)
-  - [Hostname-based tweaks](#orgdc40a92)
-  - [Miscellaneous standalone global configuration changes](#org075a022)
-  - [ERC (IRC config)](#orge8ee4cc)
-  - [Render this file for display on the web](#org3aad3e3)
-  - [Footer](#orgbaf4c96)
-  - [Styles for HTML export](#orgb123cab)
-- [Notes and Such](#org0a22d58)
-  - [Monospace Fonts](#org5f22c46)
-  - [Proportional Fonts](#org79f057b)
-  - [Authentication and Secrets in Emacs](#org773547e)
-  - [Packages to Try](#org51137cb)
-  - [To do](#org1b6a07a)
+- [What is this?](#org17ebabe)
+- [Entrypoint](#org19ace84)
+- [My Environment](#org2c38850)
+  - [Bootstrap](#org5c23e14)
+  - [Package Installation and Configuration](#orga4f38d2)
+  - [Extra Packages](#orga823f88)
+  - [Language Configuration](#orgeda7148)
+  - [Global Keybindings](#orgfadc3ee)
+  - [Org Mode Settings](#orgcd2a959)
+  - [Hostname-based tweaks](#orgca5cfcd)
+  - [Miscellaneous standalone global configuration changes](#orgb285ff4)
+  - [ERC (IRC config)](#org4e8526d)
+  - [Render this file for display on the web](#org1193dcf)
+  - [Footer](#org440d7b3)
+  - [Styles for HTML export](#orge8ff87b)
+- [Notes and Such](#org900fdfb)
+  - [Monospace Fonts](#org74e9831)
+  - [Proportional Fonts](#orgffb22d7)
+  - [Authentication and Secrets in Emacs](#org6dc4a76)
+  - [Packages to Try](#org817f75f)
+  - [To do](#orgf6fbb69)
 
 
 
-<a id="org109497e"></a>
+<a id="org17ebabe"></a>
 
 # What is this?
 
@@ -39,10 +39,14 @@ mv ~/.emacs.d/local/wintermute.org ~/.emacs.d/local/"$(hostname)".org
 emacs
 ```
 
-No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
+No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have! Hopefully this file is readable enough that individual snippets are understandable and can be taken *a la carté*.
+
+Here is a screenshot of this file being edited with this configuration:
+
+![img](What_is_this/2020-05-17_23-04-37_Screenshot%2520from%25202020-05-17%252022-02-47.png)
 
 
-<a id="org95c85ac"></a>
+<a id="org19ace84"></a>
 
 # Entrypoint
 
@@ -92,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org9db4f5d"></a>
+<a id="org2c38850"></a>
 
 # My Environment
 
@@ -105,7 +109,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org7b4fb0b"></a>
+<a id="org5c23e14"></a>
 
 ## Bootstrap
 
@@ -159,7 +163,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org3b91d4b"></a>
+<a id="orga4f38d2"></a>
 
 ## Package Installation and Configuration
 
@@ -259,7 +263,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org2b41c47) section.
+It's mostly used below in the [global keybindings](#orgfadc3ee) section.
 
 ```emacs-lisp
 (use-package general
@@ -437,7 +441,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="org8203e30"></a>
+<a id="orga823f88"></a>
 
 ## Extra Packages
 
@@ -559,7 +563,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org84726b9"></a>
+<a id="orgeda7148"></a>
 
 ## Language Configuration
 
@@ -918,7 +922,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org2b41c47"></a>
+<a id="orgfadc3ee"></a>
 
 ## Global Keybindings
 
@@ -1011,7 +1015,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgbf42c9e"></a>
+<a id="orgcd2a959"></a>
 
 ## Org Mode Settings
 
@@ -1084,7 +1088,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="orgdc40a92"></a>
+<a id="orgca5cfcd"></a>
 
 ## Hostname-based tweaks
 
@@ -1119,7 +1123,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org075a022"></a>
+<a id="orgb285ff4"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1334,7 +1338,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="orge8ee4cc"></a>
+<a id="org4e8526d"></a>
 
 ## ERC (IRC config)
 
@@ -1396,34 +1400,34 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org3aad3e3"></a>
+<a id="org1193dcf"></a>
 
 ## Render this file for display on the web
 
 This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
 ```emacs-lisp
-(add-hook
- 'after-save-hook
- '(lambda ()
-    (when (string=
-	   (file-name-nondirectory (buffer-file-name))
-	   "ian.org")
+(defun render-configfile-for-web ()
+  (interactive)
+  (when (string=
+	 (file-name-nondirectory (buffer-file-name))
+	 "ian.org")
 
-      (org-html-export-to-html)
-      (org-gfm-export-to-markdown)
+    (org-html-export-to-html)
+    (org-gfm-export-to-markdown)
 
-      (if (find-buffer-visiting "~/.emacs.d/README.md")
-	  (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
+    (if (find-buffer-visiting "~/.emacs.d/README.md")
+	(kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
 
-      (delete-file "README.md" t)
-      (rename-file "ian.md" "README.md")
+    (delete-file "README.md" t)
+    (rename-file "ian.md" "README.md")
 
-      )))
+    )
+  )
 ```
 
 
-<a id="orgbaf4c96"></a>
+<a id="org440d7b3"></a>
 
 ## Footer
 
@@ -1434,21 +1438,50 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgb123cab"></a>
+<a id="orge8ff87b"></a>
 
 ## Styles for HTML export
 
 ```css
 body {
+    background-image: url("EmacsIcon.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 500px 500px;
+    background-color: #EEEEEE;
+}
+
+#content {
     font-family: Sans;
+    font-size: 1.2em;
     width: 90%;
     max-width: 950px;
     margin-left: auto;
     margin-right: auto;
+
+    padding: 25px;
+    background-color: rgba(255, 255, 255, .5);
 }
 
 .validation {
     display: none;
+}
+
+a {
+    color: #EF0FFF;
+}
+
+a:visited {
+    color: #076678;
+}
+
+a:hover {
+    color: #FFBC42;
+}
+
+a:active {
+    color: #F74343;
 }
 
 div.org-src-container {
@@ -1464,18 +1497,25 @@ pre.src {
     overflow: scroll;
     padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
     box-sizing: content-box; /* So the width will be 100% + 17px */
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+img {
+    max-width: 100%;
 }
 ```
 
 
-<a id="org0a22d58"></a>
+<a id="org900fdfb"></a>
 
 # Notes and Such
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org5f22c46"></a>
+<a id="org74e9831"></a>
 
 ## Monospace Fonts
 
@@ -1507,14 +1547,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org79f057b"></a>
+<a id="orgffb22d7"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org773547e"></a>
+<a id="org6dc4a76"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1523,7 +1563,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org51137cb"></a>
+<a id="org817f75f"></a>
 
 ## Packages to Try
 
@@ -1540,7 +1580,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org1b6a07a"></a>
+<a id="orgf6fbb69"></a>
 
 ## To do
 

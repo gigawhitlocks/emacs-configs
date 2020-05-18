@@ -17,7 +17,12 @@ If you want to try out this configuration file, run the following:
   emacs
 #+END_SRC
 
-No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have!
+No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have! Hopefully this file is readable enough that individual snippets are understandable and can be taken /a la carté/.
+
+Here is a screenshot of this file being edited with this configuration:
+
+#+DOWNLOADED: file:///home/ian/Pictures/Screenshot%20from%202020-05-17%2022-02-47.png @ 2020-05-17 23:04:37
+[[file:What_is_this/2020-05-17_23-04-37_Screenshot%2520from%25202020-05-17%252022-02-47.png]]
 
 * Entrypoint
 :properties:
