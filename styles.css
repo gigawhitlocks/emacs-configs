@@ -1,13 +1,43 @@
 /* [[file:~/.emacs.d/ian.org::*Styles%20for%20HTML%20export][Styles for HTML export:1]] */
 body {
+    background-image: url("EmacsIcon.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 500px 500px;
+    background-color: #EEEEEE;
+}
+
+#content {
+    font-family: Sans;
+    font-size: 1.2em;
     width: 90%;
     max-width: 950px;
     margin-left: auto;
     margin-right: auto;
+
+    padding: 25px;
+    background-color: rgba(255, 255, 255, .5);
 }
 
 .validation {
     display: none;
+}
+
+a {
+    color: #EF0FFF;
+}
+
+a:visited {
+    color: #076678;
+}
+
+a:hover {
+    color: #FFBC42;
+}
+
+a:active {
+    color: #F74343;
 }
 
 div.org-src-container {
@@ -23,5 +53,18 @@ pre.src {
     overflow: scroll;
     padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
     box-sizing: content-box; /* So the width will be 100% + 17px */
+    padding-left: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+img {
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+#text-table-of-contents {
 }
 /* Styles for HTML export:1 ends here */
