@@ -1192,15 +1192,44 @@ This function registers a hook that will export this file to Github flavored Mar
 ** Styles for HTML export
 #+BEGIN_SRC css :tangle ./styles.css
   body {
+      background-image: url("EmacsIcon.svg");
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: right top;
+      background-size: 500px 500px;
+      background-color: #EEEEEE;
+  }
+
+  #content {
       font-family: Sans;
+      font-size: 1.2em;
       width: 90%;
       max-width: 950px;
       margin-left: auto;
       margin-right: auto;
+
+      padding: 25px;
+      background-color: rgba(255, 255, 255, .5);
   }
 
   .validation {
       display: none;
+  }
+
+  a {
+      color: #EF0FFF;
+  }
+
+  a:visited {
+      color: #076678;
+  }
+
+  a:hover {
+      color: #FFBC42;
+  }
+
+  a:active {
+      color: #F74343;
   }
 
   div.org-src-container {
@@ -1216,8 +1245,15 @@ This function registers a hook that will export this file to Github flavored Mar
       overflow: scroll;
       padding-right: 17px; /* Increase/decrease this value for cross-browser compatibility */
       box-sizing: content-box; /* So the width will be 100% + 17px */
+      padding-left: 5px;
+      padding-top: 5px;
+      padding-bottom: 5px;
   }
-#+END_SRC
+
+  img {
+      max-width: 100%;
+  }
+  #+END_SRC
 * Notes and Such
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** Monospace Fonts
