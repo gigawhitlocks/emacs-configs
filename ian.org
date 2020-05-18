@@ -1163,23 +1163,23 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
 #+BEGIN_SRC emacs-lisp
-  (add-hook
-   'after-save-hook
-   '(lambda ()
-      (when (string=
-             (file-name-nondirectory (buffer-file-name))
-             "ian.org")
+  (defun render-configfile-for-web ()
+    (interactive)
+    (when (string=
+           (file-name-nondirectory (buffer-file-name))
+           "ian.org")
 
-        (org-html-export-to-html)
-        (org-gfm-export-to-markdown)
+      (org-html-export-to-html)
+      (org-gfm-export-to-markdown)
 
-        (if (find-buffer-visiting "~/.emacs.d/README.md")
-            (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
+      (if (find-buffer-visiting "~/.emacs.d/README.md")
+          (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
 
-        (delete-file "README.md" t)
-        (rename-file "ian.md" "README.md")
+      (delete-file "README.md" t)
+      (rename-file "ian.md" "README.md")
 
-        )))
+      )
+    )
 #+END_SRC
 
 ** Footer
