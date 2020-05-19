@@ -1,28 +1,28 @@
-- [What is this?](#org6bde5ed)
-- [Entrypoint](#org7465880)
-- [My Environment](#org09a9956)
-  - [Bootstrap](#orgaf81311)
-  - [Package Installation and Configuration](#orgfd71b69)
-  - [Extra Packages](#org8297af7)
-  - [Language Configuration](#org14f2a95)
-  - [Global Keybindings](#org9ed3f70)
-  - [Org Mode Settings](#orgdf14515)
-  - [Hostname-based tweaks](#org400d7e4)
-  - [Miscellaneous standalone global configuration changes](#org7bca17a)
-  - [ERC (IRC config)](#org94e6508)
-  - [Render this file for display on the web](#orge93c69f)
-  - [Footer](#org5c15117)
-  - [Styles for HTML export](#orga3be483)
-- [Notes and Miscellaneous](#orgbfbbe7f)
-  - [Monospace Fonts](#org319b5f5)
-  - [Proportional Fonts](#org7e08cf5)
-  - [Authentication and Secrets in Emacs](#orgb6e5bc4)
-  - [Packages to Try](#org2040402)
-  - [To do](#org18db53b)
+- [What is this?](#org9305655)
+- [Entrypoint](#orgef64597)
+- [My Environment](#orgb1d7e49)
+  - [Bootstrap](#orgb8eeecb)
+  - [Package Installation and Configuration](#orgbd2a882)
+  - [Extra Packages](#org9526c00)
+  - [Language Configuration](#org2b2c5bd)
+  - [Global Keybindings](#orgff90550)
+  - [Org Mode Settings](#org1d3b776)
+  - [Hostname-based tweaks](#orgf19af65)
+  - [Miscellaneous standalone global configuration changes](#org4a65140)
+  - [ERC (IRC config)](#org29c7853)
+  - [Render this file for display on the web](#org413ce2e)
+  - [Footer](#orgb4b00dd)
+  - [Styles for HTML export](#org9c8ad7e)
+- [Notes and Miscellaneous](#org78fb6ab)
+  - [Monospace Fonts](#org91bc888)
+  - [Proportional Fonts](#org76ed61f)
+  - [Authentication and Secrets in Emacs](#orgbfab679)
+  - [Packages to Try](#orge5aed8b)
+  - [To do](#org89df796)
 
 
 
-<a id="org6bde5ed"></a>
+<a id="org9305655"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](What_is_this/2020-05-17_23-04-37_Screenshot%2520from%25202020-05-17%252022-02-47.png)
 
 
-<a id="org7465880"></a>
+<a id="orgef64597"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org09a9956"></a>
+<a id="orgb1d7e49"></a>
 
 # My Environment
 
@@ -109,7 +109,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgaf81311"></a>
+<a id="orgb8eeecb"></a>
 
 ## Bootstrap
 
@@ -163,7 +163,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgfd71b69"></a>
+<a id="orgbd2a882"></a>
 
 ## Package Installation and Configuration
 
@@ -173,6 +173,8 @@ First I need to install packages with a large effect and which other packages ar
 ### Install and Configure Treemacs
 
 Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between projects. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
+
+![img](My_Environment/2020-05-18_21-10-00_2020-05-18T21:08:58.gif)
 
 ```emacs-lisp
 ;; left hand side tree view like neotree
@@ -216,6 +218,8 @@ Emacs comes with `recentf-mode` which helps me remember what I was doing after I
 -   find files within the project, again without having to do anything extra
 
 It's great, it gets installed early, can't live without it. 💘 `projectile`
+
+![img](My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif)
 
 ```emacs-lisp
 (use-package projectile
@@ -263,7 +267,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org9ed3f70) section.
+It's mostly used below in the [global keybindings](#orgff90550) section.
 
 ```emacs-lisp
 (use-package general
@@ -297,6 +301,8 @@ It's mostly used below in the [global keybindings](#org9ed3f70) section.
 ### Install and Configure Magit
 
 [Magit](https://github.com/magit/magit) is an incredible integrated `git` UI for Emacs.
+
+![img](My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif)
 
 ```emacs-lisp
 (use-package magit)
@@ -441,7 +447,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="org8297af7"></a>
+<a id="org9526c00"></a>
 
 ## Extra Packages
 
@@ -563,7 +569,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org14f2a95"></a>
+<a id="org2b2c5bd"></a>
 
 ## Language Configuration
 
@@ -922,7 +928,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org9ed3f70"></a>
+<a id="orgff90550"></a>
 
 ## Global Keybindings
 
@@ -1015,7 +1021,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgdf14515"></a>
+<a id="org1d3b776"></a>
 
 ## Org Mode Settings
 
@@ -1088,7 +1094,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org400d7e4"></a>
+<a id="orgf19af65"></a>
 
 ## Hostname-based tweaks
 
@@ -1123,7 +1129,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org7bca17a"></a>
+<a id="org4a65140"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1338,7 +1344,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org94e6508"></a>
+<a id="org29c7853"></a>
 
 ## ERC (IRC config)
 
@@ -1400,7 +1406,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orge93c69f"></a>
+<a id="org413ce2e"></a>
 
 ## Render this file for display on the web
 
@@ -1427,7 +1433,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org5c15117"></a>
+<a id="orgb4b00dd"></a>
 
 ## Footer
 
@@ -1438,7 +1444,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orga3be483"></a>
+<a id="org9c8ad7e"></a>
 
 ## Styles for HTML export
 
@@ -1525,14 +1531,14 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="orgbfbbe7f"></a>
+<a id="org78fb6ab"></a>
 
 # Notes and Miscellaneous
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org319b5f5"></a>
+<a id="org91bc888"></a>
 
 ## Monospace Fonts
 
@@ -1564,14 +1570,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org7e08cf5"></a>
+<a id="org76ed61f"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="orgb6e5bc4"></a>
+<a id="orgbfab679"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1580,7 +1586,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org2040402"></a>
+<a id="orge5aed8b"></a>
 
 ## Packages to Try
 
@@ -1597,7 +1603,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org18db53b"></a>
+<a id="org89df796"></a>
 
 ## To do
 

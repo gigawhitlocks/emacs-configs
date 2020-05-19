@@ -141,6 +141,10 @@ Once this is done I need to install and configure any third party packages that 
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 *** Install and Configure Treemacs
 Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between projects. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
+
+#+DOWNLOADED: file:///home/ian/emacs-gifs/2020-05-18T21:08:58.gif @ 2020-05-18 21:10:00
+[[file:My_Environment/2020-05-18_21-10-00_2020-05-18T21:08:58.gif]]
+
 #+BEGIN_SRC emacs-lisp
     ;; left hand side tree view like neotree
     ;; nice for exploring smaller projects
@@ -171,6 +175,10 @@ Emacs comes with ~recentf-mode~ which helps me remember what I was doing after I
 - compiling the project from the project root without doing anything
 - find files within the project, again without having to do anything extra
 It's great, it gets installed early, can't live without it. 💘 ~projectile~
+
+#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2021-19.gif @ 2020-05-18 21:21:10
+[[file:My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif]]
+
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :delight)
@@ -237,6 +245,9 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
 #+END_SRC
 *** Install and Configure Magit
 [[https://github.com/magit/magit][Magit]] is an incredible integrated ~git~ UI for Emacs.
+#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2021-25.gif @ 2020-05-18 21:26:19
+[[file:My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif]]
+
 #+BEGIN_SRC emacs-lisp
     (use-package magit)
     ;; disable the default emacs vc because git is all I use,
@@ -756,7 +767,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     )
 #+END_SRC
 ** Global Keybindings
-
 #+BEGIN_SRC emacs-lisp
   (general-create-definer my-leader-def
     :prefix "SPC")
