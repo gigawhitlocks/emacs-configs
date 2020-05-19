@@ -228,6 +228,7 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
       (general-evil-setup))
 #+END_SRC
 *** Install and Configure Helm for Command and Control
+
 [[https://github.com/emacs-helm/helm][Helm]] is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press ~M-x~ (with the way I have it configured, anyway).
 #+BEGIN_SRC emacs-lisp
     (use-package helm
@@ -296,6 +297,8 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 #+END_SRC
 *** Install and Configure ~which-key~
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [[https://github.com/justbur/emacs-which-key][~which-key~]] pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
+#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2021-37.gif @ 2020-05-18 21:37:19
+[[file:My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif]]
 #+BEGIN_SRC emacs-lisp
     (use-package which-key
       :delight
@@ -334,6 +337,10 @@ Sometimes when the compile process takes more than a few seconds I change window
 Following Spacemacs's style, I use the [[https://github.com/emacs-dashboard/emacs-dashboard][~emacs-dashboard~]] project and [[https://github.com/domtronn/all-the-icons.el][~all-the-icons~]] to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
 
 Actually, looking at the project page, the icons don't seem to be working for me. Maybe I need to enable them. I'll investigate later.
+
+#+DOWNLOADED: file:///home/ian/Pictures/Screenshot%20from%202020-05-18%2021-30-43.png @ 2020-05-18 21:31:13
+[[file:My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png]]
+
 #+BEGIN_SRC emacs-lisp
   ;; first disable the default startup screen
   (setq inhibit-startup-screen t)
@@ -360,6 +367,10 @@ It adds a slew of other features as well -- hyperlinks between documents, a rolo
 *** Install templating tool and default snippets
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more.
 [[https://www.emacswiki.org/emacs/Yasnippet][Here are the YASnippet docs.]]
+#+DOWNLOADED: file:///home/ian/Videos/Peek%202020-05-18%2021-39.gif @ 2020-05-18 21:40:09
+[[file:My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif]]
+
+OK that example maybe isn't the best, but if you have ~yas-insert-snippet~ bound to something and you're inserting something more complex it's.. probably worthwhile. I should use it more. You can also write your own snippets. I should figure that out.
 
 #+BEGIN_SRC emacs-lisp
      (use-package yasnippet
@@ -406,6 +417,7 @@ The description on the package is "Annoy people with big, ascii art text" 🤣
   :ensure-system-package figlet)
 #+END_SRC
 *** a systemd file mode
+Just provides syntax highlighting in ~.unit~ files.
 #+BEGIN_SRC emacs-lisp
   (use-package systemd)
 #+END_SRC
@@ -517,6 +529,9 @@ So the convention for use is:
 3) ~M-x pyvenv-workon~
 
 *** Go
+#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2022-11.gif @ 2020-05-18 22:12:18
+[[file:My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif]]
+
 Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
@@ -969,8 +984,11 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
 #+END_SRC
 *** Transparency toggle
 I definitely lifted this from somewhere but failed to document where I got it :\
-
 Probably from Spacemacs. Thanks, Spacemacs.
+
+#+DOWNLOADED: file:///home/ian/emacs-gifs/2020-05-18T21:46:03.gif @ 2020-05-18 21:46:59
+[[file:My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif]]
+
 #+BEGIN_SRC emacs-lisp
       (defun toggle-transparency ()
         (interactive)

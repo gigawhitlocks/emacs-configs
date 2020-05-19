@@ -1,28 +1,28 @@
-- [What is this?](#org9305655)
-- [Entrypoint](#orgef64597)
-- [My Environment](#orgb1d7e49)
-  - [Bootstrap](#orgb8eeecb)
-  - [Package Installation and Configuration](#orgbd2a882)
-  - [Extra Packages](#org9526c00)
-  - [Language Configuration](#org2b2c5bd)
-  - [Global Keybindings](#orgff90550)
-  - [Org Mode Settings](#org1d3b776)
-  - [Hostname-based tweaks](#orgf19af65)
-  - [Miscellaneous standalone global configuration changes](#org4a65140)
-  - [ERC (IRC config)](#org29c7853)
-  - [Render this file for display on the web](#org413ce2e)
-  - [Footer](#orgb4b00dd)
-  - [Styles for HTML export](#org9c8ad7e)
-- [Notes and Miscellaneous](#org78fb6ab)
-  - [Monospace Fonts](#org91bc888)
-  - [Proportional Fonts](#org76ed61f)
-  - [Authentication and Secrets in Emacs](#orgbfab679)
-  - [Packages to Try](#orge5aed8b)
-  - [To do](#org89df796)
+- [What is this?](#org989304e)
+- [Entrypoint](#orgbe0b024)
+- [My Environment](#orgd013929)
+  - [Bootstrap](#org09a8833)
+  - [Package Installation and Configuration](#orgcaf2264)
+  - [Extra Packages](#org753f586)
+  - [Language Configuration](#org74d1303)
+  - [Global Keybindings](#org5e54f32)
+  - [Org Mode Settings](#orgb732d72)
+  - [Hostname-based tweaks](#org27158a6)
+  - [Miscellaneous standalone global configuration changes](#org18456d1)
+  - [ERC (IRC config)](#org8369f52)
+  - [Render this file for display on the web](#org76969a9)
+  - [Footer](#orgb1ec539)
+  - [Styles for HTML export](#orgc3cae3a)
+- [Notes and Miscellaneous](#org13bbd9f)
+  - [Monospace Fonts](#org6f41bfc)
+  - [Proportional Fonts](#org262bf91)
+  - [Authentication and Secrets in Emacs](#org4c8b665)
+  - [Packages to Try](#orgfdbdd43)
+  - [To do](#orgf6f0bbf)
 
 
 
-<a id="org9305655"></a>
+<a id="org989304e"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](What_is_this/2020-05-17_23-04-37_Screenshot%2520from%25202020-05-17%252022-02-47.png)
 
 
-<a id="orgef64597"></a>
+<a id="orgbe0b024"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgb1d7e49"></a>
+<a id="orgd013929"></a>
 
 # My Environment
 
@@ -109,7 +109,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgb8eeecb"></a>
+<a id="org09a8833"></a>
 
 ## Bootstrap
 
@@ -163,7 +163,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgbd2a882"></a>
+<a id="orgcaf2264"></a>
 
 ## Package Installation and Configuration
 
@@ -267,7 +267,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgff90550) section.
+It's mostly used below in the [global keybindings](#org5e54f32) section.
 
 ```emacs-lisp
 (use-package general
@@ -356,6 +356,8 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [`which-key`](https://github.com/justbur/emacs-which-key) pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 
+![img](My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif)
+
 ```emacs-lisp
 (use-package which-key
   :delight
@@ -406,6 +408,8 @@ Following Spacemacs's style, I use the [`emacs-dashboard`](https://github.com/em
 
 Actually, looking at the project page, the icons don't seem to be working for me. Maybe I need to enable them. I'll investigate later.
 
+![img](My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png)
+
 ```emacs-lisp
 ;; first disable the default startup screen
 (setq inhibit-startup-screen t)
@@ -439,6 +443,10 @@ It adds a slew of other features as well &#x2013; hyperlinks between documents, 
 
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more. [Here are the YASnippet docs.](https://www.emacswiki.org/emacs/Yasnippet)
 
+![img](My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif)
+
+OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound to something and you're inserting something more complex it's.. probably worthwhile. I should use it more. You can also write your own snippets. I should figure that out.
+
 ```emacs-lisp
 (use-package yasnippet
   :delight
@@ -447,7 +455,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-<a id="org9526c00"></a>
+<a id="org753f586"></a>
 
 ## Extra Packages
 
@@ -513,6 +521,8 @@ The description on the package is "Annoy people with big, ascii art text" 🤣
 
 ### a systemd file mode
 
+Just provides syntax highlighting in `.unit` files.
+
 ```emacs-lisp
 (use-package systemd)
 ```
@@ -569,7 +579,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org2b2c5bd"></a>
+<a id="org74d1303"></a>
 
 ## Language Configuration
 
@@ -656,6 +666,8 @@ So the convention for use is:
 
 
 ### Go
+
+![img](My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif)
 
 Go support requires some dependencies. I will try to list them all here. Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
@@ -928,7 +940,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgff90550"></a>
+<a id="org5e54f32"></a>
 
 ## Global Keybindings
 
@@ -1021,7 +1033,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org1d3b776"></a>
+<a id="orgb732d72"></a>
 
 ## Org Mode Settings
 
@@ -1094,7 +1106,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="orgf19af65"></a>
+<a id="org27158a6"></a>
 
 ## Hostname-based tweaks
 
@@ -1129,7 +1141,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org4a65140"></a>
+<a id="org18456d1"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1150,9 +1162,9 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 
 ### Transparency toggle
 
-I definitely lifted this from somewhere but failed to document where I got it :\\
+I definitely lifted this from somewhere but failed to document where I got it :\\ Probably from Spacemacs. Thanks, Spacemacs.
 
-Probably from Spacemacs. Thanks, Spacemacs.
+![img](My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif)
 
 ```emacs-lisp
 (defun toggle-transparency ()
@@ -1344,7 +1356,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org29c7853"></a>
+<a id="org8369f52"></a>
 
 ## ERC (IRC config)
 
@@ -1406,7 +1418,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org413ce2e"></a>
+<a id="org76969a9"></a>
 
 ## Render this file for display on the web
 
@@ -1433,7 +1445,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgb4b00dd"></a>
+<a id="orgb1ec539"></a>
 
 ## Footer
 
@@ -1444,7 +1456,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org9c8ad7e"></a>
+<a id="orgc3cae3a"></a>
 
 ## Styles for HTML export
 
@@ -1531,14 +1543,14 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org78fb6ab"></a>
+<a id="org13bbd9f"></a>
 
 # Notes and Miscellaneous
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org91bc888"></a>
+<a id="org6f41bfc"></a>
 
 ## Monospace Fonts
 
@@ -1570,14 +1582,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org76ed61f"></a>
+<a id="org262bf91"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="orgbfab679"></a>
+<a id="org4c8b665"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1586,7 +1598,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orge5aed8b"></a>
+<a id="orgfdbdd43"></a>
 
 ## Packages to Try
 
@@ -1603,7 +1615,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org89df796"></a>
+<a id="orgf6f0bbf"></a>
 
 ## To do
 
