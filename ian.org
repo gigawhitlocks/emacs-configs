@@ -1204,7 +1204,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
       background-repeat: no-repeat;
       background-position: right top;
       background-size: 500px 500px;
-      background-color: #EEEEEE;
+      background-color: #F2F2F2;
   }
 
   #content {
@@ -1277,7 +1277,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
   }
   #+END_SRC
 
-* Notes and Such
+* Notes and Miscellaneous
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** Monospace Fonts
 Just going to keep note of some options
