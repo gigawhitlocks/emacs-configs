@@ -593,17 +593,22 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 **** Functions for Executing Tests
 I find it tedious to run ~go test~ and type out the filename to test a specific file or even more tedious to type out the name of a test. Instead I've written a few functions to run tests and put the output in a dismissable buffer. Then these get added to the Go mode key bindings later.
     #+BEGIN_SRC emacs-lisp
+      (defun delete-go-test-buffer-if-exist ()
+        (let ((b (get-buffer "*go test*")))
+          (if b (kill-buffer "*go test*"))))
+
+      (add-to-list 'auto-mode-alist '("\\*go test\\*" . compilation-mode))
+
       (defun go-test-project ()
         "Run all Go tests in this project."
         (interactive)
         (projectile-with-default-dir (projectile-project-root)
-          (projectile-save-project-buffers)
-          (switch-to-buffer-other-frame "*go test*")
-          (split-window-sensibly)
-          (view-buffer "*go test*")
-          (erase-buffer)
+          (delete-go-test-buffer-if-exist)
+          (if (eq (get-buffer-window "*go test*") nil) 
+              (progn (split-window-sensibly)
+                     (view-buffer "*go test*")
+                     (compilation-mode)))
           (start-process "go test" "*go test*" "go" "test" "./...")
-          (compilation-mode)
           (message "Running all tests for project %s" (projectile-project-name))))
 #+END_SRC
 **** REPL
