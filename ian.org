@@ -1193,7 +1193,6 @@ This function registers a hook that will export this file to Github flavored Mar
 
       (delete-file "README.md" t)
       (rename-file "ian.md" "README.md")
-
       )
     )
 #+END_SRC

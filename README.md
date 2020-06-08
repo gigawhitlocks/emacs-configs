@@ -1,28 +1,28 @@
-- [What is this?](#org989304e)
-- [Entrypoint](#orgbe0b024)
-- [My Environment](#orgd013929)
-  - [Bootstrap](#org09a8833)
-  - [Package Installation and Configuration](#orgcaf2264)
-  - [Extra Packages](#org753f586)
-  - [Language Configuration](#org74d1303)
-  - [Global Keybindings](#org5e54f32)
-  - [Org Mode Settings](#orgb732d72)
-  - [Hostname-based tweaks](#org27158a6)
-  - [Miscellaneous standalone global configuration changes](#org18456d1)
-  - [ERC (IRC config)](#org8369f52)
-  - [Render this file for display on the web](#org76969a9)
-  - [Footer](#orgb1ec539)
-  - [Styles for HTML export](#orgc3cae3a)
-- [Notes and Miscellaneous](#org13bbd9f)
-  - [Monospace Fonts](#org6f41bfc)
-  - [Proportional Fonts](#org262bf91)
-  - [Authentication and Secrets in Emacs](#org4c8b665)
-  - [Packages to Try](#orgfdbdd43)
-  - [To do](#orgf6f0bbf)
+- [What is this?](#org67de1b1)
+- [Entrypoint](#orgeaafc85)
+- [My Environment](#org93c26cc)
+  - [Bootstrap](#org0d7f4af)
+  - [Package Installation and Configuration](#orgc407ae0)
+  - [Extra Packages](#orgaa891c9)
+  - [Language Configuration](#org97e74c9)
+  - [Global Keybindings](#orgb6a7962)
+  - [Org Mode Settings](#org3f5ee95)
+  - [Hostname-based tweaks](#orgc5cc02f)
+  - [Miscellaneous standalone global configuration changes](#org4c31430)
+  - [ERC (IRC config)](#org0cbd4b0)
+  - [Render this file for display on the web](#org976f860)
+  - [Footer](#org20b44da)
+  - [Styles for HTML export](#orge308607)
+- [Notes and Miscellaneous](#org437dee2)
+  - [Monospace Fonts](#org0a48a4b)
+  - [Proportional Fonts](#org28f0889)
+  - [Authentication and Secrets in Emacs](#org8c0eeef)
+  - [Packages to Try](#orgd47b961)
+  - [To do](#orgc3dfa27)
 
 
 
-<a id="org989304e"></a>
+<a id="org67de1b1"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](What_is_this/2020-05-17_23-04-37_Screenshot%2520from%25202020-05-17%252022-02-47.png)
 
 
-<a id="orgbe0b024"></a>
+<a id="orgeaafc85"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgd013929"></a>
+<a id="org93c26cc"></a>
 
 # My Environment
 
@@ -109,7 +109,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org09a8833"></a>
+<a id="org0d7f4af"></a>
 
 ## Bootstrap
 
@@ -163,7 +163,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgcaf2264"></a>
+<a id="orgc407ae0"></a>
 
 ## Package Installation and Configuration
 
@@ -267,7 +267,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org5e54f32) section.
+It's mostly used below in the [global keybindings](#orgb6a7962) section.
 
 ```emacs-lisp
 (use-package general
@@ -321,7 +321,7 @@ The Magit author publishes an additional package called [forge](https://emacsair
 
 Forge has to be configured with something like `.authinfo` or preferably `authinfo.gpg`. Create a access token through the web UI of Github and place on the first line in `$HOME/.authinfo` with the following format:
 
-```
+```bash
 host api.github.com login gigawhitlocks^forge password TOKEN
 ```
 
@@ -455,7 +455,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="org753f586"></a>
+<a id="orgaa891c9"></a>
 
 ## Extra Packages
 
@@ -579,7 +579,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org74d1303"></a>
+<a id="org97e74c9"></a>
 
 ## Language Configuration
 
@@ -596,6 +596,7 @@ LSP provides a generic interface for text editors to talk to various language se
 
 (use-package lsp-ui)
 (setq lsp-ui-doc-use-childframe t)
+(setq lsp-ui-doc-position 'top)
 
 (use-package company-lsp)
 (use-package lsp-origami)
@@ -733,40 +734,22 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     
     ```emacs-lisp
     (defun delete-go-test-buffer-if-exist ()
-          (let ((b (get-buffer "*go test*")))
-    	(if b (kill-buffer "*go test*"))))
+      (let ((b (get-buffer "*go test*")))
+        (if b (kill-buffer "*go test*"))))
+    
+    (add-to-list 'auto-mode-alist '("\\*go test\\*" . compilation-mode))
     
     (defun go-test-project ()
       "Run all Go tests in this project."
       (interactive)
       (projectile-with-default-dir (projectile-project-root)
         (delete-go-test-buffer-if-exist)
-        (split-window-sensibly)
-        (view-buffer "*go test*")
+        (if (eq (get-buffer-window "*go test*") nil) 
+    	(progn (split-window-sensibly)
+    	       (view-buffer "*go test*")
+    	       (compilation-mode)))
         (start-process "go test" "*go test*" "go" "test" "./...")
         (message "Running all tests for project %s" (projectile-project-name))))
-    
-    (defun go-run-tests-in-file ()
-      "Run all the Go tests in this file."
-      (interactive)
-      (let ((filename (buffer-file-name)))
-        (delete-go-test-buffer-if-exist)
-        (split-window-sensibly)
-        (view-buffer "*go test*")
-        (message "Running tests in file %s" filename)
-        (start-process "go test" "*go test*" "go" "test" "-run" (concat "./" filename))))
-    
-    (defun go-run-test-at-point ()
-      "Run the test at point in Go."
-      (interactive)
-      (save-excursion
-        (go-goto-function-name)
-        (delete-go-test-buffer-if-exist)
-        (let ((name (current-word)))
-          (split-window-sensibly)
-          (view-buffer "*go test*")
-          (start-process "go test" "*go test*" "go" "test" "-run" name)
-          (message "Running test %s" name))))
     ```
 
 -   REPL
@@ -792,48 +775,48 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 -   Specific Keybindings
 
     ```emacs-lisp
-    (general-define-key
-     :states  'normal
-     :keymaps 'go-mode-map
-     ",a"     'go-import-add
-     ",d"     'lsp-describe-thing-at-point
-     ",gg"    'lsp-find-definition
-     ",gt"    'lsp-find-type-definition
-     ",i"     'lsp-find-implementation
-     ",n"     'lsp-rename
-     ",r"     'lsp-find-references
-     ",tt"    'go-run-test-at-point
-     ",tp"    'go-test-project
-     ",tf"    'go-run-tests-in-file
-     ",x"     'lsp-execute-code-action
-     ",lsp"   'lsp-workspace-restart
-     "gd"     'lsp-find-definition
+      (general-define-key
+       :states  'normal
+       :keymaps 'go-mode-map
+       ",a"     'go-import-add
+       ",d"     'lsp-describe-thing-at-point
+       ",gg"    'lsp-find-definition
+       ",gt"    'lsp-find-type-definition
+       ",i"     'lsp-find-implementation
+       ",n"     'lsp-rename
+       ",r"     'lsp-find-references
+    ;;   ",tt"    'go-run-test-at-point
+       ",tp"    'go-test-project
+    ;;   ",tf"    'go-run-tests-in-file
+       ",x"     'lsp-execute-code-action
+       ",lsp"   'lsp-workspace-restart
+       "gd"     'lsp-find-definition
     
-     ;; using the ,c namespace for repl stuff to follow the C-c convention
-     ;; found in other places in Emacs
-     ",cc"     'gorepl-run
-     ",cg"     'gorepl-run-load-current-file
-     ",cx"     'gorepl-eval-region
-     ",cl"     'gorepl-eval-line
+       ;; using the ,c namespace for repl stuff to follow the C-c convention
+       ;; found in other places in Emacs
+       ",cc"     'gorepl-run
+       ",cg"     'gorepl-run-load-current-file
+       ",cx"     'gorepl-eval-region
+       ",cl"     'gorepl-eval-line
     
-    ;; origami-mode works better with lsp than regular evil-mode
-     "TAB"    'origami-toggle-node
+      ;; origami-mode works better with lsp than regular evil-mode
+       "TAB"    'origami-toggle-node
     
-     "zm"     'origami-toggle-node
-     "zM"     'origami-toggle-all-nodes
+       "zm"     'origami-toggle-node
+       "zM"     'origami-toggle-all-nodes
     
-     "zc"     'origami-close-node
-     "zC"     'origami-close-node-recursively
+       "zc"     'origami-close-node
+       "zC"     'origami-close-node-recursively
     
-     "zo"     'origami-open-node
-     "zO"     'origami-open-node-recursively
+       "zo"     'origami-open-node
+       "zO"     'origami-open-node-recursively
     
-     ;; except for when it totally breaks lol
-     "zr"     'origami-reset
-    )
+       ;; except for when it totally breaks lol
+       "zr"     'origami-reset
+      )
     
-    (autoload 'go-mode "go-mode" nil t)
-    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+      (autoload 'go-mode "go-mode" nil t)
+      (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
     ```
 
 -   Hooks
@@ -940,7 +923,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org5e54f32"></a>
+<a id="orgb6a7962"></a>
 
 ## Global Keybindings
 
@@ -1033,7 +1016,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgb732d72"></a>
+<a id="org3f5ee95"></a>
 
 ## Org Mode Settings
 
@@ -1106,7 +1089,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org27158a6"></a>
+<a id="orgc5cc02f"></a>
 
 ## Hostname-based tweaks
 
@@ -1141,7 +1124,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org18456d1"></a>
+<a id="org4c31430"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1356,7 +1339,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org8369f52"></a>
+<a id="org0cbd4b0"></a>
 
 ## ERC (IRC config)
 
@@ -1418,7 +1401,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org76969a9"></a>
+<a id="org976f860"></a>
 
 ## Render this file for display on the web
 
@@ -1439,13 +1422,12 @@ This function registers a hook that will export this file to Github flavored Mar
 
     (delete-file "README.md" t)
     (rename-file "ian.md" "README.md")
-
     )
   )
 ```
 
 
-<a id="orgb1ec539"></a>
+<a id="org20b44da"></a>
 
 ## Footer
 
@@ -1456,7 +1438,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgc3cae3a"></a>
+<a id="orge308607"></a>
 
 ## Styles for HTML export
 
@@ -1543,14 +1525,14 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org13bbd9f"></a>
+<a id="org437dee2"></a>
 
 # Notes and Miscellaneous
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org6f41bfc"></a>
+<a id="org0a48a4b"></a>
 
 ## Monospace Fonts
 
@@ -1582,14 +1564,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org262bf91"></a>
+<a id="org28f0889"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org4c8b665"></a>
+<a id="org8c0eeef"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1598,7 +1580,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgfdbdd43"></a>
+<a id="orgd47b961"></a>
 
 ## Packages to Try
 
@@ -1615,7 +1597,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="orgf6f0bbf"></a>
+<a id="orgc3dfa27"></a>
 
 ## To do
 
