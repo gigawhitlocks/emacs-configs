@@ -1121,6 +1121,175 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
 #+BEGIN_SRC emacs-lisp
   (xterm-mouse-mode 1)
 #+END_SRC
+** ERC (IRC config)
+I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
+
+~machine HOSTNAME login USER password PASSWORD port PORTNUMBER~
+
+So we can use ~sed~ and ~grep~ which are available on all of my machines to look up the nick, and then once we have the nick, Emacs will get the rest automatically. Then I manage ~.authinfo~ manually on each machine.
+
+I wrote a quick Bash one-liner to extract the login. Maybe I could've done this in elisp but Emacs makes it easy enough to mix languages, so here is the one-liner, which will tangle out to ~get-nick.bash~:
+
+#+BEGIN_SRC bash :tangle ~/.emacs.d/get-nick.bash :shebang /bin/bash
+grep "$1" ~/.authinfo | sed 's/.*login \([^ ]\+ \).*/\1/g'
+#+END_SRC
+
+Then configure Emacs to use this to find the nick (and put in place the rest of the configuration that I would like for ERC):
+
+#+BEGIN_SRC emacs-lisp
+  (defun irc ()
+    "Connect to IRC."
+    (interactive)
+
+    ;; tangle this file to produce the bash script
+    (org-babel-tangle "~/.emacs.d/ian.org")
+
+    ;; some visual tweaks
+    (add-hook 'erc-mode-hook 'variable-pitch-mode)
+    (add-hook 'erc-mode-hook 'visual-line-mode)
+
+    (let ((
+           nick  (s-trim (shell-command-to-string
+                          "~/.emacs.d/get-nick.bash freenode"))
+           ))
+
+      (erc-tls
+       ;; these days I only use Freenode
+       :server "irc.freenode.net"
+       :port 6697
+       :nick nick)
+      )
+
+    ;; channel subscriptions
+    (defvar erc-autojoin-channels-alist)
+    (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" )))
+
+    ;; hide join/part spam
+    (defvar erc-hide-list)
+    (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+
+    ;; use human-friendly IRC network names instead of host incl port
+    (defvar erc-rename-buffers)
+    (setq erc-rename-buffers t)
+
+    ;; reconnect broken sessions
+    (defvar erc-server-auto-reconnect)
+    (setq erc-server-auto-reconnect t)
+
+    )
+#+END_SRC
+
+** Render this file for display on the web
+This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
+
+#+BEGIN_SRC emacs-lisp
+  (defun render-configfile-for-web ()
+    (interactive)
+    (when (string=
+           (file-name-nondirectory (buffer-file-name))
+           "ian.org")
+
+      (org-html-export-to-html)
+      (org-gfm-export-to-markdown)
+
+      (if (find-buffer-visiting "~/.emacs.d/README.md")
+          (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
+
+      (delete-file "README.md" t)
+      (rename-file "ian.md" "README.md")
+      )
+    )
+#+END_SRC
+
+** Footer
+#+BEGIN_SRC emacs-lisp
+  (server-start)
+  (provide '~/.emacs.d/ian.el)
+  ;;; ian.el ends here
+#+END_SRC
+
+** Styles for HTML export
+We can spruce up the HTML representation of this file with a little bit of CSS.
+
+#+BEGIN_SRC css :tangle ./styles.css
+  body {
+      background-image: url("EmacsIcon.svg");
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-position: right top;
+      background-size: 500px 500px;
+      background-color: #F2F2F2;
+  }
+
+  #content {
+      font-family: Sans;
+      font-size: 1.2em;
+      width: 90%;
+      max-width: 950px;
+      margin-left: auto;
+      margin-right: auto;
+
+      padding: 25px;
+      background-color: rgba(255, 255, 255, .5);
+  }
+
+  .validation {
+      display: none;
+  }
+
+  a {
+      color: #EF0FFF;
+  }
+
+  a:visited {
+      color: #076678;
+  }
+
+  a:hover {
+      color: #FFBC42;
+  }
+
+  a:active {
+      color: #F74343;
+  }
+
+  div.org-src-container {
+      background-color: #FFFFE0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+  }
+
+  pre.src {
+      width: 100%;
+      height: 100%;
+      overflow: scroll;
+      margin-left: 20px;
+
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none;  /* Firefox */
+  }
+
+  pre.src::-webkit-scrollbar {
+      display: none;
+  }
+
+  img {
+      max-width: 100%;
+  }
+
+  pre.example {
+      padding: 10px;
+      width: 100%;
+      overflow-x: scroll;
+      -ms-overflow-style: none;  /* Internet Explorer 10+ */
+      scrollbar-width: none;  /* Firefox */
+  }
+
+  pre.example::-webkit-scrollbar {
+      display: none;
+  }
+  #+END_SRC
 * Notes and Miscellaneous
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** Monospace Fonts
