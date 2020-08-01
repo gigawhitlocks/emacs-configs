@@ -467,6 +467,9 @@ LSP provides a generic interface for text editors to talk to various language se
     ;; use flycheck
     (setq lsp-prefer-flymake nil))
 
+  (with-eval-after-load 'lsp-mode
+    (add-hook 'lsp-after-open-hook (lambda () (lsp-ui-flycheck-enable 1))))
+
   (use-package lsp-ui)
   (setq lsp-ui-doc-use-childframe t)
   (setq lsp-ui-doc-position 'top)
@@ -591,25 +594,26 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     :hook (go-mode . flycheck-golangci-lint-setup))
     #+END_SRC
 **** Functions for Executing Tests
+#+BEGIN_SRC emacs-lisp
+  (use-package gotest)
+#+END_SRC
 I find it tedious to run ~go test~ and type out the filename to test a specific file or even more tedious to type out the name of a test. Instead I've written a few functions to run tests and put the output in a dismissable buffer. Then these get added to the Go mode key bindings later.
     #+BEGIN_SRC emacs-lisp
-      (defun delete-go-test-buffer-if-exist ()
-        (let ((b (get-buffer "*go test*")))
-          (if b (kill-buffer "*go test*"))))
+      ;; (defun delete-go-test-buffer-if-exist ()
+      ;;   (let ((b (get-buffer "*go test*")))
+      ;;     (if b (kill-buffer "*go test*"))))
 
-      (add-to-list 'auto-mode-alist '("\\*go test\\*" . compilation-mode))
-
-      (defun go-test-project ()
-        "Run all Go tests in this project."
-        (interactive)
-        (projectile-with-default-dir (projectile-project-root)
-          (delete-go-test-buffer-if-exist)
-          (if (eq (get-buffer-window "*go test*") nil) 
-              (progn (split-window-sensibly)
-                     (view-buffer "*go test*")
-                     (compilation-mode)))
-          (start-process "go test" "*go test*" "go" "test" "./...")
-          (message "Running all tests for project %s" (projectile-project-name))))
+      ;; (defun go-test-project ()
+      ;;   "Run all Go tests in this project."
+      ;;   (interactive)
+      ;;   (projectile-with-default-dir (projectile-project-root)
+      ;;     (delete-go-test-buffer-if-exist)
+      ;;     (if (eq (get-buffer-window "*go test*") nil) 
+      ;;         (progn 
+      ;;                (view-buffer "*go test*")
+      ;;                (compilation-mode)))
+      ;;     (start-process "go test" "*go test*" "go" "test" "./...")
+      ;;     (message "Running all tests for project %s" (projectile-project-name))))
 #+END_SRC
 **** REPL
 [[https://github.com/motemen/gore][Gore]] provides a REPL and [[https://github.com/manute/gorepl-mode][gorepl-mode]] lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
@@ -628,48 +632,48 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 
 **** Specific Keybindings
 #+BEGIN_SRC emacs-lisp
-  (general-define-key
-   :states  'normal
-   :keymaps 'go-mode-map
-   ",a"     'go-import-add
-   ",d"     'lsp-describe-thing-at-point
-   ",gg"    'lsp-find-definition
-   ",gt"    'lsp-find-type-definition
-   ",i"     'lsp-find-implementation
-   ",n"     'lsp-rename
-   ",r"     'lsp-find-references
-;;   ",tt"    'go-run-test-at-point
-   ",tp"    'go-test-project
-;;   ",tf"    'go-run-tests-in-file
-   ",x"     'lsp-execute-code-action
-   ",lsp"   'lsp-workspace-restart
-   "gd"     'lsp-find-definition
+    (general-define-key
+     :states  'normal
+     :keymaps 'go-mode-map
+     ",a"     'go-import-add
+     ",d"     'lsp-describe-thing-at-point
+     ",gg"    'lsp-find-definition
+     ",gt"    'lsp-find-type-definition
+     ",i"     'lsp-find-implementation
+     ",n"     'lsp-rename
+     ",r"     'lsp-find-references
+     ",tp"    'go-test-current-project
+     ",tt"    'go-test-current-test
+     ",tf"    'go-test-current-file
+     ",x"     'lsp-execute-code-action
+     ",lsp"   'lsp-workspace-restart
+     "gd"     'lsp-find-definition
 
-   ;; using the ,c namespace for repl stuff to follow the C-c convention
-   ;; found in other places in Emacs
-   ",cc"     'gorepl-run
-   ",cg"     'gorepl-run-load-current-file
-   ",cx"     'gorepl-eval-region
-   ",cl"     'gorepl-eval-line
+     ;; using the ,c namespace for repl stuff to follow the C-c convention
+     ;; found in other places in Emacs
+     ",cc"     'gorepl-run
+     ",cg"     'gorepl-run-load-current-file
+     ",cx"     'gorepl-eval-region
+     ",cl"     'gorepl-eval-line
 
-  ;; origami-mode works better with lsp than regular evil-mode
-   "TAB"    'origami-toggle-node
+    ;; origami-mode works better with lsp than regular evil-mode
+     "TAB"    'origami-toggle-node
 
-   "zm"     'origami-toggle-node
-   "zM"     'origami-toggle-all-nodes
+     "zm"     'origami-toggle-node
+     "zM"     'origami-toggle-all-nodes
 
-   "zc"     'origami-close-node
-   "zC"     'origami-close-node-recursively
+     "zc"     'origami-close-node
+     "zC"     'origami-close-node-recursively
 
-   "zo"     'origami-open-node
-   "zO"     'origami-open-node-recursively
+     "zo"     'origami-open-node
+     "zO"     'origami-open-node-recursively
 
-   ;; except for when it totally breaks lol
-   "zr"     'origami-reset
-  )
+     ;; except for when it totally breaks lol
+     "zr"     'origami-reset
+    )
 
-  (autoload 'go-mode "go-mode" nil t)
-  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+    (autoload 'go-mode "go-mode" nil t)
+    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 #+END_SRC
 
 **** Hooks
@@ -713,7 +717,6 @@ So yay for ~web-mode~!
     :config
     (setq web-mode-enable-css-colorization t)
     (setq web-mode-enable-auto-pairing t))
-
     #+END_SRC
 
 **** Setting highlighting for special template modes
@@ -800,6 +803,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 
   ;; global keybindings with LEADER
   (my-leader-def 'normal 'override
+    "aa"      'ace-jump-mode
     "bb"     'helm-buffers-list
     "TAB"    #'switch-to-prev-buffer
     "br"     'revert-buffer
@@ -1117,176 +1121,6 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
 #+BEGIN_SRC emacs-lisp
   (xterm-mouse-mode 1)
 #+END_SRC
-** ERC (IRC config)
-I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
-
-~machine HOSTNAME login USER password PASSWORD port PORTNUMBER~
-
-So we can use ~sed~ and ~grep~ which are available on all of my machines to look up the nick, and then once we have the nick, Emacs will get the rest automatically. Then I manage ~.authinfo~ manually on each machine.
-
-I wrote a quick Bash one-liner to extract the login. Maybe I could've done this in elisp but Emacs makes it easy enough to mix languages, so here is the one-liner, which will tangle out to ~get-nick.bash~:
-
-#+BEGIN_SRC bash :tangle ~/.emacs.d/get-nick.bash :shebang /bin/bash
-grep "$1" ~/.authinfo | sed 's/.*login \([^ ]\+ \).*/\1/g'
-#+END_SRC
-
-Then configure Emacs to use this to find the nick (and put in place the rest of the configuration that I would like for ERC):
-
-#+BEGIN_SRC emacs-lisp
-  (defun irc ()
-    "Connect to IRC."
-    (interactive)
-
-    ;; tangle this file to produce the bash script
-    (org-babel-tangle "~/.emacs.d/ian.org")
-
-    ;; some visual tweaks
-    (add-hook 'erc-mode-hook 'variable-pitch-mode)
-    (add-hook 'erc-mode-hook 'visual-line-mode)
-
-    (let ((
-           nick  (s-trim (shell-command-to-string
-                          "~/.emacs.d/get-nick.bash freenode"))
-           ))
-
-      (erc-tls
-       ;; these days I only use Freenode
-       :server "irc.freenode.net"
-       :port 6697
-       :nick nick)
-      )
-
-    ;; channel subscriptions
-    (defvar erc-autojoin-channels-alist)
-    (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" )))
-
-    ;; hide join/part spam
-    (defvar erc-hide-list)
-    (setq erc-hide-list '("JOIN" "PART" "QUIT"))
-
-    ;; use human-friendly IRC network names instead of host incl port
-    (defvar erc-rename-buffers)
-    (setq erc-rename-buffers t)
-
-    ;; reconnect broken sessions
-    (defvar erc-server-auto-reconnect)
-    (setq erc-server-auto-reconnect t)
-
-    )
-#+END_SRC
-
-** Render this file for display on the web
-This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
-
-#+BEGIN_SRC emacs-lisp
-  (defun render-configfile-for-web ()
-    (interactive)
-    (when (string=
-           (file-name-nondirectory (buffer-file-name))
-           "ian.org")
-
-      (org-html-export-to-html)
-      (org-gfm-export-to-markdown)
-
-      (if (find-buffer-visiting "~/.emacs.d/README.md")
-          (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
-
-      (delete-file "README.md" t)
-      (rename-file "ian.md" "README.md")
-      )
-    )
-#+END_SRC
-
-** Footer
-#+BEGIN_SRC emacs-lisp
-  (server-start)
-  (provide '~/.emacs.d/ian.el)
-  ;;; ian.el ends here
-#+END_SRC
-
-** Styles for HTML export
-We can spruce up the HTML representation of this file with a little bit of CSS.
-
-#+BEGIN_SRC css :tangle ./styles.css
-  body {
-      background-image: url("EmacsIcon.svg");
-      background-size: 100%;
-      background-repeat: no-repeat;
-      background-position: right top;
-      background-size: 500px 500px;
-      background-color: #F2F2F2;
-  }
-
-  #content {
-      font-family: Sans;
-      font-size: 1.2em;
-      width: 90%;
-      max-width: 950px;
-      margin-left: auto;
-      margin-right: auto;
-
-      padding: 25px;
-      background-color: rgba(255, 255, 255, .5);
-  }
-
-  .validation {
-      display: none;
-  }
-
-  a {
-      color: #EF0FFF;
-  }
-
-  a:visited {
-      color: #076678;
-  }
-
-  a:hover {
-      color: #FFBC42;
-  }
-
-  a:active {
-      color: #F74343;
-  }
-
-  div.org-src-container {
-      background-color: #FFFFE0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-  }
-
-  pre.src {
-      width: 100%;
-      height: 100%;
-      overflow: scroll;
-      margin-left: 20px;
-
-      -ms-overflow-style: none;  /* Internet Explorer 10+ */
-      scrollbar-width: none;  /* Firefox */
-  }
-
-  pre.src::-webkit-scrollbar {
-      display: none;
-  }
-
-  img {
-      max-width: 100%;
-  }
-
-  pre.example {
-      padding: 10px;
-      width: 100%;
-      overflow-x: scroll;
-      -ms-overflow-style: none;  /* Internet Explorer 10+ */
-      scrollbar-width: none;  /* Firefox */
-  }
-
-  pre.example::-webkit-scrollbar {
-      display: none;
-  }
-  #+END_SRC
-
 * Notes and Miscellaneous
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 ** Monospace Fonts
@@ -1326,5 +1160,11 @@ Emmet is the "zen coding" plugin for really fast HTML authoring
 Some default snippets -- don't install until we're ready to figure out how to use them
 [[https://github.com/AndreaCrotti/yasnippet-snippets]]
 ** To do
-1. origami mode is kinda broken?
-2. restart-lsp-workspace shortcut
+*** TODO fix auto-save problem where npm breaks because of where Emacs puts auto-save files or temp files
+#+BEGIN_QUOTE
+<bpalmer> ,autosave
+<fsbot> bpalmer: AutoSave is [0/5] Try M-x customize-group RET auto-save RET
+<fsbot> [1] controlled by auto-save-list-file-prefix
+<fsbot> [2] controlled by auto-save-file-name-transforms
+<fsbot> [3] (info "(emacs)Auto Save") ;;[ ,more / ,dump]
+#+END_QUOTE
