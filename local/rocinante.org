@@ -6,15 +6,15 @@ Stuff that's specific to my work (X1) Thinkpad's Emacs config.
 * Font
 
 #+BEGIN_SRC emacs-lisp
-  (set-font "Source Code Pro-10")
+  (set-font "Source Code Pro-11")
 #+END_SRC
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (use-package leuven-theme
+  (use-package moe-theme
     :config
-    (load-theme 'leuven t)
-    (enable-theme 'leuven))
+    (load-theme 'moe-dark t)
+    (enable-theme 'moe-dark))
 
   ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;;(set-frame-parameter (selected-frame) 'alpha <both>)
