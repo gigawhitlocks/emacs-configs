@@ -468,6 +468,10 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
     (when (memq window-system '(mac ns x))
     (exec-path-from-shell-initialize)))
 #+END_SRC
+*** ace-window provides an ace-jump experience for switching windows
+#+BEGIN_SRC emacs-lisp
+  (use-package ace-window)
+#+END_SRC
 ** Language Configuration
 *** Language Server Protocol
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
@@ -858,6 +862,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "ta"     'treemacs-add-project-to-workspace
     "w-"     'split-window-below
     "w/"     'split-window-right
+    "wa"     'ace-window
     "wj"     'evil-window-down
     "wk"     'evil-window-up
     "wh"     'evil-window-left
