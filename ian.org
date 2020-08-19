@@ -987,6 +987,10 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
         (mapcar #'disable-theme custom-enabled-themes))
       (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 #+END_SRC
+*** Line Numbers in Programming Buffers
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+#+END_SRC
 *** Transparency toggle
 I definitely lifted this from somewhere but failed to document where I got it :\
 Probably from Spacemacs. Thanks, Spacemacs.
