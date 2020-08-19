@@ -27,3 +27,9 @@ local/*.el
 emojis/
 get-nick.bash
 eshell/*
+\#recentf\#
+.mc-lists.el
+ian.bash
+ian.org~
+ian.sh
+tramp
