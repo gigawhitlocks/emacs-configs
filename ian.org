@@ -974,6 +974,7 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
 *** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+  (setq display-line-numbers-type 'relative)
 #+END_SRC
 *** Transparency toggle
 I definitely lifted this from somewhere but failed to document where I got it :\
