@@ -795,6 +795,11 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     (interactive)
     (server-edit "Done"))
 
+  (defun last-window ()
+    "Switch to the last window."
+    (interactive)
+    (other-window -1 t))
+
   (general-define-key
    :keymaps '(normal emacs)
    "J"      'evil-scroll-page-down
@@ -847,6 +852,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "w-"     'split-window-below
     "w/"     'split-window-right
     "wa"     'ace-window
+    "wb"     'last-window
     "wj"     'evil-window-down
     "wk"     'evil-window-up
     "wh"     'evil-window-left
