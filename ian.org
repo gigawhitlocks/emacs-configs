@@ -1350,3 +1350,5 @@ Some default snippets -- don't install until we're ready to figure out how to us
 <fsbot> [2] controlled by auto-save-file-name-transforms
 <fsbot> [3] (info "(emacs)Auto Save") ;;[ ,more / ,dump]
 #+END_QUOTE
+*** TODO bind a button in magit to visit the /current version/ of the file
+Bind, in magit (somehow) a button (maybe C-RET) to ~magit-diff-visit-file-worktree~
