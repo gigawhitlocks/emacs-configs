@@ -482,8 +482,9 @@ LSP provides a generic interface for text editors to talk to various language se
     ;; use flycheck
     (setq lsp-prefer-flymake nil))
 
-  (with-eval-after-load 'lsp-mode
-    (add-hook 'lsp-after-open-hook (lambda () (lsp-ui-flycheck-enable 1))))
+    ;; seems (lsp-ui-flycheck-enable ) is gone now?
+ ;; (with-eval-after-load 'lsp-mode
+;;    (add-hook 'lsp-after-open-hook (lambda () (lsp-ui-flycheck-enable 1))))
 
   (use-package lsp-ui)
   (setq lsp-ui-doc-use-childframe t)
@@ -558,6 +559,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 - First, ~go~ itself must be installed, install however, and avalailable on the ~PATH~.
 
 - ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]. I have been just running this off of ~master~ so I can experience all the latest +bugs+ features, so clone the gopls project (TODO find the url for it and put a link here) and ~go install~ it. After you're done ~gopls~ should also be on the ~PATH~.
+  [[https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration][Directions for configuring ~gopls~ through this file are found here.]] 
 
 - ~golint~ has to be installed independently
 
@@ -1352,3 +1354,4 @@ Some default snippets -- don't install until we're ready to figure out how to us
 #+END_QUOTE
 *** TODO bind a button in magit to visit the /current version/ of the file
 Bind, in magit (somehow) a button (maybe C-RET) to ~magit-diff-visit-file-worktree~
+

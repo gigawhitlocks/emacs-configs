@@ -31,7 +31,7 @@ Idk, the novelty footer in dashboard.el is missing the icon for some reason so j
 * Editor Functions and Settings Specific to Mattermost Cloud
 #+BEGIN_SRC emacs-lisp
 (setenv "STRIPE_MOCK_MODE" "1")
-(setenv "CWS_LIVE_STRIPE_TESTS" "1")
+;;(setenv "CWS_LIVE_STRIPE_TESTS" "1")
 #+END_SRC
 * Footer
 #+BEGIN_SRC emacs-lisp
