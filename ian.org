@@ -906,6 +906,7 @@ Image drag-and-drop for org-mode
     "y"      'org-store-link
     "p"      'org-insert-link
     "x"      'org-babel-execute-src-block
+    "s"      'org-insert-structure-template
     "e"      'org-edit-src-code)
 
   (general-define-key
@@ -934,7 +935,6 @@ Image drag-and-drop for org-mode
           (sequence "QUESTION(q)" "|" "ANSWERED(a)")
           (sequence "AGENDA(a)" "|" "DONE(d)" )))
 #+END_SRC
-
 ** Hostname-based tweaks
 Looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
 I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
