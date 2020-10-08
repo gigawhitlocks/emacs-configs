@@ -10,7 +10,8 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
 * Theme
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'moe-dark t)
+  (use-package moe-theme)
+  (load-theme 'moe-light t)
 #+End_SRC
 
 * Local bugfixes
