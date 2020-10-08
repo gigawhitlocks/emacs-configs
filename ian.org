@@ -21,8 +21,9 @@ No guarantees, though. This stuff is for personal use, so it isn't tested on sys
 
 Here is a screenshot of this file being edited with this configuration:
 
-#+DOWNLOADED: file:///home/ian/Pictures/Screenshot%20from%202020-05-17%2022-02-47.png @ 2020-05-17 23:04:37
-[[file:What_is_this/2020-05-17_23-04-37_Screenshot%2520from%25202020-05-17%252022-02-47.png]]
+
+#+DOWNLOADED: file:///home/ian/Pictures/Screenshot%20from%202020-10-07%2021-58-41.png @ 2020-10-07 22:02:26
+[[file:Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png]]
 
 * Entrypoint
 :properties:
@@ -441,16 +442,25 @@ Just provides syntax highlighting in ~.unit~ files.
 *** Install and Configure Company for Auto-Completion
 Great tab-complete and auto-complete with [[https://github.com/company-mode/company-mode][Company Mode]].
 #+BEGIN_SRC emacs-lisp
-    ;; auto-completion
-    (use-package company
-      :delight
-      :config
-      ;; enable it everywhere
-      (add-hook 'after-init-hook 'global-company-mode)
+  ;; auto-completion
+  (use-package company
+    :delight
+    :config
+    ;; enable it everywhere
+    (add-hook 'after-init-hook 'global-company-mode)
 
-      ;; tab complete!
-      (global-set-key "\t" 'company-complete-common))
+    ;; tab complete!
+    (global-set-key "\t" 'company-complete-common))
+    #+END_SRC
+Trying out "AI tab-complete" [[https://github.com/TommyX12/company-tabnine][from TabNine]].
+    #+BEGIN_SRC emacs-lisp
+  (use-package company-tabnine
+    :config
+    (add-to-list 'company-backends #'company-tabnine))
 #+END_SRC
+Apparently you have to run
+: M-x company-tabnine-install-binary
+on each system before use. Hopefully it will remind me on new systems so I don't need to automate this step.
 *** Install and Configure Flycheck for Linting
 [[https://www.flycheck.org/en/latest/][Flycheck]] is an on-the-fly checker that hooks into most language backends.
 #+BEGIN_SRC emacs-lisp
@@ -631,7 +641,7 @@ Once that's done ~gorepl-mode~ is ready to be installed:
   (use-package gorepl-mode)
 #+END_SRC
 
-**** Specific Keybindings
+**** Mode-Specific Keybindings
 #+BEGIN_SRC emacs-lisp
     (general-define-key
      :states  'normal
@@ -802,14 +812,9 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     (interactive)
     (other-window -1 t))
 
-  (general-define-key
-   :keymaps '(normal emacs)
-   "J"      'evil-scroll-page-down
-   "K"      'evil-scroll-page-up)
-
   ;; global keybindings with LEADER
   (my-leader-def 'normal 'override
-    "aa"      'ace-jump-mode
+    "aa"     'ace-jump-mode
     "bb"     'helm-buffers-list
     "TAB"    #'switch-to-prev-buffer
     "br"     'revert-buffer
