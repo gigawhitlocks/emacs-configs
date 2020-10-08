@@ -849,6 +849,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
     "sp"     'helm-projectile-ack
+    "sa"     'ag-regexp
     "qq"     'save-buffers-kill-terminal
     "qr"     'restart-emacs
     "tn"     'display-line-numbers-mode
