@@ -1,28 +1,28 @@
-- [What is this?](#org67de1b1)
-- [Entrypoint](#orgeaafc85)
-- [My Environment](#org93c26cc)
-  - [Bootstrap](#org0d7f4af)
-  - [Package Installation and Configuration](#orgc407ae0)
-  - [Extra Packages](#orgaa891c9)
-  - [Language Configuration](#org97e74c9)
-  - [Global Keybindings](#orgb6a7962)
-  - [Org Mode Settings](#org3f5ee95)
-  - [Hostname-based tweaks](#orgc5cc02f)
-  - [Miscellaneous standalone global configuration changes](#org4c31430)
-  - [ERC (IRC config)](#org0cbd4b0)
-  - [Render this file for display on the web](#org976f860)
-  - [Footer](#org20b44da)
-  - [Styles for HTML export](#orge308607)
-- [Notes and Miscellaneous](#org437dee2)
-  - [Monospace Fonts](#org0a48a4b)
-  - [Proportional Fonts](#org28f0889)
-  - [Authentication and Secrets in Emacs](#org8c0eeef)
-  - [Packages to Try](#orgd47b961)
-  - [To do](#orgc3dfa27)
+- [What is this?](#org0b9630b)
+- [Entrypoint](#org964150e)
+- [My Environment](#org0c20130)
+  - [Bootstrap](#org76ce217)
+  - [Package Installation and Configuration](#orga6ed4d4)
+  - [Extra Packages](#orgc28deff)
+  - [Language Configuration](#orgeb76327)
+  - [Global Keybindings](#org2c220bb)
+  - [Org Mode Settings](#org165dfbb)
+  - [Hostname-based tweaks](#org4c75b2d)
+  - [Miscellaneous standalone global configuration changes](#orgb850322)
+  - [ERC (IRC config)](#orged5246b)
+  - [Render this file for display on the web](#orgeb75335)
+  - [Footer](#orgab5322b)
+  - [Styles for HTML export](#orgd75700c)
+- [Notes and Miscellaneous](#org96d9ab6)
+  - [Monospace Fonts](#org0469e9a)
+  - [Proportional Fonts](#org7d45a37)
+  - [Authentication and Secrets in Emacs](#org236378f)
+  - [Packages to Try](#org8c61554)
+  - [To do](#org841a634)
 
 
 
-<a id="org67de1b1"></a>
+<a id="org0b9630b"></a>
 
 # What is this?
 
@@ -43,10 +43,10 @@ No guarantees, though. This stuff is for personal use, so it isn't tested on sys
 
 Here is a screenshot of this file being edited with this configuration:
 
-![img](What_is_this/2020-05-17_23-04-37_Screenshot%2520from%25202020-05-17%252022-02-47.png)
+![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="orgeaafc85"></a>
+<a id="org964150e"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org93c26cc"></a>
+<a id="org0c20130"></a>
 
 # My Environment
 
@@ -109,7 +109,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org0d7f4af"></a>
+<a id="org76ce217"></a>
 
 ## Bootstrap
 
@@ -163,7 +163,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgc407ae0"></a>
+<a id="orga6ed4d4"></a>
 
 ## Package Installation and Configuration
 
@@ -267,7 +267,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgb6a7962) section.
+It's mostly used below in the [global keybindings](#org2c220bb) section.
 
 ```emacs-lisp
 (use-package general
@@ -395,10 +395,22 @@ If you run a command through `M-x compile` by default Emacs prints ANSI codes li
 Sometimes when the compile process takes more than a few seconds I change windows and get distracted. This hook plays a file through `aplay` (something else that will break on a non-Linux machine) to notify me that compilation is done. I was looking for something like a kitchen timer but I couldn't find one so right now the vendored sound is the [Wilhelm Scream](https://en.wikipedia.org/wiki/Wilhelm_scream).
 
 ```emacs-lisp
+(defvar isw-should-play-chime nil)
+(setq isw-should-play-chime t)
 (defun isw-play-chime (buffer msg)
-  (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav"))
-
+  (if (eq isw-should-play-chime t)
+      (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav")))
 (add-to-list 'compilation-finish-functions 'isw-play-chime)
+```
+
+A function for toggling the screaming on and off. I love scream-when-finished but sometimes I'm listening to music or something and it gets a little ridiculous.
+
+```emacs-lisp
+(defun toggle-screaming ()
+  (interactive)
+  (if (eq isw-should-play-chime t)
+      (setq isw-should-play-chime nil)
+    (setq isw-should-play-chime t)))
 ```
 
 
@@ -455,7 +467,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="orgaa891c9"></a>
+<a id="orgc28deff"></a>
 
 ## Extra Packages
 
@@ -553,6 +565,20 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
   (global-set-key "\t" 'company-complete-common))
 ```
 
+Trying out "AI tab-complete" [from TabNine](https://github.com/TommyX12/company-tabnine).
+
+```emacs-lisp
+(use-package company-tabnine
+  :config
+  (add-to-list 'company-backends #'company-tabnine))
+```
+
+Apparently you have to run
+
+    M-x company-tabnine-install-binary
+
+on each system before use. Hopefully it will remind me on new systems so I don't need to automate this step.
+
 
 ### Install and Configure Flycheck for Linting
 
@@ -579,7 +605,14 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org97e74c9"></a>
+### ace-window provides an ace-jump experience for switching windows
+
+```emacs-lisp
+(use-package ace-window)
+```
+
+
+<a id="orgeb76327"></a>
 
 ## Language Configuration
 
@@ -589,19 +622,23 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
 ```emacs-lisp
-(use-package lsp-mode
-  :init
-  ;; use flycheck
-  (setq lsp-prefer-flymake nil))
+  (use-package lsp-mode
+    :init
+    ;; use flycheck
+    (setq lsp-prefer-flymake nil))
 
-(use-package lsp-ui)
-(setq lsp-ui-doc-use-childframe t)
-(setq lsp-ui-doc-position 'top)
+    ;; seems (lsp-ui-flycheck-enable ) is gone now?
+ ;; (with-eval-after-load 'lsp-mode
+;;    (add-hook 'lsp-after-open-hook (lambda () (lsp-ui-flycheck-enable 1))))
 
-(use-package company-lsp)
-(use-package lsp-origami)
-(use-package lsp-treemacs)
-(use-package helm-lsp)
+  (use-package lsp-ui)
+  (setq lsp-ui-doc-use-childframe t)
+  (setq lsp-ui-doc-position 'top)
+
+  (use-package company-lsp)
+  (use-package lsp-origami)
+  (use-package lsp-treemacs)
+  (use-package helm-lsp)
 ```
 
 
@@ -674,7 +711,7 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 
 -   First, `go` itself must be installed, install however, and avalailable on the `PATH`.
 
--   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`.
+-   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`. [Directions for configuring `gopls` through this file are found here.](https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration)
 
 -   `golint` has to be installed independently
 
@@ -728,28 +765,12 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
       :hook (go-mode . flycheck-golangci-lint-setup))
     ```
 
--   Functions for Executing Tests
+-   Package and Configuration for Executing Tests
 
-    I find it tedious to run `go test` and type out the filename to test a specific file or even more tedious to type out the name of a test. Instead I've written a few functions to run tests and put the output in a dismissable buffer. Then these get added to the Go mode key bindings later.
-    
     ```emacs-lisp
-    (defun delete-go-test-buffer-if-exist ()
-      (let ((b (get-buffer "*go test*")))
-        (if b (kill-buffer "*go test*"))))
-    
-    (add-to-list 'auto-mode-alist '("\\*go test\\*" . compilation-mode))
-    
-    (defun go-test-project ()
-      "Run all Go tests in this project."
-      (interactive)
-      (projectile-with-default-dir (projectile-project-root)
-        (delete-go-test-buffer-if-exist)
-        (if (eq (get-buffer-window "*go test*") nil) 
-    	(progn (split-window-sensibly)
-    	       (view-buffer "*go test*")
-    	       (compilation-mode)))
-        (start-process "go test" "*go test*" "go" "test" "./...")
-        (message "Running all tests for project %s" (projectile-project-name))))
+    (use-package gotest)
+    (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
+    (add-hook 'go-test-mode-hook 'visual-line-mode)
     ```
 
 -   REPL
@@ -772,51 +793,51 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     (use-package gorepl-mode)
     ```
 
--   Specific Keybindings
+-   Mode-Specific Keybindings
 
     ```emacs-lisp
-      (general-define-key
-       :states  'normal
-       :keymaps 'go-mode-map
-       ",a"     'go-import-add
-       ",d"     'lsp-describe-thing-at-point
-       ",gg"    'lsp-find-definition
-       ",gt"    'lsp-find-type-definition
-       ",i"     'lsp-find-implementation
-       ",n"     'lsp-rename
-       ",r"     'lsp-find-references
-    ;;   ",tt"    'go-run-test-at-point
-       ",tp"    'go-test-project
-    ;;   ",tf"    'go-run-tests-in-file
-       ",x"     'lsp-execute-code-action
-       ",lsp"   'lsp-workspace-restart
-       "gd"     'lsp-find-definition
+    (general-define-key
+     :states  'normal
+     :keymaps 'go-mode-map
+     ",a"     'go-import-add
+     ",d"     'lsp-describe-thing-at-point
+     ",gg"    'lsp-find-definition
+     ",gt"    'lsp-find-type-definition
+     ",i"     'lsp-find-implementation
+     ",n"     'lsp-rename
+     ",r"     'lsp-find-references
+     ",tp"    'go-test-current-project
+     ",tt"    'go-test-current-test
+     ",tf"    'go-test-current-file
+     ",x"     'lsp-execute-code-action
+     ",lsp"   'lsp-workspace-restart
+     "gd"     'lsp-find-definition
     
-       ;; using the ,c namespace for repl stuff to follow the C-c convention
-       ;; found in other places in Emacs
-       ",cc"     'gorepl-run
-       ",cg"     'gorepl-run-load-current-file
-       ",cx"     'gorepl-eval-region
-       ",cl"     'gorepl-eval-line
+     ;; using the ,c namespace for repl stuff to follow the C-c convention
+     ;; found in other places in Emacs
+     ",cc"     'gorepl-run
+     ",cg"     'gorepl-run-load-current-file
+     ",cx"     'gorepl-eval-region
+     ",cl"     'gorepl-eval-line
     
-      ;; origami-mode works better with lsp than regular evil-mode
-       "TAB"    'origami-toggle-node
+    ;; origami-mode works better with lsp than regular evil-mode
+     "TAB"    'origami-toggle-node
     
-       "zm"     'origami-toggle-node
-       "zM"     'origami-toggle-all-nodes
+     "zm"     'origami-toggle-node
+     "zM"     'origami-toggle-all-nodes
     
-       "zc"     'origami-close-node
-       "zC"     'origami-close-node-recursively
+     "zc"     'origami-close-node
+     "zC"     'origami-close-node-recursively
     
-       "zo"     'origami-open-node
-       "zO"     'origami-open-node-recursively
+     "zo"     'origami-open-node
+     "zO"     'origami-open-node-recursively
     
-       ;; except for when it totally breaks lol
-       "zr"     'origami-reset
-      )
+     ;; except for when it totally breaks lol
+     "zr"     'origami-reset
+    )
     
-      (autoload 'go-mode "go-mode" nil t)
-      (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+    (autoload 'go-mode "go-mode" nil t)
+    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
     ```
 
 -   Hooks
@@ -863,7 +884,6 @@ So yay for `web-mode`!
   :config
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-enable-auto-pairing t))
-
 ```
 
 -   Setting highlighting for special template modes
@@ -923,7 +943,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgb6a7962"></a>
+<a id="org2c220bb"></a>
 
 ## Global Keybindings
 
@@ -955,13 +975,14 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (interactive)
   (server-edit "Done"))
 
-(general-define-key
- :keymaps '(normal emacs)
- "J"      'evil-scroll-page-down
- "K"      'evil-scroll-page-up)
+(defun last-window ()
+  "Switch to the last window."
+  (interactive)
+  (other-window -1 t))
 
 ;; global keybindings with LEADER
 (my-leader-def 'normal 'override
+  "aa"     'ace-jump-mode
   "bb"     'helm-buffers-list
   "TAB"    #'switch-to-prev-buffer
   "br"     'revert-buffer
@@ -989,6 +1010,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "jo"     'org-babel-tangle-jump-to-org
   "ic"     'insert-char
   "is"     'yas-insert-snippet
+  "n"      '(:keymap narrow-map)
   "p"      'projectile-command-map
   "pf"     'helm-projectile-find-file
   "p!"     'projectile-run-async-shell-command-in-root
@@ -998,11 +1020,14 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "qq"     'save-buffers-kill-terminal
   "qr"     'restart-emacs
   "tn"     'display-line-numbers-mode
+  "ts"     'toggle-screaming
   "tt"     'toggle-transparency
   "tr"     'treemacs
   "ta"     'treemacs-add-project-to-workspace
   "w-"     'split-window-below
   "w/"     'split-window-right
+  "wa"     'ace-window
+  "wb"     'last-window
   "wj"     'evil-window-down
   "wk"     'evil-window-up
   "wh"     'evil-window-left
@@ -1016,7 +1041,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org3f5ee95"></a>
+<a id="org165dfbb"></a>
 
 ## Org Mode Settings
 
@@ -1059,6 +1084,7 @@ Image drag-and-drop for org-mode
   "y"      'org-store-link
   "p"      'org-insert-link
   "x"      'org-babel-execute-src-block
+  "s"      'org-insert-structure-template
   "e"      'org-edit-src-code)
 
 (general-define-key
@@ -1089,7 +1115,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="orgc5cc02f"></a>
+<a id="org4c75b2d"></a>
 
 ## Hostname-based tweaks
 
@@ -1124,7 +1150,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org4c31430"></a>
+<a id="orgb850322"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1140,6 +1166,14 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
   "Disable current theme before loading new one."
   (mapcar #'disable-theme custom-enabled-themes))
 (advice-add 'load-theme :before #'load-theme--disable-old-theme)
+```
+
+
+### Line Numbers in Programming Buffers
+
+```emacs-lisp
+(add-hook 'prog-mode-hook 'display-line-numbers-mode)
+(setq display-line-numbers-type 'relative)
 ```
 
 
@@ -1339,7 +1373,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="org0cbd4b0"></a>
+<a id="orged5246b"></a>
 
 ## ERC (IRC config)
 
@@ -1401,7 +1435,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org976f860"></a>
+<a id="orgeb75335"></a>
 
 ## Render this file for display on the web
 
@@ -1427,7 +1461,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org20b44da"></a>
+<a id="orgab5322b"></a>
 
 ## Footer
 
@@ -1438,7 +1472,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orge308607"></a>
+<a id="orgd75700c"></a>
 
 ## Styles for HTML export
 
@@ -1525,14 +1559,14 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org437dee2"></a>
+<a id="org96d9ab6"></a>
 
 # Notes and Miscellaneous
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org0a48a4b"></a>
+<a id="org0469e9a"></a>
 
 ## Monospace Fonts
 
@@ -1564,14 +1598,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org28f0889"></a>
+<a id="org7d45a37"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org8c0eeef"></a>
+<a id="org236378f"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1580,7 +1614,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="orgd47b961"></a>
+<a id="org8c61554"></a>
 
 ## Packages to Try
 
@@ -1597,9 +1631,16 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="orgc3dfa27"></a>
+<a id="org841a634"></a>
 
 ## To do
 
-1.  origami mode is kinda broken?
-2.  restart-lsp-workspace shortcut
+
+### TODO fix auto-save problem where npm breaks because of where Emacs puts auto-save files or temp files
+
+> <bpalmer> ,autosave <fsbot> bpalmer: AutoSave is <code>[0/5]</code> Try M-x customize-group RET auto-save RET <fsbot> [1] controlled by auto-save-list-file-prefix <fsbot> [2] controlled by auto-save-file-name-transforms <fsbot> [3] (info "(emacs)Auto Save") ;;[ ,more / ,dump]
+
+
+### TODO bind a button in magit to visit the *current version* of the file
+
+Bind, in magit (somehow) a button (maybe C-RET) to `magit-diff-visit-file-worktree`
