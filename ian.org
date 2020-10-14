@@ -217,6 +217,13 @@ It's controversial but I think modal editing is brilliant and have been using ~v
 
     (setq-default evil-escape-key-sequence "fd"))
 #+END_SRC
+
+I use undo-tree for redo, apparently, c.f. [[https://github.com/syl20bnr/spacemacs/issues/14036#issuecomment-707072523]]
+This re-enables redo for newer versions of evil than this above comment, which is otherwise annoyingly broken.
+#+begin_src emacs-lisp
+  (global-undo-tree-mode)
+  (evil-set-undo-system 'undo-tree)
+#+end_src
 *** Install and Configure Keybindings Helper
 [[https://github.com/noctuid/general.el][General]] provides more consistent and convenient keybindings, especially with ~evil-mode~.
 
