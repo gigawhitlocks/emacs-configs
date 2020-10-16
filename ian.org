@@ -994,6 +994,17 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
         (mapcar #'disable-theme custom-enabled-themes))
       (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 #+END_SRC
+*** Fix background color of lsp-ui-doc in moe-light theme
+#+begin_src emacs-lisp
+  (defun lsp-ui-doc-moe-light-background ()
+    (set-face-attribute 'lsp-ui-doc-background nil :background "#D8D8D8" ))
+
+  (defun lsp-ui-doc-moe-dark-background ()
+    (set-face-attribute 'lsp-ui-doc-background nil :background "#353535" ))
+
+  (advice-add 'moe-light :after #'lsp-ui-doc-moe-light-background)
+  (advice-add 'moe-dark :after #'lsp-ui-doc-moe-dark-background)
+#+end_src
 *** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
