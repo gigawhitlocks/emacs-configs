@@ -461,15 +461,6 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
     ;; tab complete!
     (global-set-key "\t" 'company-complete-common))
     #+END_SRC
-Trying out "AI tab-complete" [[https://github.com/TommyX12/company-tabnine][from TabNine]].
-    #+BEGIN_SRC emacs-lisp
-  (use-package company-tabnine
-    :config
-    (add-to-list 'company-backends #'company-tabnine))
-#+END_SRC
-Apparently you have to run
-: M-x company-tabnine-install-binary
-on each system before use. Hopefully it will remind me on new systems so I don't need to automate this step.
 *** Install and Configure Flycheck for Linting
 [[https://www.flycheck.org/en/latest/][Flycheck]] is an on-the-fly checker that hooks into most language backends.
 #+BEGIN_SRC emacs-lisp
