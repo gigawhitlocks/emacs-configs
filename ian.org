@@ -941,38 +941,6 @@ Image drag-and-drop for org-mode
           (sequence "QUESTION(q)" "|" "ANSWERED(a)")
           (sequence "AGENDA(a)" "|" "DONE(d)" )))
 #+END_SRC
-** Hostname-based tweaks
-Looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
-I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
-Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
-
-Right now I have three configurations:
-- [[./local/relay.org][my server]]
-- [[./local/rocinante.org][my work machine]]
-- [[./local/wintermute.org][my laptop]]
-- [[./local/terminus.org][my... desktop?]]
-
-#+BEGIN_SRC emacs-lisp
-  ;; simplifies setting a font and changing it immediately
-  (defun set-font (font)
-    (set-face-attribute 'default nil :font font )
-    (set-frame-font font nil t))
-
-  (let ;; find the hostname and assign it to a variable
-       ((hostname (string-trim-right
-                   (shell-command-to-string "hostname"))))
-
-     (progn
-       (org-babel-tangle-file
-        (concat "~/.emacs.d/local/" hostname ".org")
-        (concat hostname ".el"))
-
-       (load (concat "~/.emacs.d/local/" hostname ".el"))
-       (require 'local)))
-#+END_SRC
-
-There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
-
 ** Miscellaneous standalone global configuration changes
 *** Switch theme
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just ~M-x load-theme~.
@@ -1232,6 +1200,38 @@ This function registers a hook that will export this file to Github flavored Mar
       )
     )
 #+END_SRC
+
+** Hostname-based tweaks
+Looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
+I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
+Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
+
+Right now I have three configurations:
+- [[./local/relay.org][my server]]
+- [[./local/rocinante.org][my work machine]]
+- [[./local/wintermute.org][my laptop]]
+- [[./local/terminus.org][my... desktop?]]
+
+#+BEGIN_SRC emacs-lisp
+  ;; simplifies setting a font and changing it immediately
+  (defun set-font (font)
+    (set-face-attribute 'default nil :font font )
+    (set-frame-font font nil t))
+
+  (let ;; find the hostname and assign it to a variable
+       ((hostname (string-trim-right
+                   (shell-command-to-string "hostname"))))
+
+     (progn
+       (org-babel-tangle-file
+        (concat "~/.emacs.d/local/" hostname ".org")
+        (concat hostname ".el"))
+
+       (load (concat "~/.emacs.d/local/" hostname ".el"))
+       (require 'local)))
+#+END_SRC
+
+There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 ** Footer
 #+BEGIN_SRC emacs-lisp
