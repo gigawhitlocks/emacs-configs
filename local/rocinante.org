@@ -28,6 +28,12 @@ Idk, the novelty footer in dashboard.el is missing the icon for some reason so j
 #+BEGIN_SRC emacs-lisp
   (setq dashboard-set-footer nil)
 #+END_SRC
+* Bigger screen
+#+begin_src emacs-lisp
+  (add-to-list 'default-frame-alist '(width . 260))
+  (add-to-list 'default-frame-alist '(height . 80))
+#+end_src
+
 * Editor Functions and Settings Specific to Mattermost Cloud
 #+BEGIN_SRC emacs-lisp
 (setenv "STRIPE_MOCK_MODE" "1")
