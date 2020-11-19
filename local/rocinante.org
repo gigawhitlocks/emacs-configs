@@ -13,8 +13,13 @@ Stuff that's specific to my work (X1) Thinkpad's Emacs config.
 #+BEGIN_SRC emacs-lisp
   (use-package moe-theme
     :config
-    (load-theme 'moe-light t)
-    (enable-theme 'moe-light))
+    (load-theme 'moe-dark t)
+    (enable-theme 'moe-dark)
+    (require 'moe-theme-switcher)
+    (moe-theme-apply-color 'cyan)
+    (show-paren-mode t)
+    (setq show-paren-style 'expression)
+    )
 
   ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
   ;;(set-frame-parameter (selected-frame) 'alpha <both>)

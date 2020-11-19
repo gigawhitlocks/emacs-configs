@@ -1233,6 +1233,14 @@ Right now I have three configurations:
 
 There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
+** Set latitude and longitude for the calendar
+~moe-theme~ will use these variables to determine when sunset is, in order to change the theme automatically to a dark theme at night. There may be other good reasons to have these set.
+
+The lat/long here is just downtown Austin. No reason to be more precise than that :)
+#+begin_src emacs-lisp
+  (setq calendar-latitude -97.73)
+  (setq calendar-longitude 30.266)
+#+end_src
 ** Footer
 #+BEGIN_SRC emacs-lisp
   (server-start)
