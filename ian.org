@@ -264,7 +264,6 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
     ;; disable the default emacs vc because git is all I use,
     ;; for I am a simple man
     (setq vc-handled-backends nil)
-    (use-package evil-magit)
 #+END_SRC
 
 The Magit author publishes an additional package called [[https://emacsair.me/2018/12/19/forge-0.1/][forge]]. Forge lets you interact with Github and Gitlab from inside of Emacs. There's planned support for Gogs, Gitea, etc.
