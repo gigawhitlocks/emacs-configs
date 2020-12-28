@@ -1131,6 +1131,15 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
 #+BEGIN_SRC emacs-lisp
   (xterm-mouse-mode 1)
 #+END_SRC
+*** Set default testing credentials for Mattermost
+These are well-known credentials for Mattermost instances that have been filled with sample data.
+This allows me to publish plugins to test instances with ~M-x compile~
+#+BEGIN_SRC emacs-lisp
+  (setenv "MM_SERVICESETTINGS_SITEURL" "http://relay.home:8065")
+  (setenv "MM_ADMIN_USERNAME" "sysadmin")
+  (setenv "MM_ADMIN_PASSWORD" "Sys@dmin-sample1")
+#+END_SRC
+
 ** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
