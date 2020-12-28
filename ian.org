@@ -489,7 +489,9 @@ LSP provides a generic interface for text editors to talk to various language se
   (use-package lsp-mode
     :init
     ;; use flycheck
-    (setq lsp-prefer-flymake nil))
+    (setq lsp-prefer-flymake nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+)
 
     ;; seems (lsp-ui-flycheck-enable ) is gone now?
  ;; (with-eval-after-load 'lsp-mode
