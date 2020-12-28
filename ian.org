@@ -707,6 +707,10 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 #+END_SRC
+**** TODO Interactive debugger
+Figured out how to do this, just need to add it.. 
+[[https://emacs-lsp.github.io/dap-mode/page/configuration/#go]]
+
 *** Web
 
 After some amount of searching and fumbling about I have discovered [[http://web-mode.org/][~web-mode~]] which appears to be the one-stop-shop solution for all of your HTML and browser-related needs. It handles a whole slew of web-related languages and templating formats and plays nicely with LSP. It's also the only package that I could find that supported ~.tsx~ files at all.
