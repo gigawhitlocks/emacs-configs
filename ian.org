@@ -470,7 +470,7 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
       :init (global-flycheck-mode))
 #+END_SRC
 *** Install ~exec-path-from-shell~ to manage the PATH
-[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in OS X or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
+[[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :config
