@@ -1257,8 +1257,8 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
 
 The lat/long here is just downtown Austin. No reason to be more precise than that :)
 #+begin_src emacs-lisp
-  (setq calendar-latitude -97.73)
-  (setq calendar-longitude 30.266)
+  (setq calendar-longitude -97.73)
+  (setq calendar-latitude 30.266)
 #+end_src
 ** Footer
 #+BEGIN_SRC emacs-lisp
