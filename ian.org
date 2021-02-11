@@ -628,7 +628,7 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
   (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
   (add-hook 'go-test-mode-hook 'visual-line-mode)
 
-  (defun isw-toggle-modification-hooks ()
+  (defun isw-toggle-modification-hooks (&rest ignored)
     "toggles modification hooks"
     (if (eq inhibit-modification-hooks t)
         (setq inhibit-modification-hooks nil)
