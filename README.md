@@ -1,28 +1,28 @@
-- [What is this?](#org0b9630b)
-- [Entrypoint](#org964150e)
-- [My Environment](#org0c20130)
-  - [Bootstrap](#org76ce217)
-  - [Package Installation and Configuration](#orga6ed4d4)
-  - [Extra Packages](#orgc28deff)
-  - [Language Configuration](#orgeb76327)
-  - [Global Keybindings](#org2c220bb)
-  - [Org Mode Settings](#org165dfbb)
-  - [Hostname-based tweaks](#org4c75b2d)
-  - [Miscellaneous standalone global configuration changes](#orgb850322)
-  - [ERC (IRC config)](#orged5246b)
-  - [Render this file for display on the web](#orgeb75335)
-  - [Footer](#orgab5322b)
-  - [Styles for HTML export](#orgd75700c)
-- [Notes and Miscellaneous](#org96d9ab6)
-  - [Monospace Fonts](#org0469e9a)
-  - [Proportional Fonts](#org7d45a37)
-  - [Authentication and Secrets in Emacs](#org236378f)
-  - [Packages to Try](#org8c61554)
-  - [To do](#org841a634)
+- [What is this?](#org00916b0)
+- [Entrypoint](#org99b6d23)
+- [My Environment](#org2cad120)
+  - [Bootstrap](#orgaa3ce03)
+  - [Package Installation and Configuration](#org978e9f6)
+  - [Extra Packages](#org17be2b4)
+  - [Language Configuration](#org44e95cb)
+  - [Global Keybindings](#org68c4c62)
+  - [Org Mode Settings](#org1906921)
+  - [Miscellaneous standalone global configuration changes](#orgaa5b3ba)
+  - [ERC (IRC config)](#orgefcb3fc)
+  - [Render this file for display on the web](#orgbb56f32)
+  - [Hostname-based tweaks](#org107b6ef)
+  - [Footer](#orga78bf92)
+  - [Styles for HTML export](#org9e8f1db)
+- [Notes and Miscellaneous](#org3f6d158)
+  - [Monospace Fonts](#org18cb385)
+  - [Proportional Fonts](#orgd219a39)
+  - [Authentication and Secrets in Emacs](#org9be87b7)
+  - [Packages to Try](#org9f9e253)
+  - [To do](#org1f71ddf)
 
 
 
-<a id="org0b9630b"></a>
+<a id="org00916b0"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org964150e"></a>
+<a id="org99b6d23"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org0c20130"></a>
+<a id="org2cad120"></a>
 
 # My Environment
 
@@ -109,7 +109,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org76ce217"></a>
+<a id="orgaa3ce03"></a>
 
 ## Bootstrap
 
@@ -163,7 +163,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orga6ed4d4"></a>
+<a id="org978e9f6"></a>
 
 ## Package Installation and Configuration
 
@@ -257,9 +257,19 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
   (use-package evil-surround
     :config
     (global-evil-surround-mode 1))
+    (use-package undo-tree
+      :config
+      (global-undo-tree-mode)
+      (evil-set-undo-system 'undo-tree))
 
 
   (setq-default evil-escape-key-sequence "fd"))
+```
+
+I use undo-tree for redo, apparently, c.f. <https://github.com/syl20bnr/spacemacs/issues/14036#issuecomment-707072523> This re-enables redo for newer versions of evil than this above comment, which is otherwise annoyingly broken.
+
+```emacs-lisp
+
 ```
 
 
@@ -267,7 +277,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org2c220bb) section.
+It's mostly used below in the [global keybindings](#org68c4c62) section.
 
 ```emacs-lisp
 (use-package general
@@ -309,7 +319,6 @@ It's mostly used below in the [global keybindings](#org2c220bb) section.
 ;; disable the default emacs vc because git is all I use,
 ;; for I am a simple man
 (setq vc-handled-backends nil)
-(use-package evil-magit)
 ```
 
 The Magit author publishes an additional package called [forge](https://emacsair.me/2018/12/19/forge-0.1/). Forge lets you interact with Github and Gitlab from inside of Emacs. There's planned support for Gogs, Gitea, etc.
@@ -436,6 +445,8 @@ Actually, looking at the project page, the icons don't seem to be working for me
 			  (projects . 5))
 	)
   )
+
+(setq dashboard-set-footer nil)
 ```
 
 
@@ -467,7 +478,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="orgc28deff"></a>
+<a id="org17be2b4"></a>
 
 ## Extra Packages
 
@@ -565,20 +576,6 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
   (global-set-key "\t" 'company-complete-common))
 ```
 
-Trying out "AI tab-complete" [from TabNine](https://github.com/TommyX12/company-tabnine).
-
-```emacs-lisp
-(use-package company-tabnine
-  :config
-  (add-to-list 'company-backends #'company-tabnine))
-```
-
-Apparently you have to run
-
-    M-x company-tabnine-install-binary
-
-on each system before use. Hopefully it will remind me on new systems so I don't need to automate this step.
-
 
 ### Install and Configure Flycheck for Linting
 
@@ -595,7 +592,7 @@ on each system before use. Hopefully it will remind me on new systems so I don't
 
 ### Install `exec-path-from-shell` to manage the PATH
 
-[exec-path-from-shell](https://github.com/purcell/exec-path-from-shell) mirrors PATH in zsh or Bash in OS X or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
+[exec-path-from-shell](https://github.com/purcell/exec-path-from-shell) mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
 
 ```emacs-lisp
 (use-package exec-path-from-shell
@@ -612,7 +609,7 @@ on each system before use. Hopefully it will remind me on new systems so I don't
 ```
 
 
-<a id="orgeb76327"></a>
+<a id="org44e95cb"></a>
 
 ## Language Configuration
 
@@ -625,7 +622,9 @@ LSP provides a generic interface for text editors to talk to various language se
   (use-package lsp-mode
     :init
     ;; use flycheck
-    (setq lsp-prefer-flymake nil))
+    (setq lsp-prefer-flymake nil)
+    (setq lsp-headerline-breadcrumb-enable nil)
+)
 
     ;; seems (lsp-ui-flycheck-enable ) is gone now?
  ;; (with-eval-after-load 'lsp-mode
@@ -635,7 +634,8 @@ LSP provides a generic interface for text editors to talk to various language se
   (setq lsp-ui-doc-use-childframe t)
   (setq lsp-ui-doc-position 'top)
 
-  (use-package company-lsp)
+  ;; got deprecated I think
+  ;; (use-package company-lsp)
   (use-package lsp-origami)
   (use-package lsp-treemacs)
   (use-package helm-lsp)
@@ -770,7 +770,16 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     ```emacs-lisp
     (use-package gotest)
     (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
+    (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
     (add-hook 'go-test-mode-hook 'visual-line-mode)
+    
+    (defun isw-toggle-modification-hooks (&rest ignored)
+      "toggles modification hooks"
+      (if (eq inhibit-modification-hooks t)
+          (setq inhibit-modification-hooks nil)
+        (setq inhibit-modification-hooks t)))
+    (advice-add 'evil-ex :before #'isw-toggle-modification-hooks)
+    (advice-add 'evil-ex :after #'isw-toggle-modification-hooks)
     ```
 
 -   REPL
@@ -863,6 +872,10 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
     ```
 
+-   TODO Interactive debugger
+
+    Figured out how to do this, just need to add it.. <https://emacs-lsp.github.io/dap-mode/page/configuration/#go>
+
 
 ### Web
 
@@ -943,7 +956,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org2c220bb"></a>
+<a id="org68c4c62"></a>
 
 ## Global Keybindings
 
@@ -1017,6 +1030,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "si"     'yas-insert-snippet
   "sn"     'yas-new-snippet
   "sp"     'helm-projectile-ack
+  "sa"     'ag-regexp
   "qq"     'save-buffers-kill-terminal
   "qr"     'restart-emacs
   "tn"     'display-line-numbers-mode
@@ -1041,7 +1055,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org165dfbb"></a>
+<a id="org1906921"></a>
 
 ## Org Mode Settings
 
@@ -1115,44 +1129,32 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org4c75b2d"></a>
-
-## Hostname-based tweaks
-
-Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the same as the hostname of the machine. I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call `hostname` to determine the hostname. Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
-
-Right now I have three configurations:
-
--   [my server](./local/relay.md)
--   [my work machine](./local/rocinante.md)
--   [my laptop](./local/wintermute.md)
--   [my&#x2026; desktop?](./local/terminus.md)
-
-```emacs-lisp
-;; simplifies setting a font and changing it immediately
-(defun set-font (font)
-  (set-face-attribute 'default nil :font font )
-  (set-frame-font font nil t))
-
-(let ;; find the hostname and assign it to a variable
-     ((hostname (string-trim-right
-		 (shell-command-to-string "hostname"))))
-
-   (progn
-     (org-babel-tangle-file
-      (concat "~/.emacs.d/local/" hostname ".org")
-      (concat hostname ".el"))
-
-     (load (concat "~/.emacs.d/local/" hostname ".el"))
-     (require 'local)))
-```
-
-There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
-
-
-<a id="orgb850322"></a>
+<a id="orgaa5b3ba"></a>
 
 ## Miscellaneous standalone global configuration changes
+
+
+### Theme
+
+I use [moe theme](https://github.com/kuanyui/moe-theme.el) which is absolutely the most full-featured Emacs theme I've ever seen. It has a light variant and a dark variant, and both look fantastic, and has a feature for switching between light and dark themes at sundown automatically, which I use and greatly enjoy.
+
+I used to use leuven-theme and do love it dearly, as well, but the dark variant is trash compared to the light one and I like to go back and forth between coordinated themes.
+
+```emacs-lisp
+(use-package moe-theme
+  :config
+  ;; these values are for the theme change at sundown
+  (setq calendar-longitude -97.73)
+  (setq calendar-latitude 30.266)
+
+  (load-theme 'moe-light t)
+  (enable-theme 'moe-light)
+  (require 'moe-theme-switcher)
+  (moe-theme-apply-color 'cyan)
+  (show-paren-mode t)
+  (setq show-paren-style 'expression)
+  )
+```
 
 
 ### Switch theme
@@ -1166,6 +1168,20 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
   "Disable current theme before loading new one."
   (mapcar #'disable-theme custom-enabled-themes))
 (advice-add 'load-theme :before #'load-theme--disable-old-theme)
+```
+
+
+### Fix background color of lsp-ui-doc in moe-light theme
+
+```emacs-lisp
+(defun lsp-ui-doc-moe-light-background ()
+  (set-face-attribute 'lsp-ui-doc-background nil :background "#D8D8D8" ))
+
+(defun lsp-ui-doc-moe-dark-background ()
+  (set-face-attribute 'lsp-ui-doc-background nil :background "#353535" ))
+
+(advice-add 'moe-light :after #'lsp-ui-doc-moe-light-background)
+(advice-add 'moe-dark :after #'lsp-ui-doc-moe-dark-background)
 ```
 
 
@@ -1221,6 +1237,15 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 ```emacs-lisp
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>") 'move-end-of-line)
+```
+
+
+### Customize the frame (OS window) title
+
+Taken from StackOverflow, at least for now, which does 90% of what I want and can serve as a future reference of how to customize this aspect of Emacs. This displays the file name and major mode in the OS title bar. Will have to find the documentation that defines the format string passed to `frame-title-format` at some point.
+
+```emacs-lisp
+(setq-default frame-title-format '("%f [%m]"))
 ```
 
 
@@ -1373,7 +1398,18 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="orged5246b"></a>
+### Set default testing credentials for Mattermost
+
+These are well-known credentials for Mattermost instances that have been filled with sample data. This allows me to publish plugins to test instances with `M-x compile`
+
+```emacs-lisp
+(setenv "MM_SERVICESETTINGS_SITEURL" "http://relay.home:8065")
+(setenv "MM_ADMIN_USERNAME" "sysadmin")
+(setenv "MM_ADMIN_PASSWORD" "Sys@dmin-sample1")
+```
+
+
+<a id="orgefcb3fc"></a>
 
 ## ERC (IRC config)
 
@@ -1435,7 +1471,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgeb75335"></a>
+<a id="orgbb56f32"></a>
 
 ## Render this file for display on the web
 
@@ -1461,7 +1497,42 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgab5322b"></a>
+<a id="org107b6ef"></a>
+
+## Hostname-based tweaks
+
+Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the same as the hostname of the machine. I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call `hostname` to determine the hostname. Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
+
+Right now I have three configurations:
+
+-   [my server](./local/relay.md)
+-   [my work machine](./local/rocinante.md)
+-   [my laptop](./local/wintermute.md)
+-   [my&#x2026; desktop?](./local/terminus.md)
+
+```emacs-lisp
+;; simplifies setting a font and changing it immediately
+(defun set-font (font)
+  (set-face-attribute 'default nil :font font )
+  (set-frame-font font nil t))
+
+(let ;; find the hostname and assign it to a variable
+     ((hostname (string-trim-right
+		 (shell-command-to-string "hostname"))))
+
+   (progn
+     (org-babel-tangle-file
+      (concat "~/.emacs.d/local/" hostname ".org")
+      (concat hostname ".el"))
+
+     (load (concat "~/.emacs.d/local/" hostname ".el"))
+     (require 'local)))
+```
+
+There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
+
+
+<a id="orga78bf92"></a>
 
 ## Footer
 
@@ -1472,7 +1543,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgd75700c"></a>
+<a id="org9e8f1db"></a>
 
 ## Styles for HTML export
 
@@ -1559,14 +1630,14 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org96d9ab6"></a>
+<a id="org3f6d158"></a>
 
 # Notes and Miscellaneous
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org0469e9a"></a>
+<a id="org18cb385"></a>
 
 ## Monospace Fonts
 
@@ -1598,14 +1669,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="org7d45a37"></a>
+<a id="orgd219a39"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org236378f"></a>
+<a id="org9be87b7"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1614,7 +1685,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org8c61554"></a>
+<a id="org9f9e253"></a>
 
 ## Packages to Try
 
@@ -1631,7 +1702,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org841a634"></a>
+<a id="org1f71ddf"></a>
 
 ## To do
 
