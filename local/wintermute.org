@@ -8,18 +8,6 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
     (set-font "Inconsolata-13")
 #+END_SRC
 
-* Theme
-#+BEGIN_SRC emacs-lisp
-  (use-package moe-theme)
-  (load-theme 'moe-light t)
-#+End_SRC
-
-* Local bugfixes
-Idk, the novelty footer in dashboard.el is missing the icon for some reason so just disable it for now
-#+BEGIN_SRC emacs-lisp
-  (setq dashboard-set-footer nil)
-#+END_SRC
-
 * Footer
 #+BEGIN_SRC emacs-lisp
   (provide 'local)

@@ -375,6 +375,8 @@ Actually, looking at the project page, the icons don't seem to be working for me
                             (projects . 5))
           )
     )
+
+  (setq dashboard-set-footer nil)
 #+END_SRC
 *** Install and Configure GNU Hyperbole
 [[https://www.gnu.org/software/hyperbole/][GNU Hyperbole]] adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
@@ -956,6 +958,28 @@ Image drag-and-drop for org-mode
           (sequence "AGENDA(a)" "|" "DONE(d)" )))
 #+END_SRC
 ** Miscellaneous standalone global configuration changes
+*** Theme
+I use [[https://github.com/kuanyui/moe-theme.el][moe theme]] which is absolutely the most full-featured Emacs theme I've ever seen.
+It has a light variant and a dark variant, and both look fantastic, and has a feature for switching between light and dark themes at sundown automatically, which I use and greatly enjoy.
+
+I used to use leuven-theme and do love it dearly, as well, but the dark variant is trash compared to the light one and I like to go back and forth between coordinated themes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package moe-theme
+    :config
+    ;; these values are for the theme change at sundown
+    (setq calendar-longitude -97.73)
+    (setq calendar-latitude 30.266)
+
+    (load-theme 'moe-light t)
+    (enable-theme 'moe-light)
+    (require 'moe-theme-switcher)
+    (moe-theme-apply-color 'cyan)
+    (show-paren-mode t)
+    (setq show-paren-style 'expression)
+    )
+#+END_SRC
+
 *** Switch theme
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just ~M-x load-theme~.
 
@@ -1148,7 +1172,6 @@ This allows me to publish plugins to test instances with ~M-x compile~
   (setenv "MM_ADMIN_USERNAME" "sysadmin")
   (setenv "MM_ADMIN_PASSWORD" "Sys@dmin-sample1")
 #+END_SRC
-
 ** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
@@ -1261,14 +1284,6 @@ Right now I have three configurations:
 
 There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
-** Set latitude and longitude for the calendar
-~moe-theme~ will use these variables to determine when sunset is, in order to change the theme automatically to a dark theme at night. There may be other good reasons to have these set.
-
-The lat/long here is just downtown Austin. No reason to be more precise than that :)
-#+begin_src emacs-lisp
-  (setq calendar-longitude -97.73)
-  (setq calendar-latitude 30.266)
-#+end_src
 ** Footer
 #+BEGIN_SRC emacs-lisp
   (server-start)

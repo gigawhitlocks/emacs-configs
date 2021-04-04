@@ -4,35 +4,10 @@ Stuff that's specific to my work (X1) Thinkpad's Emacs config.
 
 
 * Font
-
 #+BEGIN_SRC emacs-lisp
   (set-font "Source Code Pro-11")
 #+END_SRC
 
-* Theme
-#+BEGIN_SRC emacs-lisp
-  (use-package moe-theme
-    :config
-    (load-theme 'moe-dark t)
-    (enable-theme 'moe-dark)
-    (require 'moe-theme-switcher)
-    (moe-theme-apply-color 'cyan)
-    (show-paren-mode t)
-    (setq show-paren-style 'expression)
-    )
-
-  ;;(set-frame-parameter (selected-frame) 'alpha '(<active> . <inactive>))
-  ;;(set-frame-parameter (selected-frame) 'alpha <both>)
-  ;; (set-frame-parameter (selected-frame) 'alpha 95)
-  ;; (add-to-list 'default-frame-alist '(alpha . 95))
-#+End_SRC
-
-* Local bugfixes
-
-Idk, the novelty footer in dashboard.el is missing the icon for some reason so just disable it for now
-#+BEGIN_SRC emacs-lisp
-  (setq dashboard-set-footer nil)
-#+END_SRC
 * Bigger screen
 #+begin_src emacs-lisp
   (add-to-list 'default-frame-alist '(width . 260))
