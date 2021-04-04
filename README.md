@@ -1,28 +1,28 @@
-- [What is this?](#org00916b0)
-- [Entrypoint](#org99b6d23)
-- [My Environment](#org2cad120)
-  - [Bootstrap](#orgaa3ce03)
-  - [Package Installation and Configuration](#org978e9f6)
-  - [Extra Packages](#org17be2b4)
-  - [Language Configuration](#org44e95cb)
-  - [Global Keybindings](#org68c4c62)
-  - [Org Mode Settings](#org1906921)
-  - [Miscellaneous standalone global configuration changes](#orgaa5b3ba)
-  - [ERC (IRC config)](#orgefcb3fc)
-  - [Render this file for display on the web](#orgbb56f32)
-  - [Hostname-based tweaks](#org107b6ef)
-  - [Footer](#orga78bf92)
-  - [Styles for HTML export](#org9e8f1db)
-- [Notes and Miscellaneous](#org3f6d158)
-  - [Monospace Fonts](#org18cb385)
-  - [Proportional Fonts](#orgd219a39)
-  - [Authentication and Secrets in Emacs](#org9be87b7)
-  - [Packages to Try](#org9f9e253)
-  - [To do](#org1f71ddf)
+- [What is this?](#org4bfbbee)
+- [Entrypoint](#orgfd2e497)
+- [My Environment](#org016c76a)
+  - [Bootstrap](#orgaa9a964)
+  - [Package Installation and Configuration](#org2e8bc76)
+  - [Extra Packages](#orgaeb294a)
+  - [Language Configuration](#org001bd85)
+  - [Global Keybindings](#org6e4c5c5)
+  - [Org Mode Settings](#org68f2b87)
+  - [Miscellaneous standalone global configuration changes](#org1b6b744)
+  - [ERC (IRC config)](#orgb71715f)
+  - [Render this file for display on the web](#org6181259)
+  - [Hostname-based tweaks](#org77e374d)
+  - [Footer](#org485d313)
+  - [Styles for HTML export](#orgb142a39)
+- [Notes and Miscellaneous](#orgb6195f2)
+  - [Monospace Fonts](#org1828191)
+  - [Proportional Fonts](#org4d2e4fb)
+  - [Authentication and Secrets in Emacs](#orgabdd6ee)
+  - [Packages to Try](#org84857e0)
+  - [To do](#orgaba7007)
 
 
 
-<a id="org00916b0"></a>
+<a id="org4bfbbee"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org99b6d23"></a>
+<a id="orgfd2e497"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org2cad120"></a>
+<a id="org016c76a"></a>
 
 # My Environment
 
@@ -109,7 +109,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orgaa3ce03"></a>
+<a id="orgaa9a964"></a>
 
 ## Bootstrap
 
@@ -163,11 +163,34 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org978e9f6"></a>
+<a id="org2e8bc76"></a>
 
 ## Package Installation and Configuration
 
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
+
+
+### Theme
+
+I use [moe theme](https://github.com/kuanyui/moe-theme.el) which is absolutely the most full-featured Emacs theme I've ever seen. It has a light variant and a dark variant, and both look fantastic, and has a feature for switching between light and dark themes at sundown automatically, which I use and greatly enjoy.
+
+I used to use leuven-theme and do love it dearly, as well, but the dark variant is trash compared to the light one and I like to go back and forth between coordinated themes.
+
+```emacs-lisp
+(use-package moe-theme
+  :config
+  ;; these values are for the theme change at sundown
+  (setq calendar-longitude -97.73)
+  (setq calendar-latitude 30.266)
+
+  (load-theme 'moe-light t)
+  (enable-theme 'moe-light)
+  (require 'moe-theme-switcher)
+  (moe-theme-apply-color 'cyan)
+  (show-paren-mode t)
+  (setq show-paren-style 'expression)
+  )
+```
 
 
 ### Install and Configure Treemacs
@@ -277,7 +300,7 @@ I use undo-tree for redo, apparently, c.f. <https://github.com/syl20bnr/spacemac
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org68c4c62) section.
+It's mostly used below in the [global keybindings](#org6e4c5c5) section.
 
 ```emacs-lisp
 (use-package general
@@ -478,7 +501,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="org17be2b4"></a>
+<a id="orgaeb294a"></a>
 
 ## Extra Packages
 
@@ -609,7 +632,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org44e95cb"></a>
+<a id="org001bd85"></a>
 
 ## Language Configuration
 
@@ -956,7 +979,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org68c4c62"></a>
+<a id="org6e4c5c5"></a>
 
 ## Global Keybindings
 
@@ -1055,7 +1078,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org1906921"></a>
+<a id="org68f2b87"></a>
 
 ## Org Mode Settings
 
@@ -1129,32 +1152,9 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="orgaa5b3ba"></a>
+<a id="org1b6b744"></a>
 
 ## Miscellaneous standalone global configuration changes
-
-
-### Theme
-
-I use [moe theme](https://github.com/kuanyui/moe-theme.el) which is absolutely the most full-featured Emacs theme I've ever seen. It has a light variant and a dark variant, and both look fantastic, and has a feature for switching between light and dark themes at sundown automatically, which I use and greatly enjoy.
-
-I used to use leuven-theme and do love it dearly, as well, but the dark variant is trash compared to the light one and I like to go back and forth between coordinated themes.
-
-```emacs-lisp
-(use-package moe-theme
-  :config
-  ;; these values are for the theme change at sundown
-  (setq calendar-longitude -97.73)
-  (setq calendar-latitude 30.266)
-
-  (load-theme 'moe-light t)
-  (enable-theme 'moe-light)
-  (require 'moe-theme-switcher)
-  (moe-theme-apply-color 'cyan)
-  (show-paren-mode t)
-  (setq show-paren-style 'expression)
-  )
-```
 
 
 ### Switch theme
@@ -1409,7 +1409,7 @@ These are well-known credentials for Mattermost instances that have been filled 
 ```
 
 
-<a id="orgefcb3fc"></a>
+<a id="orgb71715f"></a>
 
 ## ERC (IRC config)
 
@@ -1471,7 +1471,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgbb56f32"></a>
+<a id="org6181259"></a>
 
 ## Render this file for display on the web
 
@@ -1497,7 +1497,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org107b6ef"></a>
+<a id="org77e374d"></a>
 
 ## Hostname-based tweaks
 
@@ -1532,7 +1532,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="orga78bf92"></a>
+<a id="org485d313"></a>
 
 ## Footer
 
@@ -1543,7 +1543,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org9e8f1db"></a>
+<a id="orgb142a39"></a>
 
 ## Styles for HTML export
 
@@ -1630,14 +1630,14 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org3f6d158"></a>
+<a id="orgb6195f2"></a>
 
 # Notes and Miscellaneous
 
 Miscellaneous stuff related to the config but not ready to be integrated, or just links, commentary, etc
 
 
-<a id="org18cb385"></a>
+<a id="org1828191"></a>
 
 ## Monospace Fonts
 
@@ -1669,14 +1669,14 @@ More ligatures, but you have to Do Stuff in Emacs <https://github.com/tonsky/Fir
 I mean, it's called "Hack"
 
 
-<a id="orgd219a39"></a>
+<a id="org4d2e4fb"></a>
 
 ## Proportional Fonts
 
 I don't want proportional fonts everywhere, but it'd be nice to have them in writing-focused modes like Org!
 
 
-<a id="org9be87b7"></a>
+<a id="orgabdd6ee"></a>
 
 ## Authentication and Secrets in Emacs
 
@@ -1685,7 +1685,7 @@ Just stumbled on the use of `~/.authinfo.gpg` files with Emacs for storing secre
 <https://www.emacswiki.org/emacs/GnusAuthinfo>
 
 
-<a id="org9f9e253"></a>
+<a id="org84857e0"></a>
 
 ## Packages to Try
 
@@ -1702,7 +1702,7 @@ Emmet is the "zen coding" plugin for really fast HTML authoring <https://github.
 Some default snippets &#x2013; don't install until we're ready to figure out how to use them <https://github.com/AndreaCrotti/yasnippet-snippets>
 
 
-<a id="org1f71ddf"></a>
+<a id="orgaba7007"></a>
 
 ## To do
 
