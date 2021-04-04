@@ -503,7 +503,8 @@ LSP provides a generic interface for text editors to talk to various language se
   (setq lsp-ui-doc-use-childframe t)
   (setq lsp-ui-doc-position 'top)
 
-  (use-package company-lsp)
+  ;; got deprecated I think
+  ;; (use-package company-lsp)
   (use-package lsp-origami)
   (use-package lsp-treemacs)
   (use-package helm-lsp)
