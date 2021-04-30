@@ -747,12 +747,29 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 Figured out how to do this, just need to add it.. 
 [[https://emacs-lsp.github.io/dap-mode/page/configuration/#go]]
 
-
-**** Rust
 *** Rust
+To install the Rust language server:
+1. Install ~rustup~.
+2. Run ~rustup component add rls rust-analysis rust-src~.
+
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
     :hook ((rust-mode . lsp-deferred)))
+
+
+  (general-define-key
+   :states  'normal
+   :keymaps 'rust-mode-map
+   ",d"     'lsp-describe-thing-at-point
+   ",gg"    'lsp-find-definition
+   ",gt"    'lsp-find-type-definition
+   ",i"     'lsp-find-implementation
+   ",n"     'lsp-rename
+   ",r"     'lsp-find-references
+   ",x"     'lsp-execute-code-action
+   ",lsp"   'lsp-workspace-restart
+   "gd"     'lsp-find-definition
+   )
 #+END_SRC
 *** Web
 
