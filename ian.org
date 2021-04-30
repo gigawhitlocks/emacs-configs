@@ -627,7 +627,6 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
            "/usr"
            (concat (getenv "GOPATH") "/pkg/mod"))))
 
-  ;; native go mode
   (use-package go-mode
     :hook ((go-mode . lsp-deferred)
            (go-mode . set-gopls-lib-dirs)
@@ -748,6 +747,13 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 Figured out how to do this, just need to add it.. 
 [[https://emacs-lsp.github.io/dap-mode/page/configuration/#go]]
 
+
+**** Rust
+*** Rust
+#+BEGIN_SRC emacs-lisp
+  (use-package rust-mode
+    :hook ((rust-mode . lsp-deferred)))
+#+END_SRC
 *** Web
 
 After some amount of searching and fumbling about I have discovered [[http://web-mode.org/][~web-mode~]] which appears to be the one-stop-shop solution for all of your HTML and browser-related needs. It handles a whole slew of web-related languages and templating formats and plays nicely with LSP. It's also the only package that I could find that supported ~.tsx~ files at all.
