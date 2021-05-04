@@ -652,14 +652,6 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
   (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
   (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
   (add-hook 'go-test-mode-hook 'visual-line-mode)
-
-  (defun isw-toggle-modification-hooks (&rest ignored)
-    "toggles modification hooks"
-    (if (eq inhibit-modification-hooks t)
-        (setq inhibit-modification-hooks nil)
-      (setq inhibit-modification-hooks t)))
-  (advice-add 'evil-ex :before #'isw-toggle-modification-hooks)
-  (advice-add 'evil-ex :after #'isw-toggle-modification-hooks)
 #+END_SRC
 **** REPL
 [[https://github.com/motemen/gore][Gore]] provides a REPL and [[https://github.com/manute/gorepl-mode][gorepl-mode]] lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
