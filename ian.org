@@ -245,10 +245,6 @@ It's controversial but I think modal editing is brilliant and have been using ~v
     (setq-default evil-escape-key-sequence "fd"))
 #+END_SRC
 
-I use undo-tree for redo, apparently, c.f. [[https://github.com/syl20bnr/spacemacs/issues/14036#issuecomment-707072523]]
-This re-enables redo for newer versions of evil than this above comment, which is otherwise annoyingly broken.
-#+begin_src emacs-lisp
-#+end_src
 *** Install and Configure Keybindings Helper
 [[https://github.com/noctuid/general.el][General]] provides more consistent and convenient keybindings, especially with ~evil-mode~.
 
@@ -488,11 +484,14 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 *** Install and Configure Flycheck for Linting
 [[https://www.flycheck.org/en/latest/][Flycheck]] is an on-the-fly checker that hooks into most language backends.
 #+BEGIN_SRC emacs-lisp
-    ;; linter
-    (use-package flycheck
-      :delight
-      ;; enable it everywhere
-      :init (global-flycheck-mode))
+  ;; linter
+  (use-package flycheck
+    :delight
+    ;; enable it everywhere
+    :init (global-flycheck-mode))
+
+  (add-hook 'flycheck-error-list-mode-hook
+            'visual-line-mode)
 #+END_SRC
 *** Install ~exec-path-from-shell~ to manage the PATH
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
@@ -561,17 +560,7 @@ LSP provides a generic interface for text editors to talk to various language se
 #+END_SRC
 
 *** Python
-My Python config is really lazy. I think there's a Python language server and that's probably better than anaconda-mode. Incidentally, ~anaconda-mode~ doesn't seem to be related to anaconda.io, and I always thought it was. 🤷
-
-Anyway ~anaconda-mode~ provides pretty-good completion and goto-definition and that sort of feature, for Python.
-#+Begin_src emacs-lisp
-  (use-package anaconda-mode
-    :config
-    (add-hook 'python-mode-hook 'anaconda-mode)
-    (add-hook 'python-mode-hook 'anaconda-eldoc-mode))
-#+END_SRC
-
-I haven't written Python in awhile so hopefully I remember how this all works. ~auto-virtualenv~ looks in ~$WORKON_HOME~ for virtualenvs, and then I can run ~M-x pyvenv-workon RET project RET~ to choose my virtualenv for ~project~, found in ~$WORKON_HOME~, or a symlink anyway.
+~auto-virtualenv~ looks in ~$WORKON_HOME~ for virtualenvs, and then I can run ~M-x pyvenv-workon RET project RET~ to choose my virtualenv for ~project~, found in ~$WORKON_HOME~, or a symlink anyway.
 
 
 #+BEGIN_SRC emacs-lisp
