@@ -960,6 +960,11 @@ Image drag-and-drop for org-mode
 #+DOWNLOADED: file:///home/ian/Videos/Peek%202019-12-25%2000-29.gif @ 2019-12-25 00:33:07
 [[file:My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif]]
 
+Autocomplete for Org blocks (like source blocks)
+#+begin_src emacs-lisp
+(use-package company-org-block) ;; TODO configuration
+#+end_src
+
 #+BEGIN_SRC emacs-lisp
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
