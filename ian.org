@@ -505,6 +505,11 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window)
 #+END_SRC
+*** Install a mode for drawing indentation guides
+#+begin_src emacs-lisp
+  (use-package highlight-indent-guides)
+#+end_src
+
 ** Language Configuration
 *** Language Server Protocol
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
@@ -535,6 +540,7 @@ LSP provides a generic interface for text editors to talk to various language se
 *** YAML
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
+  (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 #+END_SRC
 
 *** Markdown
@@ -789,6 +795,29 @@ So yay for ~web-mode~!
           ;; add more projects here..
           ))
 #+END_SRC
+
+*** JSON
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :mode (("\\.json$" . json-mode ))
+    )
+
+  (add-hook 'json-mode-hook 'highlight-indent-guides-mode)
+#+END_SRC
+
+
+#+BEGIN_QUOTE
+Default Keybindings
+
+    C-c C-f: format the region/buffer with json-reformat (https://github.com/gongo/json-reformat)
+    C-c C-p: display a path to the object at point with json-snatcher (https://github.com/Sterlingg/json-snatcher)
+    C-c P: copy a path to the object at point to the kill ring with json-snatcher (https://github.com/Sterlingg/json-snatcher)
+    C-c C-t: Toggle between true and false at point
+    C-c C-k: Replace the sexp at point with null
+    C-c C-i: Increment the number at point
+    C-c C-d: Decrement the number at point
+#+END_QUOTE
+
 
 *** Shell
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
