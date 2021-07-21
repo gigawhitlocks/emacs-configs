@@ -1213,6 +1213,12 @@ This allows me to publish plugins to test instances with ~M-x compile~
   (setenv "MM_ADMIN_USERNAME" "sysadmin")
   (setenv "MM_ADMIN_PASSWORD" "Sys@dmin-sample1")
 #+END_SRC
+*** Disable "nice" names in Customize
+I prefer that Customize display the names of variables that I can change in this file, rather than the human-readable names for people who customize their Emacs through ~M-x customize~
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-unlispify-tag-names nil)
+#+END_SRC
 ** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
