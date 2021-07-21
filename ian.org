@@ -849,6 +849,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 
     (add-hook 'compilation-mode-hook
               #'adaptive-wrap-prefix-mode)
+    (setq compilation-scroll-output t)
     )
 #+END_SRC
 ** Global Keybindings
