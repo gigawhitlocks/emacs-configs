@@ -357,7 +357,7 @@ If you run a command through ~M-x compile~ by default Emacs prints ANSI codes li
 Sometimes when the compile process takes more than a few seconds I change windows and get distracted. This hook plays a file through ~aplay~ (something else that will break on a non-Linux machine) to notify me that compilation is done. I was looking for something like a kitchen timer but I couldn't find one so right now the vendored sound is the [[https://en.wikipedia.org/wiki/Wilhelm_scream][Wilhelm Scream]].
 #+BEGIN_SRC emacs-lisp
   (defvar isw-should-play-chime nil)
-  (setq isw-should-play-chime t)
+  (setq isw-should-play-chime nil)
   (defun isw-play-chime (buffer msg)
     (if (eq isw-should-play-chime t)
         (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav")))
