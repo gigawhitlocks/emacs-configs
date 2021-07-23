@@ -627,9 +627,9 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 
   ;; load golint if the project has been added
 
-  (if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
-      (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
-      (require 'golint))
+ ;; (if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
+ ;;     (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
+  ;;    (require 'golint))
 
   ;; enable golangci-lint to work with flycheck
   (use-package flycheck-golangci-lint
