@@ -5,7 +5,7 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
 * Font
 #+BEGIN_SRC emacs-lisp
-    (set-font "Inconsolata-13")
+    (set-font "Inconsolata-10")
 #+END_SRC
 
 * Footer
