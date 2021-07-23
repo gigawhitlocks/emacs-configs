@@ -505,6 +505,11 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 #+BEGIN_SRC emacs-lisp
   (use-package ace-window)
 #+END_SRC
+*** Install a mode for drawing indentation guides
+#+begin_src emacs-lisp
+  (use-package highlight-indent-guides)
+#+end_src
+
 ** Language Configuration
 *** Language Server Protocol
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
@@ -535,6 +540,7 @@ LSP provides a generic interface for text editors to talk to various language se
 *** YAML
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
+  (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 #+END_SRC
 
 *** Markdown
@@ -796,6 +802,29 @@ So yay for ~web-mode~!
           ))
 #+END_SRC
 
+*** JSON
+#+BEGIN_SRC emacs-lisp
+  (use-package json-mode
+    :mode (("\\.json$" . json-mode ))
+    )
+
+  (add-hook 'json-mode-hook 'highlight-indent-guides-mode)
+#+END_SRC
+
+
+#+BEGIN_QUOTE
+Default Keybindings
+
+    C-c C-f: format the region/buffer with json-reformat (https://github.com/gongo/json-reformat)
+    C-c C-p: display a path to the object at point with json-snatcher (https://github.com/Sterlingg/json-snatcher)
+    C-c P: copy a path to the object at point to the kill ring with json-snatcher (https://github.com/Sterlingg/json-snatcher)
+    C-c C-t: Toggle between true and false at point
+    C-c C-k: Replace the sexp at point with null
+    C-c C-i: Increment the number at point
+    C-c C-d: Decrement the number at point
+#+END_QUOTE
+
+
 *** Shell
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
 But for now, disable ~indent-tabs-mode~ in shell script editing mode because I have been observing behavior from ~whitespace-cleanup-mode~ that when ~indent-tabs-mode~ is ~t~ it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
@@ -826,6 +855,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 
     (add-hook 'compilation-mode-hook
               #'adaptive-wrap-prefix-mode)
+    (setq compilation-scroll-output t)
     )
 #+END_SRC
 ** Global Keybindings
@@ -936,6 +966,11 @@ Image drag-and-drop for org-mode
 #+END_SRC
 #+DOWNLOADED: file:///home/ian/Videos/Peek%202019-12-25%2000-29.gif @ 2019-12-25 00:33:07
 [[file:My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif]]
+
+Autocomplete for Org blocks (like source blocks)
+#+begin_src emacs-lisp
+(use-package company-org-block) ;; TODO configuration
+#+end_src
 
 #+BEGIN_SRC emacs-lisp
   ;; Fontify the whole line for headings (with a background color).
@@ -1183,6 +1218,12 @@ This allows me to publish plugins to test instances with ~M-x compile~
   (setenv "MM_SERVICESETTINGS_SITEURL" "http://relay.home:8065")
   (setenv "MM_ADMIN_USERNAME" "sysadmin")
   (setenv "MM_ADMIN_PASSWORD" "Sys@dmin-sample1")
+#+END_SRC
+*** Disable "nice" names in Customize
+I prefer that Customize display the names of variables that I can change in this file, rather than the human-readable names for people who customize their Emacs through ~M-x customize~
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-unlispify-tag-names nil)
 #+END_SRC
 ** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
