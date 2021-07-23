@@ -751,6 +751,12 @@ To install the Rust language server:
    ",lsp"   'lsp-workspace-restart
    "gd"     'lsp-find-definition
    )
+
+
+  (defun lsp-rust-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t))
+
+  (add-hook 'rust-mode-hook #'lsp-rust-install-save-hooks)
 #+END_SRC
 *** Web
 
