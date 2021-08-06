@@ -15,10 +15,21 @@ Stuff that's specific to my work (X1) Thinkpad's Emacs config.
 #+end_src
 
 * Editor Functions and Settings Specific to Mattermost Cloud
-#+BEGIN_SRC emacs-lisp
-(setenv "STRIPE_MOCK_MODE" "1")
-;;(setenv "CWS_LIVE_STRIPE_TESTS" "1")
+  These are well-known credentials for Mattermost instances that have been filled with sample data.
+  This allows me to publish plugins to test instances with ~M-x compile~
+  #+BEGIN_SRC emacs-lisp
+    (setenv "MM_ADMIN_USERNAME" "sysadmin")
+    (setenv "MM_ADMIN_PASSWORD" "Sys@dmin-sample1")
 #+END_SRC
+  These are env vars for end-to-end testing the AWAT 
+#+BEGIN_SRC emacs-lisp
+    (setenv "AWAT_E2E_BUCKET" "cloud-awat-dev")
+    (setenv "AWAT_E2E_URL" "http://localhost:8077")
+    (setenv "AWAT_E2E_PROVISIONER_URL" "http://localhost:8075")
+    (setenv "AWAT_E2E_INSTALLATION_DOMAIN" ".dev.cloud.mattermost.com")
+    (setenv "AWS_REGION" "us-east-1")
+#+END_SRC
+
 * Footer
 #+BEGIN_SRC emacs-lisp
   (provide 'local)
