@@ -1205,12 +1205,17 @@ Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byza
      (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
              duration (width) (height) (x) (y) (filename))))
 #+END_SRC
-*** Remove toolbar and menu
+*** Remove toolbar, scrollbars, and menu
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M-x~ for everything.
 #+BEGIN_SRC emacs-lisp
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
   (scroll-bar-mode -1)
+  (defun my/disable-scroll-bars (frame)
+    (modify-frame-parameters frame
+                             '((vertical-scroll-bars . nil)
+                               (horizontal-scroll-bars . nil))))
+  (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 #+END_SRC
 
 *** Enable the mouse in the terminal
