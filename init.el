@@ -1,4 +1,4 @@
-;; [[file:~/.emacs.d/ian.org::*Entrypoint][Entrypoint:1]]
+;; [[file:ian.org::*Entrypoint][Entrypoint:1]]
 ;;; init --- the Emacs entrypoint
 ;;; Commentary:
 ;;;

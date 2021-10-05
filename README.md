@@ -1,22 +1,22 @@
-- [What is this?](#org6eac122)
-- [Entrypoint](#org8ecbd81)
-- [My Environment](#org96c0ad1)
-  - [Bootstrap](#org582b4bc)
-  - [Package Installation and Configuration](#org95c34bc)
-  - [Extra Packages](#orga6eb15e)
-  - [Language Configuration](#org8521860)
-  - [Global Keybindings](#orgd62cf70)
-  - [Org Mode Settings](#org213c54e)
-  - [Miscellaneous standalone global configuration changes](#org15cb889)
-  - [ERC (IRC config)](#org3bc8d43)
-  - [Render this file for display on the web](#org9ab9315)
-  - [Hostname-based tweaks](#orga7acb73)
-  - [Footer](#org6543845)
-  - [Styles for HTML export](#org0b92502)
+- [What is this?](#org926e183)
+- [Entrypoint](#org7e037dd)
+- [My Environment](#org8053282)
+  - [Bootstrap](#org6ad06ae)
+  - [Package Installation and Configuration](#orga302b2c)
+  - [Extra Packages](#org023dc21)
+  - [Language Configuration](#org724aae2)
+  - [Global Keybindings](#org1b917bc)
+  - [Org Mode Settings](#org932c7ec)
+  - [Miscellaneous standalone global configuration changes](#org6ca03b9)
+  - [ERC (IRC config)](#orgf95d828)
+  - [Render this file for display on the web](#orgf9e675f)
+  - [Hostname-based tweaks](#orga601f89)
+  - [Footer](#org6b7dea2)
+  - [Styles for HTML export](#org06d9598)
 
 
 
-<a id="org6eac122"></a>
+<a id="org926e183"></a>
 
 # What is this?
 
@@ -40,7 +40,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org8ecbd81"></a>
+<a id="org7e037dd"></a>
 
 # Entrypoint
 
@@ -90,7 +90,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org96c0ad1"></a>
+<a id="org8053282"></a>
 
 # My Environment
 
@@ -103,7 +103,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org582b4bc"></a>
+<a id="org6ad06ae"></a>
 
 ## Bootstrap
 
@@ -157,34 +157,11 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org95c34bc"></a>
+<a id="orga302b2c"></a>
 
 ## Package Installation and Configuration
 
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
-
-
-### Theme
-
-I use [moe theme](https://github.com/kuanyui/moe-theme.el) which is absolutely the most full-featured Emacs theme I've ever seen. It has a light variant and a dark variant, and both look fantastic, and has a feature for switching between light and dark themes at sundown automatically, which I use and greatly enjoy.
-
-I used to use leuven-theme and do love it dearly, as well, but the dark variant is trash compared to the light one and I like to go back and forth between coordinated themes.
-
-```emacs-lisp
-(use-package moe-theme
-  :config
-  ;; these values are for the theme change at sundown
-  (setq calendar-longitude -97.73)
-  (setq calendar-latitude 30.266)
-
-  (load-theme 'moe-light t)
-  (enable-theme 'moe-light)
-  (require 'moe-theme-switcher)
-  (moe-theme-apply-color 'cyan)
-  (show-paren-mode t)
-  (setq show-paren-style 'expression)
-  )
-```
 
 
 ### Install and Configure Treemacs
@@ -197,6 +174,34 @@ Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bin
 ;; left hand side tree view like neotree
 ;; nice for exploring smaller projects
 (use-package treemacs)
+```
+
+
+### Theme
+
+Going to try out the Doom themepack because why not.
+
+N.B. Must run `M-x all-the-icons-install-fonts` once & restart Emacs to get icons to work in Treemacs TODO automate this step, too
+
+```emacs-lisp
+(use-package all-the-icons)
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+	doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  (load-theme 'doom-vibrant t)
+  (setq doom-themes-treemacs-theme "doom-colors")
+  (doom-themes-treemacs-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
+```
+
+Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. Treemacs buffers
+
+```emacs-lisp
+(use-package solaire-mode)
+(solaire-global-mode +1)
 ```
 
 
@@ -288,7 +293,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgd62cf70) section.
+It's mostly used below in the [global keybindings](#org1b917bc) section.
 
 ```emacs-lisp
 (use-package general
@@ -445,7 +450,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
 ```emacs-lisp
 ;; first disable the default startup screen
 (setq inhibit-startup-screen t)
-(use-package all-the-icons)
 (use-package dashboard
   :config
   (dashboard-setup-startup-hook)
@@ -489,7 +493,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="orga6eb15e"></a>
+<a id="org023dc21"></a>
 
 ## Extra Packages
 
@@ -623,7 +627,14 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org8521860"></a>
+### Install a mode for drawing indentation guides
+
+```emacs-lisp
+(use-package highlight-indent-guides)
+```
+
+
+<a id="org724aae2"></a>
 
 ## Language Configuration
 
@@ -660,6 +671,7 @@ LSP provides a generic interface for text editors to talk to various language se
 
 ```emacs-lisp
 (use-package yaml-mode)
+(add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 ```
 
 
@@ -945,6 +957,21 @@ So yay for `web-mode`!
     ```
 
 
+### JSON
+
+```emacs-lisp
+(use-package json-mode
+  :mode (("\\.json$" . json-mode ))
+  )
+
+(add-hook 'json-mode-hook 'highlight-indent-guides-mode)
+```
+
+> Default Keybindings
+> 
+> C-c C-f: format the region/buffer with json-reformat (<https://github.com/gongo/json-reformat>) C-c C-p: display a path to the object at point with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c P: copy a path to the object at point to the kill ring with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c C-t: Toggle between true and false at point C-c C-k: Replace the sexp at point with null C-c C-i: Increment the number at point C-c C-d: Decrement the number at point
+
+
 ### Shell
 
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this. But for now, disable `indent-tabs-mode` in shell script editing mode because I have been observing behavior from `whitespace-cleanup-mode` that when `indent-tabs-mode` is `t` it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
@@ -980,11 +1007,12 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 
   (add-hook 'compilation-mode-hook
 	    #'adaptive-wrap-prefix-mode)
+  (setq compilation-scroll-output t)
   )
 ```
 
 
-<a id="orgd62cf70"></a>
+<a id="org1b917bc"></a>
 
 ## Global Keybindings
 
@@ -1083,7 +1111,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org213c54e"></a>
+<a id="org932c7ec"></a>
 
 ## Org Mode Settings
 
@@ -1100,6 +1128,12 @@ Image drag-and-drop for org-mode
 ```
 
 ![img](My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif)
+
+Autocomplete for Org blocks (like source blocks)
+
+```emacs-lisp
+(use-package company-org-block) ;; TODO configuration
+```
 
 ```emacs-lisp
 ;; Fontify the whole line for headings (with a background color).
@@ -1157,7 +1191,7 @@ Image drag-and-drop for org-mode
 ```
 
 
-<a id="org15cb889"></a>
+<a id="org6ca03b9"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1321,6 +1355,8 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
 (diminish 'eldoc-mode)
 (diminish 'undo-tree-mode)
 (diminish 'auto-revert-mode)
+(diminish 'evil-collection-unimpaired-mode)
+(diminish 'yas-minor-mode-major-mode)
 ```
 
 
@@ -1403,18 +1439,16 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-### Set default testing credentials for Mattermost
+### Disable "nice" names in Customize
 
-These are well-known credentials for Mattermost instances that have been filled with sample data. This allows me to publish plugins to test instances with `M-x compile`
+I prefer that Customize display the names of variables that I can change in this file, rather than the human-readable names for people who customize their Emacs through `M-x customize`
 
 ```emacs-lisp
-(setenv "MM_SERVICESETTINGS_SITEURL" "http://relay.home:8065")
-(setenv "MM_ADMIN_USERNAME" "sysadmin")
-(setenv "MM_ADMIN_PASSWORD" "Sys@dmin-sample1")
+(setq custom-unlispify-tag-names nil)
 ```
 
 
-<a id="org3bc8d43"></a>
+<a id="orgf95d828"></a>
 
 ## ERC (IRC config)
 
@@ -1476,7 +1510,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org9ab9315"></a>
+<a id="orgf9e675f"></a>
 
 ## Render this file for display on the web
 
@@ -1502,7 +1536,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orga7acb73"></a>
+<a id="orga601f89"></a>
 
 ## Hostname-based tweaks
 
@@ -1537,7 +1571,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org6543845"></a>
+<a id="org6b7dea2"></a>
 
 ## Footer
 
@@ -1548,7 +1582,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org0b92502"></a>
+<a id="org06d9598"></a>
 
 ## Styles for HTML export
 

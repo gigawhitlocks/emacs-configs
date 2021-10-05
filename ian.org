@@ -1149,6 +1149,8 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
   (diminish 'eldoc-mode)
   (diminish 'undo-tree-mode)
   (diminish 'auto-revert-mode)
+  (diminish 'evil-collection-unimpaired-mode)
+  (diminish 'yas-minor-mode-major-mode)
 #+END_SRC
 *** Less annoying bell
 Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
