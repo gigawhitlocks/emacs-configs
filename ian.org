@@ -141,28 +141,6 @@ Once this is done I need to install and configure any third party packages that 
 ** Package Installation and Configuration
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
-*** Theme
-I use [[https://github.com/kuanyui/moe-theme.el][moe theme]] which is absolutely the most full-featured Emacs theme I've ever seen.
-It has a light variant and a dark variant, and both look fantastic, and has a feature for switching between light and dark themes at sundown automatically, which I use and greatly enjoy.
-
-I used to use leuven-theme and do love it dearly, as well, but the dark variant is trash compared to the light one and I like to go back and forth between coordinated themes.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package moe-theme
-    :config
-    ;; these values are for the theme change at sundown
-    (setq calendar-longitude -97.73)
-    (setq calendar-latitude 30.266)
-
-    (load-theme 'moe-light t)
-    (enable-theme 'moe-light)
-    (require 'moe-theme-switcher)
-    (moe-theme-apply-color 'cyan)
-    (show-paren-mode t)
-    (setq show-paren-style 'expression)
-    )
-#+END_SRC
-
 *** Install and Configure Treemacs
 Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between projects. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
 
@@ -174,6 +152,33 @@ Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bin
     ;; nice for exploring smaller projects
     (use-package treemacs)
 #+END_SRC
+
+*** Theme
+Going to try out the Doom themepack because why not.
+
+N.B. Must run ~M-x all-the-icons-install-fonts~ once & restart Emacs to get icons to work in Treemacs
+TODO automate this step, too
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons)
+  (use-package doom-themes
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t) ; if nil, italics is universally disabled
+    (load-theme 'doom-vibrant t)
+    (setq doom-themes-treemacs-theme "doom-colors")
+    (doom-themes-treemacs-config)
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config))
+#+end_src
+
+Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. Treemacs buffers
+#+begin_src emacs-lisp
+  (use-package solaire-mode)
+  (solaire-global-mode +1)
+#+end_src
+
 *** Emoji 🙏
 Provided by [[https://github.com/iqbalansari/emacs-emojify][emojify]].
 #+BEGIN_SRC emacs-lisp
@@ -383,7 +388,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
 #+BEGIN_SRC emacs-lisp
   ;; first disable the default startup screen
   (setq inhibit-startup-screen t)
-  (use-package all-the-icons)
   (use-package dashboard
     :config
     (dashboard-setup-startup-hook)
