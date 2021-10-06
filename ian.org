@@ -1314,7 +1314,7 @@ Looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the sa
 I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call ~hostname~ to determine the hostname.
 Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
 
-Right now I have three configurations:
+Right now I have four? (4?) configurations:
 - [[./local/relay.org][my server]]
 - [[./local/rocinante.org][my work machine]]
 - [[./local/wintermute.org][my laptop]]
@@ -1430,3 +1430,44 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
       display: none;
   }
   #+END_SRC
+  
+
+
+** Launching Emacsclient
+[[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]] 
+#+BEGIN_SRC bash :tangle ~/.local/bin/em :shebang /usr/bin/bash
+  args=""
+  nw=false
+  # check if emacsclient is already running
+  if pgrep -U $(id -u) emacsclient > /dev/null; then running=true; fi
+
+  # check if the user wants TUI mode
+  for arg in "$@"; do
+      if [ "$arg" = "-nw" ] || [ "$arg" = "-t" ] || [ "$arg" = "--tty" ]
+      then
+          nw=true
+      fi
+  done
+
+  # if called without arguments - open a new gui instance
+  if [ "$#" -eq "0" ] || [ "$running" != true ]; then
+      args=(-c $args) 		# open emacsclient in a new window
+  fi
+  if [ "$#" -gt "0" ]; then
+      # if 'em -' open standard input (e.g. pipe)
+      if [[ "$1" == "-" ]]; then
+          TMP="$(mktemp /tmp/emacsstdin-XXX)"
+          cat >$TMP
+          args=($args --eval '(let ((b (generate-new-buffer "*stdin*"))) (switch-to-buffer b) (insert-file-contents "'${TMP}'") (delete-file "'${TMP}'"))')
+      else
+          args=($@ $args)
+      fi
+  fi
+
+  # emacsclient $args
+  if $nw; then
+      emacsclient "${args[@]}"
+  else
+      (nohup emacsclient "${args[@]}" > /dev/null 2>&1 &) > /dev/null
+  fi
+#+END_SRC
