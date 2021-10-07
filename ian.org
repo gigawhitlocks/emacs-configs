@@ -1229,6 +1229,13 @@ I prefer that Customize display the names of variables that I can change in this
 #+BEGIN_SRC emacs-lisp
   (setq custom-unlispify-tag-names nil)
 #+END_SRC
+
+*** Enable wgrep mode
+Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
+#+BEGIN_SRC emacs-lisp
+  (require 'wgrep)
+#+END_SRC
+
 ** ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 

@@ -1,22 +1,22 @@
-- [What is this?](#org926e183)
-- [Entrypoint](#org7e037dd)
-- [My Environment](#org8053282)
-  - [Bootstrap](#org6ad06ae)
-  - [Package Installation and Configuration](#orga302b2c)
-  - [Extra Packages](#org023dc21)
-  - [Language Configuration](#org724aae2)
-  - [Global Keybindings](#org1b917bc)
-  - [Org Mode Settings](#org932c7ec)
-  - [Miscellaneous standalone global configuration changes](#org6ca03b9)
-  - [ERC (IRC config)](#orgf95d828)
-  - [Render this file for display on the web](#orgf9e675f)
-  - [Hostname-based tweaks](#orga601f89)
-  - [Footer](#org6b7dea2)
-  - [Styles for HTML export](#org06d9598)
+- [What is this?](#orga8f28b3)
+- [Entrypoint](#orgc105902)
+- [My Environment](#org7c154c6)
+  - [Bootstrap](#org656379b)
+  - [Package Installation and Configuration](#org59263c6)
+  - [Extra Packages](#org9c9613d)
+  - [Language Configuration](#orga01f26f)
+  - [Global Keybindings](#org621f9e9)
+  - [Org Mode Settings](#org0e3eba9)
+  - [Miscellaneous standalone global configuration changes](#org83ba504)
+  - [ERC (IRC config)](#orgba910b4)
+  - [Render this file for display on the web](#orgf717843)
+  - [Hostname-based tweaks](#org35166cc)
+  - [Footer](#orgabd0d5a)
+  - [Styles for HTML export](#orgfb65f6f)
 
 
 
-<a id="org926e183"></a>
+<a id="orga8f28b3"></a>
 
 # What is this?
 
@@ -40,7 +40,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org7e037dd"></a>
+<a id="orgc105902"></a>
 
 # Entrypoint
 
@@ -90,7 +90,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org8053282"></a>
+<a id="org7c154c6"></a>
 
 # My Environment
 
@@ -103,7 +103,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org6ad06ae"></a>
+<a id="org656379b"></a>
 
 ## Bootstrap
 
@@ -157,7 +157,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orga302b2c"></a>
+<a id="org59263c6"></a>
 
 ## Package Installation and Configuration
 
@@ -293,7 +293,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org1b917bc) section.
+It's mostly used below in the [global keybindings](#org621f9e9) section.
 
 ```emacs-lisp
 (use-package general
@@ -493,7 +493,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="org023dc21"></a>
+<a id="org9c9613d"></a>
 
 ## Extra Packages
 
@@ -634,7 +634,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="org724aae2"></a>
+<a id="orga01f26f"></a>
 
 ## Language Configuration
 
@@ -1012,7 +1012,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org1b917bc"></a>
+<a id="org621f9e9"></a>
 
 ## Global Keybindings
 
@@ -1111,7 +1111,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org932c7ec"></a>
+<a id="org0e3eba9"></a>
 
 ## Org Mode Settings
 
@@ -1191,7 +1191,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="org6ca03b9"></a>
+<a id="org83ba504"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1448,7 +1448,16 @@ I prefer that Customize display the names of variables that I can change in this
 ```
 
 
-<a id="orgf95d828"></a>
+### Enable wgrep mode
+
+Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
+
+```emacs-lisp
+(require 'wgrep)
+```
+
+
+<a id="orgba910b4"></a>
 
 ## ERC (IRC config)
 
@@ -1510,7 +1519,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgf9e675f"></a>
+<a id="orgf717843"></a>
 
 ## Render this file for display on the web
 
@@ -1536,7 +1545,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orga601f89"></a>
+<a id="org35166cc"></a>
 
 ## Hostname-based tweaks
 
@@ -1571,7 +1580,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org6b7dea2"></a>
+<a id="orgabd0d5a"></a>
 
 ## Footer
 
@@ -1582,7 +1591,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org06d9598"></a>
+<a id="orgfb65f6f"></a>
 
 ## Styles for HTML export
 
