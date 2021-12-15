@@ -106,8 +106,8 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
   ;;; Code:
 
     ;; manual PATH management
-    (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-    (add-to-list 'exec-path "/usr/local/bin" t)
+    ;;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+    ;;(add-to-list 'exec-path "/usr/local/bin" t)
 
     (require 'package)
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -1233,7 +1233,7 @@ I prefer that Customize display the names of variables that I can change in this
 *** Enable wgrep mode
 Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
 #+BEGIN_SRC emacs-lisp
-  (require 'wgrep)
+  (use-package wgrep-ack)
 #+END_SRC
 
 ** ERC (IRC config)
