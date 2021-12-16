@@ -15,7 +15,6 @@ init.el
 anaconda-mode
 ian.el
 bookmarks
-.emacs-custom.el
 local-variables/
 bin
 forge-database.sqlite

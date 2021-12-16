@@ -540,6 +540,15 @@ LSP provides a generic interface for text editors to talk to various language se
   (use-package lsp-treemacs)
   (use-package helm-lsp)
 #+END_SRC
+*** Tree Sitter
+Tree-sitter reads the AST to provide better syntax highlighting
+#+begin_src emacs-lisp
+  (use-package tree-sitter)
+  (use-package tree-sitter-langs)
+
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+#+end_src
 
 *** YAML
 #+BEGIN_SRC emacs-lisp
