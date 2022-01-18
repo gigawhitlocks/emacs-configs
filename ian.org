@@ -265,18 +265,18 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
 
 [[https://github.com/emacs-helm/helm][Helm]] is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press ~M-x~ (with the way I have it configured, anyway).
 #+BEGIN_SRC emacs-lisp
-    (use-package helm
-      :delight
+  (use-package helm
+    :delight
+    :config
+    (use-package helm-descbinds
       :config
-      (use-package helm-descbinds
-        :config
-        (helm-descbinds-mode))
-
-      (global-set-key (kbd "M-x") #'helm-M-x)
-      (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-      (setq helm-always-two-windows nil)
-      (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-      (helm-mode 1))
+      (helm-descbinds-mode))
+    (use-package helm-ag)
+    (global-set-key (kbd "M-x") #'helm-M-x)
+    (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
+    (setq helm-always-two-windows nil)
+    (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
+    (helm-mode 1))
 #+END_SRC
 *** Install and Configure Magit
 [[https://github.com/magit/magit][Magit]] is an incredible integrated ~git~ UI for Emacs.
