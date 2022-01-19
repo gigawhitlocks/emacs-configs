@@ -745,6 +745,12 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 #+END_SRC
+**** Exclude a certain folder from LSP projects
+Certain projects use a gopath folder inside the project root and this confuses LSP/gopls.
+#+BEGIN_SRC emacs-lisp
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
+#+END_SRC
 **** TODO Interactive debugger
 Figured out how to do this, just need to add it.. 
 [[https://emacs-lsp.github.io/dap-mode/page/configuration/#go]]
