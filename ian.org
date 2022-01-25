@@ -913,7 +913,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "en"     'flycheck-next-error
     "ep"     'flycheck-previous-error
     "Fm"     'make-frame
-    "Fd"     'delete-frame
     "ff"     'helm-find-files
     "fr"     'helm-recentf
     "fed"    'find-initfile
@@ -931,6 +930,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "ic"     'insert-char
     "is"     'yas-insert-snippet
     "n"      '(:keymap narrow-map)
+    "oo"     'browse-url-at-point
     "p"      'projectile-command-map
     "pf"     'helm-projectile-find-file
     "p!"     'projectile-run-async-shell-command-in-root
@@ -939,6 +939,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "sp"     'helm-projectile-ag
     "qq"     'save-buffers-kill-terminal
     "qr"     'restart-emacs
+    "qz"     'delete-frame
     "tn"     'display-line-numbers-mode
     "ts"     'toggle-screaming
     "tt"     'toggle-transparency
