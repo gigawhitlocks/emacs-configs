@@ -19,8 +19,6 @@
  '(jdee-db-requested-breakpoint-face-colors (cons "#1c1f24" "#7bc275"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(objed-cursor-color "#ff665c")
- '(package-selected-packages
-   '(ag treemacs ace-jump-mode helm-ag salt-mode tree-sitter-langs tree-sitter sunshine elpher emacs-everywhere orderless unordered embark marginalia marginalize vertico consult htmlize ox-gfm org-download evil-org adaptive-wrap web-mode rust-mode gorepl-mode gotest flycheck-golangci-lint yasnippet-snippets yaml-mode which-key use-package-ensure-system-package undo-tree systemd restart-emacs ranger rainbow-delimiters moe-theme lsp-ui lsp-origami hyperbole helm-projectile helm-lsp helm-descbinds go-mode git-timemachine git-gutter general forge flycheck figlet exec-path-from-shell evil-surround evil-escape evil-collection emojify dockerfile-mode diminish delight dashboard company auto-virtualenv all-the-icons))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#242730"))
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])
