@@ -140,12 +140,17 @@ Once this is done I need to install and configure any third party packages that 
 
 ** Package Installation and Configuration
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
+*** Treemacs
+#+begin_src emacs-lisp
+  (use-package all-the-icons)
+  (use-package treemacs)
+  (use-package treemacs-all-the-icons)
+#+end_src
 
 *** Theme
 Going to try out the Doom themepack because why not.
 
 #+begin_src emacs-lisp
-  (use-package all-the-icons)
   (use-package doom-themes
     :config
     ;; Global settings (defaults)
@@ -195,6 +200,7 @@ It's great, it gets installed early, can't live without it. 💘 ~projectile~
   (use-package projectile
     :delight)
   (use-package helm-projectile)
+  (use-package treemacs-projectile)
   (projectile-mode +1)
 #+END_SRC
 *** Install and Configure Evil Mode
@@ -228,6 +234,8 @@ It's controversial but I think modal editing is brilliant and have been using ~v
         (global-undo-tree-mode)
         (evil-set-undo-system 'undo-tree))
 
+
+    (use-package treemacs-evil)
 
     (setq-default evil-escape-key-sequence "fd"))
 #+END_SRC
@@ -495,12 +503,6 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 This mode adds subtle coloration to indentation whitespace for whitespace-delimited languages like YAML where sometimes it can be difficult to see the nesting level of a given headline in deeply-nested configuration.
 #+begin_src emacs-lisp
   (use-package highlight-indent-guides)
-#+end_src
-*** Treemacs
-#+begin_src emacs-lisp
-  (use-package treemacs)
-  (use-package treemacs-evil)
-  (use-package treemacs-projectile)
 #+end_src
 ** Language Configuration
 *** Language Server Protocol
