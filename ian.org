@@ -516,9 +516,8 @@ LSP provides a generic interface for text editors to talk to various language se
     (setq lsp-headerline-breadcrumb-enable nil)
 )
 
-    ;; seems (lsp-ui-flycheck-enable ) is gone now?
- ;; (with-eval-after-load 'lsp-mode
-;;    (add-hook 'lsp-after-open-hook (lambda () (lsp-ui-flycheck-enable 1))))
+
+  (use-package lsp-treemacs)
 
   (use-package lsp-ui)
   (setq lsp-ui-doc-use-childframe t)
@@ -956,7 +955,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "qr"     'restart-emacs
     "qz"     'delete-frame
     "tn"     'display-line-numbers-mode
-    "tr"     'treemacs
+    "tr"     'treemacs-select-window
     "ts"     'toggle-screaming
     "tt"     'toggle-transparency
     "w-"     'split-window-below
