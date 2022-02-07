@@ -492,6 +492,7 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
   (use-package ace-window)
 #+END_SRC
 *** Install a mode for drawing indentation guides
+This mode adds subtle coloration to indentation whitespace for whitespace-delimited languages like YAML where sometimes it can be difficult to see the nesting level of a given headline in deeply-nested configuration.
 #+begin_src emacs-lisp
   (use-package highlight-indent-guides)
 #+end_src
