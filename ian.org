@@ -496,7 +496,12 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 #+begin_src emacs-lisp
   (use-package highlight-indent-guides)
 #+end_src
-
+*** Treemacs
+#+begin_src emacs-lisp
+  (use-package treemacs)
+  (use-package treemacs-evil)
+  (use-package treemacs-projectile)
+#+end_src
 ** Language Configuration
 *** Language Server Protocol
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
@@ -949,6 +954,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "qr"     'restart-emacs
     "qz"     'delete-frame
     "tn"     'display-line-numbers-mode
+    "tr"     'treemacs
     "ts"     'toggle-screaming
     "tt"     'toggle-transparency
     "w-"     'split-window-below
