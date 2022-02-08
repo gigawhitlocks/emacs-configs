@@ -1019,7 +1019,9 @@ Autocomplete for Org blocks (like source blocks)
     "p"      'org-insert-link
     "x"      'org-babel-execute-src-block
     "s"      'org-insert-structure-template
-    "e"      'org-edit-src-code)
+    "e"      'org-edit-src-code
+    "t"      'org-babel-tangle
+    )
 
   (general-define-key
    :states  'normal
@@ -1059,7 +1061,7 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
         (mapcar #'disable-theme custom-enabled-themes))
       (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 #+END_SRC
-*** Fix background color of lsp-ui-doc in moe-light theme
+*** Fix background color of lsp-ui-doc in various themes
 #+begin_src emacs-lisp
   (defun lsp-ui-doc-moe-light-background ()
     (set-face-attribute 'lsp-ui-doc-background nil :background "#D8D8D8" ))
