@@ -1501,7 +1501,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
 
 Before commit, generate the README.md file from the updated configuration.
 #+begin_src bash
-  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
+  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))' # there is probably a better way to do this
   git add README.md ian.html
 #+end_src
 
@@ -1532,3 +1532,7 @@ This makes it simple to manage a daemonized Emacs through a systemd unit file:
 
 After tangling, enable the unit:
 : systemctl enable --user emacs.service
+
+*** TODO Add .desktop files to this repo 
+I apparently wrote a .desktop file that Just Works™ with Emacs as a Daemon so that I can launch from the GUI and get a client window & start the server if necessary. It appears I didn't check these in anywhere so I need to get those and add them to this repo before this feature will really work exactly how I want it to, on every system where I use Emacs
+
