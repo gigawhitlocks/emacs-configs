@@ -1,22 +1,24 @@
-- [What is this?](#orga8f28b3)
-- [Entrypoint](#orgc105902)
-- [My Environment](#org7c154c6)
-  - [Bootstrap](#org656379b)
-  - [Package Installation and Configuration](#org59263c6)
-  - [Extra Packages](#org9c9613d)
-  - [Language Configuration](#orga01f26f)
-  - [Global Keybindings](#org621f9e9)
-  - [Org Mode Settings](#org0e3eba9)
-  - [Miscellaneous standalone global configuration changes](#org83ba504)
-  - [ERC (IRC config)](#orgba910b4)
-  - [Render this file for display on the web](#orgf717843)
-  - [Hostname-based tweaks](#org35166cc)
-  - [Footer](#orgabd0d5a)
-  - [Styles for HTML export](#orgfb65f6f)
+- [What is this?](#org623ff8d)
+- [Entrypoint](#org3c82992)
+- [My Environment](#org0a74b17)
+  - [Bootstrap](#org04732bb)
+  - [Package Installation and Configuration](#orgb2e8b13)
+  - [Extra Packages](#orgcb99aad)
+  - [Language Configuration](#orgd4d771d)
+  - [Global Keybindings](#org763ba08)
+  - [Org Mode Settings](#orgd0808fa)
+  - [Miscellaneous standalone global configuration changes](#orge4467b8)
+  - [ERC (IRC config)](#orgb94bfe6)
+  - [Render this file for display on the web](#org2c17b6c)
+  - [Hostname-based tweaks](#orgfea9f0e)
+  - [Footer](#org4382d26)
+  - [Styles for HTML export](#orgd219d79)
+  - [Launching Emacsclient](#org9e25256)
+  - [Update README.md git hook](#orgbfeb5ba)
 
 
 
-<a id="orga8f28b3"></a>
+<a id="org623ff8d"></a>
 
 # What is this?
 
@@ -40,7 +42,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="orgc105902"></a>
+<a id="org3c82992"></a>
 
 # Entrypoint
 
@@ -90,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org7c154c6"></a>
+<a id="org0a74b17"></a>
 
 # My Environment
 
@@ -103,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org656379b"></a>
+<a id="org04732bb"></a>
 
 ## Bootstrap
 
@@ -124,8 +126,8 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 ;;; Code:
 
   ;; manual PATH management
-  (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  (add-to-list 'exec-path "/usr/local/bin" t)
+  ;;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+  ;;(add-to-list 'exec-path "/usr/local/bin" t)
 
   (require 'package)
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -157,23 +159,19 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org59263c6"></a>
+<a id="orgb2e8b13"></a>
 
 ## Package Installation and Configuration
 
 First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 
-### Install and Configure Treemacs
-
-Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bind it to a global key to make it pop up, and add frequent projects to it manually on each machine. It has become essential to my workflow, especially for flipping between projects. LSP is aware of it, too, which adds some really cool features likes function lists inside. Just wish I could adjust the width.
-
-![img](My_Environment/2020-05-18_21-10-00_2020-05-18T21:08:58.gif)
+### Treemacs
 
 ```emacs-lisp
-;; left hand side tree view like neotree
-;; nice for exploring smaller projects
+(use-package all-the-icons)
 (use-package treemacs)
+(use-package treemacs-all-the-icons)
 ```
 
 
@@ -181,23 +179,18 @@ Treemacs provides a neotree-like file tree on the left hand side of Emacs. I bin
 
 Going to try out the Doom themepack because why not.
 
-N.B. Must run `M-x all-the-icons-install-fonts` once & restart Emacs to get icons to work in Treemacs TODO automate this step, too
-
 ```emacs-lisp
-(use-package all-the-icons)
 (use-package doom-themes
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
 	doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-vibrant t)
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (doom-themes-treemacs-config)
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 ```
 
-Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. Treemacs buffers
+Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
 
 ```emacs-lisp
 (use-package solaire-mode)
@@ -285,6 +278,8 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
       (evil-set-undo-system 'undo-tree))
 
 
+  (use-package treemacs-evil)
+
   (setq-default evil-escape-key-sequence "fd"))
 ```
 
@@ -293,7 +288,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org621f9e9) section.
+It's mostly used below in the [global keybindings](#org763ba08) section.
 
 ```emacs-lisp
 (use-package general
@@ -315,7 +310,7 @@ It's mostly used below in the [global keybindings](#org621f9e9) section.
   (use-package helm-descbinds
     :config
     (helm-descbinds-mode))
-
+  (use-package helm-ag)
   (global-set-key (kbd "M-x") #'helm-M-x)
   (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
   (setq helm-always-two-windows nil)
@@ -493,7 +488,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="org9c9613d"></a>
+<a id="orgcb99aad"></a>
 
 ## Extra Packages
 
@@ -629,12 +624,14 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 
 ### Install a mode for drawing indentation guides
 
+This mode adds subtle coloration to indentation whitespace for whitespace-delimited languages like YAML where sometimes it can be difficult to see the nesting level of a given headline in deeply-nested configuration.
+
 ```emacs-lisp
 (use-package highlight-indent-guides)
 ```
 
 
-<a id="orga01f26f"></a>
+<a id="orgd4d771d"></a>
 
 ## Language Configuration
 
@@ -651,9 +648,8 @@ LSP provides a generic interface for text editors to talk to various language se
     (setq lsp-headerline-breadcrumb-enable nil)
 )
 
-    ;; seems (lsp-ui-flycheck-enable ) is gone now?
- ;; (with-eval-after-load 'lsp-mode
-;;    (add-hook 'lsp-after-open-hook (lambda () (lsp-ui-flycheck-enable 1))))
+
+  (use-package lsp-treemacs)
 
   (use-package lsp-ui)
   (setq lsp-ui-doc-use-childframe t)
@@ -662,8 +658,22 @@ LSP provides a generic interface for text editors to talk to various language se
   ;; got deprecated I think
   ;; (use-package company-lsp)
   (use-package lsp-origami)
-  (use-package lsp-treemacs)
   (use-package helm-lsp)
+```
+
+
+### Tree Sitter
+
+Tree-sitter reads the AST to provide better syntax highlighting
+
+```emacs-lisp
+(use-package tree-sitter
+  :diminish
+  )
+(use-package tree-sitter-langs)
+
+(global-tree-sitter-mode)
+(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 ```
 
 
@@ -878,6 +888,15 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
     ```
 
+-   Exclude a certain folder from LSP projects
+
+    Certain projects use a gopath folder inside the project root and this confuses LSP/gopls.
+    
+    ```emacs-lisp
+    (with-eval-after-load 'lsp-mode
+      (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
+    ```
+
 -   TODO Interactive debugger
 
     Figured out how to do this, just need to add it.. <https://emacs-lsp.github.io/dap-mode/page/configuration/#go>
@@ -983,6 +1002,23 @@ Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs f
 ```
 
 
+### Salt
+
+```emacs-lisp
+(use-package salt-mode)
+(add-hook 'salt-mode-hook
+	(lambda ()
+	    (flyspell-mode 1)))
+
+
+(general-define-key
+ :states  'normal
+ :keymaps 'sh-mode-map
+ ",c" (general-simulate-key "C-x h C-M-x")
+ )
+```
+
+
 ### Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -1012,7 +1048,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org621f9e9"></a>
+<a id="org763ba08"></a>
 
 ## Global Keybindings
 
@@ -1062,7 +1098,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "en"     'flycheck-next-error
   "ep"     'flycheck-previous-error
   "Fm"     'make-frame
-  "Fd"     'delete-frame
   "ff"     'helm-find-files
   "fr"     'helm-recentf
   "fed"    'find-initfile
@@ -1080,20 +1115,20 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "ic"     'insert-char
   "is"     'yas-insert-snippet
   "n"      '(:keymap narrow-map)
+  "oo"     'browse-url-at-point
   "p"      'projectile-command-map
   "pf"     'helm-projectile-find-file
   "p!"     'projectile-run-async-shell-command-in-root
   "si"     'yas-insert-snippet
   "sn"     'yas-new-snippet
-  "sp"     'helm-projectile-ack
-  "sa"     'ag-regexp
+  "sp"     'helm-projectile-ag
   "qq"     'save-buffers-kill-terminal
   "qr"     'restart-emacs
+  "qz"     'delete-frame
   "tn"     'display-line-numbers-mode
+  "tr"     'treemacs-select-window
   "ts"     'toggle-screaming
   "tt"     'toggle-transparency
-  "tr"     'treemacs
-  "ta"     'treemacs-add-project-to-workspace
   "w-"     'split-window-below
   "w/"     'split-window-right
   "wa"     'ace-window
@@ -1111,7 +1146,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org0e3eba9"></a>
+<a id="orgd0808fa"></a>
 
 ## Org Mode Settings
 
@@ -1161,7 +1196,9 @@ Autocomplete for Org blocks (like source blocks)
   "p"      'org-insert-link
   "x"      'org-babel-execute-src-block
   "s"      'org-insert-structure-template
-  "e"      'org-edit-src-code)
+  "e"      'org-edit-src-code
+  "t"      'org-babel-tangle
+  )
 
 (general-define-key
  :states  'normal
@@ -1191,7 +1228,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="org83ba504"></a>
+<a id="orge4467b8"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1210,7 +1247,7 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 ```
 
 
-### Fix background color of lsp-ui-doc in moe-light theme
+### Fix background color of lsp-ui-doc in various themes
 
 ```emacs-lisp
 (defun lsp-ui-doc-moe-light-background ()
@@ -1421,7 +1458,7 @@ Figures out the frame size and passes it to `byzanz-record`. Only works if `byza
 ```
 
 
-### Remove toolbar and menu
+### Remove toolbar, scrollbars, and menu
 
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M-x` for everything.
 
@@ -1429,6 +1466,11 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (scroll-bar-mode -1)
+(defun my/disable-scroll-bars (frame)
+  (modify-frame-parameters frame
+			   '((vertical-scroll-bars . nil)
+			     (horizontal-scroll-bars . nil))))
+(add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 ```
 
 
@@ -1453,11 +1495,11 @@ I prefer that Customize display the names of variables that I can change in this
 Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
 
 ```emacs-lisp
-(require 'wgrep)
+(use-package wgrep-ack)
 ```
 
 
-<a id="orgba910b4"></a>
+<a id="orgb94bfe6"></a>
 
 ## ERC (IRC config)
 
@@ -1519,7 +1561,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgf717843"></a>
+<a id="org2c17b6c"></a>
 
 ## Render this file for display on the web
 
@@ -1545,13 +1587,13 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org35166cc"></a>
+<a id="orgfea9f0e"></a>
 
 ## Hostname-based tweaks
 
 Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the same as the hostname of the machine. I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call `hostname` to determine the hostname. Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
 
-Right now I have three configurations:
+Right now I have four? (4?) configurations:
 
 -   [my server](./local/relay.md)
 -   [my work machine](./local/rocinante.md)
@@ -1580,7 +1622,7 @@ Right now I have three configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="orgabd0d5a"></a>
+<a id="org4382d26"></a>
 
 ## Footer
 
@@ -1591,7 +1633,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="orgfb65f6f"></a>
+<a id="orgd219d79"></a>
 
 ## Styles for HTML export
 
@@ -1675,4 +1717,60 @@ pre.example {
 pre.example::-webkit-scrollbar {
     display: none;
 }
+```
+
+
+<a id="org9e25256"></a>
+
+## Launching Emacsclient
+
+[Nifty shell function for hassle-free starting of emacsclient](https://www.emacswiki.org/emacs/EmacsClient#h5o-18)
+
+```bash
+args=""
+nw=false
+# check if emacsclient is already running
+if pgrep -U $(id -u) emacsclient > /dev/null; then running=true; fi
+
+# check if the user wants TUI mode
+for arg in "$@"; do
+    if [ "$arg" = "-nw" ] || [ "$arg" = "-t" ] || [ "$arg" = "--tty" ]
+    then
+	nw=true
+    fi
+done
+
+# if called without arguments - open a new gui instance
+if [ "$#" -eq "0" ] || [ "$running" != true ]; then
+    args=(-c $args) 		# open emacsclient in a new window
+fi
+if [ "$#" -gt "0" ]; then
+    # if 'em -' open standard input (e.g. pipe)
+    if [[ "$1" == "-" ]]; then
+	TMP="$(mktemp /tmp/emacsstdin-XXX)"
+	cat >$TMP
+	args=($args --eval '(let ((b (generate-new-buffer "*stdin*"))) (switch-to-buffer b) (insert-file-contents "'${TMP}'") (delete-file "'${TMP}'"))')
+    else
+	args=($@ $args)
+    fi
+fi
+
+# emacsclient $args
+if $nw; then
+    emacsclient "${args[@]}"
+else
+    (nohup emacsclient "${args[@]}" > /dev/null 2>&1 &) > /dev/null
+fi
+```
+
+
+<a id="orgbfeb5ba"></a>
+
+## Update README.md git hook
+
+Before commit, generate the README.md file from the updated configuration.
+
+```bash
+emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
+git add README.md ian.html
 ```

@@ -1459,7 +1459,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
   
 ** Launching Emacsclient
 [[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]] 
-#+BEGIN_SRC bash :tangle ~/bin/em :shebang #!/usr/bin/bash
+#+BEGIN_SRC bash :tangle ~/bin/ec :shebang #!/usr/bin/bash
   args=""
   nw=false
   # check if emacsclient is already running
