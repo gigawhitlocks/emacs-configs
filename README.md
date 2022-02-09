@@ -1,24 +1,25 @@
-- [What is this?](#org0ed64e8)
-- [Entrypoint](#org6a3e1d9)
-- [My Environment](#orgb931543)
-  - [Bootstrap](#org9fa807a)
-  - [Package Installation and Configuration](#orgbb47571)
-  - [Extra Packages](#org2d99862)
-  - [Language Configuration](#orgf73738a)
-  - [Global Keybindings](#org11a8812)
-  - [Org Mode Settings](#orgfe5e8a4)
-  - [Miscellaneous standalone global configuration changes](#orgaa82e04)
-  - [ERC (IRC config)](#org398114c)
-  - [Render this file for display on the web](#orgeb6f24e)
-  - [Hostname-based tweaks](#org3455d88)
-  - [Footer](#org9ef9a94)
-  - [Styles for HTML export](#org3d50324)
-  - [Launching Emacsclient](#orga63032d)
-  - [Update README.md git hook](#org2cc4a8a)
+- [What is this?](#orgfecadbc)
+- [Entrypoint](#orgd539e60)
+- [My Environment](#orgc6528f0)
+  - [Bootstrap](#org8f70c06)
+  - [Package Installation and Configuration](#orga1dafbb)
+  - [Extra Packages](#orgbe61365)
+  - [Language Configuration](#orge874f5e)
+  - [Global Keybindings](#org505d18f)
+  - [Org Mode Settings](#orgea2ce8c)
+  - [Miscellaneous standalone global configuration changes](#org706e211)
+  - [ERC (IRC config)](#org89e15c9)
+  - [Render this file for display on the web](#org65f6b8a)
+  - [Hostname-based tweaks](#org3f275a6)
+  - [Footer](#org444b7e6)
+  - [Styles for HTML export](#orgf7f3fa2)
+  - [Launching Emacsclient](#orgba41f47)
+  - [Update README.md git hook](#org1ed4980)
+  - [Running Emacs as a daemon](#org29942f7)
 
 
 
-<a id="org0ed64e8"></a>
+<a id="orgfecadbc"></a>
 
 # What is this?
 
@@ -42,7 +43,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org6a3e1d9"></a>
+<a id="orgd539e60"></a>
 
 # Entrypoint
 
@@ -92,7 +93,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgb931543"></a>
+<a id="orgc6528f0"></a>
 
 # My Environment
 
@@ -105,7 +106,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org9fa807a"></a>
+<a id="org8f70c06"></a>
 
 ## Bootstrap
 
@@ -159,7 +160,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgbb47571"></a>
+<a id="orga1dafbb"></a>
 
 ## Package Installation and Configuration
 
@@ -288,7 +289,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org11a8812) section.
+It's mostly used below in the [global keybindings](#org505d18f) section.
 
 ```emacs-lisp
 (use-package general
@@ -488,7 +489,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="org2d99862"></a>
+<a id="orgbe61365"></a>
 
 ## Extra Packages
 
@@ -631,7 +632,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="orgf73738a"></a>
+<a id="orge874f5e"></a>
 
 ## Language Configuration
 
@@ -1048,7 +1049,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org11a8812"></a>
+<a id="org505d18f"></a>
 
 ## Global Keybindings
 
@@ -1146,7 +1147,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgfe5e8a4"></a>
+<a id="orgea2ce8c"></a>
 
 ## Org Mode Settings
 
@@ -1228,7 +1229,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orgaa82e04"></a>
+<a id="org706e211"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1499,7 +1500,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="org398114c"></a>
+<a id="org89e15c9"></a>
 
 ## ERC (IRC config)
 
@@ -1561,7 +1562,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgeb6f24e"></a>
+<a id="org65f6b8a"></a>
 
 ## Render this file for display on the web
 
@@ -1587,7 +1588,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org3455d88"></a>
+<a id="org3f275a6"></a>
 
 ## Hostname-based tweaks
 
@@ -1622,7 +1623,7 @@ Right now I have four? (4?) configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org9ef9a94"></a>
+<a id="org444b7e6"></a>
 
 ## Footer
 
@@ -1633,7 +1634,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org3d50324"></a>
+<a id="orgf7f3fa2"></a>
 
 ## Styles for HTML export
 
@@ -1720,7 +1721,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="orga63032d"></a>
+<a id="orgba41f47"></a>
 
 ## Launching Emacsclient
 
@@ -1764,7 +1765,7 @@ fi
 ```
 
 
-<a id="org2cc4a8a"></a>
+<a id="org1ed4980"></a>
 
 ## Update README.md git hook
 
@@ -1774,3 +1775,36 @@ Before commit, generate the README.md file from the updated configuration.
 emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
 git add README.md ian.html
 ```
+
+
+<a id="org29942f7"></a>
+
+## Running Emacs as a daemon
+
+I like to start up Emacs in the background at login time. I usually have Emacs open, and first launch takes considerably longer (a few seconds) than it does to open a client (basically instant), plus this has other benefits like a long-running session that keeps buffers open.
+
+Anyway.
+
+This makes it simple to manage a daemonized Emacs through a systemd unit file:
+
+```systemd
+[Unit]
+Description=Emacs text editor
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/emacs --fg-daemon
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+# The location of the SSH auth socket varies by distribution, and some
+# set it from PAM, so don't override by default.
+# Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+Restart=on-failure
+
+[Install]
+WantedBy=default.target
+```
+
+After tangling, enable the unit:
+
+    systemctl enable --user emacs.service

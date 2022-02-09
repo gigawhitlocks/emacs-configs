@@ -146,7 +146,6 @@ First I need to install packages with a large effect and which other packages ar
   (use-package treemacs)
   (use-package treemacs-all-the-icons)
 #+end_src
-
 *** Theme
 Going to try out the Doom themepack because why not.
 
@@ -1505,3 +1504,31 @@ Before commit, generate the README.md file from the updated configuration.
   emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
   git add README.md ian.html
 #+end_src
+
+** Running Emacs as a daemon
+I like to start up Emacs in the background at login time. I usually have Emacs open, and first launch takes considerably longer (a few seconds) than it does to open a client (basically instant), plus this has other benefits like a long-running session that keeps buffers open.
+
+Anyway.
+
+This makes it simple to manage a daemonized Emacs through a systemd unit file:
+
+#+begin_src systemd :tangle ~/.config/systemd/user/emacs.service
+  [Unit]
+  Description=Emacs text editor
+  Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+
+  [Service]
+  Type=notify
+  ExecStart=/usr/bin/emacs --fg-daemon
+  ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+  # The location of the SSH auth socket varies by distribution, and some
+  # set it from PAM, so don't override by default.
+  # Environment=SSH_AUTH_SOCK=%t/keyring/ssh
+  Restart=on-failure
+
+  [Install]
+  WantedBy=default.target
+#+end_src
+
+After tangling, enable the unit:
+: systemctl enable --user emacs.service
