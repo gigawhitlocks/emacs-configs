@@ -1495,3 +1495,13 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
       (nohup emacsclient "${args[@]}" > /dev/null 2>&1 &) > /dev/null
   fi
 #+END_SRC
+** Update README.md git hook
+:properties:
+:header-args: :tangle .git/hooks/pre-commit :shebang #!/bin/bash
+:end:
+
+Before commit, generate the README.md file from the updated configuration.
+#+begin_src bash
+  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
+  git add README.md ian.html
+#+end_src

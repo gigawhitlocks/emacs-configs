@@ -1,24 +1,24 @@
-- [What is this?](#org623ff8d)
-- [Entrypoint](#org3c82992)
-- [My Environment](#org0a74b17)
-  - [Bootstrap](#org04732bb)
-  - [Package Installation and Configuration](#orgb2e8b13)
-  - [Extra Packages](#orgcb99aad)
-  - [Language Configuration](#orgd4d771d)
-  - [Global Keybindings](#org763ba08)
-  - [Org Mode Settings](#orgd0808fa)
-  - [Miscellaneous standalone global configuration changes](#orge4467b8)
-  - [ERC (IRC config)](#orgb94bfe6)
-  - [Render this file for display on the web](#org2c17b6c)
-  - [Hostname-based tweaks](#orgfea9f0e)
-  - [Footer](#org4382d26)
-  - [Styles for HTML export](#orgd219d79)
-  - [Launching Emacsclient](#org9e25256)
-  - [Update README.md git hook](#orgbfeb5ba)
+- [What is this?](#org0ed64e8)
+- [Entrypoint](#org6a3e1d9)
+- [My Environment](#orgb931543)
+  - [Bootstrap](#org9fa807a)
+  - [Package Installation and Configuration](#orgbb47571)
+  - [Extra Packages](#org2d99862)
+  - [Language Configuration](#orgf73738a)
+  - [Global Keybindings](#org11a8812)
+  - [Org Mode Settings](#orgfe5e8a4)
+  - [Miscellaneous standalone global configuration changes](#orgaa82e04)
+  - [ERC (IRC config)](#org398114c)
+  - [Render this file for display on the web](#orgeb6f24e)
+  - [Hostname-based tweaks](#org3455d88)
+  - [Footer](#org9ef9a94)
+  - [Styles for HTML export](#org3d50324)
+  - [Launching Emacsclient](#orga63032d)
+  - [Update README.md git hook](#org2cc4a8a)
 
 
 
-<a id="org623ff8d"></a>
+<a id="org0ed64e8"></a>
 
 # What is this?
 
@@ -42,7 +42,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org3c82992"></a>
+<a id="org6a3e1d9"></a>
 
 # Entrypoint
 
@@ -92,7 +92,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org0a74b17"></a>
+<a id="orgb931543"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org04732bb"></a>
+<a id="org9fa807a"></a>
 
 ## Bootstrap
 
@@ -159,7 +159,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgb2e8b13"></a>
+<a id="orgbb47571"></a>
 
 ## Package Installation and Configuration
 
@@ -288,7 +288,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org763ba08) section.
+It's mostly used below in the [global keybindings](#org11a8812) section.
 
 ```emacs-lisp
 (use-package general
@@ -488,7 +488,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="orgcb99aad"></a>
+<a id="org2d99862"></a>
 
 ## Extra Packages
 
@@ -631,7 +631,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="orgd4d771d"></a>
+<a id="orgf73738a"></a>
 
 ## Language Configuration
 
@@ -1048,7 +1048,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org763ba08"></a>
+<a id="org11a8812"></a>
 
 ## Global Keybindings
 
@@ -1146,7 +1146,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgd0808fa"></a>
+<a id="orgfe5e8a4"></a>
 
 ## Org Mode Settings
 
@@ -1228,7 +1228,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orge4467b8"></a>
+<a id="orgaa82e04"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1499,7 +1499,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="orgb94bfe6"></a>
+<a id="org398114c"></a>
 
 ## ERC (IRC config)
 
@@ -1561,7 +1561,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org2c17b6c"></a>
+<a id="orgeb6f24e"></a>
 
 ## Render this file for display on the web
 
@@ -1587,7 +1587,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgfea9f0e"></a>
+<a id="org3455d88"></a>
 
 ## Hostname-based tweaks
 
@@ -1622,7 +1622,7 @@ Right now I have four? (4?) configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org4382d26"></a>
+<a id="org9ef9a94"></a>
 
 ## Footer
 
@@ -1633,7 +1633,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="orgd219d79"></a>
+<a id="org3d50324"></a>
 
 ## Styles for HTML export
 
@@ -1720,7 +1720,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org9e25256"></a>
+<a id="orga63032d"></a>
 
 ## Launching Emacsclient
 
@@ -1764,7 +1764,7 @@ fi
 ```
 
 
-<a id="orgbfeb5ba"></a>
+<a id="org2cc4a8a"></a>
 
 ## Update README.md git hook
 
