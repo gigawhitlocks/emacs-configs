@@ -357,7 +357,7 @@ Sometimes when the compile process takes more than a few seconds I change window
         (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav")))
   (add-to-list 'compilation-finish-functions 'isw-play-chime)
   #+END_SRC
-  
+
 A function for toggling the screaming on and off. I love scream-when-finished but sometimes I'm listening to music or something and it gets a little ridiculous.
   #+BEGIN_SRC emacs-lisp
   (defun toggle-screaming ()
@@ -586,7 +586,7 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 - First, ~go~ itself must be installed, install however, and avalailable on the ~PATH~.
 
 - ~gopls~, the language server for LSP mentioned above [[https://github.com/golang/tools/blob/master/gopls/doc/user.md]]. I have been just running this off of ~master~ so I can experience all the latest +bugs+ features, so clone the gopls project (TODO find the url for it and put a link here) and ~go install~ it. After you're done ~gopls~ should also be on the ~PATH~.
-  [[https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration][Directions for configuring ~gopls~ through this file are found here.]] 
+  [[https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration][Directions for configuring ~gopls~ through this file are found here.]]
 
 - ~golint~ has to be installed independently
 
@@ -1487,9 +1487,9 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
       display: none;
   }
   #+END_SRC
-  
+
 ** Launching Emacsclient
-[[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]] 
+[[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]]
 #+BEGIN_SRC bash :tangle ~/bin/ec :shebang #!/usr/bin/bash
   args=""
   nw=false
@@ -1506,7 +1506,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
 
   # if called without arguments - open a new gui instance
   if [ "$#" -eq "0" ] || [ "$running" != true ]; then
-      args=(-c $args) 		# open emacsclient in a new window
+      args=(-c $args)           # open emacsclient in a new window
   fi
   if [ "$#" -gt "0" ]; then
       # if 'em -' open standard input (e.g. pipe)
@@ -1534,7 +1534,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
 Before commit, generate the README.md file from the updated configuration.
 
 #+begin_src bash
-  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))' 
+  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
   git add README.md ian.html
 #+end_src
 
@@ -1586,4 +1586,3 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
   Categories=Development;TextEditor;Utility;
   StartupWMClass=Emacs
 #+end_src
-
