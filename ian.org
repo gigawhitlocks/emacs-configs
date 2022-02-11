@@ -658,50 +658,88 @@ Once that's done ~gorepl-mode~ is ready to be installed:
   (use-package gorepl-mode)
 #+END_SRC
 
+
+**** Interactive debugger
+I got jealous of a coworker with an IDE who apparently has an interactive debugger, so let's see if this is any good. It's been a long time since I've really had a debugger 🤣
+
+***** Resources
+Figured out how to do this, just need to add it..
+[[https://emacs-lsp.github.io/dap-mode/page/configuration/#go]]
+
+
+<2022-02-10 Thu> Found another guide here, let's try it out
+https://apmattil.medium.com/debug-go-golang-with-emacs-fbf840c0aa56
+
+***** Configuration
+Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languages so at some point I will want to refactor it out and install it alongside LSP, but keep ~dap-go~ here. Probably. But this works for now, and who knows, maybe debugging Go is really all I care about.
+
+#+begin_src emacs-lisp
+  (use-package dap-mode)
+  (dap-mode 1)
+  (dap-ui-mode 1)
+  (dap-ui-controls-mode 1)
+  (require 'dap-go)
+#+end_src
+
+***** Use
+****** On first install
+: M-x dap-go-setup
+****** When debugging a new executable for the first time
+Run this command
+: M-x dap-debug-edit-template
+and save the ~(dap-register-debug-template )~ call that is generated.. somewhere alongside the code hopefully.
+I'll come up with some convention for storing these.
+Maybe dir-locals (~SPC p E~)
+****** Each time when ready to start debugging
+Start debugging by running:
+: M-x dap-debug
+Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
+
 **** Mode-Specific Keybindings
 #+BEGIN_SRC emacs-lisp
-    (general-define-key
-     :states  'normal
-     :keymaps 'go-mode-map
-     ",a"     'go-import-add
-     ",d"     'lsp-describe-thing-at-point
-     ",gg"    'lsp-find-definition
-     ",gt"    'lsp-find-type-definition
-     ",i"     'lsp-find-implementation
-     ",n"     'lsp-rename
-     ",r"     'lsp-find-references
-     ",tp"    'go-test-current-project
-     ",tt"    'go-test-current-test
-     ",tf"    'go-test-current-file
-     ",x"     'lsp-execute-code-action
-     ",lsp"   'lsp-workspace-restart
-     "gd"     'lsp-find-definition
+  (general-define-key
+   :states  'normal
+   :keymaps 'go-mode-map
+   ",a"     'go-import-add
+   ",d"     'lsp-describe-thing-at-point
+   ",gg"    'lsp-find-definition
+   ",gt"    'lsp-find-type-definition
+   ",i"     'lsp-find-implementation
+   ",n"     'lsp-rename
+   ",r"     'lsp-find-references
+   ",tp"    'go-test-current-project
+   ",tt"    'go-test-current-test
+   ",tf"    'go-test-current-file
+   ",x"     'lsp-execute-code-action
+   ",lsp"   'lsp-workspace-restart
+   "gd"     'lsp-find-definition
 
-     ;; using the ,c namespace for repl stuff to follow the C-c convention
-     ;; found in other places in Emacs
-     ",cc"     'gorepl-run
-     ",cg"     'gorepl-run-load-current-file
-     ",cx"     'gorepl-eval-region
-     ",cl"     'gorepl-eval-line
+   ;; using the ,c namespace for repl and debug stuff to follow the C-c
+   ;; convention found in other places in Emacs
+   ",cc"     'dap-debug
+   ",cr"     'gorepl-run
+   ",cg"     'gorepl-run-load-current-file
+   ",cx"     'gorepl-eval-region
+   ",cl"     'gorepl-eval-line
 
-    ;; origami-mode works better with lsp than regular evil-mode
-     "TAB"    'origami-toggle-node
+   ;; origami-mode works better with lsp than regular evil-mode
+   "TAB"    'origami-toggle-node
 
-     "zm"     'origami-toggle-node
-     "zM"     'origami-toggle-all-nodes
+   "zm"     'origami-toggle-node
+   "zM"     'origami-toggle-all-nodes
 
-     "zc"     'origami-close-node
-     "zC"     'origami-close-node-recursively
+   "zc"     'origami-close-node
+   "zC"     'origami-close-node-recursively
 
-     "zo"     'origami-open-node
-     "zO"     'origami-open-node-recursively
+   "zo"     'origami-open-node
+   "zO"     'origami-open-node-recursively
 
-     ;; except for when it totally breaks lol
-     "zr"     'origami-reset
-    )
+   ;; except for when it totally breaks lol
+   "zr"     'origami-reset
+   )
 
-    (autoload 'go-mode "go-mode" nil t)
-    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+  (autoload 'go-mode "go-mode" nil t)
+  (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 #+END_SRC
 
 **** Hooks
@@ -731,9 +769,8 @@ Certain projects use a gopath folder inside the project root and this confuses L
 (with-eval-after-load 'lsp-mode
   (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
 #+END_SRC
-**** TODO Interactive debugger
-Figured out how to do this, just need to add it.. 
-[[https://emacs-lsp.github.io/dap-mode/page/configuration/#go]]
+
+Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
 
 *** Rust
 To install the Rust language server:

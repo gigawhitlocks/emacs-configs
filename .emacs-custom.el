@@ -21,7 +21,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(objed-cursor-color "#ff665c")
  '(package-selected-packages
-   '(lsp-treemacs treemacs-lsp yasnippet-snippets which-key wgrep-ack web-mode use-package-ensure-system-package undo-tree tree-sitter-langs systemd solaire-mode salt-mode rust-mode restart-emacs ranger rainbow-delimiters pfuture ox-gfm org-download lsp-ui lsp-origami json-mode hyperbole htmlize highlight-indent-guides helm-projectile helm-lsp helm-descbinds helm-ag gotest gorepl-mode git-timemachine git-gutter general forge flycheck-golangci-lint figlet exec-path-from-shell evil-surround evil-org evil-escape evil-collection emojify doom-themes dockerfile-mode diminish delight dashboard company-org-block cfrs auto-virtualenv ag adaptive-wrap ace-window))
+   '(dap-mode lsp-treemacs treemacs-lsp yasnippet-snippets which-key wgrep-ack web-mode use-package-ensure-system-package undo-tree tree-sitter-langs systemd solaire-mode salt-mode rust-mode restart-emacs ranger rainbow-delimiters pfuture ox-gfm org-download lsp-ui lsp-origami json-mode hyperbole htmlize highlight-indent-guides helm-projectile helm-lsp helm-descbinds helm-ag gotest gorepl-mode git-timemachine git-gutter general forge flycheck-golangci-lint figlet exec-path-from-shell evil-surround evil-org evil-escape evil-collection emojify doom-themes dockerfile-mode diminish delight dashboard company-org-block cfrs auto-virtualenv ag adaptive-wrap ace-window))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#242730"))
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])
