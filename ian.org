@@ -515,8 +515,6 @@ LSP provides a generic interface for text editors to talk to various language se
   (setq lsp-ui-doc-use-childframe t)
   (setq lsp-ui-doc-position 'top)
 
-  ;; got deprecated I think
-  ;; (use-package company-lsp)
   (use-package lsp-origami)
   (use-package helm-lsp)
 #+END_SRC
@@ -670,20 +668,26 @@ Figured out how to do this, just need to add it..
 <2022-02-10 Thu> Found another guide here, let's try it out
 https://apmattil.medium.com/debug-go-golang-with-emacs-fbf840c0aa56
 
-***** Configuration
+***** Installation and Configuration
 Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languages so at some point I will want to refactor it out and install it alongside LSP, but keep ~dap-go~ here. Probably. But this works for now, and who knows, maybe debugging Go is really all I care about.
 
 #+begin_src emacs-lisp
   (use-package dap-mode)
+  (require 'dap-go)
   (dap-mode 1)
   (dap-ui-mode 1)
   (dap-ui-controls-mode 1)
-  (require 'dap-go)
+  (tooltip-mode 1)
+  (setq dap-print-io t)
 #+end_src
 
-***** Use
 ****** On first install
+Theoretically you should be able to run this
 : M-x dap-go-setup
+
+But it is subject to rate-limiting so I just checked in the results of calling this under ~.extension~. It's all MIT-licensed so this is fine.
+
+***** Use
 ****** When debugging a new executable for the first time
 Run this command
 : M-x dap-debug-edit-template
