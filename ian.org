@@ -1500,10 +1500,13 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
 :end:
 
 Before commit, generate the README.md file from the updated configuration.
+
 #+begin_src bash
-  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))' # there is probably a better way to do this
+  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))' 
   git add README.md ian.html
 #+end_src
+
+I think the command being passed to ~emacsclient~ here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using ~git~ on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 ** Running Emacs as a daemon
 I like to start up Emacs in the background at login time. I usually have Emacs open, and first launch takes considerably longer (a few seconds) than it does to open a client (basically instant), plus this has other benefits like a long-running session that keeps buffers open.
