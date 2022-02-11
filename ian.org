@@ -485,8 +485,7 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 #+BEGIN_SRC emacs-lisp
   (use-package exec-path-from-shell
     :config
-    (when (memq window-system '(mac ns x))
-    (exec-path-from-shell-initialize)))
+    (exec-path-from-shell-initialize))
 #+END_SRC
 *** ace-window provides an ace-jump experience for switching windows
 #+BEGIN_SRC emacs-lisp

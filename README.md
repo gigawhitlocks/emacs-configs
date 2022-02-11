@@ -1,25 +1,25 @@
-- [What is this?](#orgf594f50)
-- [Entrypoint](#org92adf04)
-- [My Environment](#orgd6e9b89)
-  - [Bootstrap](#org3ce6c29)
-  - [Package Installation and Configuration](#orge104417)
-  - [Extra Packages](#org4420048)
-  - [Language Configuration](#org71d8891)
-  - [Global Keybindings](#org79e2d0e)
-  - [Org Mode Settings](#orga697188)
-  - [Miscellaneous standalone global configuration changes](#org6c0699d)
-  - [ERC (IRC config)](#orgc21fb1c)
-  - [Render this file for display on the web](#orgf8cee35)
-  - [Hostname-based tweaks](#org9e0495d)
-  - [Footer](#org2a63130)
-  - [Styles for HTML export](#orgc8bc730)
-  - [Launching Emacsclient](#org12237ac)
-  - [Update README.md git hook](#org43ae4ab)
-  - [Running Emacs as a daemon](#org4964d98)
+- [What is this?](#org9a8f7a3)
+- [Entrypoint](#org5d47b17)
+- [My Environment](#org886a642)
+  - [Bootstrap](#orgc92bf5d)
+  - [Package Installation and Configuration](#org58eda98)
+  - [Extra Packages](#orge6d08bb)
+  - [Language Configuration](#orgb7ba24b)
+  - [Global Keybindings](#org81b0da4)
+  - [Org Mode Settings](#orge0d8d81)
+  - [Miscellaneous standalone global configuration changes](#orgfbe8ed5)
+  - [ERC (IRC config)](#orgaecb2ab)
+  - [Render this file for display on the web](#orge28ee5c)
+  - [Hostname-based tweaks](#org98264e0)
+  - [Footer](#orgf3b56b5)
+  - [Styles for HTML export](#org7ef5b64)
+  - [Launching Emacsclient](#org3272a5d)
+  - [Update README.md git hook](#org25d9b05)
+  - [Running Emacs as a daemon](#orgbe23228)
 
 
 
-<a id="orgf594f50"></a>
+<a id="org9a8f7a3"></a>
 
 # What is this?
 
@@ -43,7 +43,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org92adf04"></a>
+<a id="org5d47b17"></a>
 
 # Entrypoint
 
@@ -93,7 +93,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgd6e9b89"></a>
+<a id="org886a642"></a>
 
 # My Environment
 
@@ -106,7 +106,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org3ce6c29"></a>
+<a id="orgc92bf5d"></a>
 
 ## Bootstrap
 
@@ -160,7 +160,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orge104417"></a>
+<a id="org58eda98"></a>
 
 ## Package Installation and Configuration
 
@@ -289,7 +289,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org79e2d0e) section.
+It's mostly used below in the [global keybindings](#org81b0da4) section.
 
 ```emacs-lisp
 (use-package general
@@ -489,7 +489,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="org4420048"></a>
+<a id="orge6d08bb"></a>
 
 ## Extra Packages
 
@@ -602,8 +602,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```emacs-lisp
 (use-package exec-path-from-shell
   :config
-  (when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize)))
+  (exec-path-from-shell-initialize))
 ```
 
 
@@ -623,7 +622,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="org71d8891"></a>
+<a id="orgb7ba24b"></a>
 
 ## Language Configuration
 
@@ -888,10 +887,22 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     (with-eval-after-load 'lsp-mode
       (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
     ```
+    
+    Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
 
 -   TODO Interactive debugger
 
     Figured out how to do this, just need to add it.. <https://emacs-lsp.github.io/dap-mode/page/configuration/#go>
+    
+    <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-10 Thu&gt; </span></span> Found another guide here, let's try it out <https://apmattil.medium.com/debug-go-golang-with-emacs-fbf840c0aa56>
+    
+    ```emacs-lisp
+    (use-package dap-mode) 
+    ```
+    
+    Use by running
+    
+        M-x dap-debug
 
 
 ### Rust
@@ -1044,7 +1055,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org79e2d0e"></a>
+<a id="org81b0da4"></a>
 
 ## Global Keybindings
 
@@ -1142,7 +1153,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orga697188"></a>
+<a id="orge0d8d81"></a>
 
 ## Org Mode Settings
 
@@ -1224,7 +1235,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="org6c0699d"></a>
+<a id="orgfbe8ed5"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1495,7 +1506,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="orgc21fb1c"></a>
+<a id="orgaecb2ab"></a>
 
 ## ERC (IRC config)
 
@@ -1557,7 +1568,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgf8cee35"></a>
+<a id="orge28ee5c"></a>
 
 ## Render this file for display on the web
 
@@ -1583,7 +1594,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org9e0495d"></a>
+<a id="org98264e0"></a>
 
 ## Hostname-based tweaks
 
@@ -1618,7 +1629,7 @@ Right now I have four? (4?) configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org2a63130"></a>
+<a id="orgf3b56b5"></a>
 
 ## Footer
 
@@ -1629,7 +1640,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="orgc8bc730"></a>
+<a id="org7ef5b64"></a>
 
 ## Styles for HTML export
 
@@ -1716,7 +1727,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org12237ac"></a>
+<a id="org3272a5d"></a>
 
 ## Launching Emacsclient
 
@@ -1760,7 +1771,7 @@ fi
 ```
 
 
-<a id="org43ae4ab"></a>
+<a id="org25d9b05"></a>
 
 ## Update README.md git hook
 
@@ -1774,7 +1785,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="org4964d98"></a>
+<a id="orgbe23228"></a>
 
 ## Running Emacs as a daemon
 
