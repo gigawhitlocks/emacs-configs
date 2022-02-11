@@ -455,12 +455,6 @@ Just provides syntax highlighting in ~.unit~ files.
 #+BEGIN_SRC emacs-lisp
   (use-package systemd)
 #+END_SRC
-*** ranger is a standalone file browser
-#+BEGIN_SRC emacs-lisp
-      (use-package ranger
-        :config
-        (setq ranger-show-literal nil))
-#+END_SRC
 *** Install and Configure Company for Auto-Completion
 Great tab-complete and auto-complete with [[https://github.com/company-mode/company-mode][Company Mode]].
 #+BEGIN_SRC emacs-lisp

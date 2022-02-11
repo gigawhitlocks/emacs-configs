@@ -1,25 +1,25 @@
-- [What is this?](#org0022150)
-- [Entrypoint](#org0697a5f)
-- [My Environment](#orgaaf33d3)
-  - [Bootstrap](#org5918d45)
-  - [Package Installation and Configuration](#orgcdccac8)
-  - [Extra Packages](#org963ba2f)
-  - [Language Configuration](#org0f242b6)
-  - [Global Keybindings](#org6b9de1d)
-  - [Org Mode Settings](#org7aac298)
-  - [Miscellaneous standalone global configuration changes](#orgd6a04ad)
-  - [ERC (IRC config)](#org06618fa)
-  - [Render this file for display on the web](#org31c5b84)
-  - [Hostname-based tweaks](#orgc4c006e)
-  - [Footer](#org0d9acb0)
-  - [Styles for HTML export](#org82b05ce)
-  - [Launching Emacsclient](#org2b68556)
-  - [Update README.md git hook](#orgd6d4c66)
-  - [Running Emacs as a daemon](#org8fa87f5)
+- [What is this?](#org81be67d)
+- [Entrypoint](#orgaf21b04)
+- [My Environment](#org234c118)
+  - [Bootstrap](#orga385a49)
+  - [Package Installation and Configuration](#org3f618e7)
+  - [Extra Packages](#orgcc6a6ee)
+  - [Language Configuration](#org4ee2326)
+  - [Global Keybindings](#orgc5a81a5)
+  - [Org Mode Settings](#org840c918)
+  - [Miscellaneous standalone global configuration changes](#orge034e16)
+  - [ERC (IRC config)](#org3b702f9)
+  - [Render this file for display on the web](#orgaabf2dd)
+  - [Hostname-based tweaks](#org539b882)
+  - [Footer](#orga42b3fc)
+  - [Styles for HTML export](#orgf619cfc)
+  - [Launching Emacsclient](#org0f33c58)
+  - [Update README.md git hook](#org63ad723)
+  - [Running Emacs as a daemon](#orgcbcb729)
 
 
 
-<a id="org0022150"></a>
+<a id="org81be67d"></a>
 
 # What is this?
 
@@ -43,7 +43,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org0697a5f"></a>
+<a id="orgaf21b04"></a>
 
 # Entrypoint
 
@@ -93,7 +93,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgaaf33d3"></a>
+<a id="org234c118"></a>
 
 # My Environment
 
@@ -106,7 +106,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="org5918d45"></a>
+<a id="orga385a49"></a>
 
 ## Bootstrap
 
@@ -160,7 +160,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgcdccac8"></a>
+<a id="org3f618e7"></a>
 
 ## Package Installation and Configuration
 
@@ -289,7 +289,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org6b9de1d) section.
+It's mostly used below in the [global keybindings](#orgc5a81a5) section.
 
 ```emacs-lisp
 (use-package general
@@ -489,7 +489,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="org963ba2f"></a>
+<a id="orgcc6a6ee"></a>
 
 ## Extra Packages
 
@@ -562,15 +562,6 @@ Just provides syntax highlighting in `.unit` files.
 ```
 
 
-### ranger is a standalone file browser
-
-```emacs-lisp
-(use-package ranger
-  :config
-  (setq ranger-show-literal nil))
-```
-
-
 ### Install and Configure Company for Auto-Completion
 
 Great tab-complete and auto-complete with [Company Mode](https://github.com/company-mode/company-mode).
@@ -632,7 +623,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="org0f242b6"></a>
+<a id="org4ee2326"></a>
 
 ## Language Configuration
 
@@ -1049,7 +1040,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org6b9de1d"></a>
+<a id="orgc5a81a5"></a>
 
 ## Global Keybindings
 
@@ -1147,7 +1138,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org7aac298"></a>
+<a id="org840c918"></a>
 
 ## Org Mode Settings
 
@@ -1229,7 +1220,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orgd6a04ad"></a>
+<a id="orge034e16"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1500,7 +1491,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="org06618fa"></a>
+<a id="org3b702f9"></a>
 
 ## ERC (IRC config)
 
@@ -1562,7 +1553,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org31c5b84"></a>
+<a id="orgaabf2dd"></a>
 
 ## Render this file for display on the web
 
@@ -1588,7 +1579,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="orgc4c006e"></a>
+<a id="org539b882"></a>
 
 ## Hostname-based tweaks
 
@@ -1623,7 +1614,7 @@ Right now I have four? (4?) configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org0d9acb0"></a>
+<a id="orga42b3fc"></a>
 
 ## Footer
 
@@ -1634,7 +1625,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org82b05ce"></a>
+<a id="orgf619cfc"></a>
 
 ## Styles for HTML export
 
@@ -1721,7 +1712,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org2b68556"></a>
+<a id="org0f33c58"></a>
 
 ## Launching Emacsclient
 
@@ -1765,7 +1756,7 @@ fi
 ```
 
 
-<a id="orgd6d4c66"></a>
+<a id="org63ad723"></a>
 
 ## Update README.md git hook
 
@@ -1779,7 +1770,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="org8fa87f5"></a>
+<a id="orgcbcb729"></a>
 
 ## Running Emacs as a daemon
 
