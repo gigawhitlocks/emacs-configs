@@ -1509,7 +1509,7 @@ Before commit, generate the README.md file from the updated configuration.
 I like to start up Emacs in the background at login time. I usually have Emacs open, and first launch takes considerably longer (a few seconds) than it does to open a client (basically instant), plus this has other benefits like a long-running session that keeps buffers open.
 
 *** Systemd unit file
-Actually start up emacs in daemon mode by installing a user unit file. This gets installed to the correct place when this file is tangled.
+Actually start up Emacs in daemon mode by installing a user unit file. This gets installed to the correct place (~~/.config/systemd/user/emacs.service~) when this file is tangled.
 
 #+begin_src systemd :tangle ~/.config/systemd/user/emacs.service
   [Unit]
@@ -1534,9 +1534,9 @@ After tangling, enable the unit:
 
 *** Running Emacs properly from the GUI
 
-Once Emacs is running as a server, I mostly want to run `emacsclient` from the Gnome Overlay view / launcher ... thingy.
+Once Emacs is running as a server, I mostly want to run ~emacsclient~ from the Gnome Overlay view / launcher ... thingy.
 
-Tangling this file will install the .desktop file to the correct location.
+Tangling this file will install the .desktop file to the correct location (~~/.local/share/applications/Emacsclient.desktop~).
 
 #+begin_src conf :tangle ~/.local/share/applications/Emacsclient.desktop
   [Desktop Entry]
