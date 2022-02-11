@@ -33,3 +33,5 @@ ian.org~
 ian.sh
 tramp
 session*
+.dap-breakpoints
+.extension/
