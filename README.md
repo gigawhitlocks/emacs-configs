@@ -1,25 +1,25 @@
-- [What is this?](#org81be67d)
-- [Entrypoint](#orgaf21b04)
-- [My Environment](#org234c118)
-  - [Bootstrap](#orga385a49)
-  - [Package Installation and Configuration](#org3f618e7)
-  - [Extra Packages](#orgcc6a6ee)
-  - [Language Configuration](#org4ee2326)
-  - [Global Keybindings](#orgc5a81a5)
-  - [Org Mode Settings](#org840c918)
-  - [Miscellaneous standalone global configuration changes](#orge034e16)
-  - [ERC (IRC config)](#org3b702f9)
-  - [Render this file for display on the web](#orgaabf2dd)
-  - [Hostname-based tweaks](#org539b882)
-  - [Footer](#orga42b3fc)
-  - [Styles for HTML export](#orgf619cfc)
-  - [Launching Emacsclient](#org0f33c58)
-  - [Update README.md git hook](#org63ad723)
-  - [Running Emacs as a daemon](#orgcbcb729)
+- [What is this?](#orgf594f50)
+- [Entrypoint](#org92adf04)
+- [My Environment](#orgd6e9b89)
+  - [Bootstrap](#org3ce6c29)
+  - [Package Installation and Configuration](#orge104417)
+  - [Extra Packages](#org4420048)
+  - [Language Configuration](#org71d8891)
+  - [Global Keybindings](#org79e2d0e)
+  - [Org Mode Settings](#orga697188)
+  - [Miscellaneous standalone global configuration changes](#org6c0699d)
+  - [ERC (IRC config)](#orgc21fb1c)
+  - [Render this file for display on the web](#orgf8cee35)
+  - [Hostname-based tweaks](#org9e0495d)
+  - [Footer](#org2a63130)
+  - [Styles for HTML export](#orgc8bc730)
+  - [Launching Emacsclient](#org12237ac)
+  - [Update README.md git hook](#org43ae4ab)
+  - [Running Emacs as a daemon](#org4964d98)
 
 
 
-<a id="org81be67d"></a>
+<a id="orgf594f50"></a>
 
 # What is this?
 
@@ -43,7 +43,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="orgaf21b04"></a>
+<a id="org92adf04"></a>
 
 # Entrypoint
 
@@ -93,7 +93,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org234c118"></a>
+<a id="orgd6e9b89"></a>
 
 # My Environment
 
@@ -106,7 +106,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orga385a49"></a>
+<a id="org3ce6c29"></a>
 
 ## Bootstrap
 
@@ -160,7 +160,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org3f618e7"></a>
+<a id="orge104417"></a>
 
 ## Package Installation and Configuration
 
@@ -289,7 +289,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgc5a81a5) section.
+It's mostly used below in the [global keybindings](#org79e2d0e) section.
 
 ```emacs-lisp
 (use-package general
@@ -489,7 +489,7 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
 ```
 
 
-<a id="orgcc6a6ee"></a>
+<a id="org4420048"></a>
 
 ## Extra Packages
 
@@ -623,7 +623,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="org4ee2326"></a>
+<a id="org71d8891"></a>
 
 ## Language Configuration
 
@@ -985,13 +985,17 @@ So yay for `web-mode`!
 
 ### Shell
 
-Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this. But for now, disable `indent-tabs-mode` in shell script editing mode because I have been observing behavior from `whitespace-cleanup-mode` that when `indent-tabs-mode` is `t` it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
+Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
+
+But for now, disable `indent-tabs-mode` in shell script editing mode because I have been observing behavior from `whitespace-cleanup-mode` that when `indent-tabs-mode` is `t` it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
 
 ```emacs-lisp
 (add-hook 'sh-mode-hook
 	  (lambda ()
 	    (defvar-local indent-tabs-mode nil)))
 ```
+
+-   TODO I don't know if this still works 👆
 
 
 ### Salt
@@ -1040,7 +1044,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgc5a81a5"></a>
+<a id="org79e2d0e"></a>
 
 ## Global Keybindings
 
@@ -1138,7 +1142,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org840c918"></a>
+<a id="orga697188"></a>
 
 ## Org Mode Settings
 
@@ -1220,7 +1224,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orge034e16"></a>
+<a id="org6c0699d"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1491,7 +1495,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="org3b702f9"></a>
+<a id="orgc21fb1c"></a>
 
 ## ERC (IRC config)
 
@@ -1553,7 +1557,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orgaabf2dd"></a>
+<a id="orgf8cee35"></a>
 
 ## Render this file for display on the web
 
@@ -1579,7 +1583,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org539b882"></a>
+<a id="org9e0495d"></a>
 
 ## Hostname-based tweaks
 
@@ -1614,7 +1618,7 @@ Right now I have four? (4?) configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="orga42b3fc"></a>
+<a id="org2a63130"></a>
 
 ## Footer
 
@@ -1625,7 +1629,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="orgf619cfc"></a>
+<a id="orgc8bc730"></a>
 
 ## Styles for HTML export
 
@@ -1712,7 +1716,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org0f33c58"></a>
+<a id="org12237ac"></a>
 
 ## Launching Emacsclient
 
@@ -1756,7 +1760,7 @@ fi
 ```
 
 
-<a id="org63ad723"></a>
+<a id="org43ae4ab"></a>
 
 ## Update README.md git hook
 
@@ -1770,7 +1774,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="orgcbcb729"></a>
+<a id="org4964d98"></a>
 
 ## Running Emacs as a daemon
 
