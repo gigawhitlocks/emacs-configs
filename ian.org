@@ -235,7 +235,6 @@ It's controversial but I think modal editing is brilliant and have been using ~v
 
 
     (use-package treemacs-evil)
-
     (setq-default evil-escape-key-sequence "fd"))
 #+END_SRC
 
@@ -251,7 +250,6 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
       (general-evil-setup))
 #+END_SRC
 *** Install and Configure Helm for Command and Control
-
 [[https://github.com/emacs-helm/helm][Helm]] is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press ~M-x~ (with the way I have it configured, anyway).
 #+BEGIN_SRC emacs-lisp
   (use-package helm
@@ -991,6 +989,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "qz"     'delete-frame
     "tn"     'display-line-numbers-mode
     "tr"     'treemacs-select-window
+    "ta"     'treemacs-add-project-to-workspace
     "ts"     'toggle-screaming
     "tt"     'toggle-transparency
     "w-"     'split-window-below
