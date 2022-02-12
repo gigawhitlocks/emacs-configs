@@ -629,12 +629,6 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
     ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
     (evil-add-command-properties #'godef-jump :jump t))
 
-  ;; load golint if the project has been added
-
- ;; (if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
- ;;     (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
-  ;;    (require 'golint))
-
   ;; enable golangci-lint to work with flycheck
   (use-package flycheck-golangci-lint
     :hook (go-mode . flycheck-golangci-lint-setup))
