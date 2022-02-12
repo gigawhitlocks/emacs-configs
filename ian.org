@@ -678,7 +678,7 @@ Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languag
   (dap-ui-mode 1)
   (dap-ui-controls-mode 1)
   (tooltip-mode 1)
-  (setq dap-print-io t)
+  (setq dap-ui-variable-length 100)
 #+end_src
 
 ****** On first install
@@ -962,6 +962,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     "en"     'flycheck-next-error
     "ep"     'flycheck-previous-error
     "Fm"     'make-frame
+    "Ff"     'toggle-frame-fullscreen
     "ff"     'helm-find-files
     "fr"     'helm-recentf
     "fed"    'find-initfile
