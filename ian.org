@@ -407,10 +407,15 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 OK that example maybe isn't the best, but if you have ~yas-insert-snippet~ bound to something and you're inserting something more complex it's.. probably worthwhile. I should use it more. You can also write your own snippets. I should figure that out.
 
 #+BEGIN_SRC emacs-lisp
-     (use-package yasnippet
-       :delight
-       :config
-       (use-package yasnippet-snippets))
+  (use-package yasnippet
+    :delight
+    :config
+    (use-package yasnippet-snippets))
+#+end_src
+
+Enable yas-mode everywhere
+#+begin_src emacs-lisp
+  (yas-global-mode 1)
 #+END_SRC
 ** Extra Packages
 Packages with a smaller effect on the experience.
