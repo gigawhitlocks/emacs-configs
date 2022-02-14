@@ -504,22 +504,23 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
 #+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :init
-    ;; use flycheck
-    (setq lsp-prefer-flymake nil)
-    (setq lsp-headerline-breadcrumb-enable nil)
-)
+    (use-package lsp-mode
+      :init
+      ;; use flycheck
+      (setq lsp-prefer-flymake nil)
+      (setq lsp-headerline-breadcrumb-enable nil)
+  )
 
 
-  (use-package lsp-treemacs)
+    (use-package lsp-treemacs)
 
-  (use-package lsp-ui)
-  (setq lsp-ui-doc-use-childframe t)
-  (setq lsp-ui-doc-position 'top)
+    (use-package lsp-ui)
+    (setq lsp-ui-doc-use-childframe t)
+    (setq lsp-ui-doc-position 'top)
+    (setq lsp-enable-links nil)
 
-  (use-package lsp-origami)
-  (use-package helm-lsp)
+    (use-package lsp-origami)
+    (use-package helm-lsp)
 #+END_SRC
 *** Tree Sitter
 Tree-sitter reads the AST to provide better syntax highlighting
@@ -1347,7 +1348,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 #+END_SRC
 
 ** Render this file for display on the web
-This function registers a hook that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
+This defines a command that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
 #+BEGIN_SRC emacs-lisp
   (defun render-configfile-for-web ()
