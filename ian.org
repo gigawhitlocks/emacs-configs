@@ -853,7 +853,6 @@ So yay for ~web-mode~!
 
 #+BEGIN_QUOTE
 Default Keybindings
-
     C-c C-f: format the region/buffer with json-reformat (https://github.com/gongo/json-reformat)
     C-c C-p: display a path to the object at point with json-snatcher (https://github.com/Sterlingg/json-snatcher)
     C-c P: copy a path to the object at point to the kill ring with json-snatcher (https://github.com/Sterlingg/json-snatcher)
@@ -1549,7 +1548,7 @@ I like to start up Emacs in the background at login time. I usually have Emacs o
 *** Systemd unit file
 Actually start up Emacs in daemon mode by installing a user unit file. This gets installed to the correct place (~~/.config/systemd/user/emacs.service~) when this file is tangled.
 
-#+begin_src systemd :tangle ~/.config/systemd/user/emacs.service
+#+begin_src conf :tangle ~/.config/systemd/user/emacs.service
   [Unit]
   Description=Emacs text editor
   Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
@@ -1589,3 +1588,9 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
   Categories=Development;TextEditor;Utility;
   StartupWMClass=Emacs
 #+end_src
+
+*** TODO Opening Code Links in Emacs
+1. Use this to add a MIME handler for emacs:// links to open in Emacs
+https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop
+2. Add a bookmarlet to rewrite https://bitbucket links to emacs:// links and send them to Emacs from Chrome or Firefox
+3. Write some Emacs Lisp to detect URLs that pertain to local projects and open them directly in Emacs

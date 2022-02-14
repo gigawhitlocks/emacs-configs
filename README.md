@@ -1,25 +1,25 @@
-- [What is this?](#org13c7105)
-- [Entrypoint](#org82083da)
-- [My Environment](#org73e3495)
-  - [Bootstrap](#orge302320)
-  - [Package Installation and Configuration](#org7b9bbe7)
-  - [Extra Packages](#orga4d6efe)
-  - [Language Configuration](#org886ecc6)
-  - [Global Keybindings](#orge6fe8ea)
-  - [Org Mode Settings](#org442f80f)
-  - [Miscellaneous standalone global configuration changes](#orge5f4d1d)
-  - [ERC (IRC config)](#orgab26c20)
-  - [Render this file for display on the web](#orga3757df)
-  - [Hostname-based tweaks](#org1c13df8)
-  - [Footer](#org12c5407)
-  - [Styles for HTML export](#org5ffd996)
-  - [Launching Emacsclient](#org55397e4)
-  - [Update README.md git hook](#orga52d285)
-  - [Running Emacs as a daemon](#orgd1255c4)
+- [What is this?](#org9c88545)
+- [Entrypoint](#orgc12150f)
+- [My Environment](#orgacc9e4c)
+  - [Bootstrap](#org2f37194)
+  - [Package Installation and Configuration](#orga375cd3)
+  - [Extra Packages](#org578b81a)
+  - [Language Configuration](#orgb3d6990)
+  - [Global Keybindings](#org7e521d6)
+  - [Org Mode Settings](#org4add3cf)
+  - [Miscellaneous standalone global configuration changes](#org8b56a6b)
+  - [ERC (IRC config)](#org4a52373)
+  - [Render this file for display on the web](#orgc265eb1)
+  - [Hostname-based tweaks](#org97ab7f3)
+  - [Footer](#orgceccb6b)
+  - [Styles for HTML export](#orgaa4ef68)
+  - [Launching Emacsclient](#org40770ac)
+  - [Update README.md git hook](#org8d6094c)
+  - [Running Emacs as a daemon](#org5598659)
 
 
 
-<a id="org13c7105"></a>
+<a id="org9c88545"></a>
 
 # What is this?
 
@@ -43,7 +43,7 @@ Here is a screenshot of this file being edited with this configuration:
 ![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
 
 
-<a id="org82083da"></a>
+<a id="orgc12150f"></a>
 
 # Entrypoint
 
@@ -93,7 +93,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org73e3495"></a>
+<a id="orgacc9e4c"></a>
 
 # My Environment
 
@@ -106,7 +106,7 @@ This may seem to be a lot of work, and it is. But if a serious guitar player mig
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
 
 
-<a id="orge302320"></a>
+<a id="org2f37194"></a>
 
 ## Bootstrap
 
@@ -160,7 +160,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org7b9bbe7"></a>
+<a id="orga375cd3"></a>
 
 ## Package Installation and Configuration
 
@@ -280,7 +280,6 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 
   (use-package treemacs-evil)
-
   (setq-default evil-escape-key-sequence "fd"))
 ```
 
@@ -289,7 +288,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orge6fe8ea) section.
+It's mostly used below in the [global keybindings](#org7e521d6) section.
 
 ```emacs-lisp
 (use-package general
@@ -488,8 +487,14 @@ OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound
   (use-package yasnippet-snippets))
 ```
 
+Enable yas-mode everywhere
 
-<a id="orga4d6efe"></a>
+```emacs-lisp
+(yas-global-mode 1)
+```
+
+
+<a id="org578b81a"></a>
 
 ## Extra Packages
 
@@ -622,7 +627,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="org886ecc6"></a>
+<a id="orgb3d6990"></a>
 
 ## Language Configuration
 
@@ -750,32 +755,26 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 -   Initial Setup
 
     ```emacs-lisp
-     (defun set-gopls-lib-dirs ()
-       "Add $GOPATH/pkg/mod to the 'library path'."
-       ;; stops lsp from continually asking if Go projects should be imported
-       (setq lsp-clients-go-library-directories
-    	 (list
-    	  "/usr"
-    	  (concat (getenv "GOPATH") "/pkg/mod"))))
+    (defun set-gopls-lib-dirs ()
+      "Add $GOPATH/pkg/mod to the 'library path'."
+      ;; stops lsp from continually asking if Go projects should be imported
+      (setq lsp-clients-go-library-directories
+    	(list
+    	 "/usr"
+    	 (concat (getenv "GOPATH") "/pkg/mod"))))
     
-     (use-package go-mode
-       :hook ((go-mode . lsp-deferred)
-    	  (go-mode . set-gopls-lib-dirs)
-    	  (go-mode . yas-minor-mode))
-       :config
-       ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-       ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
-       (evil-add-command-properties #'godef-jump :jump t))
+    (use-package go-mode
+      :hook ((go-mode . lsp-deferred)
+    	 (go-mode . set-gopls-lib-dirs)
+    	 (go-mode . yas-minor-mode))
+      :config
+      ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+      ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
+      (evil-add-command-properties #'godef-jump :jump t))
     
-     ;; load golint if the project has been added
-    
-    ;; (if (file-exists-p (concat (getenv "GOPATH")   "/src/golang.org/x/lint/misc/emacs/"))
-    ;;     (add-to-list 'load-path (concat (getenv "GOPATH")  "/src/golang.org/x/lint/misc/emacs/"))
-     ;;    (require 'golint))
-    
-     ;; enable golangci-lint to work with flycheck
-     (use-package flycheck-golangci-lint
-       :hook (go-mode . flycheck-golangci-lint-setup))
+    ;; enable golangci-lint to work with flycheck
+    (use-package flycheck-golangci-lint
+      :hook (go-mode . flycheck-golangci-lint-setup))
     ```
 
 -   Package and Configuration for Executing Tests
@@ -1024,9 +1023,7 @@ So yay for `web-mode`!
 (add-hook 'json-mode-hook 'highlight-indent-guides-mode)
 ```
 
-> Default Keybindings
-> 
-> C-c C-f: format the region/buffer with json-reformat (<https://github.com/gongo/json-reformat>) C-c C-p: display a path to the object at point with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c P: copy a path to the object at point to the kill ring with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c C-t: Toggle between true and false at point C-c C-k: Replace the sexp at point with null C-c C-i: Increment the number at point C-c C-d: Decrement the number at point
+> Default Keybindings C-c C-f: format the region/buffer with json-reformat (<https://github.com/gongo/json-reformat>) C-c C-p: display a path to the object at point with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c P: copy a path to the object at point to the kill ring with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c C-t: Toggle between true and false at point C-c C-k: Replace the sexp at point with null C-c C-i: Increment the number at point C-c C-d: Decrement the number at point
 
 
 ### Shell
@@ -1090,7 +1087,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orge6fe8ea"></a>
+<a id="org7e521d6"></a>
 
 ## Global Keybindings
 
@@ -1170,6 +1167,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "qz"     'delete-frame
   "tn"     'display-line-numbers-mode
   "tr"     'treemacs-select-window
+  "ta"     'treemacs-add-project-to-workspace
   "ts"     'toggle-screaming
   "tt"     'toggle-transparency
   "w-"     'split-window-below
@@ -1189,7 +1187,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org442f80f"></a>
+<a id="org4add3cf"></a>
 
 ## Org Mode Settings
 
@@ -1271,7 +1269,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orge5f4d1d"></a>
+<a id="org8b56a6b"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1542,7 +1540,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="orgab26c20"></a>
+<a id="org4a52373"></a>
 
 ## ERC (IRC config)
 
@@ -1604,7 +1602,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="orga3757df"></a>
+<a id="orgc265eb1"></a>
 
 ## Render this file for display on the web
 
@@ -1630,7 +1628,7 @@ This function registers a hook that will export this file to Github flavored Mar
 ```
 
 
-<a id="org1c13df8"></a>
+<a id="org97ab7f3"></a>
 
 ## Hostname-based tweaks
 
@@ -1665,7 +1663,7 @@ Right now I have four? (4?) configurations:
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 
 
-<a id="org12c5407"></a>
+<a id="orgceccb6b"></a>
 
 ## Footer
 
@@ -1676,7 +1674,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org5ffd996"></a>
+<a id="orgaa4ef68"></a>
 
 ## Styles for HTML export
 
@@ -1763,7 +1761,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org55397e4"></a>
+<a id="org40770ac"></a>
 
 ## Launching Emacsclient
 
@@ -1807,7 +1805,7 @@ fi
 ```
 
 
-<a id="orga52d285"></a>
+<a id="org8d6094c"></a>
 
 ## Update README.md git hook
 
@@ -1821,7 +1819,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="orgd1255c4"></a>
+<a id="org5598659"></a>
 
 ## Running Emacs as a daemon
 
@@ -1832,7 +1830,7 @@ I like to start up Emacs in the background at login time. I usually have Emacs o
 
 Actually start up Emacs in daemon mode by installing a user unit file. This gets installed to the correct place (`~/.config/systemd/user/emacs.service`) when this file is tangled.
 
-```systemd
+```conf
 [Unit]
 Description=Emacs text editor
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
@@ -1874,3 +1872,13 @@ Terminal=false
 Categories=Development;TextEditor;Utility;
 StartupWMClass=Emacs
 ```
+
+
+### TODO Opening Code Links in Emacs
+
+1.  Use this to add a MIME handler for emacs:// links to open in Emacs
+
+<https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop>
+
+1.  Add a bookmarlet to rewrite <https://bitbucket> links to emacs:// links and send them to Emacs from Chrome or Firefox
+2.  Write some Emacs Lisp to detect URLs that pertain to local projects and open them directly in Emacs
