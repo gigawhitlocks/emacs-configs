@@ -1121,7 +1121,7 @@ First of all, install the helper mode:
 
 But the ligatures are broken in the terminal with this mode. I would prefer that they just get disabled automatically when opening buffers in the terminal, but I guess the maintainer of ~fira-code-mode~ doesn't use the terminal
 
-I do so I at least need to be able to quickly turn the ligatures off, and shouldn't automatically turn them on when opening a file in the terminal.
+I need to at least be able to quickly turn the ligatures off, and shouldn't automatically turn them on when opening a file in the terminal.
 
 First I needed a helper method to determine what buffers are active
 #+begin_src emacs-lisp
@@ -1148,8 +1148,6 @@ Now I can use that function to write a command that turns them on and off in the
       (fira-code-mode))
     (redraw-display)
     )
-    
-
 #+end_src
 Finally, define the hook so that it doesn't automatically turn ligatures on when opening files in the terminal.
 
@@ -1256,6 +1254,11 @@ Autocomplete for Org blocks (like source blocks)
           (sequence "AGENDA(a)" "|" "DONE(d)" )))
 #+END_SRC
 ** Miscellaneous standalone global configuration changes
+*** Disable most warnings
+Honestly I'm not good enough at Emacs to make sense of most of them anyway
+#+begin_src emacs-lisp
+(setq warning-minimum-level :emergency)
+#+end_src
 *** Switch theme
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just ~M-x load-theme~.
 
