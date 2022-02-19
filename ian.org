@@ -1221,44 +1221,6 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
                                  orig-fg))))
 #+END_SRC
 (from Emacs wiki)
-*** Easily create gifs of current Emacs frames
-Figures out the frame size and passes it to ~byzanz-record~. Only works if ~byzanz-record~ is installed (it's in the repos in most distros) and only works in X11.
-
-#+BEGIN_SRC emacs-lisp
-  (defun create-gif (duration)
-    "Create a gif of the current frame with the DURATION provided."
-    (interactive "sDuration: ")
-
-    (defun width ()
-      "get the width of the frame"
-      (+ 10 (frame-pixel-width)))
-
-    (defun height ()
-      "get the height of the frame"
-      (+ 50 (frame-pixel-height)))
-
-    (defun y ()
-      "get the y position of the frame"
-      (frame-parameter nil 'top))
-
-    (defun x ()
-      "get the x position of the frame"
-      (cond ((numberp (frame-parameter nil 'left))
-             (frame-parameter nil 'left))
-            (t
-             0)))
-
-    (defun filename()
-      "get the timestamped filename of the gif"
-      (concat " ~/emacs-gifs/" (format-time-string "%Y-%m-%dT%T") ".gif"))
-
-    (if (not (file-directory-p "~/emacs-gifs"))
-        (make-directory "~/emacs-gifs"))
-    (start-process-shell-command
-     "create-gif" "*Messages*"
-     (format "byzanz-record -d %s -w %d -h %d -x %d -y %d %s"
-             duration (width) (height) (x) (y) (filename))))
-#+END_SRC
 *** Remove toolbar, scrollbars, and menu
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M-x~ for everything.
 #+BEGIN_SRC emacs-lisp
