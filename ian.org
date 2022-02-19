@@ -3,17 +3,18 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
 * What is this?
-This is my Emacs configuration, which I install at ~~/.emacs.d~ in all of my development environments. It's written in [[https://orgmode.org/][Org Mode syntax]], which is an Emacs-native plain text format (like Markdown with metadata) which displays beautifully inside of Emacs and exports to a number of other formats for display in places like this README and the Web, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment. It also serves as a living document / blog about Emacs and my development environment as it evolves to meet my changing needs.
+This is my Emacs configuration, which I install at ~~/.emacs.d~ in all of my development environments. It's written in [[https://orgmode.org/][Org Mode syntax]], which is an Emacs-native plain text format (like Markdown with metadata) which displays beautifully inside of Emacs and exports to a number of other formats for display in places like this README and the web, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment. It also serves as a living document / blog about Emacs and my development environment as it evolves to meet my changing needs.
 
-Writing the code in this file and tangling it to its final destination allows me to keep everything in one place, which helps me later figure out what changes I've made. Emacs's ~eval-last-sexp~ allows me to test the configuration as I add it to the file, which allows me to feel confident that the saved code works.
+Writing the code in this file and tangling it to its final destination allows me to keep everything in one place, which helps me later figure out what changes I've made. This may seem counterintuitive, but over time I have accumulated configuration settings and files that need to be installed outside of Emacs's configuration directory, and tangling provides me with a way to document that these files have been installed, and what their contents are, in a place where I can remember to discover them in the future.
+
+In addition, Emacs's ~eval-last-sexp~ allows me to test the configuration as I add it to the file, which allows me to feel confident that the saved code works.
 
 It also encourages me to explain what I'm doing and why, so that when I come back to the configuration in a year or two, I know what it is, and how safe it is to remove it if the configuration is no longer desired.
 
-If you're reading this on the web, the source code for this file can be found [[https://github.com/gigawhitlocks/emacs-configs/blob/master/ian.org][on Github]].
+If you're reading this on the web, the source code for this file can be found [[https://github.com/gigawhitlocks/emacs-configs/blob/master/ian.org][on GitHub]].
 If you want to try out this configuration file, run the following:
 
 #+BEGIN_SRC bash
-  #!/bin/bash
   git clone https://github.com/gigawhitlocks/emacs-configs ~/.emacs.d
   mv ~/.emacs.d/local/wintermute.org ~/.emacs.d/local/"$(hostname)".org
   emacs
@@ -274,14 +275,14 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
     (setq vc-handled-backends nil)
 #+END_SRC
 
-The Magit author publishes an additional package called [[https://emacsair.me/2018/12/19/forge-0.1/][forge]]. Forge lets you interact with Github and Gitlab from inside of Emacs. There's planned support for Gogs, Gitea, etc.
+The Magit author publishes an additional package called [[https://emacsair.me/2018/12/19/forge-0.1/][forge]]. Forge lets you interact with GitHub and Gitlab from inside of Emacs. There's planned support for Gogs, Gitea, etc.
 
 #+BEGIN_SRC emacs-lisp
     (use-package forge
       :after magit)
 #+END_SRC
 
-Forge has to be configured with something like ~.authinfo~ or preferably ~authinfo.gpg~. Create a access token through the web UI of Github and place on the first line in ~$HOME/.authinfo~ with the following format:
+Forge has to be configured with something like ~.authinfo~ or preferably ~authinfo.gpg~. Create a access token through the web UI of GitHub and place on the first line in ~$HOME/.authinfo~ with the following format:
 
 #+BEGIN_SRC bash
 host api.github.com login gigawhitlocks^forge password TOKEN
@@ -1350,7 +1351,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 *** TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
 
 ** Render this file for display on the web
-This defines a command that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
+This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
 #+BEGIN_SRC emacs-lisp
   (defun render-configfile-for-web ()
