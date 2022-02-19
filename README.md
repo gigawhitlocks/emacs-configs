@@ -1,25 +1,26 @@
-- [What is this?](#org458a891)
-- [Entrypoint](#orgcf66908)
-- [My Environment](#orgfe055d0)
-  - [Bootstrap](#org8058461)
-  - [Package Installation and Configuration](#org290a76a)
-  - [Extra Packages](#org98fb365)
-  - [Language Configuration](#org38325fa)
-  - [Global Keybindings](#org3089468)
-  - [Org Mode Settings](#org52acaa9)
-  - [Miscellaneous standalone global configuration changes](#org2cea5e1)
-  - [ERC (IRC config)](#org353a5ca)
-  - [Render this file for display on the web](#org12bae9d)
-  - [Hostname-based tweaks](#orgc3cc42a)
-  - [Footer](#orgd9d5d0a)
-  - [Styles for HTML export](#orgc180639)
-  - [Launching Emacsclient](#org2069dfb)
-  - [Update README.md git hook](#orgc87b438)
-  - [Running Emacs as a daemon](#org60703f3)
+- [What is this?](#orgcd09faf)
+- [Entrypoint](#org673c370)
+- [My Environment](#org214d7f8)
+  - [Bootstrap](#orgddf692e)
+  - [Package Installation and Configuration](#orgc234be3)
+  - [Extra Packages](#orgcd04b60)
+  - [Language Configuration](#org08cd47e)
+  - [Global Keybindings](#orgf98945b)
+  - [Org Mode Settings](#org76cf090)
+  - [Miscellaneous standalone global configuration changes](#orgb807843)
+  - [ERC (IRC config)](#orgec42c75)
+  - [Render this file for display on the web](#org0fb80cb)
+  - [Hostname-based tweaks](#orge6f231f)
+  - [Footer](#orga40178a)
+  - [Styles for HTML export](#org739cffd)
+  - [Launching Emacsclient](#org8b728d3)
+  - [Update README.md git hook](#orgfd550a2)
+  - [Running Emacs as a daemon](#org0c7361f)
+  - [Opening Code Links in Emacs](#org16842b9)
 
 
 
-<a id="org458a891"></a>
+<a id="orgcd09faf"></a>
 
 # What is this?
 
@@ -38,12 +39,8 @@ emacs
 
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have! Hopefully this file is readable enough that individual snippets are understandable and can be taken *a la carté*.
 
-Here is a screenshot of this file being edited with this configuration:
 
-![img](Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png)
-
-
-<a id="orgcf66908"></a>
+<a id="org673c370"></a>
 
 # Entrypoint
 
@@ -93,20 +90,16 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgfe055d0"></a>
+<a id="org214d7f8"></a>
 
 # My Environment
 
-The point of Emacs, and the reason every Emacs user should write his or her own configuration, is to build your own environment so that it behaves how you want it to.
-
-This may seem to be a lot of work, and it is. But if a serious guitar player might have a custom guitar built, I see no reason I shouldn't use a custom environment for my craft.
-
 **This is where my environment definition begins**
 
-After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed. Right now all configuration other than the entrypoint is in this file.
+After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed.
 
 
-<a id="org8058461"></a>
+<a id="orgddf692e"></a>
 
 ## Bootstrap
 
@@ -125,10 +118,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 ;;; here we are for better or worse
 ;;;
 ;;; Code:
-
-  ;; manual PATH management
-  ;;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-  ;;(add-to-list 'exec-path "/usr/local/bin" t)
 
   (require 'package)
   (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -160,20 +149,11 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org290a76a"></a>
+<a id="orgc234be3"></a>
 
 ## Package Installation and Configuration
 
-First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
-
-
-### Treemacs
-
-```emacs-lisp
-(use-package all-the-icons)
-(use-package treemacs)
-(use-package treemacs-all-the-icons)
-```
+First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 
 ### Theme
@@ -196,6 +176,17 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 ```emacs-lisp
 (use-package solaire-mode)
 (solaire-global-mode +1)
+```
+
+
+### Treemacs
+
+Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
+
+```emacs-lisp
+(use-package all-the-icons)
+(use-package treemacs)
+(use-package treemacs-all-the-icons)
 ```
 
 
@@ -245,6 +236,10 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 (projectile-mode +1)
 ```
 
+-   TODO I've read about something called project.el
+
+    The impression that I got was that `project.el` is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate `project.el`.
+
 
 ### Install and Configure Evil Mode
 
@@ -288,7 +283,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org3089468) section.
+It's mostly used below in the [global keybindings](#orgf98945b) section.
 
 ```emacs-lisp
 (use-package general
@@ -464,12 +459,14 @@ Actually, looking at the project page, the icons don't seem to be working for me
 
 [GNU Hyperbole](https://www.gnu.org/software/hyperbole/) adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
 
-It adds a slew of other features as well &#x2013; hyperlinks between documents, a rolodex, a list builder. I don't use it all, but the parts I use are pretty critical.
+It adds a slew of other features as well &#x2013; hyperlinks between documents, a rolodex, a list builder.
 
 ```emacs-lisp
 ;; gnu hyperbole
 (use-package hyperbole)
 ```
+
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt; </span></span> It turns out that the *only* feature I use from Hyperbole is the window dragging feature. I wonder if that's provided by any other, lighter-weight package? 🤔 Or maybe I should give some of the other features another look?
 
 
 ### Install templating tool and default snippets
@@ -494,7 +491,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="org98fb365"></a>
+<a id="orgcd04b60"></a>
 
 ## Extra Packages
 
@@ -627,7 +624,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="org38325fa"></a>
+<a id="org08cd47e"></a>
 
 ## Language Configuration
 
@@ -1088,7 +1085,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org3089468"></a>
+<a id="orgf98945b"></a>
 
 ## Global Keybindings
 
@@ -1188,7 +1185,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org52acaa9"></a>
+<a id="org76cf090"></a>
 
 ## Org Mode Settings
 
@@ -1270,7 +1267,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="org2cea5e1"></a>
+<a id="orgb807843"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1541,7 +1538,110 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="org353a5ca"></a>
+### Set up global font settings
+
+First, just define a helper function for setting a font and changing it immediately
+
+```emacs-lisp
+(defun set-font (font)
+  (set-face-attribute 'default nil :font font )
+  (set-frame-font font nil t))
+```
+
+The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
+
+-   FiraCode Font Installation Script
+
+    Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt; </span></span> with just
+    
+        sudo apt install fonts-firacode
+    
+    because I don't intend to use Ubuntu as my only system forever. I just happen to be on Ubuntu on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span>.
+    
+    But first, I want to be able to run this script every time Emacs starts, but only have the script actually do anything if the font is not already installed.
+    
+    This guard will check to see if there's any font with 'fira' in it (case insensitive) and if so, just exits the script. This will happen on most executions.
+    
+    ```bash
+    set -eo pipefail
+    [[ $(fc-list | grep -i fira) != "" ]] && exit 0
+    ```
+    
+    Now here's the standard installation script, stripped of the shebang to go after my guard
+    
+    ```bash
+    fonts_dir="${HOME}/.local/share/fonts"
+    if [ ! -d "${fonts_dir}" ]; then
+        echo "mkdir -p $fonts_dir"
+        mkdir -p "${fonts_dir}"
+    else
+        echo "Found fonts dir $fonts_dir"
+    fi
+    
+    version=5.2
+    zip=Fira_Code_v${version}.zip
+    curl --fail --location --show-error https://github.com/tonsky/FiraCode/releases/download/${version}/${zip} --output ${zip}
+    unzip -o -q -d ${fonts_dir} ${zip}
+    rm ${zip}
+    
+    echo "fc-cache -f"
+    fc-cache -f
+    ```
+    
+    This installation script was sourced from <https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager>
+
+-   Enable FiraCode Font
+
+    Calling the script from above will install the font
+    
+    ```emacs-lisp
+    (shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
+    (shell-command "~/.emacs.d/install-firacode-font.bash")
+    ```
+    
+    Now Emacs can be configured to use it with confidence, using the helper function defined earlier:
+    
+    ```emacs-lisp
+    (set-font "Fira Code")
+    ```
+
+-   Configure FiraCode special features
+
+    FiraCode offers ligatures for programming symbols, which is cool.
+    
+    -   TODO Use the new method after upgrading to Emacs 28
+    
+        The following, taken from the [installation guide](https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel), enables these using the `ligature.el` method:
+        
+        ```emacs-lisp
+        ;; ;; Enable the www ligature in every possible major mode
+        ;; (ligature-set-ligatures 't '("www"))
+        
+        ;; ;; Enable ligatures in programming modes                                                           
+        ;; (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+        ;;                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+        ;;                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+        ;;                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+        ;;                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+        ;;                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+        ;;                                      "=" ">>-" ">>=" ">>>" "<*"
+        ;;                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+        ;;                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+        ;;                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+        
+        ;; (global-ligature-mode 't)
+        ```
+        
+        Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span> In the future I would like to use this approach, so I will leave it commented out above.
+    
+    -   Configure with a less-optimal method
+    
+        ```emacs-lisp
+        
+        ```
+
+
+<a id="orgec42c75"></a>
 
 ## ERC (IRC config)
 
@@ -1603,7 +1703,10 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org12bae9d"></a>
+### TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
+
+
+<a id="org0fb80cb"></a>
 
 ## Render this file for display on the web
 
@@ -1629,25 +1732,19 @@ This defines a command that will export this file to Github flavored Markdown an
 ```
 
 
-<a id="orgc3cc42a"></a>
+<a id="orge6f231f"></a>
 
 ## Hostname-based tweaks
 
-Looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the same as the hostname of the machine. I don't know what this does if you try to run Emacs in Windows because I don't do that, but on Mac and Linux it shells out to call `hostname` to determine the hostname. Then Emacs tangles that .org file to a .el file and executes it, allowing configuration to diverge to meet needs that are unique to a specific workstation.
+This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
 
-Right now I have four? (4?) configurations:
+1.  looks for Org files in `/home/$USER/.emacs.d/local/` with a name that is the same as the hostname of the machine.
+2.  shells out to call `hostname` to determine the hostname.
+3.  tangles that .org file to a .el file and executes it
 
--   [my server](./local/relay.md)
--   [my work machine](./local/rocinante.md)
--   [my laptop](./local/wintermute.md)
--   [my&#x2026; desktop?](./local/terminus.md)
+This allows configuration to diverge to meet needs that are unique to a specific workstation.
 
 ```emacs-lisp
-;; simplifies setting a font and changing it immediately
-(defun set-font (font)
-  (set-face-attribute 'default nil :font font )
-  (set-frame-font font nil t))
-
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right
 		 (shell-command-to-string "hostname"))))
@@ -1661,10 +1758,10 @@ Right now I have four? (4?) configurations:
      (require 'local)))
 ```
 
-There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
+There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="orgd9d5d0a"></a>
+<a id="orga40178a"></a>
 
 ## Footer
 
@@ -1675,7 +1772,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="orgc180639"></a>
+<a id="org739cffd"></a>
 
 ## Styles for HTML export
 
@@ -1762,7 +1859,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org2069dfb"></a>
+<a id="org8b728d3"></a>
 
 ## Launching Emacsclient
 
@@ -1806,7 +1903,7 @@ fi
 ```
 
 
-<a id="orgc87b438"></a>
+<a id="orgfd550a2"></a>
 
 ## Update README.md git hook
 
@@ -1820,7 +1917,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="org60703f3"></a>
+<a id="org0c7361f"></a>
 
 ## Running Emacs as a daemon
 
@@ -1875,7 +1972,9 @@ StartupWMClass=Emacs
 ```
 
 
-### TODO Opening Code Links in Emacs
+<a id="org16842b9"></a>
+
+## TODO Opening Code Links in Emacs
 
 1.  Use this to add a MIME handler for emacs:// links to open in Emacs
 
