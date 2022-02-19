@@ -19,12 +19,6 @@ If you want to try out this configuration file, run the following:
 
 No guarantees, though. This stuff is for personal use, so it isn't tested on systems I don't have! Hopefully this file is readable enough that individual snippets are understandable and can be taken /a la carté/.
 
-Here is a screenshot of this file being edited with this configuration:
-
-
-#+DOWNLOADED: file:///home/ian/Pictures/Screenshot%20from%202020-10-07%2021-58-41.png @ 2020-10-07 22:02:26
-[[file:Entrypoint/2020-10-07_22-02-26_Screenshot%2520from%25202020-10-07%252021-58-41.png]]
-
 * Entrypoint
 :properties:
 :header-args: :tangle ~/.emacs.d/init.el :comments link
@@ -80,13 +74,9 @@ The rest of the code that is executed begins with the routines defined by this f
 :header-args: :tangle yes :comments link :noweb yes
 :end:
 
-The point of Emacs, and the reason every Emacs user should write his or her own configuration, is to build your own environment so that it behaves how you want it to.
-
-This may seem to be a lot of work, and it is. But if a serious guitar player might have a custom guitar built, I see no reason I shouldn't use a custom environment for my craft.
-
 *This is where my environment definition begins*
 
-After running the ~init.el~ entrypoint, this file is tangled to ~ian.el~ and executed. Right now all configuration other than the entrypoint is in this file.
+After running the ~init.el~ entrypoint, this file is tangled to ~ian.el~ and executed.
 
 ** Bootstrap
 The first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with ~git~, so I use ~use-package~ to ensure that packages are installed from my configuration file.
@@ -104,10 +94,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
   ;;; here we are for better or worse
   ;;;
   ;;; Code:
-
-    ;; manual PATH management
-    ;;(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
-    ;;(add-to-list 'exec-path "/usr/local/bin" t)
 
     (require 'package)
     (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -139,13 +125,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 ** Package Installation and Configuration
-First I need to install packages with a large effect and which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
-*** Treemacs
-#+begin_src emacs-lisp
-  (use-package all-the-icons)
-  (use-package treemacs)
-  (use-package treemacs-all-the-icons)
-#+end_src
+First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 *** Theme
 Going to try out the Doom themepack because why not.
 
@@ -164,6 +144,15 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 #+begin_src emacs-lisp
   (use-package solaire-mode)
   (solaire-global-mode +1)
+#+end_src
+
+*** Treemacs
+Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
+
+#+begin_src emacs-lisp
+  (use-package all-the-icons)
+  (use-package treemacs)
+  (use-package treemacs-all-the-icons)
 #+end_src
 
 *** Emoji 🙏
@@ -202,6 +191,10 @@ It's great, it gets installed early, can't live without it. 💘 ~projectile~
   (use-package treemacs-projectile)
   (projectile-mode +1)
 #+END_SRC
+
+**** TODO I've read about something called project.el
+The impression that I got was that ~project.el~ is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate ~project.el~.
+
 *** Install and Configure Evil Mode
 [[https://github.com/emacs-evil/evil][~evil-mode~]] fundamentally changes Emacs so that while editing all of the modes and keybindings from ~vim~ are present.
 It's controversial but I think modal editing is brilliant and have been using ~vim~ bindings since the mid-aughts. No going back.
@@ -391,11 +384,14 @@ Actually, looking at the project page, the icons don't seem to be working for me
 *** Install and Configure GNU Hyperbole
 [[https://www.gnu.org/software/hyperbole/][GNU Hyperbole]] adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
 
-It adds a slew of other features as well -- hyperlinks between documents, a rolodex, a list builder. I don't use it all, but the parts I use are pretty critical.
+It adds a slew of other features as well -- hyperlinks between documents, a rolodex, a list builder.
 #+BEGIN_SRC emacs-lisp
     ;; gnu hyperbole
     (use-package hyperbole)
 #+END_SRC
+
+<2022-02-19 Sat> It turns out that the /only/ feature I use from Hyperbole is the window dragging feature. I wonder if that's provided by any other, lighter-weight package? 🤔 Or maybe I should give some of the other features another look?
+
 *** Install templating tool and default snippets
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more.
 [[https://www.emacswiki.org/emacs/Yasnippet][Here are the YASnippet docs.]]
@@ -1347,6 +1343,8 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
     )
 #+END_SRC
 
+*** TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
+
 ** Render this file for display on the web
 This defines a command that will export this file to Github flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
@@ -1586,7 +1584,7 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
   StartupWMClass=Emacs
 #+end_src
 
-*** TODO Opening Code Links in Emacs
+** TODO Opening Code Links in Emacs
 1. Use this to add a MIME handler for emacs:// links to open in Emacs
 https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop
 2. Add a bookmarlet to rewrite https://bitbucket links to emacs:// links and send them to Emacs from Chrome or Firefox
