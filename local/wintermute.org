@@ -2,12 +2,7 @@
 
 Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
-
-* Font
-#+BEGIN_SRC emacs-lisp
-;;(setq default-frame-alist '((font . "Inconsolata-10")))
-    ;;(set-font "Inconsolata-10")
-#+END_SRC
+(Wow I can't believe this is empty)
 
 * Footer
 #+BEGIN_SRC emacs-lisp

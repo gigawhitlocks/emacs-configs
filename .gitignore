@@ -35,4 +35,4 @@ tramp
 session*
 .dap-breakpoints
 .extension/
-./install-firacode-font.bash
+install-firacode-font.bash

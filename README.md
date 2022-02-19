@@ -1,26 +1,27 @@
-- [What is this?](#org5359559)
-- [Entrypoint](#org952c729)
-- [My Environment](#orge7b8446)
-  - [Bootstrap](#org25b4311)
-  - [Package Installation and Configuration](#org77f54b0)
-  - [Extra Packages](#org7e68856)
-  - [Language Configuration](#org84eb74a)
-  - [Global Keybindings](#org44f8454)
-  - [Org Mode Settings](#org7bd3c7c)
-  - [Miscellaneous standalone global configuration changes](#org8c2af32)
-  - [ERC (IRC config)](#org59eb844)
-  - [Render this file for display on the web](#org6ffa522)
-  - [Hostname-based tweaks](#orgd78837b)
-  - [Footer](#orgf0ca6e7)
-  - [Styles for HTML export](#orgcba8422)
-  - [Launching Emacsclient](#org9424e89)
-  - [Update README.md git hook](#org75435d8)
-  - [Running Emacs as a daemon](#orgffc846b)
-  - [Opening Code Links in Emacs](#orgb422896)
+- [What is this?](#org87d090c)
+- [Entrypoint](#orgbb5b5d6)
+- [My Environment](#orge2323ee)
+  - [Bootstrap](#orgc9cdda0)
+  - [Package Installation and Configuration](#orgec515cd)
+  - [Extra Packages](#orge282871)
+  - [Language Configuration](#org603519a)
+  - [Global Keybindings](#orge2b9295)
+  - [Font](#org771f229)
+  - [Org Mode Settings](#orgcb8b4ee)
+  - [Miscellaneous standalone global configuration changes](#orgaf83a6f)
+  - [ERC (IRC config)](#org89da541)
+  - [Render this file for display on the web](#org247af6f)
+  - [Hostname-based tweaks](#orga848a11)
+  - [Footer](#org355fec4)
+  - [Styles for HTML export](#orgbb4efc9)
+  - [Launching Emacsclient](#orga996a2b)
+  - [Update README.md git hook](#org1a3a79b)
+  - [Running Emacs as a daemon](#orgf466dce)
+  - [Opening Code Links in Emacs](#org7c9ef5b)
 
 
 
-<a id="org5359559"></a>
+<a id="org87d090c"></a>
 
 # What is this?
 
@@ -45,7 +46,7 @@ There are no guarantees that this configuration will work for you out of the box
 I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 
-<a id="org952c729"></a>
+<a id="orgbb5b5d6"></a>
 
 # Entrypoint
 
@@ -95,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orge7b8446"></a>
+<a id="orge2323ee"></a>
 
 # My Environment
 
@@ -104,7 +105,7 @@ The rest of the code that is executed begins with the routines defined by this f
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed.
 
 
-<a id="org25b4311"></a>
+<a id="orgc9cdda0"></a>
 
 ## Bootstrap
 
@@ -154,7 +155,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org77f54b0"></a>
+<a id="orgec515cd"></a>
 
 ## Package Installation and Configuration
 
@@ -288,7 +289,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org44f8454) section.
+It's mostly used below in the [global keybindings](#orge2b9295) section.
 
 ```emacs-lisp
 (use-package general
@@ -496,7 +497,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="org7e68856"></a>
+<a id="orge282871"></a>
 
 ## Extra Packages
 
@@ -629,7 +630,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="org84eb74a"></a>
+<a id="org603519a"></a>
 
 ## Language Configuration
 
@@ -1090,7 +1091,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org44f8454"></a>
+<a id="orge2b9295"></a>
 
 ## Global Keybindings
 
@@ -1173,6 +1174,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   "ta"     'treemacs-add-project-to-workspace
   "ts"     'toggle-screaming
   "tt"     'toggle-transparency
+  "tl"     'toggle-ligatures
   "w-"     'split-window-below
   "w/"     'split-window-right
   "wa"     'ace-window
@@ -1190,7 +1192,184 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org7bd3c7c"></a>
+<a id="org771f229"></a>
+
+## Font
+
+First, just define a helper function for setting a font and changing it immediately
+
+```emacs-lisp
+(defun set-font (font)
+  (set-face-attribute 'default nil :font font )
+  (set-frame-font font nil t))
+```
+
+The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
+
+-   FiraCode Font Installation Script
+
+    Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt; </span></span> with just
+    
+        sudo apt install fonts-firacode
+    
+    because I don't intend to use Ubuntu as my only system forever. I just happen to be on Ubuntu on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span>.
+    
+    But first, I want to be able to run this script every time Emacs starts, but only have the script actually do anything if the font is not already installed.
+    
+    This guard will check to see if there's any font with 'fira' in it (case insensitive) and if so, just exits the script. This will happen on most executions.
+    
+    ```bash
+    set -eo pipefail
+    [[ $(fc-list | grep -i fira) != "" ]] && exit 0
+    ```
+    
+    Now here's the standard installation script, stripped of the shebang to go after my guard
+    
+    ```bash
+    fonts_dir="${HOME}/.local/share/fonts"
+    if [ ! -d "${fonts_dir}" ]; then
+        mkdir -p "${fonts_dir}"
+    fi
+    
+    version=5.2
+    zip=Fira_Code_v${version}.zip
+    curl --fail --location --show-error https://github.com/tonsky/FiraCode/releases/download/${version}/${zip} --output ${zip}
+    unzip -o -q -d ${fonts_dir} ${zip}
+    rm ${zip}
+    
+    # for now we need the Symbols font, too
+    zip=FiraCode-Regular-Symbol.zip
+    curl --fail --location --show-error https://github.com/tonsky/FiraCode/files/412440/${zip} --output ${zip}
+    unzip -o -q -d ${fonts_dir} ${zip}
+    rm ${zip}
+    
+    fc-cache -f
+    ```
+    
+    This installation script was sourced from <https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager>
+
+-   Enable FiraCode Font
+
+    Calling the script from above will install the font
+    
+    ```emacs-lisp
+    (shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
+    (shell-command "~/.emacs.d/install-firacode-font.bash")
+    ```
+    
+    Now Emacs can be configured to use it with confidence, using the helper function defined earlier:
+    
+    ```emacs-lisp
+    (setq default-frame-alist '((font . "Fira Code-12")))
+    (set-font "Fira Code-12")
+    ```
+
+-   Configure FiraCode special features
+
+    FiraCode offers ligatures for programming symbols, which is cool.
+    
+    -   TODO Use the new method after upgrading to Emacs 28
+    
+        The following, taken from the [installation guide](https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel), enables these using the `ligature.el` method:
+        
+        ```emacs-lisp
+        ;; ;; Enable the www ligature in every possible major mode
+        ;; (ligature-set-ligatures 't '("www"))
+        
+        ;; ;; Enable ligatures in programming modes                                                           
+        ;; (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+        ;;                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+        ;;                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+        ;;                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+        ;;                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+        ;;                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+        ;;                                      "=" ">>-" ">>=" ">>>" "<*"
+        ;;                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+        ;;                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+        ;;                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+        
+        ;; (global-ligature-mode 't)
+        ```
+        
+        Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span> In the future I would like to use this approach, so I will leave it commented out above.
+    
+    -   Configure with a less-optimal method
+    
+        Ligatures have turned out to be a bigger pain than I'd hoped. This is the suboptimal configuration that I'll keep until Emacs 28 comes out. Once that's out, I can delete all of this, and also I can remove the fetch and installation of the FiraCode Symbols font in the installation script above.
+        
+        First of all, install the helper mode:
+        
+        ```emacs-lisp
+        (use-package fira-code-mode
+          ;; List of ligatures to turn off
+          :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
+          )
+        ```
+        
+        But the ligatures are broken in the terminal with this mode. I would prefer that they just get disabled automatically when opening buffers in the terminal, but I guess the maintainer of `fira-code-mode` doesn't use the terminal
+        
+        I do so I at least need to be able to quickly turn the ligatures off, and shouldn't automatically turn them on when opening a file in the terminal.
+        
+        First I needed a helper method to determine what buffers are active
+        
+        ```emacs-lisp
+        ;; https://emacs.stackexchange.com/questions/10785/get-list-of-active-minor-modes-in-buffer
+        (defun isw-get-active-minor-modes-in-buffer-list ()
+          "Get a list of which minor modes are enabled in the current buffer."
+          (let ($list)
+            (mapc (lambda ($mode)
+        	    (condition-case nil
+        		(if (and (symbolp $mode) (symbol-value $mode))
+        		    (setq $list (cons $mode $list)))
+        	      (error nil)))
+        	  minor-mode-list)
+            (sort $list 'string<)))
+        ```
+        
+        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the Global Keybindings section.
+        
+        ```emacs-lisp
+        (defun toggle-ligatures ()
+          (interactive)
+          (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
+              (fira-code-mode -1)
+            (fira-code-mode))
+          (redraw-display)
+          )
+        
+        
+        ```
+        
+        Finally, define the hook so that it doesn't automatically turn ligatures on when opening files in the terminal.
+        
+        ```emacs-lisp
+        (defun isw-enable-ligatures-hook () 
+          (if (not (equal (window-system) nil))
+              (fira-code-mode 1)
+            ))
+        
+        (add-hook 'prog-mode-hook 'isw-enable-ligatures-hook)
+        ```
+        
+        This solves the problem except when visiting a buffer in teminal which is already open in the GUI. I couldn't quite get this working, so it's commented out, but this is supposed to disable fira-code-mode when visiting the buffer. The helper works when I run it manually, but something is wrong about how I'm using `window-selection-change-functions` I guess.
+        
+        ```emacs-lisp
+        ;; (defun isw-disable-ligatures-in-terminals ()
+        ;;   (print "running")
+        ;;   (if (equal (window-system) nil)
+        ;;       (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
+        ;;           (progn
+        ;;             (print "deactivating")
+        ;;             (fira-code-mode -1))
+        ;;         )))
+        
+        ;; (add-hook 'window-selection-change-functions 'isw-disable-ligatures-in-terminals)
+        ```
+        
+        Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
+
+
+<a id="orgcb8b4ee"></a>
 
 ## Org Mode Settings
 
@@ -1272,9 +1451,18 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="org8c2af32"></a>
+<a id="orgaf83a6f"></a>
 
 ## Miscellaneous standalone global configuration changes
+
+
+### Disable most warnings
+
+Honestly I'm not good enough at Emacs to make sense of most of them anyway
+
+```emacs-lisp
+(setq warning-minimum-level :emergency)
+```
 
 
 ### Switch theme
@@ -1502,110 +1690,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-### Set up global font settings
-
-First, just define a helper function for setting a font and changing it immediately
-
-```emacs-lisp
-(defun set-font (font)
-  (set-face-attribute 'default nil :font font )
-  (set-frame-font font nil t))
-```
-
-The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
-
--   FiraCode Font Installation Script
-
-    Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt; </span></span> with just
-    
-        sudo apt install fonts-firacode
-    
-    because I don't intend to use Ubuntu as my only system forever. I just happen to be on Ubuntu on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span>.
-    
-    But first, I want to be able to run this script every time Emacs starts, but only have the script actually do anything if the font is not already installed.
-    
-    This guard will check to see if there's any font with 'fira' in it (case insensitive) and if so, just exits the script. This will happen on most executions.
-    
-    ```bash
-    set -eo pipefail
-    [[ $(fc-list | grep -i fira) != "" ]] && exit 0
-    ```
-    
-    Now here's the standard installation script, stripped of the shebang to go after my guard
-    
-    ```bash
-    fonts_dir="${HOME}/.local/share/fonts"
-    if [ ! -d "${fonts_dir}" ]; then
-        echo "mkdir -p $fonts_dir"
-        mkdir -p "${fonts_dir}"
-    else
-        echo "Found fonts dir $fonts_dir"
-    fi
-    
-    version=5.2
-    zip=Fira_Code_v${version}.zip
-    curl --fail --location --show-error https://github.com/tonsky/FiraCode/releases/download/${version}/${zip} --output ${zip}
-    unzip -o -q -d ${fonts_dir} ${zip}
-    rm ${zip}
-    
-    echo "fc-cache -f"
-    fc-cache -f
-    ```
-    
-    This installation script was sourced from <https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager>
-
--   Enable FiraCode Font
-
-    Calling the script from above will install the font
-    
-    ```emacs-lisp
-    (shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
-    (shell-command "~/.emacs.d/install-firacode-font.bash")
-    ```
-    
-    Now Emacs can be configured to use it with confidence, using the helper function defined earlier:
-    
-    ```emacs-lisp
-    (set-font "Fira Code")
-    ```
-
--   Configure FiraCode special features
-
-    FiraCode offers ligatures for programming symbols, which is cool.
-    
-    -   TODO Use the new method after upgrading to Emacs 28
-    
-        The following, taken from the [installation guide](https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel), enables these using the `ligature.el` method:
-        
-        ```emacs-lisp
-        ;; ;; Enable the www ligature in every possible major mode
-        ;; (ligature-set-ligatures 't '("www"))
-        
-        ;; ;; Enable ligatures in programming modes                                                           
-        ;; (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-        ;;                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-        ;;                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-        ;;                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-        ;;                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-        ;;                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-        ;;                                      "=" ">>-" ">>=" ">>>" "<*"
-        ;;                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-        ;;                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-        ;;                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-        
-        ;; (global-ligature-mode 't)
-        ```
-        
-        Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span> In the future I would like to use this approach, so I will leave it commented out above.
-    
-    -   Configure with a less-optimal method
-    
-        ```emacs-lisp
-        
-        ```
-
-
-<a id="org59eb844"></a>
+<a id="org89da541"></a>
 
 ## ERC (IRC config)
 
@@ -1670,7 +1755,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ### TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
 
 
-<a id="org6ffa522"></a>
+<a id="org247af6f"></a>
 
 ## Render this file for display on the web
 
@@ -1696,7 +1781,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="orgd78837b"></a>
+<a id="orga848a11"></a>
 
 ## Hostname-based tweaks
 
@@ -1725,7 +1810,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="orgf0ca6e7"></a>
+<a id="org355fec4"></a>
 
 ## Footer
 
@@ -1736,7 +1821,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="orgcba8422"></a>
+<a id="orgbb4efc9"></a>
 
 ## Styles for HTML export
 
@@ -1823,7 +1908,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org9424e89"></a>
+<a id="orga996a2b"></a>
 
 ## Launching Emacsclient
 
@@ -1867,7 +1952,7 @@ fi
 ```
 
 
-<a id="org75435d8"></a>
+<a id="org1a3a79b"></a>
 
 ## Update README.md git hook
 
@@ -1881,7 +1966,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="orgffc846b"></a>
+<a id="orgf466dce"></a>
 
 ## Running Emacs as a daemon
 
@@ -1936,7 +2021,7 @@ StartupWMClass=Emacs
 ```
 
 
-<a id="orgb422896"></a>
+<a id="org7c9ef5b"></a>
 
 ## TODO Opening Code Links in Emacs
 
