@@ -155,6 +155,7 @@ Going to try out the Doom themepack because why not.
       ;; Global settings (defaults)
       (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
             doom-themes-enable-italic t
+            doom-themes-treemacs-theme "doom-colors"
       ) ; if nil, italics is universally disabled
       (load-theme 'doom-vibrant t)
       ;; Corrects (and improves) org-mode's native fontification.

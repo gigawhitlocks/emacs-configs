@@ -1,27 +1,27 @@
-- [What is this?](#org92d5f6c)
-- [Entrypoint](#orgbbb3c14)
-- [My Environment](#org45cbc4a)
-  - [Bootstrap](#org042da4b)
-  - [Package Installation and Configuration](#org390e3b8)
-  - [Extra Packages](#org3156c17)
-  - [Font](#orgca45723)
-  - [Language Configuration](#orgf38a2fe)
-  - [Global Keybindings](#orgbdc1d37)
-  - [Org Mode Settings](#org15a1f8d)
-  - [Miscellaneous standalone global configuration changes](#orgdb57f0b)
-  - [ERC (IRC config)](#orge62cbda)
-  - [Render this file for display on the web](#org9e8f92d)
-  - [Hostname-based tweaks](#orgce0fbd3)
-  - [Footer](#orgba3a21d)
-  - [Styles for HTML export](#org0317793)
-  - [Launching Emacsclient](#orga5f7062)
-  - [Update README.md git hook](#org808a93e)
-  - [Running Emacs properly from the GUI](#org762db63)
-  - [Opening Code Links in Emacs](#org0dfd712)
+- [What is this?](#orgd80dcff)
+- [Entrypoint](#org69a2168)
+- [My Environment](#org592c33e)
+  - [Bootstrap](#orge88ea66)
+  - [Package Installation and Configuration](#orgc8bbbd3)
+  - [Extra Packages](#org5ce340b)
+  - [Font](#org1d6ed12)
+  - [Language Configuration](#orge3ed658)
+  - [Global Keybindings](#org84428fc)
+  - [Org Mode Settings](#orgf4d1931)
+  - [Miscellaneous standalone global configuration changes](#org1a99419)
+  - [ERC (IRC config)](#org64bceaf)
+  - [Render this file for display on the web](#org851556f)
+  - [Hostname-based tweaks](#orgfa5e1c9)
+  - [Footer](#org47c3680)
+  - [Styles for HTML export](#orgbd50c5d)
+  - [Launching Emacsclient](#org594c9b6)
+  - [Update README.md git hook](#org2812378)
+  - [Running Emacs properly from the GUI](#org447c5de)
+  - [Opening Code Links in Emacs](#org5c35029)
 
 
 
-<a id="org92d5f6c"></a>
+<a id="orgd80dcff"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ There are no guarantees that this configuration will work for you out of the box
 I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 
-<a id="orgbbb3c14"></a>
+<a id="org69a2168"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org45cbc4a"></a>
+<a id="org592c33e"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ The rest of the code that is executed begins with the routines defined by this f
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed.
 
 
-<a id="org042da4b"></a>
+<a id="orge88ea66"></a>
 
 ## Bootstrap
 
@@ -155,7 +155,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org390e3b8"></a>
+<a id="orgc8bbbd3"></a>
 
 ## Package Installation and Configuration
 
@@ -193,6 +193,7 @@ Going to try out the Doom themepack because why not.
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
 	doom-themes-enable-italic t
+	doom-themes-treemacs-theme "doom-colors"
   ) ; if nil, italics is universally disabled
   (load-theme 'doom-vibrant t)
   ;; Corrects (and improves) org-mode's native fontification.
@@ -302,7 +303,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgbdc1d37) section.
+It's mostly used below in the [global keybindings](#org84428fc) section.
 
 ```emacs-lisp
 (use-package general
@@ -510,7 +511,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="org3156c17"></a>
+<a id="org5ce340b"></a>
 
 ## Extra Packages
 
@@ -643,7 +644,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="orgca45723"></a>
+<a id="org1d6ed12"></a>
 
 ## Font
 
@@ -769,7 +770,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
             (sort $list 'string<)))
         ```
         
-        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#orgbdc1d37) section.
+        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#org84428fc) section.
         
         ```emacs-lisp
         (defun toggle-ligatures ()
@@ -810,7 +811,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
         Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
-<a id="orgf38a2fe"></a>
+<a id="orge3ed658"></a>
 
 ## Language Configuration
 
@@ -842,11 +843,26 @@ LSP provides a generic interface for text editors to talk to various language se
 
 ;; helm integration
 (use-package helm-lsp)
+
+(setq lsp-eldoc-enable-hover t)
+(setq lsp-ui-doc-enable t)
+(setq lsp-ui-doc-include-signature t)
+(setq lsp-ui-doc-position 'at-point)
+(setq lsp-ui-doc-use-childframe nil)
+(setq lsp-ui-doc-use-webkit nil)
 ```
 
-I found lsp-ui very finicky to configure so most of the configuration is in Customize, at least for now.
+-   Fix background color of lsp-ui-doc in various themes
 
-It might be worth exploring elgot someday.
+    By default, for some reason, lsp-ui-doc chooses an ugly background color that looks bad and doesn't match the background surrounding most of the text.
+    
+    I had to edit a few faces with Customize. Some notes:
+    
+    1.  Using lsp-ui-doc's child frame mode causes lsp-ui-doc-background to be ignored for some reason so `lsp-ui-doc-use-childframe` must be `nil`
+    
+    2.  By default, the background color is interrupted by a mismatch with `markdown-code-face` which doesn't match `lsp-ui-doc-background`
+    
+    3.  Thus, `lsp-ui-doc-background` is set via `M-x customize-face` to inherit from (match) `markdown-code-face` and saved in `.emacs-custom.el`
 
 
 ### Tree Sitter
@@ -1280,7 +1296,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgbdc1d37"></a>
+<a id="org84428fc"></a>
 
 ## Global Keybindings
 
@@ -1382,7 +1398,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org15a1f8d"></a>
+<a id="orgf4d1931"></a>
 
 ## Org Mode Settings
 
@@ -1464,7 +1480,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orgdb57f0b"></a>
+<a id="org1a99419"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1489,20 +1505,6 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
   "Disable current theme before loading new one."
   (mapcar #'disable-theme custom-enabled-themes))
 (advice-add 'load-theme :before #'load-theme--disable-old-theme)
-```
-
-
-### Fix background color of lsp-ui-doc in various themes
-
-```emacs-lisp
-(defun lsp-ui-doc-moe-light-background ()
-  (set-face-attribute 'lsp-ui-doc-background nil :background "#D8D8D8" ))
-
-(defun lsp-ui-doc-moe-dark-background ()
-  (set-face-attribute 'lsp-ui-doc-background nil :background "#353535" ))
-
-(advice-add 'moe-light :after #'lsp-ui-doc-moe-light-background)
-(advice-add 'moe-dark :after #'lsp-ui-doc-moe-dark-background)
 ```
 
 
@@ -1703,7 +1705,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="orge62cbda"></a>
+<a id="org64bceaf"></a>
 
 ## ERC (IRC config)
 
@@ -1768,7 +1770,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ### TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
 
 
-<a id="org9e8f92d"></a>
+<a id="org851556f"></a>
 
 ## Render this file for display on the web
 
@@ -1794,7 +1796,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="orgce0fbd3"></a>
+<a id="orgfa5e1c9"></a>
 
 ## Hostname-based tweaks
 
@@ -1823,7 +1825,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="orgba3a21d"></a>
+<a id="org47c3680"></a>
 
 ## Footer
 
@@ -1834,7 +1836,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org0317793"></a>
+<a id="orgbd50c5d"></a>
 
 ## Styles for HTML export
 
@@ -1921,7 +1923,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="orga5f7062"></a>
+<a id="org594c9b6"></a>
 
 ## Launching Emacsclient
 
@@ -1965,7 +1967,7 @@ fi
 ```
 
 
-<a id="org808a93e"></a>
+<a id="org2812378"></a>
 
 ## Update README.md git hook
 
@@ -1979,7 +1981,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="org762db63"></a>
+<a id="org447c5de"></a>
 
 ## Running Emacs properly from the GUI
 
@@ -2007,7 +2009,7 @@ StartupWMClass=Emacs
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
 
 
-<a id="org0dfd712"></a>
+<a id="org5c35029"></a>
 
 ## IN PROGRESS Opening Code Links in Emacs
 
