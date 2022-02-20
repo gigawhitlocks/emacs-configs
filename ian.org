@@ -154,10 +154,12 @@ Going to try out the Doom themepack because why not.
       :config
       ;; Global settings (defaults)
       (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-            doom-themes-enable-italic t) ; if nil, italics is universally disabled
+            doom-themes-enable-italic t
+      ) ; if nil, italics is universally disabled
       (load-theme 'doom-vibrant t)
       ;; Corrects (and improves) org-mode's native fontification.
       (doom-themes-org-config)
+      ;; Configures Treemacs to play nicely with Doom themes
       (doom-themes-treemacs-config))
 #+end_src
 
@@ -672,24 +674,49 @@ Boy the ligatures look nice in the GUI though..
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
 #+BEGIN_SRC emacs-lisp
-    (use-package lsp-mode
-      :init
-      ;; use flycheck
-      (setq lsp-prefer-flymake nil)
-      (setq lsp-headerline-breadcrumb-enable nil)
-  )
+  (use-package lsp-mode
+    :init
+    ;; use flycheck
+    (setq lsp-prefer-flymake nil)
+    (setq lsp-headerline-breadcrumb-enable nil))
 
 
-    (use-package lsp-treemacs)
+  ;; treemacs integration
+  (use-package lsp-treemacs)
 
-    (use-package lsp-ui)
-    (setq lsp-ui-doc-use-childframe t)
-    (setq lsp-ui-doc-position 'top)
-    (setq lsp-enable-links nil)
+  ;; the UI
+  (use-package lsp-ui)
 
-    (use-package lsp-origami)
-    (use-package helm-lsp)
+  ;; linking breaks treemacs
+  ;; also it's annoying
+  (setq lsp-enable-links nil)
+
+  ;; folding library integation
+  (use-package lsp-origami)
+
+  ;; helm integration
+  (use-package helm-lsp)
+
+  (setq lsp-eldoc-enable-hover t)
+  (setq lsp-ui-doc-enable t)
+  (setq lsp-ui-doc-include-signature t)
+  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-use-childframe nil)
+  (setq lsp-ui-doc-use-webkit nil)
 #+END_SRC
+
+**** Fix background color of lsp-ui-doc in various themes
+By default, for some reason, lsp-ui-doc chooses an ugly background color that looks bad and doesn't match the background surrounding most of the text.
+
+I had to edit a few faces with Customize. Some notes:
+
+1. Using lsp-ui-doc's child frame mode causes lsp-ui-doc-background to be ignored for some reason
+   so ~lsp-ui-doc-use-childframe~ must be ~nil~
+
+2. By default, the background color is interrupted by a mismatch with ~markdown-code-face~ which doesn't match ~lsp-ui-doc-background~
+
+3. Thus, ~lsp-ui-doc-background~ is set via ~M-x customize-face~ to inherit from (match) ~markdown-code-face~ and saved in ~.emacs-custom.el~
+
 *** Tree Sitter
 Tree-sitter reads the AST to provide better syntax highlighting
 #+begin_src emacs-lisp
@@ -1269,17 +1296,6 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
     (mapcar #'disable-theme custom-enabled-themes))
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
 #+END_SRC
-*** Fix background color of lsp-ui-doc in various themes
-#+begin_src emacs-lisp
-  (defun lsp-ui-doc-moe-light-background ()
-    (set-face-attribute 'lsp-ui-doc-background nil :background "#D8D8D8" ))
-
-  (defun lsp-ui-doc-moe-dark-background ()
-    (set-face-attribute 'lsp-ui-doc-background nil :background "#353535" ))
-
-  (advice-add 'moe-light :after #'lsp-ui-doc-moe-light-background)
-  (advice-add 'moe-dark :after #'lsp-ui-doc-moe-dark-background)
-#+end_src
 *** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
