@@ -501,13 +501,6 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
   (use-package highlight-indent-guides)
 #+end_src
 ** Font
-First, just define a helper function for setting a font and changing it immediately
-#+BEGIN_SRC emacs-lisp
-  (defun set-font (font)
-    (set-face-attribute 'default t :font font)
-    (set-frame-font font nil t))
-#+end_src
-
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 
 **** FiraCode Font Installation Script
@@ -563,17 +556,16 @@ Calling the script from above will install the font
   (shell-command "~/.emacs.d/install-firacode-font.bash")
 #+end_src
 
-Now Emacs can be configured to use it with confidence, using the helper function defined earlier:
-#+begin_src emacs-lisp
-  (setq default-frame-alist '((font . "Fira Code-12")))
-  (set-font "Fira Code-12")
+Enable it
+
+#+BEGIN_SRC emacs-lisp
+  (add-to-list 'default-frame-alist '(font . "Fira Code-12"))
+  (set-frame-font "Fira Code-12" nil t)
 #+end_src
 
 **** Configure FiraCode special features
 FiraCode offers ligatures for programming symbols, which is cool. 
-
 ***** TODO Use the new method after upgrading to Emacs 28
-
 The following, taken from the [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel][installation guide]], enables these using the ~ligature.el~ method:
 #+begin_src emacs-lisp
   ;; ;; Enable the www ligature in every possible major mode
@@ -822,7 +814,6 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 #+BEGIN_SRC emacs-lisp
   (use-package gorepl-mode)
 #+END_SRC
-
 
 **** Interactive debugger
 I got jealous of a coworker with an IDE who apparently has an interactive debugger, so let's see if this is any good. It's been a long time since I've really had a debugger 🤣
@@ -1678,36 +1669,10 @@ Before commit, generate the README.md file from the updated configuration.
 
 I think the command being passed to ~emacsclient~ here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using ~git~ on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
-** Running Emacs as a daemon
-I like to start up Emacs in the background at login time. I usually have Emacs open, and first launch takes considerably longer (a few seconds) than it does to open a client (basically instant), plus this has other benefits like a long-running session that keeps buffers open.
+** Running Emacs properly from the GUI
 
-*** Systemd unit file
-Actually start up Emacs in daemon mode by installing a user unit file. This gets installed to the correct place (~~/.config/systemd/user/emacs.service~) when this file is tangled.
-
-#+begin_src conf :tangle ~/.config/systemd/user/emacs.service
-  [Unit]
-  Description=Emacs text editor
-  Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
-
-  [Service]
-  Type=notify
-  ExecStart=/usr/bin/emacs --fg-daemon
-  ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
-  # The location of the SSH auth socket varies by distribution, and some
-  # set it from PAM, so don't override by default.
-  # Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-  Restart=on-failure
-
-  [Install]
-  WantedBy=default.target
-#+end_src
-
-After tangling, enable the unit:
-: systemctl enable --user emacs.service
-
-*** Running Emacs properly from the GUI
-
-Once Emacs is running as a server, I mostly want to run ~emacsclient~ from the Gnome Overlay view / launcher ... thingy.
+This ~.desktop~ file calls ~emacs~ when it's not already running, and ~emacsclient~ otherwise.
+Slow on first launch, then fast for every new frame thereafter.
 
 Tangling this file will install the .desktop file to the correct location (~~/.local/share/applications/Emacsclient.desktop~).
 
@@ -1724,6 +1689,8 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
   Categories=Development;TextEditor;Utility;
   StartupWMClass=Emacs
 #+end_src
+
+*** TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit 
 
 ** TODO Opening Code Links in Emacs
 1. Use this to add a MIME handler for emacs:// links to open in Emacs
