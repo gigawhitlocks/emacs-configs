@@ -20,8 +20,9 @@
  '(jdee-db-requested-breakpoint-face-colors (cons "#1c1f24" "#7bc275"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
  '(objed-cursor-color "#ff665c")
+ '(org-agenda-files '("~/.emacs.d/ian.org"))
  '(package-selected-packages
-   '(fira-code-mode dap-mode lsp-treemacs treemacs-lsp yasnippet-snippets which-key wgrep-ack web-mode use-package-ensure-system-package undo-tree tree-sitter-langs systemd solaire-mode salt-mode rust-mode restart-emacs ranger rainbow-delimiters pfuture ox-gfm org-download lsp-ui lsp-origami json-mode hyperbole htmlize highlight-indent-guides helm-projectile helm-lsp helm-descbinds helm-ag gotest gorepl-mode git-timemachine git-gutter general forge flycheck-golangci-lint figlet exec-path-from-shell evil-surround evil-org evil-escape evil-collection emojify doom-themes dockerfile-mode diminish delight dashboard company-org-block cfrs auto-virtualenv ag adaptive-wrap ace-window))
+   '(treemacs-all-the-icons all-the-icons yasnippet-snippets which-key wgrep-ack web-mode use-package-ensure-system-package undo-tree tree-sitter-langs systemd solaire-mode salt-mode rust-mode restart-emacs rainbow-delimiters ox-gfm org-web-tools org-download lsp-ui lsp-origami json-mode hyperbole htmlize highlight-indent-guides helm-projectile helm-lsp helm-descbinds helm-ag gotest gorepl-mode git-timemachine git-gutter general forge flycheck-golangci-lint fira-code-mode figlet exec-path-from-shell evil-surround evil-org evil-escape evil-collection emojify doom-themes dockerfile-mode diminish delight dashboard company-org-block auto-virtualenv adaptive-wrap))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#242730"))
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])

@@ -1,27 +1,27 @@
-- [What is this?](#org399ec52)
-- [Entrypoint](#org44cfbf8)
-- [My Environment](#orgdd346fa)
-  - [Bootstrap](#org2933053)
-  - [Package Installation and Configuration](#org89739a7)
-  - [Extra Packages](#orge5ddf56)
-  - [Font](#org10d29a4)
-  - [Language Configuration](#orgfb40b44)
-  - [Global Keybindings](#org0116028)
-  - [Org Mode Settings](#org87d2fd7)
-  - [Miscellaneous standalone global configuration changes](#org2f79c53)
-  - [ERC (IRC config)](#orgff021b0)
-  - [Render this file for display on the web](#org6a2ba66)
-  - [Hostname-based tweaks](#orgd3e0e39)
-  - [Footer](#orgba9f39b)
-  - [Styles for HTML export](#orgeb880f2)
-  - [Launching Emacsclient](#org242eba2)
-  - [Update README.md git hook](#org069948b)
-  - [Running Emacs properly from the GUI](#org885f63d)
-  - [Opening Code Links in Emacs](#orge8f2c3a)
+- [What is this?](#orga2cee75)
+- [Entrypoint](#orgc64b34f)
+- [My Environment](#org3c2c224)
+  - [Bootstrap](#org82395d2)
+  - [Package Installation and Configuration](#org01216fc)
+  - [Extra Packages](#org9c0dc02)
+  - [Font](#org4022e81)
+  - [Language Configuration](#orgf5a5c45)
+  - [Global Keybindings](#org554ef52)
+  - [Org Mode Settings](#org000b64a)
+  - [Miscellaneous standalone global configuration changes](#org17fff08)
+  - [ERC (IRC config)](#org1933906)
+  - [Render this file for display on the web](#org9105b05)
+  - [Hostname-based tweaks](#org1a251ba)
+  - [Footer](#org9dae907)
+  - [Styles for HTML export](#orgd443996)
+  - [Launching Emacsclient](#org57e634c)
+  - [Update README.md git hook](#org518fed1)
+  - [Running Emacs properly from the GUI](#org4b901e9)
+  - [Opening Code Links in Emacs](#orgdbb538d)
 
 
 
-<a id="org399ec52"></a>
+<a id="orga2cee75"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ There are no guarantees that this configuration will work for you out of the box
 I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 
-<a id="org44cfbf8"></a>
+<a id="orgc64b34f"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orgdd346fa"></a>
+<a id="org3c2c224"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ The rest of the code that is executed begins with the routines defined by this f
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed.
 
 
-<a id="org2933053"></a>
+<a id="org82395d2"></a>
 
 ## Bootstrap
 
@@ -155,11 +155,32 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org89739a7"></a>
+<a id="org01216fc"></a>
 
 ## Package Installation and Configuration
 
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
+
+
+### Icons
+
+Treemacs and Doom themes both rely upon `all-the-icons` to look nice
+
+```emacs-lisp
+(use-package all-the-icons)
+```
+
+
+### Treemacs
+
+Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
+
+It's installed early because many things have integrations with it, including some themes.
+
+```emacs-lisp
+(use-package treemacs)
+(use-package treemacs-all-the-icons)
+```
 
 
 ### Theme
@@ -174,7 +195,8 @@ Going to try out the Doom themepack because why not.
 	doom-themes-enable-italic t) ; if nil, italics is universally disabled
   (load-theme 'doom-vibrant t)
   ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config))
+  (doom-themes-org-config)
+  (doom-themes-treemacs-config))
 ```
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
@@ -182,17 +204,6 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 ```emacs-lisp
 (use-package solaire-mode)
 (solaire-global-mode +1)
-```
-
-
-### Treemacs
-
-Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
-
-```emacs-lisp
-(use-package all-the-icons)
-(use-package treemacs)
-(use-package treemacs-all-the-icons)
 ```
 
 
@@ -289,7 +300,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org0116028) section.
+It's mostly used below in the [global keybindings](#org554ef52) section.
 
 ```emacs-lisp
 (use-package general
@@ -497,7 +508,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="orge5ddf56"></a>
+<a id="org9c0dc02"></a>
 
 ## Extra Packages
 
@@ -630,7 +641,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="org10d29a4"></a>
+<a id="org4022e81"></a>
 
 ## Font
 
@@ -638,11 +649,11 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
 
 -   FiraCode Font Installation Script
 
-    Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt; </span></span> with just
+    Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on 2022-02-19 Sat with just
     
         sudo apt install fonts-firacode
     
-    because I don't intend to use Ubuntu as my only system forever. I just happen to be on Ubuntu on <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span>.
+    because I don't intend to use Ubuntu as my only system forever. I just happen to be on Ubuntu on 2022-02-19 Sat.
     
     But first, I want to be able to run this script every time Emacs starts, but only have the script actually do anything if the font is not already installed.
     
@@ -756,7 +767,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
             (sort $list 'string<)))
         ```
         
-        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the Global Keybindings section.
+        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#org554ef52) section.
         
         ```emacs-lisp
         (defun toggle-ligatures ()
@@ -797,7 +808,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
         Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
-<a id="orgfb40b44"></a>
+<a id="orgf5a5c45"></a>
 
 ## Language Configuration
 
@@ -1258,7 +1269,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org0116028"></a>
+<a id="org554ef52"></a>
 
 ## Global Keybindings
 
@@ -1298,6 +1309,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ;; global keybindings with LEADER
 (my-leader-def 'normal 'override
   "aa"     'ace-jump-mode
+  "ag"     'org-agenda
   "bb"     'helm-buffers-list
   "TAB"    #'switch-to-prev-buffer
   "br"     'revert-buffer
@@ -1359,7 +1371,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org87d2fd7"></a>
+<a id="org000b64a"></a>
 
 ## Org Mode Settings
 
@@ -1441,7 +1453,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="org2f79c53"></a>
+<a id="org17fff08"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1680,7 +1692,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="orgff021b0"></a>
+<a id="org1933906"></a>
 
 ## ERC (IRC config)
 
@@ -1745,7 +1757,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ### TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
 
 
-<a id="org6a2ba66"></a>
+<a id="org9105b05"></a>
 
 ## Render this file for display on the web
 
@@ -1771,7 +1783,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="orgd3e0e39"></a>
+<a id="org1a251ba"></a>
 
 ## Hostname-based tweaks
 
@@ -1800,7 +1812,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="orgba9f39b"></a>
+<a id="org9dae907"></a>
 
 ## Footer
 
@@ -1811,7 +1823,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="orgeb880f2"></a>
+<a id="orgd443996"></a>
 
 ## Styles for HTML export
 
@@ -1898,7 +1910,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org242eba2"></a>
+<a id="org57e634c"></a>
 
 ## Launching Emacsclient
 
@@ -1942,7 +1954,7 @@ fi
 ```
 
 
-<a id="org069948b"></a>
+<a id="org518fed1"></a>
 
 ## Update README.md git hook
 
@@ -1956,7 +1968,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="org885f63d"></a>
+<a id="org4b901e9"></a>
 
 ## Running Emacs properly from the GUI
 
@@ -1981,14 +1993,22 @@ StartupWMClass=Emacs
 
 ### TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit
 
+Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
 
-<a id="orge8f2c3a"></a>
 
-## TODO Opening Code Links in Emacs
+<a id="orgdbb538d"></a>
 
-1.  Use this to add a MIME handler for emacs:// links to open in Emacs
+## IN PROGRESS Opening Code Links in Emacs
 
-<https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop>
 
-1.  Add a bookmarlet to rewrite <https://bitbucket> links to emacs:// links and send them to Emacs from Chrome or Firefox
-2.  Write some Emacs Lisp to detect URLs that pertain to local projects and open them directly in Emacs
+### IN PROGRESS Create a MIME handler
+
+[Use this to add a MIME handler for emacs:// links to open in Emacs](https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop)
+
+
+### TODO Add a bookmarklet
+
+Rewrite <https://bitbucket> links to emacs:// links and send them to Emacs from Chrome or Firefox
+
+
+### TODO Detect URLs that pertain to local projects and open them directly in Emacs

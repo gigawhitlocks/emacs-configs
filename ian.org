@@ -131,33 +131,40 @@ Once this is done I need to install and configure any third party packages that 
 
 ** Package Installation and Configuration
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
+*** Icons
+Treemacs and Doom themes both rely upon ~all-the-icons~ to look nice
+#+begin_src emacs-lisp
+  (use-package all-the-icons)
+#+end_src
+
+*** Treemacs
+Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
+
+It's installed early because many things have integrations with it, including some themes.
+
+#+begin_src emacs-lisp
+  (use-package treemacs)
+  (use-package treemacs-all-the-icons)
+#+end_src
 *** Theme
 Going to try out the Doom themepack because why not.
 
 #+begin_src emacs-lisp
-  (use-package doom-themes
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t) ; if nil, italics is universally disabled
-    (load-theme 'doom-vibrant t)
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config))
+    (use-package doom-themes
+      :config
+      ;; Global settings (defaults)
+      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+            doom-themes-enable-italic t) ; if nil, italics is universally disabled
+      (load-theme 'doom-vibrant t)
+      ;; Corrects (and improves) org-mode's native fontification.
+      (doom-themes-org-config)
+      (doom-themes-treemacs-config))
 #+end_src
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
 #+begin_src emacs-lisp
   (use-package solaire-mode)
   (solaire-global-mode +1)
-#+end_src
-
-*** Treemacs
-Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
-
-#+begin_src emacs-lisp
-  (use-package all-the-icons)
-  (use-package treemacs)
-  (use-package treemacs-all-the-icons)
 #+end_src
 
 *** Emoji 🙏
@@ -508,11 +515,11 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
 :header-args: :tangle ~/.emacs.d/install-firacode-font.bash :shebang #!/usr/bin/env bash
 :end:
 
-Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on <2022-02-19 Sat> with just
+Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on 2022-02-19 Sat with just
 
 : sudo apt install fonts-firacode
 
-because I don't intend to use Ubuntu as my only system forever. I just happen to be on Ubuntu on <2022-02-19 Sat>.
+because I don't intend to use Ubuntu as my only system forever. I just happen to be on Ubuntu on 2022-02-19 Sat.
 
 But first, I want to be able to run this script every time Emacs starts, but only have the script actually do anything if the font is not already installed.
 
@@ -620,7 +627,7 @@ First I needed a helper method to determine what buffers are active
       (sort $list 'string<)))
 #+end_src
 
-Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to ~SPC t l~ in the Global Keybindings section.
+Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to ~SPC t l~ in the [[*Global Keybindings][Global Keybindings]] section.
 
 #+begin_src emacs-lisp
   (defun toggle-ligatures ()
@@ -1109,6 +1116,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     ;; global keybindings with LEADER
     (my-leader-def 'normal 'override
       "aa"     'ace-jump-mode
+      "ag"     'org-agenda
       "bb"     'helm-buffers-list
       "TAB"    #'switch-to-prev-buffer
       "br"     'revert-buffer
@@ -1691,9 +1699,14 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
 #+end_src
 
 *** TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit 
+Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug. 
 
-** TODO Opening Code Links in Emacs
-1. Use this to add a MIME handler for emacs:// links to open in Emacs
-https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop
-2. Add a bookmarlet to rewrite https://bitbucket links to emacs:// links and send them to Emacs from Chrome or Firefox
-3. Write some Emacs Lisp to detect URLs that pertain to local projects and open them directly in Emacs
+** IN PROGRESS Opening Code Links in Emacs 
+*** IN PROGRESS Create a MIME handler
+[[https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop][Use this to add a MIME handler for emacs:// links to open in Emacs]]
+
+
+*** TODO Add a bookmarklet
+Rewrite https://bitbucket links to emacs:// links and send them to Emacs from Chrome or Firefox
+
+*** TODO Detect URLs that pertain to local projects and open them directly in Emacs
