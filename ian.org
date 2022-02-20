@@ -147,21 +147,23 @@ It's installed early because many things have integrations with it, including so
   (use-package treemacs-all-the-icons)
 #+end_src
 *** Theme
-Going to try out the Doom themepack because why not.
+I'm using the Doom Emacs theme pack.
+I think they're really nice to look at, especially with ~solaire-mode~.
 
 #+begin_src emacs-lisp
-    (use-package doom-themes
-      :config
-      ;; Global settings (defaults)
-      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-            doom-themes-enable-italic t
-            doom-themes-treemacs-theme "doom-colors"
-      ) ; if nil, italics is universally disabled
-      (load-theme 'doom-vibrant t)
-      ;; Corrects (and improves) org-mode's native fontification.
-      (doom-themes-org-config)
-      ;; Configures Treemacs to play nicely with Doom themes
-      (doom-themes-treemacs-config))
+  (use-package doom-themes
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t
+          doom-themes-treemacs-theme "doom-colors"
+    ) ; if nil, italics is universally disabled
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config)
+    ;; Configures Treemacs to play nicely with Doom themes
+    (doom-themes-treemacs-config))
+
+  (load-theme 'doom-one t)
 #+end_src
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
@@ -1721,7 +1723,8 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 ** IN PROGRESS Opening Code Links in Emacs 
 *** IN PROGRESS Create a MIME handler
 [[https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop][Use this to add a MIME handler for emacs:// links to open in Emacs]]
-
+**** DONE Create a ~.desktop~ file
+The ~.desktop~ file that I use to launch Emacs should work to handle URIs sent to the new mimetype handler.
 
 *** TODO Add a bookmarklet
 Rewrite https://bitbucket links to emacs:// links and send them to Emacs from Chrome or Firefox
