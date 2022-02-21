@@ -821,7 +821,6 @@ $ go get golang.org/x/tools/cmd/eg
 #+BEGIN_SRC bash
 # install it into ./bin/
 $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
-
 #+END_SRC
 
 **** Initial Setup
@@ -1123,105 +1122,110 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 
     (add-hook 'compilation-mode-hook
               #'adaptive-wrap-prefix-mode)
-    (setq compilation-scroll-output t)
-    )
+    (setq compilation-scroll-output t))
 #+END_SRC
+
 ** Global Keybindings
 #+BEGIN_SRC emacs-lisp
-    (general-create-definer my-leader-def
-      :prefix "SPC")
+  (general-create-definer my-leader-def
+    :prefix "SPC")
 
-    (general-create-definer my-local-leader-def
-      :prefix "SPC m")
+  (general-create-definer my-local-leader-def
+    :prefix "SPC m")
 
-    (defun find-initfile ()
-      "Open main config file."
-      (interactive)
-      (find-file "~/.emacs.d/ian.org"))
+  (defun find-initfile ()
+    "Open main config file."
+    (interactive)
+    (find-file "~/.emacs.d/ian.org"))
 
-    (defun find-initfile-other-frame ()
-      "Open main config file in a new frame."
-      (interactive)
-      (find-file-other-frame "~/.emacs.d/ian.org"))
+  (defun find-initfile-other-frame ()
+    "Open main config file in a new frame."
+    (interactive)
+    (find-file-other-frame "~/.emacs.d/ian.org"))
 
-    (defun reload-initfile ()
-      "Reload the main config file."
-      (interactive)
-      (org-babel-tangle "~/.emacs.d/ian.org")
-      (byte-compile-file "~/.emacs.d/ian.el"))
+  (defun reload-initfile ()
+    "Reload the main config file."
+    (interactive)
+    (org-babel-tangle "~/.emacs.d/ian.org")
+    (byte-compile-file "~/.emacs.d/ian.el"))
 
-    (defun close-client-frame ()
-      "Exit emacsclient."
-      (interactive)
-      (server-edit "Done"))
+  (defun close-client-frame ()
+    "Exit emacsclient."
+    (interactive)
+    (server-edit "Done"))
 
-    (defun last-window ()
-      "Switch to the last window."
-      (interactive)
-      (other-window -1 t))
+  (defun last-window ()
+    "Switch to the last window."
+    (interactive)
+    (other-window -1 t))
 
-    ;; global keybindings with LEADER
-    (my-leader-def 'normal 'override
-      "aa"     'ace-jump-mode
-      "ag"     'org-agenda
-      "bb"     'helm-buffers-list
-      "TAB"    #'switch-to-prev-buffer
-      "br"     'revert-buffer
-      "bd"     'evil-delete-buffer
-      "cc"     'projectile-compile-project
-      "ec"     'flycheck-clear
-      "el"     'flycheck-list-errors
-      "en"     'flycheck-next-error
-      "ep"     'flycheck-previous-error
-      "Fm"     'make-frame
-      "Ff"     'toggle-frame-fullscreen
-      "ff"     'helm-find-files
-      "fr"     'helm-recentf
-      "fed"    'find-initfile
-      "feD"    'find-initfile-other-frame
-      "feR"    'reload-initfile
-      "gb"     'magit-blame
-      "gs"     'magit-status
-      "gg"     'magit
-      "gt"     'git-timemachine
-      "gd"     'magit-diff
-      "h"      'hyperbole
-      "jj"     'bookmark-jump
-      "js"     'bookmark-set
-      "jo"     'org-babel-tangle-jump-to-org
-      "ic"     'insert-char
-      "is"     'yas-insert-snippet
-      "n"      '(:keymap narrow-map)
-      "oo"     'browse-url-at-point
-      "p"      'projectile-command-map
-      "pf"     'helm-projectile-find-file
-      "p!"     'projectile-run-async-shell-command-in-root
-      "si"     'yas-insert-snippet
-      "sn"     'yas-new-snippet
-      "sp"     'helm-projectile-ag
-      "qq"     'save-buffers-kill-terminal
-      "qr"     'restart-emacs
-      "qz"     'delete-frame
-      "tn"     'display-line-numbers-mode
-      "tr"     'treemacs-select-window
-      "ta"     'treemacs-add-project-to-workspace
-      "ts"     'toggle-screaming
-      "tt"     'toggle-transparency
-      "tl"     'toggle-ligatures
-      "w-"     'split-window-below
-      "w/"     'split-window-right
-      "wa"     'ace-window
-      "wb"     'last-window
-      "wj"     'evil-window-down
-      "wk"     'evil-window-up
-      "wh"     'evil-window-left
-      "wl"     'evil-window-right
-      "wd"     'delete-window
-      "wD"     'delete-other-windows
-      "wo"     'other-window
-      "w="     'balance-windows
-      "SPC"    'helm-M-x
-      )
+  ;; global keybindings with LEADER
+  (my-leader-def 'normal 'override
+    "aa"     'ace-jump-mode
+    "ag"     'org-agenda
+    "bb"     'helm-buffers-list
+    "TAB"    #'switch-to-prev-buffer
+    "br"     'revert-buffer
+    "bd"     'evil-delete-buffer
+    "cc"     'projectile-compile-project
+    "ec"     'flycheck-clear
+    "el"     'flycheck-list-errors
+    "en"     'flycheck-next-error
+    "ep"     'flycheck-previous-error
+    "Fm"     'make-frame
+    "Ff"     'toggle-frame-fullscreen
+    "ff"     'helm-find-files
+    "fr"     'helm-recentf
+    "fed"    'find-initfile
+    "feD"    'find-initfile-other-frame
+    "feR"    'reload-initfile
+    "gb"     'magit-blame
+    "gs"     'magit-status
+    "gg"     'magit
+    "gt"     'git-timemachine
+    "gd"     'magit-diff
+    "h"      'hyperbole
+    "jj"     'bookmark-jump
+    "js"     'bookmark-set
+    "jo"     'org-babel-tangle-jump-to-org
+    "ic"     'insert-char
+    "is"     'yas-insert-snippet
+    "n"      '(:keymap narrow-map)
+    "oo"     'browse-url-at-point
+    "p"      'projectile-command-map
+    "pf"     'helm-projectile-find-file
+    "p!"     'projectile-run-async-shell-command-in-root
+    "si"     'yas-insert-snippet
+    "sn"     'yas-new-snippet
+    "sp"     'helm-projectile-ag
+    "qq"     'save-buffers-kill-terminal
+    "qr"     'restart-emacs
+    "qz"     'delete-frame
+    "tn"     'display-line-numbers-mode
+    "tr"     'treemacs-select-window
+    "ta"     'treemacs-add-project-to-workspace
+    "ts"     'toggle-screaming
+    "tt"     'toggle-transparency
+    "tl"     'toggle-ligatures
+    "w-"     'split-window-below
+    "w/"     'split-window-right
+    "wa"     'ace-window
+    "wb"     'last-window
+    "wj"     'evil-window-down
+    "wk"     'evil-window-up
+    "wh"     'evil-window-left
+    "wl"     'evil-window-right
+    "wd"     'delete-window
+    "wD"     'delete-other-windows
+    "wo"     'other-window
+    "w="     'balance-windows
+    "SPC"    'helm-M-x
+    )
+
+
+  ;; global VISUAL mode map
+  (general-vmap
+    ";" 'comment-or-uncomment-region)
     #+END_SRC
 
 ** Org Mode Settings
