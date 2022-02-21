@@ -100,31 +100,31 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
   ;;;
   ;;; Code:
 
-    (require 'package)
-    (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")))
-    (package-initialize)
+  (require 'package)
+  (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                           ("melpa" . "https://melpa.org/packages/")
+                           ("org" . "http://orgmode.org/elpa/")))
+  (package-initialize)
 
-    ;; Now install use-package to enable us to use it
-    ;; to manage the rest of our packages
+  ;; Now install use-package to enable us to use it
+  ;; to manage the rest of our packages
 
-    (unless (package-installed-p 'use-package)
-      (progn
-        (unless package-archive-contents
-          (package-refresh-contents))
-        (package-install 'use-package)))
+  (unless (package-installed-p 'use-package)
+    (progn
+      (unless package-archive-contents
+        (package-refresh-contents))
+      (package-install 'use-package)))
 
-    ;; set ensure to be the default
-    (require 'use-package-ensure)
-    (setq use-package-always-ensure t)
+  ;; set ensure to be the default
+  (require 'use-package-ensure)
+  (setq use-package-always-ensure t)
 
-    (use-package use-package-ensure-system-package)
+  (use-package use-package-ensure-system-package)
 
-    ;; these go in bootstrap because packages installed
-    ;; with use-package use :diminish and :delight
-    (use-package diminish)
-    (use-package delight)
+  ;; these go in bootstrap because packages installed
+  ;; with use-package use :diminish and :delight
+  (use-package diminish)
+  (use-package delight)
 #+END_SRC
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
@@ -521,7 +521,6 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 #+end_src
 ** Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
-
 **** FiraCode Font Installation Script
 :properties:
 :header-args: :tangle ~/.emacs.d/install-firacode-font.bash :shebang #!/usr/bin/env bash
@@ -1309,7 +1308,7 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
 *** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-  (setq display-line-numbers-type 'relative)
+  (setq display-line-numbers-type 'absolute)
 #+END_SRC
 *** Transparency toggle
 I definitely lifted this from somewhere but failed to document where I got it :\
