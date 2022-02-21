@@ -172,6 +172,13 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
   (solaire-global-mode +1)
 #+end_src
 
+The Doom Emacs project also provides a fancy modeline to go along with their themes.
+#+begin_src emacs-lisp
+  (use-package doom-modeline
+    :ensure t
+    :hook (after-init . doom-modeline-mode))
+#+end_src
+
 *** Emoji 🙏
 Provided by [[https://github.com/iqbalansari/emacs-emojify][emojify]].
 #+BEGIN_SRC emacs-lisp
