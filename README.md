@@ -1,27 +1,27 @@
-- [What is this?](#org9859ad6)
-- [Entrypoint](#org9a28e10)
-- [My Environment](#org215c46a)
-  - [Bootstrap](#org334db4c)
-  - [Package Installation and Configuration](#orgb4f25fd)
-  - [Extra Packages](#org42826bb)
-  - [Font](#orgd9131ed)
-  - [Language Configuration](#org9922c7f)
-  - [Global Keybindings](#orga0eefba)
-  - [Org Mode Settings](#org233ab99)
-  - [Miscellaneous standalone global configuration changes](#orge2b1afe)
-  - [ERC (IRC config)](#org5d73328)
-  - [Render this file for display on the web](#org6f7b61c)
-  - [Hostname-based tweaks](#org5be8b78)
-  - [Footer](#org7dd2d9a)
-  - [Styles for HTML export](#org053d4ce)
-  - [Launching Emacsclient](#org5180193)
-  - [Update README.md git hook](#orgc001b38)
-  - [Running Emacs properly from the GUI](#orgc7083da)
-  - [Opening Code Links in Emacs](#org1028f36)
+- [What is this?](#org037bd61)
+- [Entrypoint](#org8f221d0)
+- [My Environment](#org05948c8)
+  - [Bootstrap](#org9fe0e5e)
+  - [Package Installation and Configuration](#org09ad27a)
+  - [Extra Packages](#org4abe521)
+  - [Font](#orgf05c896)
+  - [Language Configuration](#org78a8a67)
+  - [Global Keybindings](#org7f5e804)
+  - [Org Mode Settings](#org4408870)
+  - [Miscellaneous standalone global configuration changes](#org34b77f4)
+  - [ERC (IRC config)](#org1591e13)
+  - [Render this file for display on the web](#org246a3fb)
+  - [Hostname-based tweaks](#org0edb83b)
+  - [Footer](#org7382a3e)
+  - [Styles for HTML export](#orgc62c1d5)
+  - [Launching Emacsclient](#org8afbb85)
+  - [Update README.md git hook](#org0eb75f3)
+  - [Running Emacs properly from the GUI](#orgaa33b9e)
+  - [Opening Code Links in Emacs](#org1e313a3)
 
 
 
-<a id="org9859ad6"></a>
+<a id="org037bd61"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ There are no guarantees that this configuration will work for you out of the box
 I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 
-<a id="org9a28e10"></a>
+<a id="org8f221d0"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org215c46a"></a>
+<a id="org05948c8"></a>
 
 # My Environment
 
@@ -105,7 +105,7 @@ The rest of the code that is executed begins with the routines defined by this f
 After running the `init.el` entrypoint, this file is tangled to `ian.el` and executed.
 
 
-<a id="org334db4c"></a>
+<a id="org9fe0e5e"></a>
 
 ## Bootstrap
 
@@ -155,7 +155,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgb4f25fd"></a>
+<a id="org09ad27a"></a>
 
 ## Package Installation and Configuration
 
@@ -304,7 +304,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orga0eefba) section.
+It's mostly used below in the [global keybindings](#org7f5e804) section.
 
 ```emacs-lisp
 (use-package general
@@ -512,7 +512,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="org42826bb"></a>
+<a id="org4abe521"></a>
 
 ## Extra Packages
 
@@ -645,7 +645,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-<a id="orgd9131ed"></a>
+<a id="orgf05c896"></a>
 
 ## Font
 
@@ -771,7 +771,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
             (sort $list 'string<)))
         ```
         
-        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#orga0eefba) section.
+        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#org7f5e804) section.
         
         ```emacs-lisp
         (defun toggle-ligatures ()
@@ -812,7 +812,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
         Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
-<a id="org9922c7f"></a>
+<a id="org78a8a67"></a>
 
 ## Language Configuration
 
@@ -1297,7 +1297,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orga0eefba"></a>
+<a id="org7f5e804"></a>
 
 ## Global Keybindings
 
@@ -1399,7 +1399,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org233ab99"></a>
+<a id="org4408870"></a>
 
 ## Org Mode Settings
 
@@ -1481,7 +1481,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orge2b1afe"></a>
+<a id="org34b77f4"></a>
 
 ## Miscellaneous standalone global configuration changes
 
@@ -1706,7 +1706,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="org5d73328"></a>
+<a id="org1591e13"></a>
 
 ## ERC (IRC config)
 
@@ -1771,7 +1771,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ### TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
 
 
-<a id="org6f7b61c"></a>
+<a id="org246a3fb"></a>
 
 ## Render this file for display on the web
 
@@ -1797,7 +1797,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="org5be8b78"></a>
+<a id="org0edb83b"></a>
 
 ## Hostname-based tweaks
 
@@ -1826,7 +1826,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="org7dd2d9a"></a>
+<a id="org7382a3e"></a>
 
 ## Footer
 
@@ -1837,7 +1837,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org053d4ce"></a>
+<a id="orgc62c1d5"></a>
 
 ## Styles for HTML export
 
@@ -1924,7 +1924,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org5180193"></a>
+<a id="org8afbb85"></a>
 
 ## Launching Emacsclient
 
@@ -1968,7 +1968,7 @@ fi
 ```
 
 
-<a id="orgc001b38"></a>
+<a id="org0eb75f3"></a>
 
 ## Update README.md git hook
 
@@ -1982,7 +1982,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="orgc7083da"></a>
+<a id="orgaa33b9e"></a>
 
 ## Running Emacs properly from the GUI
 
@@ -2010,7 +2010,7 @@ StartupWMClass=Emacs
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
 
 
-<a id="org1028f36"></a>
+<a id="org1e313a3"></a>
 
 ## IN PROGRESS Opening Code Links in Emacs
 
@@ -2019,9 +2019,7 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 
 [Use this to add a MIME handler for emacs:// links to open in Emacs](https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop)
 
--   DONE Create a `.desktop` file
-
-    The `.desktop` file that I use to launch Emacs should work to handle URIs sent to the new mimetype handler.
+-   IN PROGRESS Create a `.desktop` file
 
 
 ### TODO Add a bookmarklet

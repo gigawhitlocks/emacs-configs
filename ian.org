@@ -1723,8 +1723,7 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 ** IN PROGRESS Opening Code Links in Emacs 
 *** IN PROGRESS Create a MIME handler
 [[https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop][Use this to add a MIME handler for emacs:// links to open in Emacs]]
-**** DONE Create a ~.desktop~ file
-The ~.desktop~ file that I use to launch Emacs should work to handle URIs sent to the new mimetype handler.
+**** IN PROGRESS Create a ~.desktop~ file
 
 *** TODO Add a bookmarklet
 Rewrite https://bitbucket links to emacs:// links and send them to Emacs from Chrome or Firefox
