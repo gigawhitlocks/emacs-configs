@@ -2,6 +2,7 @@
 #+OPTIONS: toc:2 html-style:nil num:nil author:nil timestamp:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
+
 * What is this?
 This is my Emacs configuration, which I install at ~~/.emacs.d~ in all of my development environments. It's written in [[https://orgmode.org/][Org Mode syntax]], which is an Emacs-native plain text format (like Markdown with metadata) which displays beautifully inside of Emacs and exports to a number of other formats for display in places like this README and the web, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment. It also serves as a living document / blog about Emacs and my development environment as it evolves to meet my changing needs.
 
@@ -1768,6 +1769,12 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug. 
 
 ** IN PROGRESS Opening Code Links in Emacs 
+This looks like it's possible but it's going to be hard to make automatic.
+I was hoping that I could make use of Firefox Sync but it looks like the setting that needs to be toggled is in ~about:config~.
+
+I'm concerned about the sustainability of this sort of thing, unfortunately. Maybe there's another approach that I can take?
+
+The question of how to get information out of a browser, especially links to code and that sort of thing, is something I'm interested in further exploring.
 *** IN PROGRESS Create a MIME handler
 [[https://askubuntu.com/questions/514125/url-protocol-handlers-in-basic-ubuntu-desktop][Use this to add a MIME handler for emacs:// links to open in Emacs]]
 **** IN PROGRESS Create a ~.desktop~ file
