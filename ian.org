@@ -470,8 +470,7 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 *** ~figlet~
 The description on the package is "Annoy people with big, ascii art text" 🤣
 #+BEGIN_SRC emacs-lisp
-  (use-package figlet
-  :ensure-system-package figlet)
+  (use-package figlet)
 #+END_SRC
 *** a systemd file mode
 Just provides syntax highlighting in ~.unit~ files.
@@ -518,6 +517,18 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 This mode adds subtle coloration to indentation whitespace for whitespace-delimited languages like YAML where sometimes it can be difficult to see the nesting level of a given headline in deeply-nested configuration.
 #+begin_src emacs-lisp
   (use-package highlight-indent-guides)
+#+end_src
+*** Quick buffer switcher
+#+begin_quote
+PC style quick buffer switcher for Emacs
+
+This switches Emacs buffers according to most-recently-used/least-recently-used order using C-tab and C-S-tab keys. It is similar to window or tab switchers that are available in PC desktop environments or applications.
+#+end_quote
+
+Bound by default to ~C-<TAB>~ and ~C-S-<TAB>~, I have decided that these are sane defaults. Just install this and turn it on.
+#+begin_src emacs-lisp
+  (use-package pc-bufsw)
+  (pc-bufsw)
 #+end_src
 ** Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
@@ -1308,7 +1319,7 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
 *** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-  (setq display-line-numbers-type 'absolute)
+  (setq display-line-numbers-type 'relative)
 #+END_SRC
 *** Transparency toggle
 I definitely lifted this from somewhere but failed to document where I got it :\
