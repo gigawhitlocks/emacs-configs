@@ -482,6 +482,9 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 
     ;; tab complete!
     (global-set-key "\t" 'company-complete-common))
+
+  (use-package company-box
+    :hook (company-mode . company-box-mode))
     #+END_SRC
 *** Install and Configure Flycheck for Linting
 [[https://www.flycheck.org/en/latest/][Flycheck]] is an on-the-fly checker that hooks into most language backends.
@@ -795,7 +798,7 @@ So the convention for use is:
 *** Go
 #+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2022-11.gif @ 2020-05-18 22:12:18
 [[file:My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif]]
-
+**** Dependencies
 Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
@@ -911,7 +914,8 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
    ",gt"    'lsp-find-type-definition
    ",i"     'lsp-find-implementation
    ",n"     'lsp-rename
-   ",r"     'lsp-find-references
+   ",r"     'lsp-ui-peek-find-references
+   ",R"     'lsp-find-references
    ",tp"    'go-test-current-project
    ",tt"    'go-test-current-test
    ",tf"    'go-test-current-file

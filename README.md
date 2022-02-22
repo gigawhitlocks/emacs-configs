@@ -1,27 +1,27 @@
-- [What is this?](#org035d1ae)
-- [Entrypoint](#org82ba2ff)
-- [Package Manager Bootstrap](#org7a87497)
-- [Package Installation and Configuration](#orgc00af36)
-- [Extra Packages](#org7315e0f)
-- [Font](#org2440899)
-- [Language Configuration](#org9eebc29)
-- [Adaptive Wrap and Visual Line Mode](#org5906d5a)
-- [Global Keybindings](#orgd48403f)
-- [Org Mode Settings](#org2b08a24)
-- [Miscellaneous standalone global configuration changes](#orgc753734)
-- [ERC (IRC config)](#orgc0fea58)
-- [Render this file for display on the web](#org0bd2dd6)
-- [Hostname-based tweaks](#org3f75e6c)
-- [Footer](#orgb65cf03)
-- [Styles for HTML export](#org98e125d)
-- [Launching Emacsclient](#org7dd6c3a)
-- [Update README.md git hook](#org393dc4f)
-- [Running Emacs properly from the GUI](#orgb00b4a6)
-- [Opening Code Links in Emacs](#org8f5564f)
+- [What is this?](#org8bf9236)
+- [Entrypoint](#org08c288b)
+- [Package Manager Bootstrap](#orgfd15802)
+- [Package Installation and Configuration](#org91bfb3f)
+- [Extra Packages](#org0c447f4)
+- [Font](#org235d788)
+- [Language Configuration](#orgcd00b2b)
+- [Adaptive Wrap and Visual Line Mode](#org04f6bcf)
+- [Global Keybindings](#org62af3d2)
+- [Org Mode Settings](#org4ddbe71)
+- [Miscellaneous standalone global configuration changes](#org795a166)
+- [ERC (IRC config)](#org3029b8e)
+- [Render this file for display on the web](#org2ae0c06)
+- [Hostname-based tweaks](#org0c65d5c)
+- [Footer](#org8da7be1)
+- [Styles for HTML export](#org9cee0e8)
+- [Launching Emacsclient](#org41a3e13)
+- [Update README.md git hook](#org7a06cb1)
+- [Running Emacs properly from the GUI](#orgb1edbd3)
+- [Opening Code Links in Emacs](#org59b90a6)
 
 
 
-<a id="org035d1ae"></a>
+<a id="org8bf9236"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ There are no guarantees that this configuration will work for you out of the box
 I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 
-<a id="org82ba2ff"></a>
+<a id="org08c288b"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org7a87497"></a>
+<a id="orgfd15802"></a>
 
 # Package Manager Bootstrap
 
@@ -146,7 +146,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orgc00af36"></a>
+<a id="org91bfb3f"></a>
 
 # Package Installation and Configuration
 
@@ -303,7 +303,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgd48403f) section.
+It's mostly used below in the [global keybindings](#org62af3d2) section.
 
 ```emacs-lisp
 (use-package general
@@ -511,7 +511,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="org7315e0f"></a>
+<a id="org0c447f4"></a>
 
 # Extra Packages
 
@@ -597,6 +597,9 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 
   ;; tab complete!
   (global-set-key "\t" 'company-complete-common))
+
+(use-package company-box
+  :hook (company-mode . company-box-mode))
 ```
 
 
@@ -667,7 +670,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="org2440899"></a>
+<a id="org235d788"></a>
 
 # Font
 
@@ -793,7 +796,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
             (sort $list 'string<)))
         ```
         
-        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#orgd48403f) section.
+        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#org62af3d2) section.
         
         ```emacs-lisp
         (defun toggle-ligatures ()
@@ -834,7 +837,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
         Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
-<a id="org9eebc29"></a>
+<a id="orgcd00b2b"></a>
 
 # Language Configuration
 
@@ -958,30 +961,32 @@ So the convention for use is:
 
 ![img](My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif)
 
-Go support requires some dependencies. I will try to list them all here. Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
+-   Dependencies
 
--   First, `go` itself must be installed, install however, and avalailable on the `PATH`.
-
--   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`. [Directions for configuring `gopls` through this file are found here.](https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration)
-
--   `golint` has to be installed independently
-
-```bash
-$ go get https://github.com/golang/lint
-```
-
-Nothing to do with Emacs, but `eg` also looks really cool:
-
-```bash
-$ go get golang.org/x/tools/cmd/eg
-```
-
--   [`golangci-lint`](https://github.com/golangci/golangci-lint) is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. `go-metalinter`, I think, is what it was called. Anyway, it used to crash my computer and *apparently* that was a common experience. Anyway `golangci-lint` must be installed independently, too:
-
-```bash
-# install it into ./bin/
-$ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
-```
+    Go support requires some dependencies. I will try to list them all here. Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
+    
+    -   First, `go` itself must be installed, install however, and avalailable on the `PATH`.
+    
+    -   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`. [Directions for configuring `gopls` through this file are found here.](https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration)
+    
+    -   `golint` has to be installed independently
+    
+    ```bash
+    $ go get https://github.com/golang/lint
+    ```
+    
+    Nothing to do with Emacs, but `eg` also looks really cool:
+    
+    ```bash
+    $ go get golang.org/x/tools/cmd/eg
+    ```
+    
+    -   [`golangci-lint`](https://github.com/golangci/golangci-lint) is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. `go-metalinter`, I think, is what it was called. Anyway, it used to crash my computer and *apparently* that was a common experience. Anyway `golangci-lint` must be installed independently, too:
+    
+    ```bash
+    # install it into ./bin/
+    $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
+    ```
 
 -   Initial Setup
 
@@ -1093,7 +1098,8 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
      ",gt"    'lsp-find-type-definition
      ",i"     'lsp-find-implementation
      ",n"     'lsp-rename
-     ",r"     'lsp-find-references
+     ",r"     'lsp-ui-peek-find-references
+     ",R"     'lsp-find-references
      ",tp"    'go-test-current-project
      ",tt"    'go-test-current-test
      ",tf"    'go-test-current-file
@@ -1283,7 +1289,7 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
-<a id="org5906d5a"></a>
+<a id="org04f6bcf"></a>
 
 # Adaptive Wrap and Visual Line Mode
 
@@ -1313,7 +1319,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgd48403f"></a>
+<a id="org62af3d2"></a>
 
 # Global Keybindings
 
@@ -1447,7 +1453,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-<a id="org2b08a24"></a>
+<a id="org4ddbe71"></a>
 
 # Org Mode Settings
 
@@ -1530,7 +1536,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="orgc753734"></a>
+<a id="org795a166"></a>
 
 # Miscellaneous standalone global configuration changes
 
@@ -1746,7 +1752,7 @@ I prefer that Customize display the names of variables that I can change in this
 ```
 
 
-<a id="orgc0fea58"></a>
+<a id="org3029b8e"></a>
 
 # ERC (IRC config)
 
@@ -1813,7 +1819,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org0bd2dd6"></a>
+<a id="org2ae0c06"></a>
 
 # Render this file for display on the web
 
@@ -1839,7 +1845,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="org3f75e6c"></a>
+<a id="org0c65d5c"></a>
 
 # Hostname-based tweaks
 
@@ -1868,7 +1874,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="orgb65cf03"></a>
+<a id="org8da7be1"></a>
 
 # Footer
 
@@ -1879,7 +1885,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org98e125d"></a>
+<a id="org9cee0e8"></a>
 
 # Styles for HTML export
 
@@ -1966,7 +1972,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="org7dd6c3a"></a>
+<a id="org41a3e13"></a>
 
 # Launching Emacsclient
 
@@ -2010,7 +2016,7 @@ fi
 ```
 
 
-<a id="org393dc4f"></a>
+<a id="org7a06cb1"></a>
 
 # Update README.md git hook
 
@@ -2024,7 +2030,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="orgb00b4a6"></a>
+<a id="orgb1edbd3"></a>
 
 # Running Emacs properly from the GUI
 
@@ -2052,7 +2058,7 @@ StartupWMClass=Emacs
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
 
 
-<a id="org8f5564f"></a>
+<a id="org59b90a6"></a>
 
 # IN PROGRESS Opening Code Links in Emacs
 
