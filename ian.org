@@ -2,6 +2,7 @@
 #+OPTIONS: toc:2 html-style:nil num:nil author:nil timestamp:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
+#+PROPERTIES: :header-args: :tangle yes 
 
 * What is this?
 This is my Emacs configuration, which I install at ~~/.emacs.d~ in all of my development environments. It's written in [[https://orgmode.org/][Org Mode syntax]], which is an Emacs-native plain text format (like Markdown with metadata) which displays beautifully inside of Emacs and exports to a number of other formats for display in places like this README and the web, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment. It also serves as a living document / blog about Emacs and my development environment as it evolves to meet my changing needs.
@@ -30,7 +31,7 @@ I hope that if others find this configuration file online via DuckDuckGo or some
 :header-args: :tangle ~/.emacs.d/init.el :comments link
 :end:
 
-Using Org for one's configuration is not standard Emacs behavior, so I must first configure Emacs to load this file (~ian.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
+First I need to configure Emacs to load this file (~ian.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
 
 Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
 
@@ -75,16 +76,7 @@ Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds t
 
 The rest of the code that is executed begins with the routines defined by this file.
 
-* My Environment
-:properties:
-:header-args: :tangle yes :comments link :noweb yes
-:end:
-
-*This is where my environment definition begins*
-
-After running the ~init.el~ entrypoint, this file is tangled to ~ian.el~ and executed.
-
-** Bootstrap
+* Package Manager Bootstrap
 The first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with ~git~, so I use ~use-package~ to ensure that packages are installed from my configuration file.
 
 Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, installs [[https://github.com/jwiegley/use-package][~use-package~]] if it is not found, configures ~use-package~ and installs a few extra packages that acoutrement ~use-package~ and will be used heavily throughout.
@@ -130,7 +122,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
-** Package Installation and Configuration
+* Package Installation and Configuration
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 *** Icons
 Treemacs and Doom themes both rely upon ~all-the-icons~ to look nice
@@ -436,7 +428,7 @@ Enable yas-mode everywhere
 #+begin_src emacs-lisp
   (yas-global-mode 1)
 #+END_SRC
-** Extra Packages
+* Extra Packages
 Packages with a smaller effect on the experience.
 *** git-gutter shows unstaged changes in the gutter
 #+BEGIN_SRC emacs-lisp
@@ -531,7 +523,7 @@ Bound by default to ~C-<TAB>~ and ~C-S-<TAB>~, I have decided that these are san
   (use-package pc-bufsw)
   (pc-bufsw)
 #+end_src
-** Font
+* Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 **** FiraCode Font Installation Script
 :properties:
@@ -690,7 +682,7 @@ This solves the problem except when visiting a buffer in teminal which is alread
 Not spending more time on this unless Emacs 28 doesn't fix the problem. ~SPC t l~ is good enough.
 Boy the ligatures look nice in the GUI though..
 
-** Language Configuration
+* Language Configuration
 *** Language Server Protocol
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
@@ -1101,7 +1093,7 @@ But for now, disable ~indent-tabs-mode~ in shell script editing mode because I h
    ",c" (general-simulate-key "C-x h C-M-x")
    )
 #+end_src
-** Adaptive Wrap and Visual Line Mode
+* Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap-prefix-mode]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 #+BEGIN_SRC emacs-lisp
   (use-package adaptive-wrap
@@ -1126,7 +1118,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     (setq compilation-scroll-output t))
 #+END_SRC
 
-** Global Keybindings
+* Global Keybindings
 *** Helper Functions
 #+BEGIN_SRC emacs-lisp
   (defun find-initfile ()
@@ -1254,7 +1246,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     ";" 'comment-or-uncomment-region)
     #+END_SRC
 
-** Org Mode Settings
+* Org Mode Settings
 
   Some default evil bindings
 #+BEGIN_SRC emacs-lisp
@@ -1330,7 +1322,7 @@ Autocomplete for Org blocks (like source blocks)
           (sequence "QUESTION(q)" "|" "ANSWERED(a)")
           (sequence "AGENDA(a)" "|" "DONE(d)" )))
 #+END_SRC
-** Miscellaneous standalone global configuration changes
+* Miscellaneous standalone global configuration changes
 *** Disable most warnings
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
 #+begin_src emacs-lisp
@@ -1492,7 +1484,7 @@ Writable grep mode allows you to edit the results from running grep on a project
   (use-package wgrep-ack)
 #+END_SRC
 
-** ERC (IRC config)
+* ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
 ~machine HOSTNAME login USER password PASSWORD port PORTNUMBER~
@@ -1552,7 +1544,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 
 *** TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
 
-** Render this file for display on the web
+* Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
 #+BEGIN_SRC emacs-lisp
@@ -1574,7 +1566,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
     )
 #+END_SRC
 
-** Hostname-based tweaks
+* Hostname-based tweaks
 
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
 
@@ -1602,14 +1594,14 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
 This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
 
-** Footer
+* Footer
 #+BEGIN_SRC emacs-lisp
   (server-start)
   (provide '~/.emacs.d/ian.el)
   ;;; ian.el ends here
 #+END_SRC
 
-** Styles for HTML export
+* Styles for HTML export
 We can spruce up the HTML representation of this file with a little bit of CSS.
 
 #+BEGIN_SRC css :tangle ./styles.css
@@ -1692,7 +1684,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
   }
   #+END_SRC
 
-** Launching Emacsclient
+* Launching Emacsclient
 [[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]]
 #+BEGIN_SRC bash :tangle ~/bin/ec :shebang #!/usr/bin/bash
   args=""
@@ -1730,7 +1722,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
       (nohup emacsclient "${args[@]}" > /dev/null 2>&1 &) > /dev/null
   fi
 #+END_SRC
-** Update README.md git hook
+* Update README.md git hook
 :properties:
 :header-args: :tangle .git/hooks/pre-commit :shebang #!/bin/bash
 :end:
@@ -1744,7 +1736,7 @@ Before commit, generate the README.md file from the updated configuration.
 
 I think the command being passed to ~emacsclient~ here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using ~git~ on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
-** Running Emacs properly from the GUI
+* Running Emacs properly from the GUI
 
 This ~.desktop~ file calls ~emacs~ when it's not already running, and ~emacsclient~ otherwise.
 Slow on first launch, then fast for every new frame thereafter.
@@ -1768,7 +1760,7 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
 *** TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit 
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug. 
 
-** IN PROGRESS Opening Code Links in Emacs 
+* IN PROGRESS Opening Code Links in Emacs 
 This looks like it's possible but it's going to be hard to make automatic.
 I was hoping that I could make use of Firefox Sync but it looks like the setting that needs to be toggled is in ~about:config~.
 
