@@ -863,15 +863,6 @@ Once that's done ~gorepl-mode~ is ready to be installed:
 
 **** Interactive debugger
 I got jealous of a coworker with an IDE who apparently has an interactive debugger, so let's see if this is any good. It's been a long time since I've really had a debugger 🤣
-
-***** Resources
-Figured out how to do this, just need to add it..
-[[https://emacs-lsp.github.io/dap-mode/page/configuration/#go]]
-
-
-<2022-02-10 Thu> Found another guide here, let's try it out
-https://apmattil.medium.com/debug-go-golang-with-emacs-fbf840c0aa56
-
 ***** Installation and Configuration
 Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languages so at some point I will want to refactor it out and install it alongside LSP, but keep ~dap-go~ here. Probably. But this works for now, and who knows, maybe debugging Go is really all I care about.
 
