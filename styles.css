@@ -1,4 +1,3 @@
-/* [[file:~/.emacs.d/ian.org::*Styles for HTML export][Styles for HTML export:1]] */
 body {
     background-image: url("EmacsIcon.svg");
     background-size: 100%;
@@ -76,4 +75,3 @@ pre.example {
 pre.example::-webkit-scrollbar {
     display: none;
 }
-/* Styles for HTML export:1 ends here */

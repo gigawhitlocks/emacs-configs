@@ -1480,60 +1480,62 @@ I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$U
 
 ~machine HOSTNAME login USER password PASSWORD port PORTNUMBER~
 
-So we can use ~sed~ and ~grep~ which are available on all of my machines to look up the nick, and then once we have the nick, Emacs will get the rest automatically. Then I manage ~.authinfo~ manually on each machine.
+So we can use ~sed~ and ~grep~ which are available on all of my machines to look up the nick, and then once we have the nick, Emacs will get the rest automatically. Then I manage ~.authinfo~ manually on each machine. Maybe I can automate that part with a password manager and some little script if I'm feeling inspired someday.
 
 I wrote a quick Bash one-liner to extract the login. Maybe I could've done this in elisp but Emacs makes it easy enough to mix languages, so here is the one-liner, which will tangle out to ~get-nick.bash~:
 
-#+BEGIN_SRC bash :tangle ~/.emacs.d/get-nick.bash :shebang /bin/bash
+#+BEGIN_SRC bash :tangle ~/.emacs.d/get-nick.bash :shebang #!/bin/bash
 grep "$1" ~/.authinfo | sed 's/.*login \([^ ]\+ \).*/\1/g'
+#+END_SRC
+
+And also for the password
+#+BEGIN_SRC bash :tangle ~/.emacs.d/get-irc-password.bash :shebang #!/bin/bash
+grep "$1" ~/.authinfo | sed 's/.*password \([^ ]\+ \).*/\1/g'
 #+END_SRC
 
 Then configure Emacs to use this to find the nick (and put in place the rest of the configuration that I would like for ERC):
 
 #+BEGIN_SRC emacs-lisp
-  (defun irc ()
-    "Connect to IRC."
-    (interactive)
+    (defun irc ()
+      "Connect to IRC."
+      (interactive)
 
-    ;; tangle this file to produce the bash script
-    (org-babel-tangle "~/.emacs.d/ian.org")
+      ;; tangle this file to produce the bash script
+      (org-babel-tangle "~/.emacs.d/ian.org")
 
-    ;; some visual tweaks
-    (add-hook 'erc-mode-hook 'variable-pitch-mode)
-    (add-hook 'erc-mode-hook 'visual-line-mode)
+      ;; some visual tweaks
+      (add-hook 'erc-mode-hook 'variable-pitch-mode)
+      (add-hook 'erc-mode-hook 'visual-line-mode)
 
-    (let ((
-           nick  (s-trim (shell-command-to-string
-                          "~/.emacs.d/get-nick.bash freenode"))
-           ))
+      (let ((nick  (s-trim (shell-command-to-string
+                            "~/.emacs.d/get-nick.bash libera.chat")))
+            (password (s-trim (shell-command-to-string
+                               "~/.emacs.d/get-irc-password.bash libera.chat"))))
 
-      (erc-tls
-       ;; these days I only use Freenode
-       :server "irc.freenode.net"
-       :port 6697
-       :nick nick)
-      )
+        (erc-tls
+         ;; these days I only use libera.chat
+         :server "irc.libera.chat"
+         :port 6697
+         :nick nick
+         :password password
+         ))
 
-    ;; channel subscriptions
-    (defvar erc-autojoin-channels-alist)
-    (setq erc-autojoin-channels-alist '(("freenode.net" "#emacs" )))
+      ;; channel subscriptions
+      (defvar erc-autojoin-channels-alist)
+      (setq erc-autojoin-channels-alist '(("libera.chat" "#emacs" )))
 
-    ;; hide join/part spam
-    (defvar erc-hide-list)
-    (setq erc-hide-list '("JOIN" "PART" "QUIT"))
+      ;; hide join/part spam
+      (defvar erc-hide-list)
+      (setq erc-hide-list '("JOIN" "PART" "QUIT"))
 
-    ;; use human-friendly IRC network names instead of host incl port
-    (defvar erc-rename-buffers)
-    (setq erc-rename-buffers t)
+      ;; use human-friendly IRC network names instead of host incl port
+      (defvar erc-rename-buffers)
+      (setq erc-rename-buffers t)
 
-    ;; reconnect broken sessions
-    (defvar erc-server-auto-reconnect)
-    (setq erc-server-auto-reconnect t)
-
-    )
+      ;; reconnect broken sessions
+      (defvar erc-server-auto-reconnect)
+      (setq erc-server-auto-reconnect t))
 #+END_SRC
-
-*** TODO recover my libera.chat credentials and update the config to reference that server instead of Freenode
 
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
