@@ -143,6 +143,7 @@ It's installed early because many things have integrations with it, including so
 I'm using the Doom Emacs theme pack.
 I think they're really nice to look at, especially with ~solaire-mode~.
 
+First install the theme pack:
 #+begin_src emacs-lisp
   (use-package doom-themes
     :config
@@ -150,12 +151,25 @@ I think they're really nice to look at, especially with ~solaire-mode~.
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
           doom-themes-enable-italic t
           doom-themes-treemacs-theme "doom-colors"
-    ) ; if nil, italics is universally disabled
+          ) ; if nil, italics is universally disabled
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config)
     ;; Configures Treemacs to play nicely with Doom themes
     (doom-themes-treemacs-config))
+    
+#+end_src
 
+Apply a small fix where doom-colors Treemacs theme is missing a few icons
+#+begin_src emacs-lisp
+  (treemacs-define-custom-icon
+   (treemacs-get-icon-value "sh") "bash")
+
+  (treemacs-define-custom-icon
+   (treemacs-get-icon-value "cache") "sqlite")
+#+end_src 
+
+Enable the theme
+#+begin_src emacs-lisp
   (load-theme 'doom-one t)
 #+end_src
 
