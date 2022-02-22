@@ -523,6 +523,12 @@ Bound by default to ~C-<TAB>~ and ~C-S-<TAB>~, I have decided that these are san
   (use-package pc-bufsw)
   (pc-bufsw)
 #+end_src
+*** Writeable grep mode with ack
+Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
+#+BEGIN_SRC emacs-lisp
+  (use-package ack)
+  (use-package wgrep-ack)
+#+END_SRC
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 **** FiraCode Font Installation Script
@@ -1150,7 +1156,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
           (display-line-numbers-mode))))
 #+end_src
 
-
 *** Global Leader Keymappings
 These are all under SPACE, following the Spacemacs pattern.
 Yeah, my configuration is a little of Spacemacs, a little of Doom, and a little of whatever I feel inspired by.
@@ -1469,12 +1474,6 @@ I prefer that Customize display the names of variables that I can change in this
   (setq custom-unlispify-tag-names nil)
 #+END_SRC
 
-*** Enable wgrep mode
-Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
-#+BEGIN_SRC emacs-lisp
-  (use-package wgrep-ack)
-#+END_SRC
-
 * ERC (IRC config)
 I don't like to check in my IRC nicks into this file, so I've utilized ~/home/$USER/.authinfo~ which is apparently a GNU standard. The format for this file follows this pattern:
 
@@ -1593,7 +1592,6 @@ It may someday feel worth my time to automate this, but so far it hasn't been wo
   (provide '~/.emacs.d/ian.el)
   ;;; ian.el ends here
 #+END_SRC
-
 * Styles for HTML export
 We can spruce up the HTML representation of this file with a little bit of CSS.
 
