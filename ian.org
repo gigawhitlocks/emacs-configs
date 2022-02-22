@@ -627,9 +627,9 @@ But the ligatures are broken in the terminal with this mode. I would prefer that
 
 I need to at least be able to quickly turn the ligatures off, and shouldn't automatically turn them on when opening a file in the terminal.
 
-First I needed a helper method to determine what buffers are active
+First I needed a helper function to determine what buffers are active (I don't know why there isn't a built-in that does this, so thanks [[https://emacs.stackexchange.com/questions/10785/get-list-of-active-minor-modes-in-buffer][Stack Exchange]] for allowing me to avoid thinking on this occasion)
 #+begin_src emacs-lisp
-  ;; https://emacs.stackexchange.com/questions/10785/get-list-of-active-minor-modes-in-buffer
+  ;; I didn't write this
   (defun isw-get-active-minor-modes-in-buffer-list ()
     "Get a list of which minor modes are enabled in the current buffer."
     (let ($list)
