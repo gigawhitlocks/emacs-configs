@@ -604,8 +604,8 @@ Calling the script from above will install the font
 Enable it
 
 #+BEGIN_SRC emacs-lisp
-  (add-to-list 'default-frame-alist '(font . "Fira Code-12"))
-  (set-frame-font "Fira Code-12" nil t)
+  (add-to-list 'default-frame-alist '(font . "Fira Code-10"))
+  (set-frame-font "Fira Code-10" nil t)
 #+end_src
 
 **** Configure FiraCode special features
