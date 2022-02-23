@@ -2,7 +2,7 @@
 #+OPTIONS: toc:2 html-style:nil num:nil author:nil timestamp:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
-#+PROPERTIES: :header-args: :tangle yes 
+#+PROPERTY: header-args:emacs-lisp :tangle yes
 
 * What is this?
 This is my Emacs configuration, which I install at ~~/.emacs.d~ in all of my development environments. It's written in [[https://orgmode.org/][Org Mode syntax]], which is an Emacs-native plain text format (like Markdown with metadata) which displays beautifully inside of Emacs and exports to a number of other formats for display in places like this README and the web, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment. It also serves as a living document / blog about Emacs and my development environment as it evolves to meet my changing needs.
@@ -546,6 +546,10 @@ Writable grep mode allows you to edit the results from running grep on a project
   (use-package ack)
   (use-package wgrep-ack)
 #+END_SRC
+*** Better help buffers
+#+begin_src emacs-lisp
+  (use-package helpful)
+#+end_src
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 **** FiraCode Font Installation Script
