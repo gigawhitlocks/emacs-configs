@@ -1,27 +1,27 @@
-- [What is this?](#org59f0023)
-- [Entrypoint](#org318f589)
-- [Package Manager Bootstrap](#org375177d)
-- [Package Installation and Configuration](#org3387429)
-- [Extra Packages](#org32058cb)
-- [Font](#orga1b8ad9)
-- [Language Configuration](#org6fefc4c)
-- [Adaptive Wrap and Visual Line Mode](#org72eec63)
-- [Global Keybindings](#org92d5637)
-- [Org Mode Settings](#orgf95866d)
-- [Miscellaneous standalone global configuration changes](#org111247c)
-- [ERC (IRC config)](#org48b0a05)
-- [Render this file for display on the web](#org2928016)
-- [Hostname-based tweaks](#org200891c)
-- [Footer](#orga9901df)
-- [Styles for HTML export](#org9cbb96b)
-- [Launching Emacsclient](#orgcc9cf5b)
-- [Update README.md git hook](#orgedaecb6)
-- [Running Emacs properly from the GUI](#org1a53ce6)
-- [Opening Code Links in Emacs](#org8f4d594)
+- [What is this?](#org750f1d1)
+- [Entrypoint](#org15dcbad)
+- [Package Manager Bootstrap](#org3710ada)
+- [Package Installation and Configuration](#org672867d)
+- [Extra Packages](#orgdb452ba)
+- [Font](#org6e6d1b6)
+- [Language Configuration](#orga00be0a)
+- [Adaptive Wrap and Visual Line Mode](#org47a4305)
+- [Global Keybindings](#orgdd5d024)
+- [Org Mode Settings](#orgfb99b51)
+- [Miscellaneous standalone global configuration changes](#orgd6dcf5c)
+- [ERC (IRC config)](#org56e0716)
+- [Render this file for display on the web](#orgc41947c)
+- [Hostname-based tweaks](#org5fb5a00)
+- [Footer](#org4a12464)
+- [Styles for HTML export](#orgbf68a7f)
+- [Launching Emacsclient](#orgf47c55f)
+- [Update README.md git hook](#org223fac7)
+- [Running Emacs properly from the GUI](#org99cd61f)
+- [Opening Code Links in Emacs](#org4d599f5)
 
 
 
-<a id="org59f0023"></a>
+<a id="org750f1d1"></a>
 
 # What is this?
 
@@ -46,7 +46,7 @@ There are no guarantees that this configuration will work for you out of the box
 I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 
-<a id="org318f589"></a>
+<a id="org15dcbad"></a>
 
 # Entrypoint
 
@@ -96,7 +96,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="org375177d"></a>
+<a id="org3710ada"></a>
 
 # Package Manager Bootstrap
 
@@ -146,7 +146,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="org3387429"></a>
+<a id="org672867d"></a>
 
 # Package Installation and Configuration
 
@@ -192,10 +192,9 @@ First install the theme pack:
   (doom-themes-org-config)
   ;; Configures Treemacs to play nicely with Doom themes
   (doom-themes-treemacs-config))
-
 ```
 
-Apply a small fix where doom-colors Treemacs theme is missing a few icons
+Apply a small fix where doom-colors Treemacs theme is missing a few icons; just reuse a similar one
 
 ```emacs-lisp
 (treemacs-define-custom-icon
@@ -224,6 +223,12 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 (use-package doom-modeline
   :ensure t
   :hook (after-init . doom-modeline-mode))
+```
+
+I don't install any third party themes that I'm not using and I think I'll be using the Doom theme pack for awhile. I'm having an issue with `custom-safe-themes` not getting set properly automatically, so I am just going to disable the check, since I would answer "yes" to the prompt for all of my installed themes, anyway.
+
+```emacs-lisp
+
 ```
 
 
@@ -320,7 +325,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#org92d5637) section.
+It's mostly used below in the [global keybindings](#orgdd5d024) section.
 
 ```emacs-lisp
 (use-package general
@@ -528,7 +533,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="org32058cb"></a>
+<a id="orgdb452ba"></a>
 
 # Extra Packages
 
@@ -687,7 +692,17 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="orga1b8ad9"></a>
+### Better help buffers
+
+```emacs-lisp
+(use-package helpful)
+(global-set-key (kbd "C-h f") #'helpful-callable)
+(global-set-key (kbd "C-h v") #'helpful-variable)
+(global-set-key (kbd "C-h k") #'helpful-key)
+```
+
+
+<a id="org6e6d1b6"></a>
 
 # Font
 
@@ -813,7 +828,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
             (sort $list 'string<)))
         ```
         
-        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#org92d5637) section.
+        Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#orgdd5d024) section.
         
         ```emacs-lisp
         (defun toggle-ligatures ()
@@ -854,7 +869,7 @@ The FiraCode font is a programming-focused font with ligatures that looks nice a
         Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
-<a id="org6fefc4c"></a>
+<a id="orga00be0a"></a>
 
 # Language Configuration
 
@@ -1313,7 +1328,7 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
-<a id="org72eec63"></a>
+<a id="org47a4305"></a>
 
 # Adaptive Wrap and Visual Line Mode
 
@@ -1343,7 +1358,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="org92d5637"></a>
+<a id="orgdd5d024"></a>
 
 # Global Keybindings
 
@@ -1477,7 +1492,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-<a id="orgf95866d"></a>
+<a id="orgfb99b51"></a>
 
 # Org Mode Settings
 
@@ -1560,7 +1575,7 @@ Autocomplete for Org blocks (like source blocks)
 ```
 
 
-<a id="org111247c"></a>
+<a id="orgd6dcf5c"></a>
 
 # Miscellaneous standalone global configuration changes
 
@@ -1776,7 +1791,7 @@ I prefer that Customize display the names of variables that I can change in this
 ```
 
 
-<a id="org48b0a05"></a>
+<a id="org56e0716"></a>
 
 # ERC (IRC config)
 
@@ -1843,7 +1858,7 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 ```
 
 
-<a id="org2928016"></a>
+<a id="orgc41947c"></a>
 
 # Render this file for display on the web
 
@@ -1869,7 +1884,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="org200891c"></a>
+<a id="org5fb5a00"></a>
 
 # Hostname-based tweaks
 
@@ -1898,7 +1913,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="orga9901df"></a>
+<a id="org4a12464"></a>
 
 # Footer
 
@@ -1909,7 +1924,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org9cbb96b"></a>
+<a id="orgbf68a7f"></a>
 
 # Styles for HTML export
 
@@ -1996,7 +2011,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="orgcc9cf5b"></a>
+<a id="orgf47c55f"></a>
 
 # Launching Emacsclient
 
@@ -2040,7 +2055,7 @@ fi
 ```
 
 
-<a id="orgedaecb6"></a>
+<a id="org223fac7"></a>
 
 # Update README.md git hook
 
@@ -2054,7 +2069,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="org1a53ce6"></a>
+<a id="org99cd61f"></a>
 
 # Running Emacs properly from the GUI
 
@@ -2064,7 +2079,7 @@ Tangling this file will install the .desktop file to the correct location (`~/.l
 
 ```conf
 [Desktop Entry]
-Name=Emacs (Client)
+Name=Emacs
 GenericName=Text Editor
 Comment=Edit text
 MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
@@ -2082,7 +2097,7 @@ StartupWMClass=Emacs
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
 
 
-<a id="org8f4d594"></a>
+<a id="org4d599f5"></a>
 
 # IN PROGRESS Opening Code Links in Emacs
 

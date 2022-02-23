@@ -549,6 +549,9 @@ Writable grep mode allows you to edit the results from running grep on a project
 *** Better help buffers
 #+begin_src emacs-lisp
   (use-package helpful)
+  (global-set-key (kbd "C-h f") #'helpful-callable)
+  (global-set-key (kbd "C-h v") #'helpful-variable)
+  (global-set-key (kbd "C-h k") #'helpful-key)
 #+end_src
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
@@ -1762,7 +1765,7 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
 
 #+begin_src conf :tangle ~/.local/share/applications/Emacsclient.desktop
   [Desktop Entry]
-  Name=Emacs (Client)
+  Name=Emacs
   GenericName=Text Editor
   Comment=Edit text
   MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
