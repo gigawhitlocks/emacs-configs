@@ -1516,11 +1516,6 @@ I wrote a quick Bash one-liner to extract the login. Maybe I could've done this 
 grep "$1" ~/.authinfo | sed 's/.*login \([^ ]\+ \).*/\1/g'
 #+END_SRC
 
-And also for the password
-#+BEGIN_SRC bash :tangle ~/.emacs.d/get-irc-password.bash :shebang #!/bin/bash
-grep "$1" ~/.authinfo | sed 's/.*password \([^ ]\+ \).*/\1/g'
-#+END_SRC
-
 Then configure Emacs to use this to find the nick (and put in place the rest of the configuration that I would like for ERC):
 
 #+BEGIN_SRC emacs-lisp
@@ -1537,15 +1532,13 @@ Then configure Emacs to use this to find the nick (and put in place the rest of 
 
       (let ((nick  (s-trim (shell-command-to-string
                             "~/.emacs.d/get-nick.bash libera.chat")))
-            (password (s-trim (shell-command-to-string
-                               "~/.emacs.d/get-irc-password.bash libera.chat"))))
+            )
 
         (erc-tls
          ;; these days I only use libera.chat
          :server "irc.libera.chat"
          :port 6697
          :nick nick
-         :password password
          ))
 
       ;; channel subscriptions
