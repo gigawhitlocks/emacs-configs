@@ -555,7 +555,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 #+end_src
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
-**** FiraCode Font Installation Script
+*** FiraCode Font Installation Script
 :properties:
 :header-args: :tangle ~/.emacs.d/install-firacode-font.bash :shebang #!/usr/bin/env bash
 :end:
@@ -600,7 +600,7 @@ Now here's the standard installation script, stripped of the shebang to go after
 
 This installation script was sourced from [[https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager]]
 
-**** Enable FiraCode Font
+*** Enable FiraCode Font
 
 Calling the script from above will install the font
 #+begin_src emacs-lisp
@@ -615,9 +615,9 @@ Enable it
   (set-frame-font "Fira Code-10" nil t)
 #+end_src
 
-**** Configure FiraCode special features
+*** Configure FiraCode special features
 FiraCode offers ligatures for programming symbols, which is cool. 
-***** TODO Use the new method after upgrading to Emacs 28
+**** TODO Use the new method after upgrading to Emacs 28
 The following, taken from the [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel][installation guide]], enables these using the ~ligature.el~ method:
 #+begin_src emacs-lisp
   ;; ;; Enable the www ligature in every possible major mode
@@ -641,7 +641,7 @@ The following, taken from the [[https://github.com/tonsky/FiraCode/wiki/Emacs-in
 Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <2022-02-19 Sat>
 In the future I would like to use this approach, so I will leave it commented out above.
 
-***** Configure with a less-optimal method 
+**** Configure with a less-optimal method 
 Ligatures have turned out to be a bigger pain than I'd hoped. This is the suboptimal configuration that I'll keep until Emacs 28 comes out. Once that's out, I can delete all of this, and also I can remove the fetch and installation of the FiraCode Symbols font in the installation script above.
 
 First of all, install the helper mode:
@@ -1587,6 +1587,20 @@ This defines a command that will export this file to GitHub flavored Markdown an
     )
 #+END_SRC
 
+** Update README.md git hook
+:properties:
+:header-args: :tangle .git/hooks/pre-commit :shebang #!/bin/bash
+:end:
+
+Before commit, generate the README.md file from the updated configuration.
+
+#+begin_src bash
+  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
+  git add README.md ian.html
+#+end_src
+
+I think the command being passed to ~emacsclient~ here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using ~git~ on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
+
 * Hostname-based tweaks
 
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
@@ -1742,20 +1756,6 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
       (nohup emacsclient "${args[@]}" > /dev/null 2>&1 &) > /dev/null
   fi
 #+END_SRC
-* Update README.md git hook
-:properties:
-:header-args: :tangle .git/hooks/pre-commit :shebang #!/bin/bash
-:end:
-
-Before commit, generate the README.md file from the updated configuration.
-
-#+begin_src bash
-  emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
-  git add README.md ian.html
-#+end_src
-
-I think the command being passed to ~emacsclient~ here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using ~git~ on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
-
 * Running Emacs properly from the GUI
 
 This ~.desktop~ file calls ~emacs~ when it's not already running, and ~emacsclient~ otherwise.
