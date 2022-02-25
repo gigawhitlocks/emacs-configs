@@ -27,10 +27,6 @@ There are no guarantees that this configuration will work for you out of the box
 I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 * Entrypoint
-:properties:
-:header-args: :tangle ~/.emacs.d/init.el :comments link
-:end:
-
 First I need to configure Emacs to load this file (~ian.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
 
 Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
@@ -156,7 +152,6 @@ First install the theme pack:
     (doom-themes-org-config)
     ;; Configures Treemacs to play nicely with Doom themes
     (doom-themes-treemacs-config))
-    
 #+end_src
 
 Apply a small fix where doom-colors Treemacs theme is missing a few icons
@@ -552,6 +547,10 @@ Writable grep mode allows you to edit the results from running grep on a project
   (global-set-key (kbd "C-h f") #'helpful-callable)
   (global-set-key (kbd "C-h v") #'helpful-variable)
   (global-set-key (kbd "C-h k") #'helpful-key)
+#+end_src
+*** Quickly jump around buffers
+#+begin_src emacs-lisp
+  (use-package ace-jump-mode)
 #+end_src
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
@@ -1209,6 +1208,12 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "TAB"    #'switch-to-prev-buffer
     "br"     'revert-buffer
     "bd"     'evil-delete-buffer
+    "ds"     (defun isw-desktop-save ()
+               (interactive)
+               (desktop-save "~/desktop-saves"))
+    "dr"     (defun isw-desktop-read ()
+               (interactive)
+               (desktop-read "~/desktop-saves"))
     "cc"     'projectile-compile-project
     "ec"     'flycheck-clear
     "el"     'flycheck-list-errors
@@ -1623,11 +1628,23 @@ This isn't great but for now I've just been making a copy of one of the existing
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
 
 * Footer
+** Restore previous session
+#+begin_src emacs-lisp :tangle yes
+  (desktop-read "~/desktop-saves/")
+#+end_src
+
+** Start server
 #+BEGIN_SRC emacs-lisp
   (server-start)
+#+END_SRC
+
+** End of file
+Everything after this point in the config file must not be emacs-lisp
+#+begin_src emacs-lisp
   (provide '~/.emacs.d/ian.el)
   ;;; ian.el ends here
 #+END_SRC
+
 * Styles for HTML export
 We can spruce up the HTML representation of this file with a little bit of CSS.
 
