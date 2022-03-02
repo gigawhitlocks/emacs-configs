@@ -1582,11 +1582,6 @@ This isn't great but for now I've just been making a copy of one of the existing
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
 
 * Footer
-** Restore previous session
-#+begin_src emacs-lisp :tangle yes
-  (desktop-read "~/desktop-saves/")
-#+end_src
-
 ** Start server
 #+BEGIN_SRC emacs-lisp
   (server-start)
