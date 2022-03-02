@@ -2,12 +2,6 @@
 
 Stuff that's specific to my work computer's Emacs config.
 
-
-* Font
-#+BEGIN_SRC emacs-lisp
-  (set-font "Source Code Pro-10")
-#+END_SRC
-
 * Bigger screen
 #+begin_src emacs-lisp
   (add-to-list 'default-frame-alist '(width . 260))
