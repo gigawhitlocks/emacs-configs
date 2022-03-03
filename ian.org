@@ -790,6 +790,7 @@ Tree-sitter reads the AST to provide better syntax highlighting
   ;; this can go here because it affects Markdown's live preview mode
   ;; but I should consider putting it somewhere more general maybe?
   (add-hook 'eww-mode-hook 'visual-line-mode)
+  (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
 #+END_SRC
 
 *** Docker
