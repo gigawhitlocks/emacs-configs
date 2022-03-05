@@ -1361,8 +1361,10 @@ Org is mostly prose and prose should be read in a variable-pitch font where poss
 This changes fonts in Org to be variable-pitch where it makes sense
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'variable-pitch-mode)
-  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+  (add-hook 'org-mode-hook
+            '(lambda ()
+               (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+               (set-face-attribute 'org-block nil :inherit 'fixed-pitch)))
 #+end_src
 TODO: make the reset to fixed-pitch for code blocks happen automatically, since my first attempts at adding a hook didn't work
 
