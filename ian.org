@@ -790,6 +790,8 @@ Tree-sitter reads the AST to provide better syntax highlighting
   ;; this can go here because it affects Markdown's live preview mode
   ;; but I should consider putting it somewhere more general maybe?
   (add-hook 'eww-mode-hook 'visual-line-mode)
+  
+  ;; show code blocks w/ monospace font
   (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
 #+END_SRC
 
@@ -1354,7 +1356,7 @@ Autocomplete for Org blocks (like source blocks)
           (sequence "AGENDA(a)" "|" "DONE(d)" )))
 #+END_SRC
 
-*** Use a variable-pitch font in Org-Mode
+*** TODO Use a variable-pitch font in Org-Mode
 Org is mostly prose and prose should be read in a variable-pitch font where possible.
 This changes fonts in Org to be variable-pitch where it makes sense
 #+begin_src emacs-lisp
@@ -1362,6 +1364,8 @@ This changes fonts in Org to be variable-pitch where it makes sense
   (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
   (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
 #+end_src
+TODO: make the reset to fixed-pitch for code blocks happen automatically, since my first attempts at adding a hook didn't work
+
 * Miscellaneous standalone global configuration changes
 *** Disable most warnings
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
@@ -1517,6 +1521,9 @@ I prefer that Customize display the names of variables that I can change in this
 #+BEGIN_SRC emacs-lisp
   (setq custom-unlispify-tag-names nil)
 #+END_SRC
+
+*** TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
+http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html
 
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
