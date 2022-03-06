@@ -437,6 +437,19 @@ Enable yas-mode everywhere
 #+begin_src emacs-lisp
   (yas-global-mode 1)
 #+END_SRC
+*** Smooth scrolling, distraction-free mode, and minimap
+#+begin_src emacs-lisp
+  (use-package sublimity)
+  (require 'sublimity-scroll)
+
+  (setq sublimity-scroll-weight 2
+        sublimity-scroll-drift-length 4
+        sublimity-scroll-vertical-frame-delay 0.01)
+
+  (require 'sublimity-attractive)
+  (sublimity-mode 1)
+  (setq sublimity-attractive-centering-width 110)
+#+end_src
 * Extra Packages
 Packages with a smaller effect on the experience.
 *** git-gutter shows unstaged changes in the gutter
