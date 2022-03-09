@@ -1,30 +1,8 @@
-#+TITLE:My Emacs Configuration
+#+TITLE:Main Configuration
 #+OPTIONS: toc:2 html-style:nil num:nil author:nil timestamp:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
 #+PROPERTY: header-args:emacs-lisp :tangle yes
-
-* What is this?
-This is my Emacs configuration, which I install at ~~/.emacs.d~ in all of my development environments. It's written in [[https://orgmode.org/][Org Mode syntax]], which is an Emacs-native plain text format (like Markdown with metadata) which displays beautifully inside of Emacs and exports to a number of other formats for display in places like this README and the web, and allows extraction of source code blocks into plain source code files through a process called "tangling," so the source code embedded below is ultimately run as my real programming environment. It also serves as a living document / blog about Emacs and my development environment as it evolves to meet my changing needs.
-
-Writing the code in this file and tangling it to its final destination allows me to keep everything in one place, which helps me later figure out what changes I've made. Over time I have accumulated configuration settings and files that need to be installed outside of Emacs's configuration directory, and tangling provides me with a way to document that these files have been installed, and what their contents are, in a place where I can remember to discover them in the future.
-
-In addition, Emacs's ~eval-last-sexp~ allows me to test the configuration as I add it to the file, which allows me to feel confident that the saved code works.
-
-It also encourages me to explain what I'm doing and why, so that when I come back to the configuration in a year or two, I know what it is, and how safe it is to remove it if the configuration is no longer desired.
-
-If you're reading this on the web, the source code for this file can be found [[https://github.com/gigawhitlocks/emacs-configs/blob/master/ian.org][on GitHub]].
-If you want to try out this configuration file, run the following:
-
-#+BEGIN_SRC bash
-  git clone https://github.com/gigawhitlocks/emacs-configs ~/.emacs.d
-  mv ~/.emacs.d/local/wintermute.org ~/.emacs.d/local/"$(hostname)".org
-  emacs
-#+END_SRC
-
-There are no guarantees that this configuration will work for you out of the box like that, but this is how I bootstrap onto new machines. This stuff is for personal use, so it isn't tested on systems I don't have, and I only notice kinks in bootstrapping when I set up a new system, but this file is intended to be modular enough that individual snippets are understandable and can be taken /a la carté/.
-
-I hope that if others find this configuration file online via DuckDuckGo or some other search engine, that it helps provide usage examples of some common third-party packages, and can help someone out there configure their Emacs environment more to their liking.
 
 * Entrypoint
 First I need to configure Emacs to load this file (~ian.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
