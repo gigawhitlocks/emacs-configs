@@ -1381,6 +1381,11 @@ This changes fonts in Org to be variable-pitch where it makes sense
 #+end_src
 
 * Miscellaneous standalone global configuration changes
+*** TRAMP settings
+Only one setting at the moment: use ~ssh~ instead of ~scp~ when accessing files with ~ssh:~ schemes
+#+begin_src emacs-lisp
+  (setq tramp-default-method "ssh")
+#+end_src
 *** Disable most warnings
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
 #+begin_src emacs-lisp
