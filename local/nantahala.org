@@ -1,15 +1,1 @@
-#+TITLE: The Work Laptop's Config
-
-Stuff that's specific to my work computer's Emacs config.
-
-* Bigger screen
-#+begin_src emacs-lisp
-  (add-to-list 'default-frame-alist '(width . 260))
-  (add-to-list 'default-frame-alist '(height . 80))
-#+end_src
-
-* Footer
-#+BEGIN_SRC emacs-lisp
-  (provide 'local)
-#+END_SRC
-
+/home/ian/notes/nantahala.org
