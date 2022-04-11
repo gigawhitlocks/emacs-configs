@@ -1244,6 +1244,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "ts"     'toggle-screaming
     "tt"     'toggle-transparency
     "tl"     'toggle-ligatures
+    "tw"     'whitespace-mode
     "w-"     'split-window-below
     "w/"     'split-window-right
     "wa"     'ace-window
