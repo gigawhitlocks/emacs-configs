@@ -418,12 +418,6 @@ Enable yas-mode everywhere
 *** Smooth scrolling, distraction-free mode, and minimap
 #+begin_src emacs-lisp
   (use-package sublimity)
-  (require 'sublimity-scroll)
-
-  (setq sublimity-scroll-weight 2
-        sublimity-scroll-drift-length 4
-        sublimity-scroll-vertical-frame-delay 0.01)
-
   (require 'sublimity-attractive)
   (sublimity-mode 1)
   (setq sublimity-attractive-centering-width 120)
