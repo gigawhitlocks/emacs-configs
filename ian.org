@@ -1347,10 +1347,8 @@ Autocomplete for Org blocks (like source blocks)
 Org is mostly prose and prose should be read in a variable-pitch font where possible.
 This changes fonts in Org to be variable-pitch where it makes sense
 #+begin_src emacs-lisp
-  (eval-after-load "org"
-            (progn
-               (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-               (set-face-attribute 'org-block nil :inherit 'fixed-pitch)))
+  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
 #+end_src
 
