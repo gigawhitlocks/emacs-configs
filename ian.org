@@ -1354,7 +1354,7 @@ Install some tools for archiving web content into Org
   (require 'org-protocol)
 #+END_SRC
 
-*** TODO Use a variable-pitch font in Org-Mode
+*** Use a variable-pitch font in Org-Mode
 Org is mostly prose and prose should be read in a variable-pitch font where possible.
 This changes fonts in Org to be variable-pitch where it makes sense
 #+begin_src emacs-lisp
@@ -1362,6 +1362,60 @@ This changes fonts in Org to be variable-pitch where it makes sense
   (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
 #+end_src
+
+* Opening Sources Directly in Emacs from the Browser
+https://orgmode.org/worg/org-contrib/org-protocol.html
+
+First use this ~.desktop~ file to register a handler for the new protocol scheme:
+#+begin_src conf :tangle ~/.local/share/applications/org-protocol.desktop
+  [Desktop Entry]
+  Name=org-protocol
+  Comment=Intercept calls from emacsclient to trigger custom actions
+  Categories=Other;
+  Keywords=org-protocol;
+  Icon=emacs
+  Type=Application
+  Exec=/home/ian/bin/org-protocol %u
+  #Exec=emacsclient -- %u
+  Terminal=false
+  StartupWMClass=Emacs
+  MimeType=x-scheme-handler/org-protocol;
+#+end_src
+
+After tangling that file to its destination, run the following command to update the database:
+: update-desktop-database ~/.local/share/applications/
+
+Add the custom ~org-protocol~ script to intercept calls from the browser, do any necessary pre-processing, and hand off the corrected input to ~emacsclient~:
+
+#+begin_src bash :tangle ~/bin/org-protocol :shebang #!/usr/bin/env bash :tangle-mode (identity #o755)
+  # for some reason the bookmarklet strips a colon, so use sed to remove
+  # the botched prefix and rebuild it correctly
+  emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://open-source//##g')
+#+end_src
+
+For now this is extremely rudimentary and I will improve it as needed.
+
+** Manual Steps:
+1. The first time, add a button in the browser by creating a bookmarklet containing the following target:
+: javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
+
+2. Add an entry to ~org-protocol-project-alist~, defined in the local machine's hostname-specific config found in ~local/~. An example can be found on the Worg page above, but here it is again for easy reference:
+   
+#+begin_src emacs-lisp :tangle no
+(setq org-protocol-project-alist
+      '(("Worg"
+         :base-url "https://orgmode.org/worg/"
+         :working-directory "/home/user/worg/"
+         :online-suffix ".html"
+         :working-suffix ".org")
+        ("My local Org-notes"
+         :base-url "http://localhost/org/"
+         :working-directory "/home/user/org/"
+         :online-suffix ".php"
+         :working-suffix ".org")))
+#+end_src
+
+N.B. this code block does **not** get tangled into ~ian.el~.
 
 * Miscellaneous standalone global configuration changes
 *** TRAMP settings
