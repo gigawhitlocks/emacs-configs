@@ -1286,7 +1286,14 @@ Autocomplete for Org blocks (like source blocks)
 (use-package company-org-block) ;; TODO configuration
 #+end_src
 
+Install some tools for archiving web content into Org
+#+begin_src emacs-lisp
+  (use-package org-web-tools)
+#+end_src
+
 #+BEGIN_SRC emacs-lisp
+  (setq org-export-coding-system 'utf-8)
+
   ;; Fontify the whole line for headings (with a background color).
   (setq org-fontify-whole-heading-line t)
 
