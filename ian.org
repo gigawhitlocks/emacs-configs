@@ -1212,6 +1212,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "Ff"     'toggle-frame-fullscreen
     "ff"     'helm-find-files
     "fr"     'helm-recentf
+    "fd"     'dired
     "fed"    'find-initfile
     "feD"    'find-initfile-other-frame
     "feR"    'reload-initfile
