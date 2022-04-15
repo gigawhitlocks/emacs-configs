@@ -1358,9 +1358,10 @@ Install some tools for archiving web content into Org
 Org is mostly prose and prose should be read in a variable-pitch font where possible.
 This changes fonts in Org to be variable-pitch where it makes sense
 #+begin_src emacs-lisp
-  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-block nil :inherit 'fixed-pitch)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'org-mode-hook '(lambda ()
+                              (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+                              (set-face-attribute 'org-block nil :inherit 'fixed-pitch)))
 #+end_src
 
 * Opening Sources Directly in Emacs from the Browser
@@ -1438,6 +1439,7 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
     "Disable current theme before loading new one."
     (mapcar #'disable-theme custom-enabled-themes))
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
+  (advice-add 'load-theme :after #'(lambda (_ _ _) (org-mode-restart)))
 #+END_SRC
 *** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
