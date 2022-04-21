@@ -1262,14 +1262,15 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "qq"     'save-buffers-kill-terminal
     "qr"     'restart-emacs
     "qz"     'delete-frame
-    "th"     'load-random-theme
+    "ta"     'treemacs-add-project-to-workspace
+    "thr"    'load-random-theme
+    "thl"    'load-theme
+    "tl"     'toggle-ligatures
     "tnn"    'display-line-numbers-mode
     "tnt"    'toggle-line-numbers-rel-abs
     "tr"     'treemacs-select-window
-    "ta"     'treemacs-add-project-to-workspace
     "ts"     'toggle-screaming
     "tt"     'toggle-transparency
-    "tl"     'toggle-ligatures
     "tw"     'whitespace-mode
     "w-"     'split-window-below
     "w/"     'split-window-right
