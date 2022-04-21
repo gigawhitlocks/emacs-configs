@@ -72,12 +72,31 @@ for the JavaScript code in this tag.
 <li><a href="#Adaptive%20Wrap%20and%20Visual%20Line%20Mode">Adaptive Wrap and Visual Line Mode</a></li>
 <li><a href="#Global%20Keybindings">Global Keybindings</a></li>
 <li><a href="#Org%20Mode%20Settings">Org Mode Settings</a></li>
-<li><a href="#Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser">Opening Sources Directly in Emacs from the Browser</a>
+<li><a href="#Opening%20Sources%20In%20the%20Browser%20from%20Emacs">Opening Sources In the Browser from Emacs</a></li>
+<li><a href="#Miscellaneous%20standalone%20global%20configuration%20changes">Miscellaneous standalone global configuration changes</a>
 <ul>
-<li><a href="#Manual%20Steps%3A">Manual Steps:</a></li>
+<li><a href="#Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser">Opening Sources Directly in Emacs from the Browser</a></li>
+<li><a href="#TRAMP%20settings">TRAMP settings</a></li>
+<li><a href="#Disable%20most%20warnings">Disable most warnings</a></li>
+<li><a href="#Switch%20theme">Switch theme</a></li>
+<li><a href="#Line%20Numbers%20in%20Programming%20Buffers">Line Numbers in Programming Buffers</a></li>
+<li><a href="#Transparency%20toggle">Transparency toggle</a></li>
+<li><a href="#Switch%20to%20last%20buffer">Switch to last buffer</a></li>
+<li><a href="#Fix%20Home%2FEnd%20keys">Fix Home/End keys</a></li>
+<li><a href="#Customize%20the%20frame%20%28OS%20window%29%20title">Customize the frame (OS window) title</a></li>
+<li><a href="#Tweak%20align-regexp">Tweak align-regexp</a></li>
+<li><a href="#Configure%20automatic%20backups%2Frecovery%20files">Configure automatic backups/recovery files</a></li>
+<li><a href="#Clean%20whitespace%20on%20save%20in%20all%20modes"><span class="todo TODO">TODO</span> Clean whitespace on save in all modes</a></li>
+<li><a href="#Autosave">Autosave</a></li>
+<li><a href="#Default%20window%20size">Default window size</a></li>
+<li><a href="#Unclutter%20global%20modeline">Unclutter global modeline</a></li>
+<li><a href="#Less%20annoying%20bell">Less annoying bell</a></li>
+<li><a href="#Remove%20toolbar%2C%20scrollbars%2C%20and%20menu">Remove toolbar, scrollbars, and menu</a></li>
+<li><a href="#Enable%20the%20mouse%20in%20the%20terminal">Enable the mouse in the terminal</a></li>
+<li><a href="#Disable%20%22nice%22%20names%20in%20Customize">Disable "nice" names in Customize</a></li>
+<li><a href="#Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings"><span class="todo TODO">TODO</span> Figure out finally how to use marks and jumps, and map this stuff to Evil bindings</a></li>
 </ul>
 </li>
-<li><a href="#Miscellaneous%20standalone%20global%20configuration%20changes">Miscellaneous standalone global configuration changes</a></li>
 <li><a href="#Render%20this%20file%20for%20display%20on%20the%20web">Render this file for display on the web</a>
 <ul>
 <li><a href="#Update%20README.md%20git%20hook">Update README.md git hook</a></li>
@@ -2244,9 +2263,17 @@ This is taken from <a href="https://github.com/alphapapa/unpackaged.el#export-to
 </div>
 </div>
 
-<div id="outline-container-Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser" class="outline-2">
-<h2 id="Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser">Opening Sources Directly in Emacs from the Browser</h2>
-<div class="outline-text-2" id="text-Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser">
+<div id="outline-container-Opening%20Sources%20In%20the%20Browser%20from%20Emacs" class="outline-2">
+<h2 id="Opening%20Sources%20In%20the%20Browser%20from%20Emacs">Opening Sources In the Browser from Emacs</h2>
+</div>
+
+<div id="outline-container-Miscellaneous%20standalone%20global%20configuration%20changes" class="outline-2">
+<h2 id="Miscellaneous%20standalone%20global%20configuration%20changes">Miscellaneous standalone global configuration changes</h2>
+<div class="outline-text-2" id="text-Miscellaneous%20standalone%20global%20configuration%20changes">
+</div>
+<div id="outline-container-Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser" class="outline-3">
+<h3 id="Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser">Opening Sources Directly in Emacs from the Browser</h3>
+<div class="outline-text-3" id="text-Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser">
 <p>
 <a href="https://orgmode.org/worg/org-contrib/org-protocol.html">https://orgmode.org/worg/org-contrib/org-protocol.html</a>
 </p>
@@ -2295,9 +2322,9 @@ For now this is extremely rudimentary and I will improve it as needed.
 </p>
 </div>
 
-<div id="outline-container-Manual%20Steps%3A" class="outline-3">
-<h3 id="Manual%20Steps%3A">Manual Steps:</h3>
-<div class="outline-text-3" id="text-Manual%20Steps%3A">
+<ul class="org-ul">
+<li><a id="Manual%20Steps%3A"></a>Manual Steps:<br />
+<div class="outline-text-5" id="text-Manual%20Steps%3A">
 <ol class="org-ol">
 <li>The first time, add a button in the browser by creating a bookmarklet containing the following target:</li>
 </ol>
@@ -2329,16 +2356,13 @@ javascript:location.href='org-protocol://open-source://'+encodeURIComponent(loca
 N.B. this code block does <b><b>not</b></b> get tangled into <code>ian.el</code>.
 </p>
 </div>
-</div>
+</li>
+</ul>
 </div>
 
-<div id="outline-container-Miscellaneous%20standalone%20global%20configuration%20changes" class="outline-2">
-<h2 id="Miscellaneous%20standalone%20global%20configuration%20changes">Miscellaneous standalone global configuration changes</h2>
-<div class="outline-text-2" id="text-Miscellaneous%20standalone%20global%20configuration%20changes">
-</div>
-<div id="outline-container-TRAMP%20settings" class="outline-4">
-<h4 id="TRAMP%20settings">TRAMP settings</h4>
-<div class="outline-text-4" id="text-TRAMP%20settings">
+<div id="outline-container-TRAMP%20settings" class="outline-3">
+<h3 id="TRAMP%20settings">TRAMP settings</h3>
+<div class="outline-text-3" id="text-TRAMP%20settings">
 <p>
 Only one setting at the moment: use <code>ssh</code> instead of <code>scp</code> when accessing files with <code>ssh:</code> schemes
 </p>
@@ -2348,9 +2372,9 @@ Only one setting at the moment: use <code>ssh</code> instead of <code>scp</code>
 </div>
 </div>
 </div>
-<div id="outline-container-Disable%20most%20warnings" class="outline-4">
-<h4 id="Disable%20most%20warnings">Disable most warnings</h4>
-<div class="outline-text-4" id="text-Disable%20most%20warnings">
+<div id="outline-container-Disable%20most%20warnings" class="outline-3">
+<h3 id="Disable%20most%20warnings">Disable most warnings</h3>
+<div class="outline-text-3" id="text-Disable%20most%20warnings">
 <p>
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
 </p>
@@ -2360,9 +2384,9 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 </div>
 </div>
 </div>
-<div id="outline-container-Switch%20theme" class="outline-4">
-<h4 id="Switch%20theme">Switch theme</h4>
-<div class="outline-text-4" id="text-Switch%20theme">
+<div id="outline-container-Switch%20theme" class="outline-3">
+<h3 id="Switch%20theme">Switch theme</h3>
+<div class="outline-text-3" id="text-Switch%20theme">
 <p>
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just <code>M-x load-theme</code>.
 </p>
@@ -2381,9 +2405,9 @@ Thanks to <a href="https://www.simplify.ba/articles/2016/02/13/loading-and-unloa
 </div>
 </div>
 </div>
-<div id="outline-container-Line%20Numbers%20in%20Programming%20Buffers" class="outline-4">
-<h4 id="Line%20Numbers%20in%20Programming%20Buffers">Line Numbers in Programming Buffers</h4>
-<div class="outline-text-4" id="text-Line%20Numbers%20in%20Programming%20Buffers">
+<div id="outline-container-Line%20Numbers%20in%20Programming%20Buffers" class="outline-3">
+<h3 id="Line%20Numbers%20in%20Programming%20Buffers">Line Numbers in Programming Buffers</h3>
+<div class="outline-text-3" id="text-Line%20Numbers%20in%20Programming%20Buffers">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span>add-hook 'prog-mode-hook 'display-line-numbers-mode<span style="color: #51afef;">)</span>
 <span style="color: #51afef;">(</span><span style="color: #51afef;">setq</span> display-line-numbers-type 'relative<span style="color: #51afef;">)</span>
@@ -2391,9 +2415,9 @@ Thanks to <a href="https://www.simplify.ba/articles/2016/02/13/loading-and-unloa
 </div>
 </div>
 </div>
-<div id="outline-container-Transparency%20toggle" class="outline-4">
-<h4 id="Transparency%20toggle">Transparency toggle</h4>
-<div class="outline-text-4" id="text-Transparency%20toggle">
+<div id="outline-container-Transparency%20toggle" class="outline-3">
+<h3 id="Transparency%20toggle">Transparency toggle</h3>
+<div class="outline-text-3" id="text-Transparency%20toggle">
 <p>
 I definitely lifted this from somewhere but failed to document where I got it :\
 Probably from Spacemacs. Thanks, Spacemacs.
@@ -2421,9 +2445,9 @@ Probably from Spacemacs. Thanks, Spacemacs.
 </div>
 </div>
 </div>
-<div id="outline-container-Switch%20to%20last%20buffer" class="outline-4">
-<h4 id="Switch%20to%20last%20buffer">Switch to last buffer</h4>
-<div class="outline-text-4" id="text-Switch%20to%20last%20buffer">
+<div id="outline-container-Switch%20to%20last%20buffer" class="outline-3">
+<h3 id="Switch%20to%20last%20buffer">Switch to last buffer</h3>
+<div class="outline-text-3" id="text-Switch%20to%20last%20buffer">
 <p>
 This one lifted from <a href="https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/">https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/</a>
 </p>
@@ -2442,9 +2466,9 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think <code>h
 </div>
 </div>
 </div>
-<div id="outline-container-Fix%20Home%2FEnd%20keys" class="outline-4">
-<h4 id="Fix%20Home%2FEnd%20keys">Fix Home/End keys</h4>
-<div class="outline-text-4" id="text-Fix%20Home%2FEnd%20keys">
+<div id="outline-container-Fix%20Home%2FEnd%20keys" class="outline-3">
+<h3 id="Fix%20Home%2FEnd%20keys">Fix Home/End keys</h3>
+<div class="outline-text-3" id="text-Fix%20Home%2FEnd%20keys">
 <p>
 Emacs has weird behavior by default for Home and End and this change makes the behavior "normal" again.
 </p>
@@ -2455,9 +2479,9 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 </div>
 </div>
 </div>
-<div id="outline-container-Customize%20the%20frame%20%28OS%20window%29%20title" class="outline-4">
-<h4 id="Customize%20the%20frame%20%28OS%20window%29%20title">Customize the frame (OS window) title</h4>
-<div class="outline-text-4" id="text-Customize%20the%20frame%20%28OS%20window%29%20title">
+<div id="outline-container-Customize%20the%20frame%20%28OS%20window%29%20title" class="outline-3">
+<h3 id="Customize%20the%20frame%20%28OS%20window%29%20title">Customize the frame (OS window) title</h3>
+<div class="outline-text-3" id="text-Customize%20the%20frame%20%28OS%20window%29%20title">
 <p>
 Taken from StackOverflow, at least for now, which does 90% of what I want and can serve as a future reference of how to customize this aspect of Emacs. This displays the file name and major mode in the OS title bar. Will have to find the documentation that defines the format string passed to <code>frame-title-format</code> at some point.
 </p>
@@ -2467,9 +2491,9 @@ Taken from StackOverflow, at least for now, which does 90% of what I want and ca
 </div>
 </div>
 </div>
-<div id="outline-container-Tweak%20align-regexp" class="outline-4">
-<h4 id="Tweak%20align-regexp">Tweak align-regexp</h4>
-<div class="outline-text-4" id="text-Tweak%20align-regexp">
+<div id="outline-container-Tweak%20align-regexp" class="outline-3">
+<h3 id="Tweak%20align-regexp">Tweak align-regexp</h3>
+<div class="outline-text-3" id="text-Tweak%20align-regexp">
 <p>
 Configure align-regexp to use spaces instead of tabs. This is mostly for this file. When my keybindings are in two columns and <code>M-x align-regexp</code> uses tabs, the columns look aligned in Emacs but unaligned on GitHub. Using spaces faces this. This snippet effects that change.
 </p>
@@ -2490,9 +2514,9 @@ Lifted from StackOverflow:
 </div>
 </div>
 
-<div id="outline-container-Configure%20automatic%20backups%2Frecovery%20files" class="outline-4">
-<h4 id="Configure%20automatic%20backups%2Frecovery%20files">Configure automatic backups/recovery files</h4>
-<div class="outline-text-4" id="text-Configure%20automatic%20backups%2Frecovery%20files">
+<div id="outline-container-Configure%20automatic%20backups%2Frecovery%20files" class="outline-3">
+<h3 id="Configure%20automatic%20backups%2Frecovery%20files">Configure automatic backups/recovery files</h3>
+<div class="outline-text-3" id="text-Configure%20automatic%20backups%2Frecovery%20files">
 <p>
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in <code>/tmp</code>.
 </p>
@@ -2505,9 +2529,9 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 </div>
 </div>
 </div>
-<div id="outline-container-Clean%20whitespace%20on%20save%20in%20all%20modes" class="outline-4">
-<h4 id="Clean%20whitespace%20on%20save%20in%20all%20modes"><span class="todo TODO">TODO</span> Clean whitespace on save in all modes</h4>
-<div class="outline-text-4" id="text-Clean%20whitespace%20on%20save%20in%20all%20modes">
+<div id="outline-container-Clean%20whitespace%20on%20save%20in%20all%20modes" class="outline-3">
+<h3 id="Clean%20whitespace%20on%20save%20in%20all%20modes"><span class="todo TODO">TODO</span> Clean whitespace on save in all modes</h3>
+<div class="outline-text-3" id="text-Clean%20whitespace%20on%20save%20in%20all%20modes">
 <p>
 I have to actually go in and configure this because the defaults keep giving me fucking heartburn.
 It keeps messing with the whitespace in files that are none of its business. Maybe I just need to carefully enable it for certain modes? idk, too much magic, no time to look into it right now.
@@ -2518,9 +2542,9 @@ It keeps messing with the whitespace in files that are none of its business. May
 </div>
 </div>
 </div>
-<div id="outline-container-Autosave" class="outline-4">
-<h4 id="Autosave">Autosave</h4>
-<div class="outline-text-4" id="text-Autosave">
+<div id="outline-container-Autosave" class="outline-3">
+<h3 id="Autosave">Autosave</h3>
+<div class="outline-text-3" id="text-Autosave">
 <p>
 Automatically saves the file when it's been idle for 5 minutes.
 </p>
@@ -2534,9 +2558,9 @@ Automatically saves the file when it's been idle for 5 minutes.
 </div>
 </div>
 </div>
-<div id="outline-container-Default%20window%20size" class="outline-4">
-<h4 id="Default%20window%20size">Default window size</h4>
-<div class="outline-text-4" id="text-Default%20window%20size">
+<div id="outline-container-Default%20window%20size" class="outline-3">
+<h3 id="Default%20window%20size">Default window size</h3>
+<div class="outline-text-3" id="text-Default%20window%20size">
 <p>
 Just a bigger size that I prefer..
 </p>
@@ -2547,9 +2571,9 @@ Just a bigger size that I prefer..
 </div>
 </div>
 </div>
-<div id="outline-container-Unclutter%20global%20modeline" class="outline-4">
-<h4 id="Unclutter%20global%20modeline">Unclutter global modeline</h4>
-<div class="outline-text-4" id="text-Unclutter%20global%20modeline">
+<div id="outline-container-Unclutter%20global%20modeline" class="outline-3">
+<h3 id="Unclutter%20global%20modeline">Unclutter global modeline</h3>
+<div class="outline-text-3" id="text-Unclutter%20global%20modeline">
 <p>
 Some global minor modes put themselves in the modeline and it gets noisy, so remove them from the modeline.
 </p>
@@ -2564,9 +2588,9 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
 </div>
 </div>
 </div>
-<div id="outline-container-Less%20annoying%20bell" class="outline-4">
-<h4 id="Less%20annoying%20bell">Less annoying bell</h4>
-<div class="outline-text-4" id="text-Less%20annoying%20bell">
+<div id="outline-container-Less%20annoying%20bell" class="outline-3">
+<h3 id="Less%20annoying%20bell">Less annoying bell</h3>
+<div class="outline-text-3" id="text-Less%20annoying%20bell">
 <p>
 Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
 </p>
@@ -2588,9 +2612,9 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 </p>
 </div>
 </div>
-<div id="outline-container-Remove%20toolbar%2C%20scrollbars%2C%20and%20menu" class="outline-4">
-<h4 id="Remove%20toolbar%2C%20scrollbars%2C%20and%20menu">Remove toolbar, scrollbars, and menu</h4>
-<div class="outline-text-4" id="text-Remove%20toolbar%2C%20scrollbars%2C%20and%20menu">
+<div id="outline-container-Remove%20toolbar%2C%20scrollbars%2C%20and%20menu" class="outline-3">
+<h3 id="Remove%20toolbar%2C%20scrollbars%2C%20and%20menu">Remove toolbar, scrollbars, and menu</h3>
+<div class="outline-text-3" id="text-Remove%20toolbar%2C%20scrollbars%2C%20and%20menu">
 <p>
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use <code>M-x</code> for everything.
 </p>
@@ -2608,9 +2632,9 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use <c
 </div>
 </div>
 
-<div id="outline-container-Enable%20the%20mouse%20in%20the%20terminal" class="outline-4">
-<h4 id="Enable%20the%20mouse%20in%20the%20terminal">Enable the mouse in the terminal</h4>
-<div class="outline-text-4" id="text-Enable%20the%20mouse%20in%20the%20terminal">
+<div id="outline-container-Enable%20the%20mouse%20in%20the%20terminal" class="outline-3">
+<h3 id="Enable%20the%20mouse%20in%20the%20terminal">Enable the mouse in the terminal</h3>
+<div class="outline-text-3" id="text-Enable%20the%20mouse%20in%20the%20terminal">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #51afef;">(</span>xterm-mouse-mode 1<span style="color: #51afef;">)</span>
 </pre>
@@ -2618,9 +2642,9 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use <c
 </div>
 </div>
 
-<div id="outline-container-Disable%20%22nice%22%20names%20in%20Customize" class="outline-4">
-<h4 id="Disable%20%22nice%22%20names%20in%20Customize">Disable "nice" names in Customize</h4>
-<div class="outline-text-4" id="text-Disable%20%22nice%22%20names%20in%20Customize">
+<div id="outline-container-Disable%20%22nice%22%20names%20in%20Customize" class="outline-3">
+<h3 id="Disable%20%22nice%22%20names%20in%20Customize">Disable "nice" names in Customize</h3>
+<div class="outline-text-3" id="text-Disable%20%22nice%22%20names%20in%20Customize">
 <p>
 I prefer that Customize display the names of variables that I can change in this file, rather than the human-readable names for people who customize their Emacs through <code>M-x customize</code>
 </p>
@@ -2632,9 +2656,9 @@ I prefer that Customize display the names of variables that I can change in this
 </div>
 </div>
 
-<div id="outline-container-Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings" class="outline-4">
-<h4 id="Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings"><span class="todo TODO">TODO</span> Figure out finally how to use marks and jumps, and map this stuff to Evil bindings</h4>
-<div class="outline-text-4" id="text-Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings">
+<div id="outline-container-Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings" class="outline-3">
+<h3 id="Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings"><span class="todo TODO">TODO</span> Figure out finally how to use marks and jumps, and map this stuff to Evil bindings</h3>
+<div class="outline-text-3" id="text-Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings">
 <p>
 <a href="http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html">http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html</a>
 </p>

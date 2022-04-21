@@ -7,9 +7,28 @@
 - [Adaptive Wrap and Visual Line Mode](#Adaptive%20Wrap%20and%20Visual%20Line%20Mode)
 - [Global Keybindings](#Global%20Keybindings)
 - [Org Mode Settings](#Org%20Mode%20Settings)
-- [Opening Sources Directly in Emacs from the Browser](#Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser)
-  - [Manual Steps:](#Manual%20Steps%3A)
+- [Opening Sources In the Browser from Emacs](#Opening%20Sources%20In%20the%20Browser%20from%20Emacs)
 - [Miscellaneous standalone global configuration changes](#Miscellaneous%20standalone%20global%20configuration%20changes)
+  - [Opening Sources Directly in Emacs from the Browser](#Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser)
+  - [TRAMP settings](#TRAMP%20settings)
+  - [Disable most warnings](#Disable%20most%20warnings)
+  - [Switch theme](#Switch%20theme)
+  - [Line Numbers in Programming Buffers](#Line%20Numbers%20in%20Programming%20Buffers)
+  - [Transparency toggle](#Transparency%20toggle)
+  - [Switch to last buffer](#Switch%20to%20last%20buffer)
+  - [Fix Home/End keys](#Fix%20Home%2FEnd%20keys)
+  - [Customize the frame (OS window) title](#Customize%20the%20frame%20%28OS%20window%29%20title)
+  - [Tweak align-regexp](#Tweak%20align-regexp)
+  - [Configure automatic backups/recovery files](#Configure%20automatic%20backups%2Frecovery%20files)
+  - [Clean whitespace on save in all modes](#Clean%20whitespace%20on%20save%20in%20all%20modes)
+  - [Autosave](#Autosave)
+  - [Default window size](#Default%20window%20size)
+  - [Unclutter global modeline](#Unclutter%20global%20modeline)
+  - [Less annoying bell](#Less%20annoying%20bell)
+  - [Remove toolbar, scrollbars, and menu](#Remove%20toolbar%2C%20scrollbars%2C%20and%20menu)
+  - [Enable the mouse in the terminal](#Enable%20the%20mouse%20in%20the%20terminal)
+  - [Disable "nice" names in Customize](#Disable%20%22nice%22%20names%20in%20Customize)
+  - [Figure out finally how to use marks and jumps, and map this stuff to Evil bindings](#Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings)
 - [Render this file for display on the web](#Render%20this%20file%20for%20display%20on%20the%20web)
   - [Update README.md git hook](#Update%20README.md%20git%20hook)
 - [Hostname-based tweaks](#Hostname-based%20tweaks)
@@ -1704,9 +1723,19 @@ made unique when necessary."
 ```
 
 
+<a id="Opening%20Sources%20In%20the%20Browser%20from%20Emacs"></a>
+
+# Opening Sources In the Browser from Emacs
+
+
+<a id="Miscellaneous%20standalone%20global%20configuration%20changes"></a>
+
+# Miscellaneous standalone global configuration changes
+
+
 <a id="Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser"></a>
 
-# Opening Sources Directly in Emacs from the Browser
+## Opening Sources Directly in Emacs from the Browser
 
 <https://orgmode.org/worg/org-contrib/org-protocol.html>
 
@@ -1742,40 +1771,34 @@ emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://
 
 For now this is extremely rudimentary and I will improve it as needed.
 
+-   Manual Steps:
 
-<a id="Manual%20Steps%3A"></a>
-
-## Manual Steps:
-
-1.  The first time, add a button in the browser by creating a bookmarklet containing the following target:
-
-    javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
-
-1.  Add an entry to `org-protocol-project-alist`, defined in the local machine's hostname-specific config found in `local/`. An example can be found on the Worg page above, but here it is again for easy reference:
-
-```emacs-lisp
-(setq org-protocol-project-alist
-      '(("Worg"
-	 :base-url "https://orgmode.org/worg/"
-	 :working-directory "/home/user/worg/"
-	 :online-suffix ".html"
-	 :working-suffix ".org")
-	("My local Org-notes"
-	 :base-url "http://localhost/org/"
-	 :working-directory "/home/user/org/"
-	 :online-suffix ".php"
-	 :working-suffix ".org")))
-```
-
-N.B. this code block does ****not**** get tangled into `ian.el`.
+    1.  The first time, add a button in the browser by creating a bookmarklet containing the following target:
+    
+        javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
+    
+    1.  Add an entry to `org-protocol-project-alist`, defined in the local machine's hostname-specific config found in `local/`. An example can be found on the Worg page above, but here it is again for easy reference:
+    
+    ```emacs-lisp
+    (setq org-protocol-project-alist
+          '(("Worg"
+    	 :base-url "https://orgmode.org/worg/"
+    	 :working-directory "/home/user/worg/"
+    	 :online-suffix ".html"
+    	 :working-suffix ".org")
+    	("My local Org-notes"
+    	 :base-url "http://localhost/org/"
+    	 :working-directory "/home/user/org/"
+    	 :online-suffix ".php"
+    	 :working-suffix ".org")))
+    ```
+    
+    N.B. this code block does ****not**** get tangled into `ian.el`.
 
 
-<a id="Miscellaneous%20standalone%20global%20configuration%20changes"></a>
+<a id="TRAMP%20settings"></a>
 
-# Miscellaneous standalone global configuration changes
-
-
-### TRAMP settings
+## TRAMP settings
 
 Only one setting at the moment: use `ssh` instead of `scp` when accessing files with `ssh:` schemes
 
@@ -1784,7 +1807,9 @@ Only one setting at the moment: use `ssh` instead of `scp` when accessing files 
 ```
 
 
-### Disable most warnings
+<a id="Disable%20most%20warnings"></a>
+
+## Disable most warnings
 
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
 
@@ -1793,7 +1818,9 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 ```
 
 
-### Switch theme
+<a id="Switch%20theme"></a>
+
+## Switch theme
 
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just `M-x load-theme`.
 
@@ -1808,7 +1835,9 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 ```
 
 
-### Line Numbers in Programming Buffers
+<a id="Line%20Numbers%20in%20Programming%20Buffers"></a>
+
+## Line Numbers in Programming Buffers
 
 ```emacs-lisp
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
@@ -1816,7 +1845,9 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 ```
 
 
-### Transparency toggle
+<a id="Transparency%20toggle"></a>
+
+## Transparency toggle
 
 I definitely lifted this from somewhere but failed to document where I got it :\\ Probably from Spacemacs. Thanks, Spacemacs.
 
@@ -1837,7 +1868,9 @@ I definitely lifted this from somewhere but failed to document where I got it :\
 ```
 
 
-### Switch to last buffer
+<a id="Switch%20to%20last%20buffer"></a>
+
+## Switch to last buffer
 
 This one lifted from <https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/>
 
@@ -1853,7 +1886,9 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think `hycont
 ```
 
 
-### Fix Home/End keys
+<a id="Fix%20Home%2FEnd%20keys"></a>
+
+## Fix Home/End keys
 
 Emacs has weird behavior by default for Home and End and this change makes the behavior "normal" again.
 
@@ -1863,7 +1898,9 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 ```
 
 
-### Customize the frame (OS window) title
+<a id="Customize%20the%20frame%20%28OS%20window%29%20title"></a>
+
+## Customize the frame (OS window) title
 
 Taken from StackOverflow, at least for now, which does 90% of what I want and can serve as a future reference of how to customize this aspect of Emacs. This displays the file name and major mode in the OS title bar. Will have to find the documentation that defines the format string passed to `frame-title-format` at some point.
 
@@ -1872,7 +1909,9 @@ Taken from StackOverflow, at least for now, which does 90% of what I want and ca
 ```
 
 
-### Tweak align-regexp
+<a id="Tweak%20align-regexp"></a>
+
+## Tweak align-regexp
 
 Configure align-regexp to use spaces instead of tabs. This is mostly for this file. When my keybindings are in two columns and `M-x align-regexp` uses tabs, the columns look aligned in Emacs but unaligned on GitHub. Using spaces faces this. This snippet effects that change.
 
@@ -1887,7 +1926,9 @@ Lifted from StackOverflow:
 ```
 
 
-### Configure automatic backups/recovery files
+<a id="Configure%20automatic%20backups%2Frecovery%20files"></a>
+
+## Configure automatic backups/recovery files
 
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in `/tmp`.
 
@@ -1898,7 +1939,9 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 ```
 
 
-### TODO Clean whitespace on save in all modes
+<a id="Clean%20whitespace%20on%20save%20in%20all%20modes"></a>
+
+## TODO Clean whitespace on save in all modes
 
 I have to actually go in and configure this because the defaults keep giving me fucking heartburn. It keeps messing with the whitespace in files that are none of its business. Maybe I just need to carefully enable it for certain modes? idk, too much magic, no time to look into it right now.
 
@@ -1907,7 +1950,9 @@ I have to actually go in and configure this because the defaults keep giving me 
 ```
 
 
-### Autosave
+<a id="Autosave"></a>
+
+## Autosave
 
 Automatically saves the file when it's been idle for 5 minutes.
 
@@ -1920,7 +1965,9 @@ Automatically saves the file when it's been idle for 5 minutes.
 ```
 
 
-### Default window size
+<a id="Default%20window%20size"></a>
+
+## Default window size
 
 Just a bigger size that I prefer..
 
@@ -1930,7 +1977,9 @@ Just a bigger size that I prefer..
 ```
 
 
-### Unclutter global modeline
+<a id="Unclutter%20global%20modeline"></a>
+
+## Unclutter global modeline
 
 Some global minor modes put themselves in the modeline and it gets noisy, so remove them from the modeline.
 
@@ -1944,7 +1993,9 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
 ```
 
 
-### Less annoying bell
+<a id="Less%20annoying%20bell"></a>
+
+## Less annoying bell
 
 Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
 
@@ -1964,7 +2015,9 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 (from Emacs wiki)
 
 
-### Remove toolbar, scrollbars, and menu
+<a id="Remove%20toolbar%2C%20scrollbars%2C%20and%20menu"></a>
+
+## Remove toolbar, scrollbars, and menu
 
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M-x` for everything.
 
@@ -1980,14 +2033,18 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-### Enable the mouse in the terminal
+<a id="Enable%20the%20mouse%20in%20the%20terminal"></a>
+
+## Enable the mouse in the terminal
 
 ```emacs-lisp
 (xterm-mouse-mode 1)
 ```
 
 
-### Disable "nice" names in Customize
+<a id="Disable%20%22nice%22%20names%20in%20Customize"></a>
+
+## Disable "nice" names in Customize
 
 I prefer that Customize display the names of variables that I can change in this file, rather than the human-readable names for people who customize their Emacs through `M-x customize`
 
@@ -1996,7 +2053,9 @@ I prefer that Customize display the names of variables that I can change in this
 ```
 
 
-### TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
+<a id="Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings"></a>
+
+## TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
 
 <http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html>
 

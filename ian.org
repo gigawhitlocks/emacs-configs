@@ -1465,7 +1465,10 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
   (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
 #+end_src
 
-* Opening Sources Directly in Emacs from the Browser
+* Opening Sources In the Browser from Emacs
+
+* Miscellaneous standalone global configuration changes
+** Opening Sources Directly in Emacs from the Browser
 https://orgmode.org/worg/org-contrib/org-protocol.html
 
 First use this ~.desktop~ file to register a handler for the new protocol scheme:
@@ -1498,7 +1501,7 @@ Add the custom ~org-protocol~ script to intercept calls from the browser, do any
 
 For now this is extremely rudimentary and I will improve it as needed.
 
-** Manual Steps:
+**** Manual Steps:
 1. The first time, add a button in the browser by creating a bookmarklet containing the following target:
 : javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
 
@@ -1520,18 +1523,17 @@ For now this is extremely rudimentary and I will improve it as needed.
 
 N.B. this code block does **not** get tangled into ~ian.el~.
 
-* Miscellaneous standalone global configuration changes
-*** TRAMP settings
+** TRAMP settings
 Only one setting at the moment: use ~ssh~ instead of ~scp~ when accessing files with ~ssh:~ schemes
 #+begin_src emacs-lisp
   (setq tramp-default-method "ssh")
 #+end_src
-*** Disable most warnings
+** Disable most warnings
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
 #+begin_src emacs-lisp
 (setq warning-minimum-level :emergency)
 #+end_src
-*** Switch theme
+** Switch theme
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just ~M-x load-theme~.
 
 Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-emacs-themes/]].
@@ -1543,12 +1545,12 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
   (advice-add 'load-theme :after #'(lambda (_ _ _) (org-mode-restart)))
 #+END_SRC
-*** Line Numbers in Programming Buffers
+** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   (setq display-line-numbers-type 'relative)
 #+END_SRC
-*** Transparency toggle
+** Transparency toggle
 I definitely lifted this from somewhere but failed to document where I got it :\
 Probably from Spacemacs. Thanks, Spacemacs.
 
@@ -1568,7 +1570,7 @@ Probably from Spacemacs. Thanks, Spacemacs.
                     100)
                '95 '(100 . 100)))))
 #+END_SRC
-*** Switch to last buffer
+** Switch to last buffer
 This one lifted from https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/
 
 TODO: Make this behave like alt-tab in Windows, but for buffers. I think ~hycontrol~ may come in handy (Hyperbole).
@@ -1580,18 +1582,18 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think ~hycont
         (interactive)
         (switch-to-buffer (other-buffer (current-buffer) 1)))
 #+END_SRC
-*** Fix Home/End keys
+** Fix Home/End keys
 Emacs has weird behavior by default for Home and End and this change makes the behavior "normal" again.
 #+BEGIN_SRC emacs-lisp
       (global-set-key (kbd "<home>") 'move-beginning-of-line)
       (global-set-key (kbd "<end>") 'move-end-of-line)
 #+END_SRC
-*** Customize the frame (OS window) title
+** Customize the frame (OS window) title
 Taken from StackOverflow, at least for now, which does 90% of what I want and can serve as a future reference of how to customize this aspect of Emacs. This displays the file name and major mode in the OS title bar. Will have to find the documentation that defines the format string passed to ~frame-title-format~ at some point.
 #+begin_src emacs-lisp
 (setq-default frame-title-format '("%f [%m]"))
 #+end_src
-*** Tweak align-regexp
+** Tweak align-regexp
 Configure align-regexp to use spaces instead of tabs. This is mostly for this file. When my keybindings are in two columns and ~M-x align-regexp~ uses tabs, the columns look aligned in Emacs but unaligned on GitHub. Using spaces faces this. This snippet effects that change.
 
 Lifted from StackOverflow:
@@ -1603,7 +1605,7 @@ Lifted from StackOverflow:
           ad-do-it))
      #+END_SRC
 
-*** Configure automatic backups/recovery files
+** Configure automatic backups/recovery files
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in ~/tmp~.
 
 #+BEGIN_SRC emacs-lisp
@@ -1611,13 +1613,13 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
   (setq backup-by-copying t)
   (setq delete-old-versions t)
 #+END_SRC
-*** TODO Clean whitespace on save in all modes
+** TODO Clean whitespace on save in all modes
 I have to actually go in and configure this because the defaults keep giving me fucking heartburn.
 It keeps messing with the whitespace in files that are none of its business. Maybe I just need to carefully enable it for certain modes? idk, too much magic, no time to look into it right now.
 #+BEGIN_SRC emacs-lisp
   ;; (add-hook 'before-save-hook 'whitespace-cleanup)
 #+END_SRC
-*** Autosave
+** Autosave
 Automatically saves the file when it's been idle for 5 minutes.
 #+BEGIN_SRC emacs-lisp
   ;; autosave
@@ -1626,13 +1628,13 @@ Automatically saves the file when it's been idle for 5 minutes.
    :diminish
    )
 #+END_SRC
-*** Default window size
+** Default window size
 Just a bigger size that I prefer..
 #+BEGIN_SRC emacs-lisp
   (add-to-list 'default-frame-alist '(width . 128))
   (add-to-list 'default-frame-alist '(height . 60))
 #+END_SRC
-*** Unclutter global modeline
+** Unclutter global modeline
 Some global minor modes put themselves in the modeline and it gets noisy, so remove them from the modeline.
 #+BEGIN_SRC emacs-lisp
   ;; hide some modes that are everywhere
@@ -1642,7 +1644,7 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
   (diminish 'evil-collection-unimpaired-mode)
   (diminish 'yas-minor-mode-major-mode)
 #+END_SRC
-*** Less annoying bell
+** Less annoying bell
 Flashes the modeline foreground instead of whatever the horrible default behavior was (I don't even remember).
 #+BEGIN_SRC emacs-lisp
   (setq ring-bell-function
@@ -1657,7 +1659,7 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
                                  orig-fg))))
 #+END_SRC
 (from Emacs wiki)
-*** Remove toolbar, scrollbars, and menu
+** Remove toolbar, scrollbars, and menu
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M-x~ for everything.
 #+BEGIN_SRC emacs-lisp
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
@@ -1670,19 +1672,19 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
   (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 #+END_SRC
 
-*** Enable the mouse in the terminal
+** Enable the mouse in the terminal
 #+BEGIN_SRC emacs-lisp
   (xterm-mouse-mode 1)
 #+END_SRC
 
-*** Disable "nice" names in Customize
+** Disable "nice" names in Customize
 I prefer that Customize display the names of variables that I can change in this file, rather than the human-readable names for people who customize their Emacs through ~M-x customize~
 
 #+BEGIN_SRC emacs-lisp
   (setq custom-unlispify-tag-names nil)
 #+END_SRC
 
-*** TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
+** TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
 http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html
 
 * Render this file for display on the web
