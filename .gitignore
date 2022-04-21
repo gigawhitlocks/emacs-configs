@@ -35,5 +35,5 @@ tramp
 session*
 .dap-breakpoints
 .extension/
-*~undo-tree~
 .#.*
+undo/

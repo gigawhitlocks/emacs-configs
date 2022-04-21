@@ -227,36 +227,36 @@ The impression that I got was that ~project.el~ is a first-party replacement for
 [[https://github.com/emacs-evil/evil][~evil-mode~]] fundamentally changes Emacs so that while editing all of the modes and keybindings from ~vim~ are present.
 It's controversial but I think modal editing is brilliant and have been using ~vim~ bindings since the mid-aughts. No going back.
 #+BEGIN_SRC emacs-lisp
-  (defun setup-evil ()
-    "Install and configure evil-mode and related bindings."
-    (use-package evil
-      :init
-      (setq evil-want-keybinding nil)
-      (setq evil-want-integration t)
-      :config
-      (evil-mode 1))
-
-    (use-package evil-collection
-      :after evil
-      :config
-      (evil-collection-init))
-
-    ;; add fd as a remap for esc
-    (use-package evil-escape
-      :delight)
-    (evil-escape-mode 1)
-
-    (use-package evil-surround
-      :config
-      (global-evil-surround-mode 1))
-      (use-package undo-tree
+    (defun setup-evil ()
+      "Install and configure evil-mode and related bindings."
+      (use-package evil
+        :init
+        (setq evil-want-keybinding nil)
+        (setq evil-want-integration t)
         :config
-        (global-undo-tree-mode)
-        (evil-set-undo-system 'undo-tree))
+        (evil-mode 1))
 
+      (use-package evil-collection
+        :after evil
+        :config
+        (evil-collection-init))
 
-    (use-package treemacs-evil)
-    (setq-default evil-escape-key-sequence "fd"))
+      ;; add fd as a remap for esc
+      (use-package evil-escape
+        :delight)
+      (evil-escape-mode 1)
+
+      (use-package evil-surround
+        :config
+        (global-evil-surround-mode 1))
+        (use-package undo-tree
+          :config
+          (global-undo-tree-mode)
+          (evil-set-undo-system 'undo-tree)
+          (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+
+      (use-package treemacs-evil)
+      (setq-default evil-escape-key-sequence "fd"))
 #+END_SRC
 
 *** Install and Configure Keybindings Helper
