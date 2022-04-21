@@ -1,3 +1,6 @@
+![img](2022-04-20_23-05-11_Screenshot_20220420_230429.png)
+
+
 # Entrypoint
 
 First I need to configure Emacs to load this file (`ian.org`) as its first action when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code [tangles](https://orgmode.org/manual/Extracting-source-code.html) to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`ian.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
@@ -662,7 +665,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 
 
-### FiraCode Font Installation Script
+## FiraCode Font Installation Script
 
 Installing fonts is always a pain so I'm going to use a variation of the installation script that the FireCode devs provide under their manual installation guide. This should be Linux-distribution agnostic, even though the font can be installed as a system package with on all of my systems on 2022-02-19 Sat with just
 
@@ -705,7 +708,7 @@ fc-cache -f
 This installation script was sourced from <https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager>
 
 
-### Enable FiraCode Font
+## Enable FiraCode Font
 
 Calling the script from above will install the font
 
@@ -722,113 +725,115 @@ Enable it
 ```
 
 
-### Configure FiraCode special features
+## Configure FiraCode special features
 
 FiraCode offers ligatures for programming symbols, which is cool.
 
--   TODO Use the new method after upgrading to Emacs 28
 
-    The following, taken from the [installation guide](https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel), enables these using the `ligature.el` method:
-    
-    ```emacs-lisp
-    ;; ;; Enable the www ligature in every possible major mode
-    ;; (ligature-set-ligatures 't '("www"))
-    
-    ;; ;; Enable ligatures in programming modes                                                           
-    ;; (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-    ;;                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-    ;;                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-    ;;                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-    ;;                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-    ;;                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-    ;;                                      "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-    ;;                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-    ;;                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-    ;;                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-    
-    ;; (global-ligature-mode 't)
-    ```
-    
-    Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span> In the future I would like to use this approach, so I will leave it commented out above.
+### TODO Use the new method after upgrading to Emacs 28
 
--   Configure with a less-optimal method
+The following, taken from the [installation guide](https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel), enables these using the `ligature.el` method:
 
-    Ligatures have turned out to be a bigger pain than I'd hoped. This is the suboptimal configuration that I'll keep until Emacs 28 comes out. Once that's out, I can delete all of this, and also I can remove the fetch and installation of the FiraCode Symbols font in the installation script above.
-    
-    First of all, install the helper mode:
-    
-    ```emacs-lisp
-    (use-package fira-code-mode
-      ;; List of ligatures to turn off
-      :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
-      )
-    ```
-    
-    But the ligatures are broken in the terminal with this mode. I would prefer that they just get disabled automatically when opening buffers in the terminal, but I guess the maintainer of `fira-code-mode` doesn't use the terminal
-    
-    I need to at least be able to quickly turn the ligatures off, and shouldn't automatically turn them on when opening a file in the terminal.
-    
-    First I needed a helper function to determine what buffers are active (I don't know why there isn't a built-in that does this, so thanks [Stack Exchange](https://emacs.stackexchange.com/questions/10785/get-list-of-active-minor-modes-in-buffer) for allowing me to avoid thinking on this occasion)
-    
-    ```emacs-lisp
-    ;; I didn't write this
-    (defun isw-get-active-minor-modes-in-buffer-list ()
-      "Get a list of which minor modes are enabled in the current buffer."
-      (let ($list)
-        (mapc (lambda ($mode)
-    	    (condition-case nil
-    		(if (and (symbolp $mode) (symbol-value $mode))
-    		    (setq $list (cons $mode $list)))
-    	      (error nil)))
-    	  minor-mode-list)
-        (sort $list 'string<)))
-    ```
-    
-    Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#Global%20Keybindings) section.
-    
-    ```emacs-lisp
-    (defun toggle-ligatures ()
-      (interactive)
-      (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
-          (fira-code-mode -1)
-        (fira-code-mode))
-      (redraw-display)
-      )
-    ```
-    
-    Finally, define the hook so that it doesn't automatically turn ligatures on when opening files in the terminal.
-    
-    ```emacs-lisp
-    (defun isw-enable-ligatures-hook () 
-      (if (not (equal (window-system) nil))
-          (fira-code-mode 1)
-        ))
-    
-    (add-hook 'prog-mode-hook 'isw-enable-ligatures-hook)
-    ```
-    
-    This solves the problem except when visiting a buffer in teminal which is already open in the GUI. I couldn't quite get this working, so it's commented out, but this is supposed to disable fira-code-mode when visiting the buffer. The helper works when I run it manually, but something is wrong about how I'm using `window-selection-change-functions` I guess.
-    
-    ```emacs-lisp
-    ;; (defun isw-disable-ligatures-in-terminals ()
-    ;;   (print "running")
-    ;;   (if (equal (window-system) nil)
-    ;;       (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
-    ;;           (progn
-    ;;             (print "deactivating")
-    ;;             (fira-code-mode -1))
-    ;;         )))
-    
-    ;; (add-hook 'window-selection-change-functions 'isw-disable-ligatures-in-terminals)
-    ```
-    
-    Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
+```emacs-lisp
+;; ;; Enable the www ligature in every possible major mode
+;; (ligature-set-ligatures 't '("www"))
+
+;; ;; Enable ligatures in programming modes                                                           
+;; (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+;;                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+;;                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+;;                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+;;                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+;;                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+;;                                      "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+;;                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+;;                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+;;                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+
+;; (global-ligature-mode 't)
+```
+
+Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span> In the future I would like to use this approach, so I will leave it commented out above.
+
+
+### Configure with a less-optimal method
+
+Ligatures have turned out to be a bigger pain than I'd hoped. This is the suboptimal configuration that I'll keep until Emacs 28 comes out. Once that's out, I can delete all of this, and also I can remove the fetch and installation of the FiraCode Symbols font in the installation script above.
+
+First of all, install the helper mode:
+
+```emacs-lisp
+(use-package fira-code-mode
+  ;; List of ligatures to turn off
+  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
+  )
+```
+
+But the ligatures are broken in the terminal with this mode. I would prefer that they just get disabled automatically when opening buffers in the terminal, but I guess the maintainer of `fira-code-mode` doesn't use the terminal
+
+I need to at least be able to quickly turn the ligatures off, and shouldn't automatically turn them on when opening a file in the terminal.
+
+First I needed a helper function to determine what buffers are active (I don't know why there isn't a built-in that does this, so thanks [Stack Exchange](https://emacs.stackexchange.com/questions/10785/get-list-of-active-minor-modes-in-buffer) for allowing me to avoid thinking on this occasion)
+
+```emacs-lisp
+;; I didn't write this
+(defun isw-get-active-minor-modes-in-buffer-list ()
+  "Get a list of which minor modes are enabled in the current buffer."
+  (let ($list)
+    (mapc (lambda ($mode)
+	    (condition-case nil
+		(if (and (symbolp $mode) (symbol-value $mode))
+		    (setq $list (cons $mode $list)))
+	      (error nil)))
+	  minor-mode-list)
+    (sort $list 'string<)))
+```
+
+Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#Global%20Keybindings) section.
+
+```emacs-lisp
+(defun toggle-ligatures ()
+  (interactive)
+  (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
+      (fira-code-mode -1)
+    (fira-code-mode))
+  (redraw-display)
+  )
+```
+
+Finally, define the hook so that it doesn't automatically turn ligatures on when opening files in the terminal.
+
+```emacs-lisp
+(defun isw-enable-ligatures-hook () 
+  (if (not (equal (window-system) nil))
+      (fira-code-mode 1)
+    ))
+
+(add-hook 'prog-mode-hook 'isw-enable-ligatures-hook)
+```
+
+This solves the problem except when visiting a buffer in teminal which is already open in the GUI. I couldn't quite get this working, so it's commented out, but this is supposed to disable fira-code-mode when visiting the buffer. The helper works when I run it manually, but something is wrong about how I'm using `window-selection-change-functions` I guess.
+
+```emacs-lisp
+;; (defun isw-disable-ligatures-in-terminals ()
+;;   (print "running")
+;;   (if (equal (window-system) nil)
+;;       (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
+;;           (progn
+;;             (print "deactivating")
+;;             (fira-code-mode -1))
+;;         )))
+
+;; (add-hook 'window-selection-change-functions 'isw-disable-ligatures-in-terminals)
+```
+
+Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
 # Language Configuration
 
 
-### Language Server Protocol
+## Language Server Protocol
 
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
@@ -865,20 +870,21 @@ LSP provides a generic interface for text editors to talk to various language se
 (setq lsp-lens-enable nil)
 ```
 
--   Fix background color of lsp-ui-doc in various themes
 
-    By default, for some reason, lsp-ui-doc chooses an ugly background color that looks bad and doesn't match the background surrounding most of the text.
-    
-    I had to edit a few faces with Customize. Some notes:
-    
-    1.  Using lsp-ui-doc's child frame mode causes lsp-ui-doc-background to be ignored for some reason so `lsp-ui-doc-use-childframe` must be `nil`
-    
-    2.  By default, the background color is interrupted by a mismatch with `markdown-code-face` which doesn't match `lsp-ui-doc-background`
-    
-    3.  Thus, `lsp-ui-doc-background` is set via `M-x customize-face` to inherit from (match) `markdown-code-face` and saved in `.emacs-custom.el`
+### Fix background color of lsp-ui-doc in various themes
+
+By default, for some reason, lsp-ui-doc chooses an ugly background color that looks bad and doesn't match the background surrounding most of the text.
+
+I had to edit a few faces with Customize. Some notes:
+
+1.  Using lsp-ui-doc's child frame mode causes lsp-ui-doc-background to be ignored for some reason so `lsp-ui-doc-use-childframe` must be `nil`
+
+2.  By default, the background color is interrupted by a mismatch with `markdown-code-face` which doesn't match `lsp-ui-doc-background`
+
+3.  Thus, `lsp-ui-doc-background` is set via `M-x customize-face` to inherit from (match) `markdown-code-face` and saved in `.emacs-custom.el`
 
 
-### Tree Sitter
+## Tree Sitter
 
 Tree-sitter reads the AST to provide better syntax highlighting
 
@@ -893,7 +899,7 @@ Tree-sitter reads the AST to provide better syntax highlighting
 ```
 
 
-### YAML
+## YAML
 
 ```emacs-lisp
 (use-package yaml-mode)
@@ -901,7 +907,7 @@ Tree-sitter reads the AST to provide better syntax highlighting
 ```
 
 
-### Markdown
+## Markdown
 
 ```emacs-lisp
 (use-package markdown-mode
@@ -921,7 +927,7 @@ Tree-sitter reads the AST to provide better syntax highlighting
 ```
 
 
-### Docker
+## Docker
 
 ```emacs-lisp
 (use-package dockerfile-mode)
@@ -930,7 +936,7 @@ Tree-sitter reads the AST to provide better syntax highlighting
 ```
 
 
-### Python
+## Python
 
 `auto-virtualenv` looks in `$WORKON_HOME` for virtualenvs, and then I can run `M-x pyvenv-workon RET project RET` to choose my virtualenv for `project`, found in `$WORKON_HOME`, or a symlink anyway.
 
@@ -947,220 +953,228 @@ So the convention for use is:
 3.  `M-x pyvenv-workon`
 
 
-### Go
+## Go
 
 ![img](My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif)
 
--   Dependencies
 
-    Go support requires some dependencies. I will try to list them all here. Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
-    
-    -   First, `go` itself must be installed, install however, and avalailable on the `PATH`.
-    
-    -   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`. [Directions for configuring `gopls` through this file are found here.](https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration)
-    
-    -   `golint` has to be installed independently
-    
-    ```bash
-    $ go get https://github.com/golang/lint
-    ```
-    
-    Nothing to do with Emacs, but `eg` also looks really cool:
-    
-    ```bash
-    $ go get golang.org/x/tools/cmd/eg
-    ```
-    
-    -   [`golangci-lint`](https://github.com/golangci/golangci-lint) is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. `go-metalinter`, I think, is what it was called. Anyway, it used to crash my computer and *apparently* that was a common experience. Anyway `golangci-lint` must be installed independently, too:
-    
-    ```bash
-    # install it into ./bin/
-    $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
-    ```
+### Dependencies
 
--   Initial Setup
+Go support requires some dependencies. I will try to list them all here. Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
-    ```emacs-lisp
-    (defun set-gopls-lib-dirs ()
-      "Add $GOPATH/pkg/mod to the 'library path'."
-      ;; stops lsp from continually asking if Go projects should be imported
-      (setq lsp-clients-go-library-directories
-    	(list
-    	 "/usr"
-    	 (concat (getenv "GOPATH") "/pkg/mod"))))
-    
-    (use-package go-mode
-      :hook ((go-mode . lsp-deferred)
-    	 (go-mode . set-gopls-lib-dirs)
-    	 (go-mode . yas-minor-mode))
-      :config
-      ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-      ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
-      (evil-add-command-properties #'godef-jump :jump t))
-    
-    ;; enable golangci-lint to work with flycheck
-    (use-package flycheck-golangci-lint
-      :hook (go-mode . flycheck-golangci-lint-setup))
-    ```
+-   First, `go` itself must be installed, install however, and avalailable on the `PATH`.
 
--   Package and Configuration for Executing Tests
+-   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`. [Directions for configuring `gopls` through this file are found here.](https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration)
 
-    ```emacs-lisp
-    (use-package gotest)
-    (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
-    (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
-    (add-hook 'go-test-mode-hook 'visual-line-mode)
-    ```
+-   `golint` has to be installed independently
 
--   REPL
+```bash
+$ go get https://github.com/golang/lint
+```
 
-    [Gore](https://github.com/motemen/gore) provides a REPL and [gorepl-mode](https://github.com/manute/gorepl-mode) lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
-    
-    ```sh
-    go get -u github.com/motemen/gore/cmd/gore
-    ```
-    
-    Gore also uses gocode for code completion, so install that (even though Emacs uses go-pls for the same).
-    
-    ```sh
-    go get -u github.com/mdempsky/gocode
-    ```
-    
-    Once that's done `gorepl-mode` is ready to be installed:
-    
-    ```emacs-lisp
-    (use-package gorepl-mode)
-    ```
+Nothing to do with Emacs, but `eg` also looks really cool:
 
--   Interactive debugger
+```bash
+$ go get golang.org/x/tools/cmd/eg
+```
 
-    I got jealous of a coworker with an IDE who apparently has an interactive debugger, so I got `dap-mode` working 🙂
-    
-    -   Installation and Configuration
-    
-        Install `dap-mode` and `dap-go`. `dap-mode` is probably useful for other languages so at some point I will want to refactor it out and install it alongside LSP, but keep `dap-go` here. Probably. But this works for now, and who knows, maybe debugging Go is really all I care about.
-        
-        ```emacs-lisp
-        (use-package dap-mode)
-        (require 'dap-go)
-        (dap-mode 1)
-        (dap-ui-mode 1)
-        (dap-ui-controls-mode 1)
-        (tooltip-mode 1)
-        (setq dap-ui-variable-length 100)
-        ```
-        
-        -   On first install
-        
-            Theoretically you should be able to run this
-            
-                M-x dap-go-setup
-            
-            But it is subject to rate-limiting so I just checked in the results of calling this under `.extension`. It's all MIT-licensed so this is fine.
-    
-    -   Use
-    
-        -   When debugging a new executable for the first time
-        
-            Run this command
-            
-                M-x dap-debug-edit-template
-            
-            and save the `(dap-register-debug-template )` call that is generated.. somewhere alongside the code hopefully. I'll come up with some convention for storing these. Maybe dir-locals (`SPC p E`)
-        
-        -   Each time when ready to start debugging
-        
-            Start debugging by running:
-            
-                M-x dap-debug
-            
-            Click in the margins to set breakpoints with `dap-ui-mode` enabled (🙌)
+-   [`golangci-lint`](https://github.com/golangci/golangci-lint) is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. `go-metalinter`, I think, is what it was called. Anyway, it used to crash my computer and *apparently* that was a common experience. Anyway `golangci-lint` must be installed independently, too:
 
--   Mode-Specific Keybindings
+```bash
+# install it into ./bin/
+$ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
+```
 
-    ```emacs-lisp
-    (general-define-key
-     :states  'normal
-     :keymaps 'go-mode-map
-     ",a"     'go-import-add
-     ",d"     'lsp-describe-thing-at-point
-     ",gg"    'lsp-find-definition
-     ",gt"    'lsp-find-type-definition
-     ",i"     'lsp-find-implementation
-     ",n"     'lsp-rename
-     ",r"     'lsp-ui-peek-find-references
-     ",R"     'lsp-find-references
-     ",tp"    'go-test-current-project
-     ",tt"    'go-test-current-test
-     ",tf"    'go-test-current-file
-     ",x"     'lsp-execute-code-action
-     ",lsp"   'lsp-workspace-restart
-     "gd"     'lsp-find-definition
-    
-     ;; using the ,c namespace for repl and debug stuff to follow the C-c
-     ;; convention found in other places in Emacs
-     ",cc"     'dap-debug
-     ",cr"     'gorepl-run
-     ",cg"     'gorepl-run-load-current-file
-     ",cx"     'gorepl-eval-region
-     ",cl"     'gorepl-eval-line
-    
-     ;; origami-mode works better with lsp than regular evil-mode
-     "TAB"    'origami-toggle-node
-    
-     "zm"     'origami-toggle-node
-     "zM"     'origami-toggle-all-nodes
-    
-     "zc"     'origami-close-node
-     "zC"     'origami-close-node-recursively
-    
-     "zo"     'origami-open-node
-     "zO"     'origami-open-node-recursively
-    
-     ;; except for when it totally breaks lol
-     "zr"     'origami-reset
-     )
-    
-    (autoload 'go-mode "go-mode" nil t)
-    (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
-    ```
 
--   Hooks
+### Initial Setup
 
-    ```emacs-lisp
-    ;; disable "Organize Imports" warning that never goes away
-    (add-hook 'go-mode-hook
-    	  (lambda ()
-    	    ;; Go likes origami-mode
-    	    (origami-mode)
-    	    ;; lsp ui sideline code actions are annoying in Go
-    	    (setq-local lsp-ui-sideline-show-code-actions nil)))
-    
-    ;; sets the visual tab width to 2 spaces per tab in Go buffers
-    (add-hook 'go-mode-hook (lambda ()
-    			  (set (make-local-variable 'tab-width) 2)))
-    
-    
-    (defun lsp-go-install-save-hooks ()
-      (add-hook 'before-save-hook #'lsp-format-buffer t t)
-      (add-hook 'before-save-hook #'lsp-organize-imports t t))
-    
-    (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-    ```
+```emacs-lisp
+(defun set-gopls-lib-dirs ()
+  "Add $GOPATH/pkg/mod to the 'library path'."
+  ;; stops lsp from continually asking if Go projects should be imported
+  (setq lsp-clients-go-library-directories
+	(list
+	 "/usr"
+	 (concat (getenv "GOPATH") "/pkg/mod"))))
 
--   Exclude a certain folder from LSP projects
+(use-package go-mode
+  :hook ((go-mode . lsp-deferred)
+	 (go-mode . set-gopls-lib-dirs)
+	 (go-mode . yas-minor-mode))
+  :config
+  ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
+  ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
+  (evil-add-command-properties #'godef-jump :jump t))
 
-    Certain projects use a gopath folder inside the project root and this confuses LSP/gopls.
+;; enable golangci-lint to work with flycheck
+(use-package flycheck-golangci-lint
+  :hook (go-mode . flycheck-golangci-lint-setup))
+```
+
+
+### Package and Configuration for Executing Tests
+
+```emacs-lisp
+(use-package gotest)
+(advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
+(advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
+(add-hook 'go-test-mode-hook 'visual-line-mode)
+```
+
+
+### REPL
+
+[Gore](https://github.com/motemen/gore) provides a REPL and [gorepl-mode](https://github.com/manute/gorepl-mode) lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
+
+```sh
+go get -u github.com/motemen/gore/cmd/gore
+```
+
+Gore also uses gocode for code completion, so install that (even though Emacs uses go-pls for the same).
+
+```sh
+go get -u github.com/mdempsky/gocode
+```
+
+Once that's done `gorepl-mode` is ready to be installed:
+
+```emacs-lisp
+(use-package gorepl-mode)
+```
+
+
+### Interactive debugger
+
+I got jealous of a coworker with an IDE who apparently has an interactive debugger, so I got `dap-mode` working 🙂
+
+-   Installation and Configuration
+
+    Install `dap-mode` and `dap-go`. `dap-mode` is probably useful for other languages so at some point I will want to refactor it out and install it alongside LSP, but keep `dap-go` here. Probably. But this works for now, and who knows, maybe debugging Go is really all I care about.
     
     ```emacs-lisp
-    (with-eval-after-load 'lsp-mode
-      (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
+    (use-package dap-mode)
+    (require 'dap-go)
+    (dap-mode 1)
+    (dap-ui-mode 1)
+    (dap-ui-controls-mode 1)
+    (tooltip-mode 1)
+    (setq dap-ui-variable-length 100)
     ```
     
-    Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
+    -   On first install
+    
+        Theoretically you should be able to run this
+        
+            M-x dap-go-setup
+        
+        But it is subject to rate-limiting so I just checked in the results of calling this under `.extension`. It's all MIT-licensed so this is fine.
+
+-   Use
+
+    -   When debugging a new executable for the first time
+    
+        Run this command
+        
+            M-x dap-debug-edit-template
+        
+        and save the `(dap-register-debug-template )` call that is generated.. somewhere alongside the code hopefully. I'll come up with some convention for storing these. Maybe dir-locals (`SPC p E`)
+    
+    -   Each time when ready to start debugging
+    
+        Start debugging by running:
+        
+            M-x dap-debug
+        
+        Click in the margins to set breakpoints with `dap-ui-mode` enabled (🙌)
 
 
-### Rust
+### Mode-Specific Keybindings
+
+```emacs-lisp
+(general-define-key
+ :states  'normal
+ :keymaps 'go-mode-map
+ ",a"     'go-import-add
+ ",d"     'lsp-describe-thing-at-point
+ ",gg"    'lsp-find-definition
+ ",gt"    'lsp-find-type-definition
+ ",i"     'lsp-find-implementation
+ ",n"     'lsp-rename
+ ",r"     'lsp-ui-peek-find-references
+ ",R"     'lsp-find-references
+ ",tp"    'go-test-current-project
+ ",tt"    'go-test-current-test
+ ",tf"    'go-test-current-file
+ ",x"     'lsp-execute-code-action
+ ",lsp"   'lsp-workspace-restart
+ "gd"     'lsp-find-definition
+
+ ;; using the ,c namespace for repl and debug stuff to follow the C-c
+ ;; convention found in other places in Emacs
+ ",cc"     'dap-debug
+ ",cr"     'gorepl-run
+ ",cg"     'gorepl-run-load-current-file
+ ",cx"     'gorepl-eval-region
+ ",cl"     'gorepl-eval-line
+
+ ;; origami-mode works better with lsp than regular evil-mode
+ "TAB"    'origami-toggle-node
+
+ "zm"     'origami-toggle-node
+ "zM"     'origami-toggle-all-nodes
+
+ "zc"     'origami-close-node
+ "zC"     'origami-close-node-recursively
+
+ "zo"     'origami-open-node
+ "zO"     'origami-open-node-recursively
+
+ ;; except for when it totally breaks lol
+ "zr"     'origami-reset
+ )
+
+(autoload 'go-mode "go-mode" nil t)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
+```
+
+
+### Hooks
+
+```emacs-lisp
+;; disable "Organize Imports" warning that never goes away
+(add-hook 'go-mode-hook
+	  (lambda ()
+	    ;; Go likes origami-mode
+	    (origami-mode)
+	    ;; lsp ui sideline code actions are annoying in Go
+	    (setq-local lsp-ui-sideline-show-code-actions nil)))
+
+;; sets the visual tab width to 2 spaces per tab in Go buffers
+(add-hook 'go-mode-hook (lambda ()
+			  (set (make-local-variable 'tab-width) 2)))
+
+
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
+
+(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+```
+
+
+### Exclude a certain folder from LSP projects
+
+Certain projects use a gopath folder inside the project root and this confuses LSP/gopls.
+
+```emacs-lisp
+(with-eval-after-load 'lsp-mode
+  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
+```
+
+Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
+
+
+## Rust
 
 To install the Rust language server:
 
@@ -1194,7 +1208,7 @@ To install the Rust language server:
 ```
 
 
-### Web
+## Web
 
 After some amount of searching and fumbling about I have discovered [`web-mode`](http://web-mode.org/) which appears to be the one-stop-shop solution for all of your HTML and browser-related needs. It handles a whole slew of web-related languages and templating formats and plays nicely with LSP. It's also the only package that I could find that supported `.tsx` files at all.
 
@@ -1216,25 +1230,26 @@ So yay for `web-mode`!
   (setq web-mode-enable-auto-pairing t))
 ```
 
--   Setting highlighting for special template modes
 
-    ```emacs-lisp
-    ;; web-mode can provide syntax highlighting for many template
-    ;; engines, but it can't detect the right one if the template uses a generic ending.
-    ;; If a project uses a generic ending for its templates, such
-    ;; as .html, add it below. It would be more elegant to handle this by
-    ;; setting this variable in .dir-locals.el for each project,
-    ;; unfortunately due to this https://github.com/fxbois//issues/799 that
-    ;; is not possible :(
-    
-    (setq web-mode-engines-alist '(
-    	("go" . ".*example_project_dir/.*\\.html\\'")
-    	;; add more projects here..
-    	))
-    ```
+### Setting highlighting for special template modes
+
+```emacs-lisp
+;; web-mode can provide syntax highlighting for many template
+;; engines, but it can't detect the right one if the template uses a generic ending.
+;; If a project uses a generic ending for its templates, such
+;; as .html, add it below. It would be more elegant to handle this by
+;; setting this variable in .dir-locals.el for each project,
+;; unfortunately due to this https://github.com/fxbois//issues/799 that
+;; is not possible :(
+
+(setq web-mode-engines-alist '(
+	("go" . ".*example_project_dir/.*\\.html\\'")
+	;; add more projects here..
+	))
+```
 
 
-### JSON
+## JSON
 
 ```emacs-lisp
 (use-package json-mode
@@ -1247,7 +1262,7 @@ So yay for `web-mode`!
 > Default Keybindings C-c C-f: format the region/buffer with json-reformat (<https://github.com/gongo/json-reformat>) C-c C-p: display a path to the object at point with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c P: copy a path to the object at point to the kill ring with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c C-t: Toggle between true and false at point C-c C-k: Replace the sexp at point with null C-c C-i: Increment the number at point C-c C-d: Decrement the number at point
 
 
-### Shell
+## Shell
 
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
 
@@ -1259,10 +1274,11 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 	    (defvar-local indent-tabs-mode nil)))
 ```
 
--   TODO I don't know if this still works 👆
+
+### TODO I don't know if this still works 👆
 
 
-### Salt
+## Salt
 
 ```emacs-lisp
 (use-package salt-mode)
@@ -1279,7 +1295,7 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
-### Vyper
+## Vyper
 
 ```emacs-lisp
 (use-package vyper-mode)
@@ -1319,7 +1335,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 # Global Keybindings
 
 
-### Helper Functions
+## Helper Functions
 
 ```emacs-lisp
 (defun find-initfile ()
@@ -1361,7 +1377,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-### Global Leader Keymappings
+## Global Leader Keymappings
 
 These are all under SPACE, following the Spacemacs pattern. Yeah, my configuration is a little of Spacemacs, a little of Doom, and a little of whatever I feel inspired by.
 
@@ -1662,9 +1678,6 @@ made unique when necessary."
 
 (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
 ```
-
-
-# Opening Sources In the Browser from Emacs
 
 
 # Miscellaneous standalone global configuration changes
