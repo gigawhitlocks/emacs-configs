@@ -167,6 +167,7 @@ However, I don't like all of the Doom themes and I also do not have a clear favo
 			   'doom-nord
 			   'doom-nord-light
 			   'doom-dracula
+			   'doom-challenger-deep
 			   ))
 
 (defun load-random-theme ()
@@ -276,8 +277,8 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
     (use-package undo-tree
       :config
       (global-undo-tree-mode)
-      (evil-set-undo-system 'undo-tree))
-
+      (evil-set-undo-system 'undo-tree)
+      (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
   (use-package treemacs-evil)
   (setq-default evil-escape-key-sequence "fd"))
@@ -1597,9 +1598,12 @@ Org is mostly prose and prose should be read in a variable-pitch font where poss
 Inside of code blocks I want a fixed-pitch font
 
 ```emacs-lisp
-(add-hook 'org-mode-hook '(lambda ()
-			    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-			    (set-face-attribute 'org-block nil :inherit 'fixed-pitch)))
+(defun ian-org-fixed-pitch ()
+  "Fix fixed pitch text in Org Mode"
+  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
+  (set-face-attribute 'org-block nil :inherit 'fixed-pitch))
+
+(add-hook 'org-mode-hook 'ian-org-fixed-pitch)
 ```
 
 
@@ -1798,6 +1802,7 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 (defun ian-restart-org-advice (&rest _args)
   (org-mode-restart))
 (advice-add 'load-theme :after #'ian-restart-org-advice)
+(advice-add 'load-theme :after #'(solaire-global-mode 1))
 ```
 
 

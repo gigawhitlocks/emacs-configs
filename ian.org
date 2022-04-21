@@ -158,6 +158,7 @@ I will maintain a list of my favorites and later apply some heuristics to semi-r
                              'doom-nord
                              'doom-nord-light
                              'doom-dracula
+                             'doom-challenger-deep
                              ))
 
   (defun load-random-theme ()
@@ -1570,6 +1571,7 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
   (defun ian-restart-org-advice (&rest _args)
     (org-mode-restart))
   (advice-add 'load-theme :after #'ian-restart-org-advice)
+  (advice-add 'load-theme :after #'(solaire-global-mode 1))
 #+END_SRC
 ** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
