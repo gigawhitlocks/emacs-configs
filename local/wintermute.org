@@ -5,7 +5,7 @@ Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 ** Variable-width font
 For prose modes like Org and Markdown
 #+begin_src emacs-lisp
-  (set-face-attribute 'variable-pitch nil :family "Ubuntu")
+  (set-face-attribute 'variable-pitch nil :family "Noto Sans")
 #+end_src
 
 
