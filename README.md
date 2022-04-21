@@ -1,48 +1,3 @@
-- [Entrypoint](#Entrypoint)
-- [Package Manager Bootstrap](#Package%20Manager%20Bootstrap)
-- [Package Installation and Configuration](#Package%20Installation%20and%20Configuration)
-- [Extra Packages](#Extra%20Packages)
-- [Font](#Font)
-- [Language Configuration](#Language%20Configuration)
-- [Adaptive Wrap and Visual Line Mode](#Adaptive%20Wrap%20and%20Visual%20Line%20Mode)
-- [Global Keybindings](#Global%20Keybindings)
-- [Org Mode Settings](#Org%20Mode%20Settings)
-- [Opening Sources In the Browser from Emacs](#Opening%20Sources%20In%20the%20Browser%20from%20Emacs)
-- [Miscellaneous standalone global configuration changes](#Miscellaneous%20standalone%20global%20configuration%20changes)
-  - [Opening Sources Directly in Emacs from the Browser](#Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser)
-  - [TRAMP settings](#TRAMP%20settings)
-  - [Disable most warnings](#Disable%20most%20warnings)
-  - [Switch theme](#Switch%20theme)
-  - [Line Numbers in Programming Buffers](#Line%20Numbers%20in%20Programming%20Buffers)
-  - [Transparency toggle](#Transparency%20toggle)
-  - [Switch to last buffer](#Switch%20to%20last%20buffer)
-  - [Fix Home/End keys](#Fix%20Home%2FEnd%20keys)
-  - [Customize the frame (OS window) title](#Customize%20the%20frame%20%28OS%20window%29%20title)
-  - [Tweak align-regexp](#Tweak%20align-regexp)
-  - [Configure automatic backups/recovery files](#Configure%20automatic%20backups%2Frecovery%20files)
-  - [Clean whitespace on save in all modes](#Clean%20whitespace%20on%20save%20in%20all%20modes)
-  - [Autosave](#Autosave)
-  - [Default window size](#Default%20window%20size)
-  - [Unclutter global modeline](#Unclutter%20global%20modeline)
-  - [Less annoying bell](#Less%20annoying%20bell)
-  - [Remove toolbar, scrollbars, and menu](#Remove%20toolbar%2C%20scrollbars%2C%20and%20menu)
-  - [Enable the mouse in the terminal](#Enable%20the%20mouse%20in%20the%20terminal)
-  - [Disable "nice" names in Customize](#Disable%20%22nice%22%20names%20in%20Customize)
-  - [Figure out finally how to use marks and jumps, and map this stuff to Evil bindings](#Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings)
-- [Render this file for display on the web](#Render%20this%20file%20for%20display%20on%20the%20web)
-  - [Update README.md git hook](#Update%20README.md%20git%20hook)
-- [Hostname-based tweaks](#Hostname-based%20tweaks)
-- [Footer](#Footer)
-  - [Start server](#Start%20server)
-  - [End of file](#End%20of%20file)
-- [Styles for HTML export](#Styles%20for%20HTML%20export)
-- [Launching Emacsclient](#Launching%20Emacsclient)
-- [Running Emacs properly from the GUI](#Running%20Emacs%20properly%20from%20the%20GUI)
-
-
-
-<a id="Entrypoint"></a>
-
 # Entrypoint
 
 First I need to configure Emacs to load this file (`ian.org`) as its first action when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code [tangles](https://orgmode.org/manual/Extracting-source-code.html) to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`ian.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
@@ -91,8 +46,6 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="Package%20Manager%20Bootstrap"></a>
-
 # Package Manager Bootstrap
 
 The first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with `git`, so I use `use-package` to ensure that packages are installed from my configuration file.
@@ -140,8 +93,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
-
-<a id="Package%20Installation%20and%20Configuration"></a>
 
 # Package Installation and Configuration
 
@@ -532,8 +483,6 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="Extra%20Packages"></a>
-
 # Extra Packages
 
 Packages with a smaller effect on the experience.
@@ -708,8 +657,6 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="Font"></a>
-
 # Font
 
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
@@ -877,8 +824,6 @@ FiraCode offers ligatures for programming symbols, which is cool.
     
     Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
-
-<a id="Language%20Configuration"></a>
 
 # Language Configuration
 
@@ -1341,8 +1286,6 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
-<a id="Adaptive%20Wrap%20and%20Visual%20Line%20Mode"></a>
-
 # Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -1512,8 +1455,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
   ";" 'comment-or-uncomment-region)
 ```
 
-
-<a id="Org%20Mode%20Settings"></a>
 
 # Org Mode Settings
 
@@ -1723,17 +1664,11 @@ made unique when necessary."
 ```
 
 
-<a id="Opening%20Sources%20In%20the%20Browser%20from%20Emacs"></a>
-
 # Opening Sources In the Browser from Emacs
 
 
-<a id="Miscellaneous%20standalone%20global%20configuration%20changes"></a>
-
 # Miscellaneous standalone global configuration changes
 
-
-<a id="Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser"></a>
 
 ## Opening Sources Directly in Emacs from the Browser
 
@@ -1796,8 +1731,6 @@ For now this is extremely rudimentary and I will improve it as needed.
     N.B. this code block does ****not**** get tangled into `ian.el`.
 
 
-<a id="TRAMP%20settings"></a>
-
 ## TRAMP settings
 
 Only one setting at the moment: use `ssh` instead of `scp` when accessing files with `ssh:` schemes
@@ -1807,8 +1740,6 @@ Only one setting at the moment: use `ssh` instead of `scp` when accessing files 
 ```
 
 
-<a id="Disable%20most%20warnings"></a>
-
 ## Disable most warnings
 
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
@@ -1817,8 +1748,6 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 (setq warning-minimum-level :emergency)
 ```
 
-
-<a id="Switch%20theme"></a>
 
 ## Switch theme
 
@@ -1835,8 +1764,6 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 ```
 
 
-<a id="Line%20Numbers%20in%20Programming%20Buffers"></a>
-
 ## Line Numbers in Programming Buffers
 
 ```emacs-lisp
@@ -1844,8 +1771,6 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
 (setq display-line-numbers-type 'relative)
 ```
 
-
-<a id="Transparency%20toggle"></a>
 
 ## Transparency toggle
 
@@ -1868,8 +1793,6 @@ I definitely lifted this from somewhere but failed to document where I got it :\
 ```
 
 
-<a id="Switch%20to%20last%20buffer"></a>
-
 ## Switch to last buffer
 
 This one lifted from <https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/>
@@ -1886,8 +1809,6 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think `hycont
 ```
 
 
-<a id="Fix%20Home%2FEnd%20keys"></a>
-
 ## Fix Home/End keys
 
 Emacs has weird behavior by default for Home and End and this change makes the behavior "normal" again.
@@ -1898,8 +1819,6 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 ```
 
 
-<a id="Customize%20the%20frame%20%28OS%20window%29%20title"></a>
-
 ## Customize the frame (OS window) title
 
 Taken from StackOverflow, at least for now, which does 90% of what I want and can serve as a future reference of how to customize this aspect of Emacs. This displays the file name and major mode in the OS title bar. Will have to find the documentation that defines the format string passed to `frame-title-format` at some point.
@@ -1908,8 +1827,6 @@ Taken from StackOverflow, at least for now, which does 90% of what I want and ca
 (setq-default frame-title-format '("%f [%m]"))
 ```
 
-
-<a id="Tweak%20align-regexp"></a>
 
 ## Tweak align-regexp
 
@@ -1926,8 +1843,6 @@ Lifted from StackOverflow:
 ```
 
 
-<a id="Configure%20automatic%20backups%2Frecovery%20files"></a>
-
 ## Configure automatic backups/recovery files
 
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in `/tmp`.
@@ -1939,8 +1854,6 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 ```
 
 
-<a id="Clean%20whitespace%20on%20save%20in%20all%20modes"></a>
-
 ## TODO Clean whitespace on save in all modes
 
 I have to actually go in and configure this because the defaults keep giving me fucking heartburn. It keeps messing with the whitespace in files that are none of its business. Maybe I just need to carefully enable it for certain modes? idk, too much magic, no time to look into it right now.
@@ -1949,8 +1862,6 @@ I have to actually go in and configure this because the defaults keep giving me 
 ;; (add-hook 'before-save-hook 'whitespace-cleanup)
 ```
 
-
-<a id="Autosave"></a>
 
 ## Autosave
 
@@ -1965,8 +1876,6 @@ Automatically saves the file when it's been idle for 5 minutes.
 ```
 
 
-<a id="Default%20window%20size"></a>
-
 ## Default window size
 
 Just a bigger size that I prefer..
@@ -1976,8 +1885,6 @@ Just a bigger size that I prefer..
 (add-to-list 'default-frame-alist '(height . 60))
 ```
 
-
-<a id="Unclutter%20global%20modeline"></a>
 
 ## Unclutter global modeline
 
@@ -1992,8 +1899,6 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
 (diminish 'yas-minor-mode-major-mode)
 ```
 
-
-<a id="Less%20annoying%20bell"></a>
 
 ## Less annoying bell
 
@@ -2015,8 +1920,6 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 (from Emacs wiki)
 
 
-<a id="Remove%20toolbar%2C%20scrollbars%2C%20and%20menu"></a>
-
 ## Remove toolbar, scrollbars, and menu
 
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M-x` for everything.
@@ -2033,16 +1936,12 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="Enable%20the%20mouse%20in%20the%20terminal"></a>
-
 ## Enable the mouse in the terminal
 
 ```emacs-lisp
 (xterm-mouse-mode 1)
 ```
 
-
-<a id="Disable%20%22nice%22%20names%20in%20Customize"></a>
 
 ## Disable "nice" names in Customize
 
@@ -2053,14 +1952,10 @@ I prefer that Customize display the names of variables that I can change in this
 ```
 
 
-<a id="Figure%20out%20finally%20how%20to%20use%20marks%20and%20jumps%2C%20and%20map%20this%20stuff%20to%20Evil%20bindings"></a>
-
 ## TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
 
 <http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html>
 
-
-<a id="Render%20this%20file%20for%20display%20on%20the%20web"></a>
 
 # Render this file for display on the web
 
@@ -2086,8 +1981,6 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="Update%20README.md%20git%20hook"></a>
-
 ## Update README.md git hook
 
 Before commit, generate the README.md file from the updated configuration.
@@ -2099,8 +1992,6 @@ git add README.md ian.html
 
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
-
-<a id="Hostname-based%20tweaks"></a>
 
 # Hostname-based tweaks
 
@@ -2129,12 +2020,8 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="Footer"></a>
-
 # Footer
 
-
-<a id="Start%20server"></a>
 
 ## Start server
 
@@ -2142,8 +2029,6 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 (server-start)
 ```
 
-
-<a id="End%20of%20file"></a>
 
 ## End of file
 
@@ -2154,8 +2039,6 @@ Everything after this point in the config file must not be emacs-lisp
 ;;; ian.el ends here
 ```
 
-
-<a id="Styles%20for%20HTML%20export"></a>
 
 # Styles for HTML export
 
@@ -2242,8 +2125,6 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="Launching%20Emacsclient"></a>
-
 # Launching Emacsclient
 
 [Nifty shell function for hassle-free starting of emacsclient](https://www.emacswiki.org/emacs/EmacsClient#h5o-18)
@@ -2285,8 +2166,6 @@ else
 fi
 ```
 
-
-<a id="Running%20Emacs%20properly%20from%20the%20GUI"></a>
 
 # Running Emacs properly from the GUI
 

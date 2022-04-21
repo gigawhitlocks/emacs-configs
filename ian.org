@@ -1,5 +1,5 @@
 #+TITLE:Have I Ever Mentioned How Much I Love Emacs?
-#+OPTIONS: toc:2 html-style:nil num:nil author:nil timestamp:nil
+#+OPTIONS: toc:nil html-style:nil num:nil author:nil timestamp:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
 #+PROPERTY: header-args:emacs-lisp :tangle yes
