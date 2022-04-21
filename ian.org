@@ -542,7 +542,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 #+end_src
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
-*** FiraCode Font Installation Script
+** FiraCode Font Installation Script
 :properties:
 :header-args: :tangle ~/.emacs.d/install-firacode-font.bash :shebang #!/usr/bin/env bash
 :end:
@@ -587,7 +587,7 @@ Now here's the standard installation script, stripped of the shebang to go after
 
 This installation script was sourced from [[https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager]]
 
-*** Enable FiraCode Font
+** Enable FiraCode Font
 
 Calling the script from above will install the font
 #+begin_src emacs-lisp
@@ -602,9 +602,9 @@ Enable it
   (set-frame-font "Fira Code-10" nil t)
 #+end_src
 
-*** Configure FiraCode special features
+** Configure FiraCode special features
 FiraCode offers ligatures for programming symbols, which is cool. 
-**** TODO Use the new method after upgrading to Emacs 28
+*** TODO Use the new method after upgrading to Emacs 28
 The following, taken from the [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel][installation guide]], enables these using the ~ligature.el~ method:
 #+begin_src emacs-lisp
   ;; ;; Enable the www ligature in every possible major mode
@@ -628,7 +628,7 @@ The following, taken from the [[https://github.com/tonsky/FiraCode/wiki/Emacs-in
 Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <2022-02-19 Sat>
 In the future I would like to use this approach, so I will leave it commented out above.
 
-**** Configure with a less-optimal method 
+*** Configure with a less-optimal method 
 Ligatures have turned out to be a bigger pain than I'd hoped. This is the suboptimal configuration that I'll keep until Emacs 28 comes out. Once that's out, I can delete all of this, and also I can remove the fetch and installation of the FiraCode Symbols font in the installation script above.
 
 First of all, install the helper mode:
@@ -700,7 +700,7 @@ Not spending more time on this unless Emacs 28 doesn't fix the problem. ~SPC t l
 Boy the ligatures look nice in the GUI though..
 
 * Language Configuration
-*** Language Server Protocol
+** Language Server Protocol
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
 #+BEGIN_SRC emacs-lisp
@@ -736,7 +736,7 @@ LSP provides a generic interface for text editors to talk to various language se
   (setq lsp-lens-enable nil)
 #+END_SRC
 
-**** Fix background color of lsp-ui-doc in various themes
+*** Fix background color of lsp-ui-doc in various themes
 By default, for some reason, lsp-ui-doc chooses an ugly background color that looks bad and doesn't match the background surrounding most of the text.
 
 I had to edit a few faces with Customize. Some notes:
@@ -748,7 +748,7 @@ I had to edit a few faces with Customize. Some notes:
 
 3. Thus, ~lsp-ui-doc-background~ is set via ~M-x customize-face~ to inherit from (match) ~markdown-code-face~ and saved in ~.emacs-custom.el~
 
-*** Tree Sitter
+** Tree Sitter
 Tree-sitter reads the AST to provide better syntax highlighting
 #+begin_src emacs-lisp
     (use-package tree-sitter
@@ -760,13 +760,13 @@ Tree-sitter reads the AST to provide better syntax highlighting
     (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 #+end_src
 
-*** YAML
+** YAML
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
   (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 #+END_SRC
 
-*** Markdown
+** Markdown
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
     :ensure t
@@ -784,14 +784,14 @@ Tree-sitter reads the AST to provide better syntax highlighting
   (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
 #+END_SRC
 
-*** Docker
+** Docker
 #+BEGIN_SRC emacs-lisp
   (use-package dockerfile-mode)
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
   (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 #+END_SRC
 
-*** Python
+** Python
 ~auto-virtualenv~ looks in ~$WORKON_HOME~ for virtualenvs, and then I can run ~M-x pyvenv-workon RET project RET~ to choose my virtualenv for ~project~, found in ~$WORKON_HOME~, or a symlink anyway.
 
 
@@ -807,10 +807,10 @@ So the convention for use is:
 2) Symlink it inside ~/.virtualenvs
 3) ~M-x pyvenv-workon~
 
-*** Go
+** Go
 #+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2022-11.gif @ 2020-05-18 22:12:18
 [[file:My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif]]
-**** Dependencies
+*** Dependencies
 Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
@@ -837,7 +837,7 @@ $ go get golang.org/x/tools/cmd/eg
 $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s v1.23.6
 #+END_SRC
 
-**** Initial Setup
+*** Initial Setup
 #+BEGIN_SRC emacs-lisp
   (defun set-gopls-lib-dirs ()
     "Add $GOPATH/pkg/mod to the 'library path'."
@@ -860,14 +860,14 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
   (use-package flycheck-golangci-lint
     :hook (go-mode . flycheck-golangci-lint-setup))
     #+END_SRC
-**** Package and Configuration for Executing Tests
+*** Package and Configuration for Executing Tests
 #+BEGIN_SRC emacs-lisp
   (use-package gotest)
   (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
   (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
   (add-hook 'go-test-mode-hook 'visual-line-mode)
 #+END_SRC
-**** REPL
+*** REPL
 [[https://github.com/motemen/gore][Gore]] provides a REPL and [[https://github.com/manute/gorepl-mode][gorepl-mode]] lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
 #+BEGIN_SRC sh
 go get -u github.com/motemen/gore/cmd/gore
@@ -882,9 +882,9 @@ Once that's done ~gorepl-mode~ is ready to be installed:
   (use-package gorepl-mode)
 #+END_SRC
 
-**** Interactive debugger
+*** Interactive debugger
 I got jealous of a coworker with an IDE who apparently has an interactive debugger, so I got ~dap-mode~ working 🙂
-***** Installation and Configuration
+**** Installation and Configuration
 Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languages so at some point I will want to refactor it out and install it alongside LSP, but keep ~dap-go~ here. Probably. But this works for now, and who knows, maybe debugging Go is really all I care about.
 
 #+begin_src emacs-lisp
@@ -897,25 +897,25 @@ Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languag
   (setq dap-ui-variable-length 100)
 #+end_src
 
-****** On first install
+***** On first install
 Theoretically you should be able to run this
 : M-x dap-go-setup
 
 But it is subject to rate-limiting so I just checked in the results of calling this under ~.extension~. It's all MIT-licensed so this is fine.
 
-***** Use
-****** When debugging a new executable for the first time
+**** Use
+***** When debugging a new executable for the first time
 Run this command
 : M-x dap-debug-edit-template
 and save the ~(dap-register-debug-template )~ call that is generated.. somewhere alongside the code hopefully.
 I'll come up with some convention for storing these.
 Maybe dir-locals (~SPC p E~)
-****** Each time when ready to start debugging
+***** Each time when ready to start debugging
 Start debugging by running:
 : M-x dap-debug
 Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
 
-**** Mode-Specific Keybindings
+*** Mode-Specific Keybindings
 #+BEGIN_SRC emacs-lisp
   (general-define-key
    :states  'normal
@@ -963,7 +963,7 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
   (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 #+END_SRC
 
-**** Hooks
+*** Hooks
 #+BEGIN_SRC emacs-lisp
   ;; disable "Organize Imports" warning that never goes away
   (add-hook 'go-mode-hook
@@ -984,7 +984,7 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
 
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 #+END_SRC
-**** Exclude a certain folder from LSP projects
+*** Exclude a certain folder from LSP projects
 Certain projects use a gopath folder inside the project root and this confuses LSP/gopls.
 #+BEGIN_SRC emacs-lisp
 (with-eval-after-load 'lsp-mode
@@ -993,7 +993,7 @@ Certain projects use a gopath folder inside the project root and this confuses L
 
 Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
 
-*** Rust
+** Rust
 To install the Rust language server:
 1. Install ~rustup~.
 2. Run ~rustup component add rls rust-analysis rust-src~.
@@ -1023,7 +1023,7 @@ To install the Rust language server:
 
   (add-hook 'rust-mode-hook #'lsp-rust-install-save-hooks)
 #+END_SRC
-*** Web
+** Web
 
 After some amount of searching and fumbling about I have discovered [[http://web-mode.org/][~web-mode~]] which appears to be the one-stop-shop solution for all of your HTML and browser-related needs. It handles a whole slew of web-related languages and templating formats and plays nicely with LSP. It's also the only package that I could find that supported ~.tsx~ files at all.
 
@@ -1045,7 +1045,7 @@ So yay for ~web-mode~!
     (setq web-mode-enable-auto-pairing t))
     #+END_SRC
 
-**** Setting highlighting for special template modes
+*** Setting highlighting for special template modes
     #+BEGIN_SRC emacs-lisp
   ;; web-mode can provide syntax highlighting for many template
   ;; engines, but it can't detect the right one if the template uses a generic ending.
@@ -1061,7 +1061,7 @@ So yay for ~web-mode~!
           ))
 #+END_SRC
 
-*** JSON
+** JSON
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
     :mode (("\\.json$" . json-mode ))
@@ -1082,7 +1082,7 @@ Default Keybindings
     C-c C-d: Decrement the number at point
 #+END_QUOTE
 
-*** Shell
+** Shell
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
 
 But for now, disable ~indent-tabs-mode~ in shell script editing mode because I have been observing behavior from ~whitespace-cleanup-mode~ that when ~indent-tabs-mode~ is ~t~ it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
@@ -1091,8 +1091,8 @@ But for now, disable ~indent-tabs-mode~ in shell script editing mode because I h
             (lambda ()
               (defvar-local indent-tabs-mode nil)))
 #+END_SRC
-**** TODO I don't know if this still works 👆
-*** Salt
+*** TODO I don't know if this still works 👆
+** Salt
 #+begin_src emacs-lisp
   (use-package salt-mode)
   (add-hook 'salt-mode-hook
@@ -1106,7 +1106,7 @@ But for now, disable ~indent-tabs-mode~ in shell script editing mode because I h
    ",c" (general-simulate-key "C-x h C-M-x")
    )
 #+end_src
-*** Vyper
+** Vyper
 #+begin_src emacs-lisp
   (use-package vyper-mode)
 #+end_src
@@ -1136,7 +1136,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 #+END_SRC
 
 * Global Keybindings
-*** Helper Functions
+** Helper Functions
 #+BEGIN_SRC emacs-lisp
   (defun find-initfile ()
     "Open main config file."
@@ -1176,7 +1176,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
           (display-line-numbers-mode))))
 #+end_src
 
-*** Global Leader Keymappings
+** Global Leader Keymappings
 These are all under SPACE, following the Spacemacs pattern.
 Yeah, my configuration is a little of Spacemacs, a little of Doom, and a little of whatever I feel inspired by.
 
@@ -1468,8 +1468,6 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
   (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
 #+end_src
 
-* Opening Sources In the Browser from Emacs
-
 * Miscellaneous standalone global configuration changes
 ** Opening Sources Directly in Emacs from the Browser
 https://orgmode.org/worg/org-contrib/org-protocol.html
@@ -1716,7 +1714,6 @@ This defines a command that will export this file to GitHub flavored Markdown an
 :properties:
 :header-args: :tangle .git/hooks/pre-commit :shebang #!/bin/bash
 :end:
-
 Before commit, generate the README.md file from the updated configuration.
 
 #+begin_src bash
