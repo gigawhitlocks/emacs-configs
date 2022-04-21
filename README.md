@@ -1474,7 +1474,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "tw"     'whitespace-mode
   "w-"     'split-window-below
   "w/"     'split-window-right
-  "wa"     'ace-window
   "wb"     'last-window
   "wj"     'evil-window-down
   "wk"     'evil-window-up
@@ -1482,6 +1481,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "wl"     'evil-window-right
   "wd"     'delete-window
   "wD"     'delete-other-windows
+  "ww"     'ace-window
   "wo"     'other-window
   "w="     'balance-windows
   "SPC"    'helm-M-x
