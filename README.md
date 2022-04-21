@@ -1,28 +1,28 @@
-- [Entrypoint](#org7a4efec)
-- [Package Manager Bootstrap](#orga3df470)
-- [Package Installation and Configuration](#orge40196b)
-- [Extra Packages](#org22e459a)
-- [Font](#orgb8a0aca)
-- [Language Configuration](#org954f7be)
-- [Adaptive Wrap and Visual Line Mode](#orgc8b302d)
-- [Global Keybindings](#orgddadf5b)
-- [Org Mode Settings](#org158e646)
-- [Opening Sources Directly in Emacs from the Browser](#org57a9efe)
-  - [Manual Steps:](#orgf39ea6c)
-- [Miscellaneous standalone global configuration changes](#orgfe8b352)
-- [Render this file for display on the web](#org723ad9d)
-  - [Update README.md git hook](#orgfc636ce)
-- [Hostname-based tweaks](#org75e7759)
-- [Footer](#org3dd4d86)
-  - [Start server](#orgf91d5fc)
-  - [End of file](#org0538aa6)
-- [Styles for HTML export](#orgc051958)
-- [Launching Emacsclient](#orgdf74d17)
-- [Running Emacs properly from the GUI](#org89efe54)
+- [Entrypoint](#Entrypoint)
+- [Package Manager Bootstrap](#Package%20Manager%20Bootstrap)
+- [Package Installation and Configuration](#Package%20Installation%20and%20Configuration)
+- [Extra Packages](#Extra%20Packages)
+- [Font](#Font)
+- [Language Configuration](#Language%20Configuration)
+- [Adaptive Wrap and Visual Line Mode](#Adaptive%20Wrap%20and%20Visual%20Line%20Mode)
+- [Global Keybindings](#Global%20Keybindings)
+- [Org Mode Settings](#Org%20Mode%20Settings)
+- [Opening Sources Directly in Emacs from the Browser](#Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser)
+  - [Manual Steps:](#Manual%20Steps%3A)
+- [Miscellaneous standalone global configuration changes](#Miscellaneous%20standalone%20global%20configuration%20changes)
+- [Render this file for display on the web](#Render%20this%20file%20for%20display%20on%20the%20web)
+  - [Update README.md git hook](#Update%20README.md%20git%20hook)
+- [Hostname-based tweaks](#Hostname-based%20tweaks)
+- [Footer](#Footer)
+  - [Start server](#Start%20server)
+  - [End of file](#End%20of%20file)
+- [Styles for HTML export](#Styles%20for%20HTML%20export)
+- [Launching Emacsclient](#Launching%20Emacsclient)
+- [Running Emacs properly from the GUI](#Running%20Emacs%20properly%20from%20the%20GUI)
 
 
 
-<a id="org7a4efec"></a>
+<a id="Entrypoint"></a>
 
 # Entrypoint
 
@@ -72,7 +72,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 The rest of the code that is executed begins with the routines defined by this file.
 
 
-<a id="orga3df470"></a>
+<a id="Package%20Manager%20Bootstrap"></a>
 
 # Package Manager Bootstrap
 
@@ -122,7 +122,7 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="orge40196b"></a>
+<a id="Package%20Installation%20and%20Configuration"></a>
 
 # Package Installation and Configuration
 
@@ -295,7 +295,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
-It's mostly used below in the [global keybindings](#orgddadf5b) section.
+It's mostly used below in the [global keybindings](#Global%20Keybindings) section.
 
 ```emacs-lisp
 (use-package general
@@ -513,7 +513,7 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="org22e459a"></a>
+<a id="Extra%20Packages"></a>
 
 # Extra Packages
 
@@ -689,7 +689,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="orgb8a0aca"></a>
+<a id="Font"></a>
 
 # Font
 
@@ -818,7 +818,7 @@ FiraCode offers ligatures for programming symbols, which is cool.
         (sort $list 'string<)))
     ```
     
-    Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#orgddadf5b) section.
+    Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#Global%20Keybindings) section.
     
     ```emacs-lisp
     (defun toggle-ligatures ()
@@ -859,7 +859,7 @@ FiraCode offers ligatures for programming symbols, which is cool.
     Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
-<a id="org954f7be"></a>
+<a id="Language%20Configuration"></a>
 
 # Language Configuration
 
@@ -1070,7 +1070,7 @@ So the convention for use is:
 
 -   Interactive debugger
 
-    I got jealous of a coworker with an IDE who apparently has an interactive debugger, so let's see if this is any good. It's been a long time since I've really had a debugger 🤣
+    I got jealous of a coworker with an IDE who apparently has an interactive debugger, so I got `dap-mode` working 🙂
     
     -   Installation and Configuration
     
@@ -1322,7 +1322,7 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
-<a id="orgc8b302d"></a>
+<a id="Adaptive%20Wrap%20and%20Visual%20Line%20Mode"></a>
 
 # Adaptive Wrap and Visual Line Mode
 
@@ -1352,7 +1352,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="orgddadf5b"></a>
+<a id="Global%20Keybindings"></a>
 
 # Global Keybindings
 
@@ -1494,7 +1494,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-<a id="org158e646"></a>
+<a id="Org%20Mode%20Settings"></a>
 
 # Org Mode Settings
 
@@ -1594,13 +1594,117 @@ Org is mostly prose and prose should be read in a variable-pitch font where poss
 
 ```emacs-lisp
 (add-hook 'org-mode-hook 'variable-pitch-mode)
+```
+
+Inside of code blocks I want a fixed-pitch font
+
+```emacs-lisp
 (add-hook 'org-mode-hook '(lambda ()
 			    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
 			    (set-face-attribute 'org-block nil :inherit 'fixed-pitch)))
 ```
 
 
-<a id="org57a9efe"></a>
+### Useful anchors in HTML export
+
+This is taken from [github.com/alphapapa's Unpackaged.el](https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors) collection, unmodified.
+
+```emacs-lisp
+(eval-when-compile
+  (require 'easy-mmode)
+  (require 'ox))
+
+(define-minor-mode unpackaged/org-export-html-with-useful-ids-mode
+  "Attempt to export Org as HTML with useful link IDs.
+Instead of random IDs like \"#orga1b2c3\", use heading titles,
+made unique when necessary."
+  :global t
+  (if unpackaged/org-export-html-with-useful-ids-mode
+      (advice-add #'org-export-get-reference :override #'unpackaged/org-export-get-reference)
+    (advice-remove #'org-export-get-reference #'unpackaged/org-export-get-reference)))
+
+(defun unpackaged/org-export-get-reference (datum info)
+  "Like `org-export-get-reference', except uses heading titles instead of random numbers."
+  (let ((cache (plist-get info :internal-references)))
+    (or (car (rassq datum cache))
+	(let* ((crossrefs (plist-get info :crossrefs))
+	       (cells (org-export-search-cells datum))
+	       ;; Preserve any pre-existing association between
+	       ;; a search cell and a reference, i.e., when some
+	       ;; previously published document referenced a location
+	       ;; within current file (see
+	       ;; `org-publish-resolve-external-link').
+	       ;;
+	       ;; However, there is no guarantee that search cells are
+	       ;; unique, e.g., there might be duplicate custom ID or
+	       ;; two headings with the same title in the file.
+	       ;;
+	       ;; As a consequence, before re-using any reference to
+	       ;; an element or object, we check that it doesn't refer
+	       ;; to a previous element or object.
+	       (new (or (cl-some
+			 (lambda (cell)
+			   (let ((stored (cdr (assoc cell crossrefs))))
+			     (when stored
+			       (let ((old (org-export-format-reference stored)))
+				 (and (not (assoc old cache)) stored)))))
+			 cells)
+			(when (org-element-property :raw-value datum)
+			  ;; Heading with a title
+			  (unpackaged/org-export-new-title-reference datum cache))
+			;; NOTE: This probably breaks some Org Export
+			;; feature, but if it does what I need, fine.
+			(org-export-format-reference
+			 (org-export-new-reference cache))))
+	       (reference-string new))
+	  ;; Cache contains both data already associated to
+	  ;; a reference and in-use internal references, so as to make
+	  ;; unique references.
+	  (dolist (cell cells) (push (cons cell new) cache))
+	  ;; Retain a direct association between reference string and
+	  ;; DATUM since (1) not every object or element can be given
+	  ;; a search cell (2) it permits quick lookup.
+	  (push (cons reference-string datum) cache)
+	  (plist-put info :internal-references cache)
+	  reference-string))))
+
+(defun unpackaged/org-export-new-title-reference (datum cache)
+  "Return new reference for DATUM that is unique in CACHE."
+  (cl-macrolet ((inc-suffixf (place)
+			     `(progn
+				(string-match (rx bos
+						  (minimal-match (group (1+ anything)))
+						  (optional "--" (group (1+ digit)))
+						  eos)
+					      ,place)
+				;; HACK: `s1' instead of a gensym.
+				(-let* (((s1 suffix) (list (match-string 1 ,place)
+							   (match-string 2 ,place)))
+					(suffix (if suffix
+						    (string-to-number suffix)
+						  0)))
+				  (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
+    (let* ((title (org-element-property :raw-value datum))
+	   (ref (url-hexify-string (substring-no-properties title)))
+	   (parent (org-element-property :parent datum)))
+      (while (--any (equal ref (car it))
+		    cache)
+	;; Title not unique: make it so.
+	(if parent
+	    ;; Append ancestor title.
+	    (setf title (concat (org-element-property :raw-value parent)
+				"--" title)
+		  ref (url-hexify-string (substring-no-properties title))
+		  parent (org-element-property :parent parent))
+	  ;; No more ancestors: add and increment a number.
+	  (inc-suffixf ref)))
+      ref)))
+
+(add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
+```
+
+
+<a id="Opening%20Sources%20Directly%20in%20Emacs%20from%20the%20Browser"></a>
 
 # Opening Sources Directly in Emacs from the Browser
 
@@ -1633,12 +1737,13 @@ Add the custom `org-protocol` script to intercept calls from the browser, do any
 # for some reason the bookmarklet strips a colon, so use sed to remove
 # the botched prefix and rebuild it correctly
 emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://open-source//##g')
+# that's probably a useless call to echo but whatever
 ```
 
 For now this is extremely rudimentary and I will improve it as needed.
 
 
-<a id="orgf39ea6c"></a>
+<a id="Manual%20Steps%3A"></a>
 
 ## Manual Steps:
 
@@ -1665,7 +1770,7 @@ For now this is extremely rudimentary and I will improve it as needed.
 N.B. this code block does ****not**** get tangled into `ian.el`.
 
 
-<a id="orgfe8b352"></a>
+<a id="Miscellaneous%20standalone%20global%20configuration%20changes"></a>
 
 # Miscellaneous standalone global configuration changes
 
@@ -1896,7 +2001,7 @@ I prefer that Customize display the names of variables that I can change in this
 <http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html>
 
 
-<a id="org723ad9d"></a>
+<a id="Render%20this%20file%20for%20display%20on%20the%20web"></a>
 
 # Render this file for display on the web
 
@@ -1922,7 +2027,7 @@ This defines a command that will export this file to GitHub flavored Markdown an
 ```
 
 
-<a id="orgfc636ce"></a>
+<a id="Update%20README.md%20git%20hook"></a>
 
 ## Update README.md git hook
 
@@ -1936,7 +2041,7 @@ git add README.md ian.html
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
 
 
-<a id="org75e7759"></a>
+<a id="Hostname-based%20tweaks"></a>
 
 # Hostname-based tweaks
 
@@ -1965,12 +2070,12 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="org3dd4d86"></a>
+<a id="Footer"></a>
 
 # Footer
 
 
-<a id="orgf91d5fc"></a>
+<a id="Start%20server"></a>
 
 ## Start server
 
@@ -1979,7 +2084,7 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 ```
 
 
-<a id="org0538aa6"></a>
+<a id="End%20of%20file"></a>
 
 ## End of file
 
@@ -1991,7 +2096,7 @@ Everything after this point in the config file must not be emacs-lisp
 ```
 
 
-<a id="orgc051958"></a>
+<a id="Styles%20for%20HTML%20export"></a>
 
 # Styles for HTML export
 
@@ -2078,7 +2183,7 @@ pre.example::-webkit-scrollbar {
 ```
 
 
-<a id="orgdf74d17"></a>
+<a id="Launching%20Emacsclient"></a>
 
 # Launching Emacsclient
 
@@ -2122,7 +2227,7 @@ fi
 ```
 
 
-<a id="org89efe54"></a>
+<a id="Running%20Emacs%20properly%20from%20the%20GUI"></a>
 
 # Running Emacs properly from the GUI
 
