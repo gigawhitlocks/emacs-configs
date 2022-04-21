@@ -268,18 +268,23 @@ I will maintain a list of my favorites and later apply some heuristics to semi-r
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #8b94a5;">;; </span><span style="color: #8b94a5;">for now, load a random one of the ones I like</span>
 <span style="color: #3B6EA8;">(</span><span style="color: #3B6EA8;">setq</span> ian-favorite-themes <span style="color: #97365B;">(</span>list
-                      'doom-vibrant
-                      'doom-one
-                      'doom-one-light
-                      'doom-flatwhite
-                      'doom-nord
-                      'doom-nord-light
-                      'doom-dracula
-                      <span style="color: #97365B;">)</span><span style="color: #3B6EA8;">)</span>
+                           'doom-vibrant
+                           'doom-one
+                           'doom-one-light
+                           'doom-flatwhite
+                           'doom-nord
+                           'doom-nord-light
+                           'doom-dracula
+                           <span style="color: #97365B;">)</span><span style="color: #3B6EA8;">)</span>
 
-<span style="color: #3B6EA8;">(</span>load-theme
- <span style="color: #97365B;">(</span>nth <span style="color: #4F894C;">(</span>random <span style="color: #842879;">(</span>length ian-favorite-themes<span style="color: #842879;">)</span><span style="color: #4F894C;">)</span> ian-favorite-themes<span style="color: #97365B;">)</span>
- t<span style="color: #3B6EA8;">)</span>
+<span style="color: #3B6EA8;">(</span><span style="color: #3B6EA8;">defun</span> <span style="color: #29838D;">load-random-theme</span> <span style="color: #97365B;">()</span>
+  <span style="color: #828b9b;">"Load a random favorite theme"</span>
+  <span style="color: #97365B;">(</span><span style="color: #3B6EA8;">interactive</span><span style="color: #97365B;">)</span>
+  <span style="color: #97365B;">(</span>load-theme
+   <span style="color: #4F894C;">(</span>nth <span style="color: #842879;">(</span>random <span style="color: #29838D;">(</span>length ian-favorite-themes<span style="color: #29838D;">)</span><span style="color: #842879;">)</span> ian-favorite-themes<span style="color: #4F894C;">)</span>
+   t<span style="color: #97365B;">)</span><span style="color: #3B6EA8;">)</span>
+
+<span style="color: #3B6EA8;">(</span>load-random-theme<span style="color: #3B6EA8;">)</span>
 </pre>
 </div>
 
@@ -1967,6 +1972,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   <span style="color: #4F894C;">"qq"</span>     'save-buffers-kill-terminal
   <span style="color: #4F894C;">"qr"</span>     'restart-emacs
   <span style="color: #4F894C;">"qz"</span>     'delete-frame
+  <span style="color: #4F894C;">"th"</span>     'load-random-theme
   <span style="color: #4F894C;">"tnn"</span>    'display-line-numbers-mode
   <span style="color: #4F894C;">"tnt"</span>    'toggle-line-numbers-rel-abs
   <span style="color: #4F894C;">"tr"</span>     'treemacs-select-window

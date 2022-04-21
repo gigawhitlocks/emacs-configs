@@ -160,18 +160,23 @@ However, I don't like all of the Doom themes and I also do not have a clear favo
 ```emacs-lisp
 ;; for now, load a random one of the ones I like
 (setq ian-favorite-themes (list
-		      'doom-vibrant
-		      'doom-one
-		      'doom-one-light
-		      'doom-flatwhite
-		      'doom-nord
-		      'doom-nord-light
-		      'doom-dracula
-		      ))
+			   'doom-vibrant
+			   'doom-one
+			   'doom-one-light
+			   'doom-flatwhite
+			   'doom-nord
+			   'doom-nord-light
+			   'doom-dracula
+			   ))
 
-(load-theme
- (nth (random (length ian-favorite-themes)) ian-favorite-themes)
- t)
+(defun load-random-theme ()
+  "Load a random favorite theme"
+  (interactive)
+  (load-theme
+   (nth (random (length ian-favorite-themes)) ian-favorite-themes)
+   t))
+
+(load-random-theme)
 ```
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
@@ -1457,6 +1462,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "qq"     'save-buffers-kill-terminal
   "qr"     'restart-emacs
   "qz"     'delete-frame
+  "th"     'load-random-theme
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
   "tr"     'treemacs-select-window
