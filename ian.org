@@ -144,9 +144,26 @@ Apply a small fix where doom-colors Treemacs theme is missing a few icons
    (treemacs-get-icon-value "cache") "sqlite")
 #+end_src 
 
-Enable the theme
+Since the Doom theme pack provides many beautiful themes, and I like to take advantage of this by frequently changing up my theme. 
+This also just makes me happy for other reasons. Thanks, Doom community for giving my config the gift of eye candy.
+
+However, I don't like all of the Doom themes and I also do not have a clear favorite.
+I will maintain a list of my favorites and later apply some heuristics to semi-randomly choose a theme at startup, but for now it will be fully random.
 #+begin_src emacs-lisp
-  (load-theme 'doom-one t)
+  ;; for now, load a random one of the ones I like
+  (setq ian-favorite-themes (list
+                        'doom-vibrant
+                        'doom-one
+                        'doom-one-light
+                        'doom-flatwhite
+                        'doom-nord
+                        'doom-nord-light
+                        'doom-dracula
+                        ))
+
+  (load-theme
+   (nth (random (length ian-favorite-themes)) ian-favorite-themes)
+   t)
 #+end_src
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
@@ -1544,7 +1561,9 @@ Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-em
     "Disable current theme before loading new one."
     (mapcar #'disable-theme custom-enabled-themes))
   (advice-add 'load-theme :before #'load-theme--disable-old-theme)
-  (advice-add 'load-theme :after #'(lambda (_ _ _) (org-mode-restart)))
+  (defun ian-restart-org-advice (&rest _args)
+    (org-mode-restart))
+  (advice-add 'load-theme :after #'ian-restart-org-advice)
 #+END_SRC
 ** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
