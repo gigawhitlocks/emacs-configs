@@ -1508,6 +1508,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "tr"     'treemacs-select-window
   "ts"     'toggle-screaming
   "tt"     'toggle-transparency
+  "tp"     (defun toggle-prism () (interactive) (prism-mode 'toggle))
   "tw"     'whitespace-mode
   "w-"     'split-window-below
   "w/"     'split-window-right
