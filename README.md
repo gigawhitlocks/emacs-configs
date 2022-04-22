@@ -1395,6 +1395,23 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
       (progn
 	(display-line-numbers-mode -1)
 	(display-line-numbers-mode))))
+
+
+(defun load-next-favorite-theme ()
+  "Loads the next theme on my favorite themes list"
+  (interactive)
+  (if (eq ian-current-theme nil)
+      (load-theme (car ian-favorite-themes))
+    (progn
+      (setq next-theme (car (cdr (memq ian-current-theme ian-favorite-themes))))
+      (if (eq next-theme nil)
+	  (progn
+	    (print "was nil")
+	    (load-theme (car ian-favorite-themes)))
+	(progn
+	  (print next-theme)
+	  (load-theme next-theme)))
+    )))
 ```
 
 
@@ -1466,6 +1483,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "ta"     'treemacs-add-project-to-workspace
   "thr"    'load-random-theme
   "thl"    'load-theme
+  "thn"    'load-next-favorite-theme
   "tl"     'toggle-ligatures
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
@@ -1799,10 +1817,22 @@ Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-ema
   "Disable current theme before loading new one."
   (mapcar #'disable-theme custom-enabled-themes))
 (advice-add 'load-theme :before #'load-theme--disable-old-theme)
+```
+
+Save the current theme to a global variable so it can be referenced later
+
+```emacs-lisp
+(defun load-theme--save-new-theme (theme &rest args)
+  (setq ian-current-theme theme))
+(advice-add 'load-theme :before #'load-theme--save-new-theme)
+```
+
+There are a few occasions where the Org fixed-width fonts don't get reapplied correctly. This solves most of them, and eventually I may iterate on it, if the edge cases bother me enough.
+
+```emacs-lisp
 (defun ian-restart-org-advice (&rest _args)
   (org-mode-restart))
 (advice-add 'load-theme :after #'ian-restart-org-advice)
-(advice-add 'load-theme :after #'(solaire-global-mode 1))
 ```
 
 
