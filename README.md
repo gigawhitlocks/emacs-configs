@@ -1471,6 +1471,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "gg"     'magit
   "gt"     'git-timemachine
   "gd"     'magit-diff
+  "go"     'browse-at-remote
   "h"      'hyperbole
   "jj"     'bookmark-jump
   "js"     'bookmark-set
@@ -1513,7 +1514,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "w="     'balance-windows
   "SPC"    'helm-M-x
   )
-
 
 ;; global VISUAL mode map
 (general-vmap
@@ -1733,6 +1733,15 @@ made unique when necessary."
 
 
 # Miscellaneous standalone global configuration changes
+
+
+## Opening the Remote Repo in the Browser from Emacs
+
+[browse-at-remote.el](https://github.com/rmuslimov/browse-at-remote) solves this
+
+```emacs-lisp
+(use-package browse-at-remote)
+```
 
 
 ## Opening Sources Directly in Emacs from the Browser

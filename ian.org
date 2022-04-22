@@ -1268,6 +1268,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "gg"     'magit
     "gt"     'git-timemachine
     "gd"     'magit-diff
+    "go"     'browse-at-remote
     "h"      'hyperbole
     "jj"     'bookmark-jump
     "js"     'bookmark-set
@@ -1310,7 +1311,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "w="     'balance-windows
     "SPC"    'helm-M-x
     )
-
 
   ;; global VISUAL mode map
   (general-vmap
@@ -1519,6 +1519,12 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
 #+end_src
 
 * Miscellaneous standalone global configuration changes
+** Opening the Remote Repo in the Browser from Emacs
+[[https://github.com/rmuslimov/browse-at-remote][browse-at-remote.el]] solves this
+#+begin_src emacs-lisp
+  (use-package browse-at-remote)
+#+end_src
+
 ** Opening Sources Directly in Emacs from the Browser
 https://orgmode.org/worg/org-contrib/org-protocol.html
 
