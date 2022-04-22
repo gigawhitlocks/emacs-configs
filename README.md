@@ -1,3 +1,14 @@
+# Ian's Emacs Config
+
+This is my Emacs configuration. If you read this file, you may find things you can copy-paste into your Emacs config.
+
+Here is a screenshot of my environment
+
+![img](Ian's_Emacs_Config/2022-04-21_19-31-07_emacs-theme-switch-demo.gif)
+
+Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
+
+
 # Entrypoint
 
 First I need to configure Emacs to load this file (`ian.org`) as its first action when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code [tangles](https://orgmode.org/manual/Extracting-source-code.html) to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`ian.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
