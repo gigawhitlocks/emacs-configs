@@ -609,8 +609,13 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
   ;; tab complete!
   (global-set-key "\t" 'company-complete-common))
 
+;; icons
 (use-package company-box
   :hook (company-mode . company-box-mode))
+
+;; extra documentation when idling
+(use-package company-quickhelp)
+(company-quickhelp-mode)
 ```
 
 

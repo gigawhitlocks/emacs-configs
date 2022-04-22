@@ -514,8 +514,13 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
     ;; tab complete!
     (global-set-key "\t" 'company-complete-common))
 
+  ;; icons
   (use-package company-box
     :hook (company-mode . company-box-mode))
+
+  ;; extra documentation when idling
+  (use-package company-quickhelp)
+  (company-quickhelp-mode)
     #+END_SRC
 *** Install and Configure Flycheck for Linting
 [[https://www.flycheck.org/en/latest/][Flycheck]] is an on-the-fly checker that hooks into most language backends.
