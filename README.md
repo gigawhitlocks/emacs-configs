@@ -520,6 +520,15 @@ Enable yas-mode everywhere
 Packages with a smaller effect on the experience.
 
 
+### prism colors by indent level
+
+It takes over the color theme and I don't know if I want it on all the time but it's interesting and I want to have it installed so that I can turn it on in certain situations, like editing highly nested YAML, where it might be invaluable. If I can remember to use it :)
+
+```emacs-lisp
+(use-package prism)
+```
+
+
 ### git-gutter shows unstaged changes in the gutter
 
 ```emacs-lisp
