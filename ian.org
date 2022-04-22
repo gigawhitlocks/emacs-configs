@@ -4,9 +4,6 @@
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
 #+PROPERTY: header-args:emacs-lisp :tangle yes
 
-#+DOWNLOADED: file:///home/ian/Peek%202022-04-21%2019-07.gif @ 2022-04-21 19:09:02
-[[file:2022-04-21_19-09-02_Peek 2022-04-21 19-07.gif]]
-
 * Entrypoint
 First I need to configure Emacs to load this file (~ian.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
 

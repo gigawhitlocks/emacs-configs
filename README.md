@@ -1,6 +1,3 @@
-![img](2022-04-21_19-09-02_Peek 2022-04-21 19-07.gif)
-
-
 # Entrypoint
 
 First I need to configure Emacs to load this file (`ian.org`) as its first action when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code [tangles](https://orgmode.org/manual/Extracting-source-code.html) to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`ian.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
