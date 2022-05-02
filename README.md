@@ -274,6 +274,12 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
     :config
     (evil-collection-init))
 
+  ;; the evil-collection overrides the worktree binding :(
+  (general-define-key
+   :states 'normal
+   :keymaps 'magit-status-mode-map
+   "Z" 'magit-worktree)
+
   ;; add fd as a remap for esc
   (use-package evil-escape
     :delight)
