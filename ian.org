@@ -203,10 +203,14 @@ Provided by [[https://github.com/iqbalansari/emacs-emojify][emojify]].
 Emacs comes with ~recentf-mode~ which helps me remember what I was doing after I restart my session.
 
 #+BEGIN_SRC emacs-lisp
-    ;; recent files mode
-    (recentf-mode 1)
-    (setq recentf-max-menu-items 25)
-    (setq recentf-max-saved-items 25)
+  ;; recent files mode
+  (recentf-mode 1)
+  (setq recentf-max-menu-items 25)
+  (setq recentf-max-saved-items 25)
+
+  ;; ignore the elpa directory
+  (add-to-list 'recentf-exclude
+               "elpa/*")
 #+END_SRC
 *** Install and Configure Projectile
 [[https://projectile.readthedocs.io/en/latest/][~projectile~]] is a fantastic package that provides all kinds of project context-aware functions for things like:
