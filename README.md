@@ -520,8 +520,8 @@ Enable yas-mode everywhere
 ```emacs-lisp
 (use-package sublimity)
 (require 'sublimity-attractive)
-(sublimity-mode 1)
-(setq sublimity-attractive-centering-width 120)
+(sublimity-mode 0)
+(setq sublimity-attractive-centering-width 200)
 ```
 
 
@@ -1281,6 +1281,18 @@ So yay for `web-mode`!
   :config
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-enable-auto-pairing t))
+```
+
+
+### enable jsx mode for all .js and .jsx files
+
+projects that do not use JSX, might need to move this to a project-specific config somewhere.
+
+For now though, this is sufficient for me
+
+```emacs-lisp
+(setq web-mode-content-types-alist
+      '(("jsx" . "\\.js[x]?\\'")))
 ```
 
 

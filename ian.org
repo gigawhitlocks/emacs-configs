@@ -1094,8 +1094,18 @@ So yay for ~web-mode~!
     (setq web-mode-enable-auto-pairing t))
     #+END_SRC
 
+*** enable jsx mode for all .js and .jsx files
+projects that do not use JSX, might need to move this to a
+project-specific config somewhere.
+
+For now though, this is sufficient for me
+#+BEGIN_SRC emacs-lisp
+  (setq web-mode-content-types-alist
+        '(("jsx" . "\\.js[x]?\\'")))
+#+END_SRC
+    
 *** Setting highlighting for special template modes
-    #+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp
   ;; web-mode can provide syntax highlighting for many template
   ;; engines, but it can't detect the right one if the template uses a generic ending.
   ;; If a project uses a generic ending for its templates, such
