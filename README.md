@@ -1286,7 +1286,7 @@ So yay for `web-mode`!
 
 ### enable jsx mode for all .js and .jsx files
 
-projects that do not use JSX, might need to move this to a project-specific config somewhere.
+If working on projects that do not use JSX, might need to move this to a project-specific config somewhere.
 
 For now though, this is sufficient for me
 
@@ -1294,6 +1294,8 @@ For now though, this is sufficient for me
 (setq web-mode-content-types-alist
       '(("jsx" . "\\.js[x]?\\'")))
 ```
+
+Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 
 
 ### Setting highlighting for special template modes

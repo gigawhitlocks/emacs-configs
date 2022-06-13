@@ -1095,8 +1095,8 @@ So yay for ~web-mode~!
     #+END_SRC
 
 *** enable jsx mode for all .js and .jsx files
-projects that do not use JSX, might need to move this to a
-project-specific config somewhere.
+If working on projects that do not use JSX, might need to move this to
+a project-specific config somewhere.
 
 For now though, this is sufficient for me
 #+BEGIN_SRC emacs-lisp
@@ -1104,6 +1104,8 @@ For now though, this is sufficient for me
         '(("jsx" . "\\.js[x]?\\'")))
 #+END_SRC
     
+Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
+
 *** Setting highlighting for special template modes
 #+BEGIN_SRC emacs-lisp
   ;; web-mode can provide syntax highlighting for many template
