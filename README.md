@@ -127,6 +127,9 @@ It's installed early because many things have integrations with it, including so
 
 ```emacs-lisp
 (use-package treemacs)
+(general-define-key
+ :keymaps 'treemacs-mode-map
+ "<mouse-8>" 'treemacs-RET-action)
 (use-package treemacs-all-the-icons)
 ```
 
@@ -520,8 +523,8 @@ Enable yas-mode everywhere
 ```emacs-lisp
 (use-package sublimity)
 (require 'sublimity-attractive)
-(sublimity-mode 0)
-(setq sublimity-attractive-centering-width 200)
+(sublimity-mode 1)
+(setq sublimity-attractive-centering-width 120)
 ```
 
 
