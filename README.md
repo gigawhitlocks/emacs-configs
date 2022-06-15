@@ -126,11 +126,8 @@ Treemacs provides a file browser on the left hand side of Emacs that I have grow
 It's installed early because many things have integrations with it, including some themes.
 
 ```emacs-lisp
-  (use-package treemacs)
-;;  (general-define-key
-;;   :keymaps 'treemacs-mode-map
-;;   "<mouse-8>" 'treemacs-RET-action)
-  (use-package treemacs-all-the-icons)
+(use-package treemacs)
+(use-package treemacs-all-the-icons)
 ```
 
 
@@ -202,7 +199,9 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 
 ```emacs-lisp
 (use-package doom-modeline
-  :ensure t
+  :config       (doom-modeline-def-modeline 'main
+		  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+		  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
   :hook (after-init . doom-modeline-mode))
 ```
 
@@ -830,7 +829,6 @@ LSP provides a generic interface for text editors to talk to various language se
   (setq lsp-prefer-flymake nil)
   (setq lsp-headerline-breadcrumb-enable nil))
 
-
 ;; treemacs integration
 (use-package lsp-treemacs)
 
@@ -852,8 +850,23 @@ LSP provides a generic interface for text editors to talk to various language se
 (setq lsp-ui-doc-include-signature t)
 (setq lsp-ui-doc-position 'at-point)
 (setq lsp-ui-doc-use-childframe t)
-(setq lsp-ui-doc-use-webkit t)
-(setq lsp-lens-enable t)
+(setq lsp-ui-doc-use-webkit nil)
+(setq lsp-lens-enable nil)
+
+(general-define-key
+ :states 'normal
+ :keymaps 'prog-mode-map
+   ",d"     'lsp-describe-thing-at-point
+   ",gg"    'lsp-find-definition
+   ",gt"    'lsp-find-type-definition
+   ",i"     'lsp-find-implementation
+   ",n"     'lsp-rename
+   ",r"     'lsp-ui-peek-find-references
+   ",R"     'lsp-find-references
+   ",x"     'lsp-execute-code-action
+   ",lsp"   'lsp-workspace-restart
+   "gd"     'lsp-find-definition
+   )
 ```
 
 
@@ -1041,8 +1054,8 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
     (use-package dap-mode)
     (require 'dap-go)
     (dap-mode 1)
-    (dap-ui-mode 1)
-    (dap-ui-controls-mode 1)
+    (dap-ui-mode 0)
+    (dap-ui-controls-mode 0)
     (tooltip-mode 1)
     (setq dap-ui-variable-length 100)
     ```
@@ -1490,6 +1503,12 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ;; global VISUAL mode map
 (general-vmap
   ";" 'comment-or-uncomment-region)
+
+;; top right button on my trackball is equivalent to click (select) +
+;; RET (open) on files in Treemacs
+(general-define-key
+   :keymaps 'treemacs-mode-map
+   "<mouse-8>" 'treemacs-RET-action)
 ```
 
 
