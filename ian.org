@@ -1723,8 +1723,14 @@ I prefer that Customize display the names of variables that I can change in this
   (setq custom-unlispify-tag-names nil)
 #+END_SRC
 
-** TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
-http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html
+** Smart formatting for many languages
+#+begin_src emacs-lisp
+  ;; auto-format different source code files extremely intelligently
+  ;; https://github.com/radian-software/apheleia
+  (use-package apheleia
+    :config
+    (apheleia-global-mode +1))
+#+end_src
 
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
