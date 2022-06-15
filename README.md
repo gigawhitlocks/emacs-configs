@@ -791,99 +791,29 @@ FiraCode offers ligatures for programming symbols, which is cool.
 The following, taken from the [installation guide](https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel), enables these using the `ligature.el` method:
 
 ```emacs-lisp
-;; ;; Enable the www ligature in every possible major mode
-;; (ligature-set-ligatures 't '("www"))
+(use-package ligature
+  :load-path "./vendor/"
+  :config
+  ;; Enable the "www" ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable traditional ligature support in eww-mode, if the
+  ;; `variable-pitch' face supports it
+  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
 
-;; ;; Enable ligatures in programming modes                                                           
-;; (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
-;;                                      ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-;;                                      "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-;;                                      "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-;;                                      "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-;;                                      "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-;;                                      "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-;;                                      "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-;;                                      "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-;;                                      "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  ;; ;; Enable ligatures in programming modes                                                           
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+				       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+				       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+				       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+				       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+				       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+				       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+				       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+				       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+				       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
 
-;; (global-ligature-mode 't)
+ (global-ligature-mode 't))
 ```
-
-Unfortunately, it's not supported in Emacs 27, which is what I'm using for now. <span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt;</span></span> In the future I would like to use this approach, so I will leave it commented out above.
-
-
-### Configure with a less-optimal method
-
-Ligatures have turned out to be a bigger pain than I'd hoped. This is the suboptimal configuration that I'll keep until Emacs 28 comes out. Once that's out, I can delete all of this, and also I can remove the fetch and installation of the FiraCode Symbols font in the installation script above.
-
-First of all, install the helper mode:
-
-```emacs-lisp
-(use-package fira-code-mode
-  ;; List of ligatures to turn off
-  :custom (fira-code-mode-disabled-ligatures '("[]" "#{" "#(" "#_" "#_(" "x"))
-  )
-```
-
-But the ligatures are broken in the terminal with this mode. I would prefer that they just get disabled automatically when opening buffers in the terminal, but I guess the maintainer of `fira-code-mode` doesn't use the terminal
-
-I need to at least be able to quickly turn the ligatures off, and shouldn't automatically turn them on when opening a file in the terminal.
-
-First I needed a helper function to determine what buffers are active (I don't know why there isn't a built-in that does this, so thanks [Stack Exchange](https://emacs.stackexchange.com/questions/10785/get-list-of-active-minor-modes-in-buffer) for allowing me to avoid thinking on this occasion)
-
-```emacs-lisp
-;; I didn't write this
-(defun isw-get-active-minor-modes-in-buffer-list ()
-  "Get a list of which minor modes are enabled in the current buffer."
-  (let ($list)
-    (mapc (lambda ($mode)
-	    (condition-case nil
-		(if (and (symbolp $mode) (symbol-value $mode))
-		    (setq $list (cons $mode $list)))
-	      (error nil)))
-	  minor-mode-list)
-    (sort $list 'string<)))
-```
-
-Now I can use that function to write a command that turns them on and off in the current buffer. I have this bound to `SPC t l` in the [Global Keybindings](#Global%20Keybindings) section.
-
-```emacs-lisp
-(defun toggle-ligatures ()
-  (interactive)
-  (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
-      (fira-code-mode -1)
-    (fira-code-mode))
-  (redraw-display)
-  )
-```
-
-Finally, define the hook so that it doesn't automatically turn ligatures on when opening files in the terminal.
-
-```emacs-lisp
-(defun isw-enable-ligatures-hook () 
-  (if (not (equal (window-system) nil))
-      (fira-code-mode 1)
-    ))
-
-(add-hook 'prog-mode-hook 'isw-enable-ligatures-hook)
-```
-
-This solves the problem except when visiting a buffer in teminal which is already open in the GUI. I couldn't quite get this working, so it's commented out, but this is supposed to disable fira-code-mode when visiting the buffer. The helper works when I run it manually, but something is wrong about how I'm using `window-selection-change-functions` I guess.
-
-```emacs-lisp
-;; (defun isw-disable-ligatures-in-terminals ()
-;;   (print "running")
-;;   (if (equal (window-system) nil)
-;;       (if (memq 'fira-code-mode (isw-get-active-minor-modes-in-buffer-list))
-;;           (progn
-;;             (print "deactivating")
-;;             (fira-code-mode -1))
-;;         )))
-
-;; (add-hook 'window-selection-change-functions 'isw-disable-ligatures-in-terminals)
-```
-
-Not spending more time on this unless Emacs 28 doesn't fix the problem. `SPC t l` is good enough. Boy the ligatures look nice in the GUI though..
 
 
 # Language Configuration
@@ -921,9 +851,9 @@ LSP provides a generic interface for text editors to talk to various language se
 (setq lsp-ui-doc-enable t)
 (setq lsp-ui-doc-include-signature t)
 (setq lsp-ui-doc-position 'at-point)
-(setq lsp-ui-doc-use-childframe nil)
-(setq lsp-ui-doc-use-webkit nil)
-(setq lsp-lens-enable nil)
+(setq lsp-ui-doc-use-childframe t)
+(setq lsp-ui-doc-use-webkit t)
+(setq lsp-lens-enable t)
 ```
 
 
