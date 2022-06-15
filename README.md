@@ -126,11 +126,11 @@ Treemacs provides a file browser on the left hand side of Emacs that I have grow
 It's installed early because many things have integrations with it, including some themes.
 
 ```emacs-lisp
-(use-package treemacs)
-(general-define-key
- :keymaps 'treemacs-mode-map
- "<mouse-8>" 'treemacs-RET-action)
-(use-package treemacs-all-the-icons)
+  (use-package treemacs)
+;;  (general-define-key
+;;   :keymaps 'treemacs-mode-map
+;;   "<mouse-8>" 'treemacs-RET-action)
+  (use-package treemacs-all-the-icons)
 ```
 
 
@@ -2013,9 +2013,15 @@ I prefer that Customize display the names of variables that I can change in this
 ```
 
 
-## TODO Figure out finally how to use marks and jumps, and map this stuff to Evil bindings
+## Smart formatting for many languages
 
-<http://xahlee.info/emacs/emacs/emacs_jump_to_previous_position.html>
+```emacs-lisp
+;; auto-format different source code files extremely intelligently
+;; https://github.com/radian-software/apheleia
+(use-package apheleia
+  :config
+  (apheleia-global-mode +1))
+```
 
 
 # Render this file for display on the web

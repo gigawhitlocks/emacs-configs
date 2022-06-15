@@ -119,9 +119,9 @@ It's installed early because many things have integrations with it, including so
 
 #+begin_src emacs-lisp
   (use-package treemacs)
-  (general-define-key
-   :keymaps 'treemacs-mode-map
-   "<mouse-8>" 'treemacs-RET-action)
+;;  (general-define-key
+;;   :keymaps 'treemacs-mode-map
+;;   "<mouse-8>" 'treemacs-RET-action)
   (use-package treemacs-all-the-icons)
 #+end_src
 *** Theme

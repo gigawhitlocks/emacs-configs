@@ -37,3 +37,4 @@ session*
 .extension/
 .#.*
 undo/
+/eln-cache/
