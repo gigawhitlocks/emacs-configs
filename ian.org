@@ -7,9 +7,9 @@
 This is my Emacs configuration.
 If you read this file, you may find things you can copy-paste into your Emacs config.
 
-Here is a screenshot of my environment
-#+DOWNLOADED: file:///home/ian/emacs-theme-switch-demo.gif @ 2022-04-21 19:31:07
-[[file:Ian's_Emacs_Config/2022-04-21_19-31-07_emacs-theme-switch-demo.gif]]
+Here is a screenshot of my environment:
+#+DOWNLOADED: file:///home/ian/emacs-themeswitch-demo-nativecomp.gif @ 2022-06-16 22:33:48
+[[file:Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif]]
 
 Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
 * Entrypoint

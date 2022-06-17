@@ -2,9 +2,9 @@
 
 This is my Emacs configuration. If you read this file, you may find things you can copy-paste into your Emacs config.
 
-Here is a screenshot of my environment
+Here is a screenshot of my environment:
 
-![img](Ian's_Emacs_Config/2022-04-21_19-31-07_emacs-theme-switch-demo.gif)
+![img](Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif)
 
 Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
 
