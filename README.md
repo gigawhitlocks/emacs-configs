@@ -784,11 +784,6 @@ Enable it
 
 FiraCode offers ligatures for programming symbols, which is cool.
 
-
-### TODO Use the new method after upgrading to Emacs 28
-
-The following, taken from the [installation guide](https://github.com/tonsky/FiraCode/wiki/Emacs-instructions#using-ligatureel), enables these using the `ligature.el` method:
-
 ```emacs-lisp
 (use-package ligature
   :load-path "./vendor/"
@@ -876,11 +871,9 @@ By default, for some reason, lsp-ui-doc chooses an ugly background color that lo
 
 I had to edit a few faces with Customize. Some notes:
 
-1.  Using lsp-ui-doc's child frame mode causes lsp-ui-doc-background to be ignored for some reason so `lsp-ui-doc-use-childframe` must be `nil`
+1.  By default, the background color is interrupted by a mismatch with `markdown-code-face` which doesn't match `lsp-ui-doc-background`
 
-2.  By default, the background color is interrupted by a mismatch with `markdown-code-face` which doesn't match `lsp-ui-doc-background`
-
-3.  Thus, `lsp-ui-doc-background` is set via `M-x customize-face` to inherit from (match) `markdown-code-face` and saved in `.emacs-custom.el`
+2.  Thus, `lsp-ui-doc-background` is set via `M-x customize-face` to inherit from (match) `markdown-code-face` and saved in `.emacs-custom.el`
 
 
 ## Tree Sitter
