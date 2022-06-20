@@ -882,7 +882,7 @@ Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languag
 #+begin_src emacs-lisp
   (use-package dap-mode)
   (require 'dap-go)
-  (dap-mode 1)
+  (dap-mode 0)
   (dap-ui-mode 0)
   (dap-ui-controls-mode 0)
   (tooltip-mode 1)
@@ -1741,9 +1741,9 @@ I prefer that Customize display the names of variables that I can change in this
 #+begin_src emacs-lisp
   ;; auto-format different source code files extremely intelligently
   ;; https://github.com/radian-software/apheleia
-  (use-package apheleia
-    :config
-    (apheleia-global-mode +1))
+  ;; (use-package apheleia
+  ;;   :config
+  ;;   (apheleia-global-mode +1))
 #+end_src
 
 * Render this file for display on the web
