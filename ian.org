@@ -1746,6 +1746,19 @@ I prefer that Customize display the names of variables that I can change in this
   ;;   (apheleia-global-mode +1))
 #+end_src
 
+** Add support for browsing Gemini-space
+Gemini is a new (circa 2019) Gopher-ish hypertext protocol. Browsing in Emacs is nice.
+
+Install a browser, elpher..
+#+begin_src emacs-lisp
+  (use-package elpher)
+#+end_src
+
+And a mode
+#+begin_src emacs-lisp
+  (use-package gemini-mode)
+#+end_src
+
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
