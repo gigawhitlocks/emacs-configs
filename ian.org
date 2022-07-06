@@ -743,13 +743,14 @@ I had to edit a few faces with Customize. Some notes:
 ** Tree Sitter
 Tree-sitter reads the AST to provide better syntax highlighting
 #+begin_src emacs-lisp
-    (use-package tree-sitter
-      :diminish
-      )
-    (use-package tree-sitter-langs)
+  (use-package tree-sitter
+    :diminish)
 
-    (global-tree-sitter-mode)
-    (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  (use-package tree-sitter-langs)
+
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+  (global-tree-sitter-mode)
 #+end_src
 
 ** YAML
