@@ -458,12 +458,6 @@ Enable yas-mode everywhere
   (yas-global-mode 1)
 #+END_SRC
 *** Smooth scrolling, distraction-free mode, and minimap
-#+begin_src emacs-lisp
-  (use-package sublimity)
-  (require 'sublimity-attractive)
-  (sublimity-mode 1)
-  (setq sublimity-attractive-centering-width 120)
-#+end_src
 * Extra Packages
 Packages with a smaller effect on the experience.
 *** prism colors by indent level
