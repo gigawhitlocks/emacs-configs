@@ -1318,7 +1318,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
     #+END_SRC
 
 * Org Mode Settings
-
   Some default evil bindings
 #+BEGIN_SRC emacs-lisp
   (use-package evil-org)

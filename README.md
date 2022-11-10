@@ -882,12 +882,13 @@ Tree-sitter reads the AST to provide better syntax highlighting
 
 ```emacs-lisp
 (use-package tree-sitter
-  :diminish
-  )
+  :diminish)
+
 (use-package tree-sitter-langs)
 
-(global-tree-sitter-mode)
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+(global-tree-sitter-mode)
 ```
 
 
@@ -1046,7 +1047,7 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
     ```emacs-lisp
     (use-package dap-mode)
     (require 'dap-go)
-    (dap-mode 1)
+    (dap-mode 0)
     (dap-ui-mode 0)
     (dap-ui-controls-mode 0)
     (tooltip-mode 1)
@@ -1308,6 +1309,28 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
+## Elixir
+
+```emacs-lisp
+(use-package elixir-mode
+  :hook
+  ((elixir-mode . lsp-deferred))
+  )
+;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
+(add-hook 'elixir-mode-hook
+	  (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+```
+
+
+## SQL
+
+SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL by default. This package fixes that.
+
+```emacs-lisp
+(use-package sql-indent)
+```
+
+
 # Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -1525,6 +1548,12 @@ Autocomplete for Org blocks (like source blocks)
 
 ```emacs-lisp
 (use-package company-org-block) ;; TODO configuration
+```
+
+JIRA support in Org
+
+```emacs-lisp
+(use-package ox-jira)
 ```
 
 Install some tools for archiving web content into Org
@@ -2030,9 +2059,26 @@ I prefer that Customize display the names of variables that I can change in this
 ```emacs-lisp
 ;; auto-format different source code files extremely intelligently
 ;; https://github.com/radian-software/apheleia
-(use-package apheleia
-  :config
-  (apheleia-global-mode +1))
+;; (use-package apheleia
+;;   :config
+;;   (apheleia-global-mode +1))
+```
+
+
+## Add support for browsing Gemini-space
+
+Gemini is a new (circa 2019) Gopher-ish hypertext protocol. Browsing in Emacs is nice.
+
+Install a browser, elpher..
+
+```emacs-lisp
+(use-package elpher)
+```
+
+And a mode
+
+```emacs-lisp
+(use-package gemini-mode)
 ```
 
 
