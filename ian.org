@@ -1779,6 +1779,12 @@ And a mode
   (use-package gemini-mode)
 #+end_src
 
+** Don't require a final newline
+Very occasionally this causes problems and it's not something that I actually care about. To be honest I do not know why Emacs has a default behavior where it adds a newline to the end of the file on save.
+#+begin_src emacs-lisp
+  (setq require-final-newline nil)
+#+end_src
+
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
