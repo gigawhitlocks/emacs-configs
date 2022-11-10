@@ -1193,7 +1193,6 @@ To install the Rust language server:
  "gd"     'lsp-find-definition
  )
 
-
 (defun lsp-rust-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
@@ -1249,10 +1248,10 @@ Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 ;; unfortunately due to this https://github.com/fxbois//issues/799 that
 ;; is not possible :(
 
-(setq web-mode-engines-alist '(
-	("go" . ".*example_project_dir/.*\\.html\\'")
+;;(setq web-mode-engines-alist '(
+;;        ("go" . ".*example_project_dir/.*\\.html\\'")
 	;; add more projects here..
-	))
+;;        ))
 ```
 
 
@@ -2079,6 +2078,15 @@ And a mode
 
 ```emacs-lisp
 (use-package gemini-mode)
+```
+
+
+## Don't require a final newline
+
+Very occasionally this causes problems and it's not something that I actually care about. To be honest I do not know why Emacs has a default behavior where it adds a newline to the end of the file on save.
+
+```emacs-lisp
+(setq require-final-newline nil)
 ```
 
 
