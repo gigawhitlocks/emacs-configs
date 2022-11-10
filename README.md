@@ -1786,7 +1786,7 @@ Add the custom `org-protocol` script to intercept calls from the browser, do any
 ```bash
 # for some reason the bookmarklet strips a colon, so use sed to remove
 # the botched prefix and rebuild it correctly
-emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://open-source//##g')
+emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://open-source//##g') | tee /tmp/xdg-emacsclient
 # that's probably a useless call to echo but whatever
 ```
 
@@ -2118,9 +2118,12 @@ This defines a command that will export this file to GitHub flavored Markdown an
 
 Before commit, generate the README.md file from the updated configuration.
 
+
+### TODO Figure out why this produces "args out of bounds" error
+
 ```bash
-emacsclient -e '(progn (switch-to-buffer "ian.org") (render-configfile-for-web))'
-git add README.md ian.html
+#  emacsclient -e '(progn (find-file "~/.emacs.d/ian.org") (render-configfile-for-web))'
+#  git add README.md ian.html
 ```
 
 I think the command being passed to `emacsclient` here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using `git` on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
