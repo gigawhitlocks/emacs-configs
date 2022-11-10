@@ -735,6 +735,14 @@ Tree-sitter reads the AST to provide better syntax highlighting
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
   (global-tree-sitter-mode)
+
+  (use-package tree-sitter-langs
+    :ensure t
+    :after tree-sitter
+    :config
+    (tree-sitter-require 'tsx)
+    (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . tsx)))
+
 #+end_src
 
 ** YAML
