@@ -1042,6 +1042,13 @@ For now though, this is sufficient for me
     
 Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
 
+*** enable Prettier auto-formatting for JavaScript and TypeScript
+#+begin_src emacs-lisp
+  (use-package prettier-js
+    :hook ((web-mode . prettier-js-mode)))
+#+end_src
+
+
 *** Setting highlighting for special template modes
 #+BEGIN_SRC emacs-lisp
   ;; web-mode can provide syntax highlighting for many template
