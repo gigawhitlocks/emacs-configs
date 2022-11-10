@@ -1014,19 +1014,20 @@ After some amount of searching and fumbling about I have discovered [[http://web
 So yay for ~web-mode~!
 
 #+BEGIN_SRC emacs-lisp
-  (use-package web-mode
-    :mode (("\\.html$" . web-mode)
-           ("\\.js$"   . web-mode)
-           ("\\.jsx$"  . web-mode)
-           ("\\.ts$"   . web-mode)
-           ("\\.tsx$"  . web-mode)
-           ("\\.css$"  . web-mode))
-    :hook
-    ((web-mode . lsp-deferred))
+    (use-package web-mode
+      :mode (("\\.html$" . web-mode)
+             ("\\.js$"   . web-mode)
+             ("\\.jsx$"  . web-mode)
+             ("\\.ts$"   . web-mode)
+             ("\\.tsx$"  . web-mode)
+             ("\\.css$"  . web-mode))
+      :hook
+      ((web-mode . lsp-deferred))
 
-    :config
-    (setq web-mode-enable-css-colorization t)
-    (setq web-mode-enable-auto-pairing t))
+      :config
+      (setq web-mode-enable-css-colorization t)
+      (setq web-mode-enable-auto-pairing t)
+      (setq web-mode-enable-auto-quoting nil))
     #+END_SRC
 
 *** enable jsx mode for all .js and .jsx files
