@@ -427,16 +427,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
 
   (setq dashboard-set-footer nil)
 #+END_SRC
-*** Install and Configure GNU Hyperbole
-[[https://www.gnu.org/software/hyperbole/][GNU Hyperbole]] adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
-
-It adds a slew of other features as well -- hyperlinks between documents, a rolodex, a list builder.
-#+BEGIN_SRC emacs-lisp
-    ;; gnu hyperbole
-    (use-package hyperbole)
-#+END_SRC
-
-<2022-02-19 Sat> It turns out that the /only/ feature I use from Hyperbole is the window dragging feature. I wonder if that's provided by any other, lighter-weight package? 🤔 Or maybe I should give some of the other features another look?
 
 *** Install templating tool and default snippets
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more.
