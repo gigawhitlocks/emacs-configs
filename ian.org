@@ -1010,7 +1010,6 @@ To install the Rust language server:
    "gd"     'lsp-find-definition
    )
 
-
   (defun lsp-rust-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t))
 
