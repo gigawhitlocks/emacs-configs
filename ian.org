@@ -1331,6 +1331,11 @@ Autocomplete for Org blocks (like source blocks)
 (use-package company-org-block) ;; TODO configuration
 #+end_src
 
+JIRA support in Org
+#+begin_src emacs-lisp
+  (use-package ox-jira)
+#+end_src
+
 Install some tools for archiving web content into Org
 #+begin_src emacs-lisp
   (use-package org-web-tools)
