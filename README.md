@@ -481,20 +481,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
 ```
 
 
-### Install and Configure GNU Hyperbole
-
-[GNU Hyperbole](https://www.gnu.org/software/hyperbole/) adds a bunch of window control features, namely the ability to swap two windows by hitting Shift + Right Click and dragging the window to a new position!
-
-It adds a slew of other features as well &#x2013; hyperlinks between documents, a rolodex, a list builder.
-
-```emacs-lisp
-;; gnu hyperbole
-(use-package hyperbole)
-```
-
-<span class="timestamp-wrapper"><span class="timestamp">&lt;2022-02-19 Sat&gt; </span></span> It turns out that the *only* feature I use from Hyperbole is the window dragging feature. I wonder if that's provided by any other, lighter-weight package? 🤔 Or maybe I should give some of the other features another look?
-
-
 ### Install templating tool and default snippets
 
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more. [Here are the YASnippet docs.](https://www.emacswiki.org/emacs/Yasnippet)
@@ -518,13 +504,6 @@ Enable yas-mode everywhere
 
 
 ### Smooth scrolling, distraction-free mode, and minimap
-
-```emacs-lisp
-(use-package sublimity)
-(require 'sublimity-attractive)
-(sublimity-mode 1)
-(setq sublimity-attractive-centering-width 120)
-```
 
 
 # Extra Packages
@@ -892,6 +871,14 @@ Tree-sitter reads the AST to provide better syntax highlighting
 (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
 
 (global-tree-sitter-mode)
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter
+  :config
+  (tree-sitter-require 'tsx)
+  (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . tsx)))
+
 ```
 
 
@@ -1015,6 +1002,16 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
 (add-hook 'go-test-mode-hook 'visual-line-mode)
+```
+
+
+### Enable Go struct memory optimiztion linting setting
+
+Go does not optimize the ordering of struct fields in memory in order to preserve space, so space can be wasted depending upon the order of the struct fields. This setting will tell gopls to call this out.
+
+```emacs-lisp
+(lsp-register-custom-settings
+ '(("gopls.analyses" "fieldalignment" t)))
 ```
 
 
@@ -1217,13 +1214,15 @@ So yay for `web-mode`!
 	 ("\\.jsx$"  . web-mode)
 	 ("\\.ts$"   . web-mode)
 	 ("\\.tsx$"  . web-mode)
-	 ("\\.css$"  . web-mode))
+	 ("\\.css$"  . web-mode)
+	 ("\\.svelte$" . web-mode))
   :hook
   ((web-mode . lsp-deferred))
 
   :config
   (setq web-mode-enable-css-colorization t)
-  (setq web-mode-enable-auto-pairing t))
+  (setq web-mode-enable-auto-pairing t)
+  (setq web-mode-enable-auto-quoting nil))
 ```
 
 
@@ -1239,6 +1238,14 @@ For now though, this is sufficient for me
 ```
 
 Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
+
+
+### enable Prettier auto-formatting for JavaScript and TypeScript
+
+```emacs-lisp
+(use-package prettier-js
+  :hook ((web-mode . prettier-js-mode)))
+```
 
 
 ### Setting highlighting for special template modes
@@ -2091,6 +2098,15 @@ Very occasionally this causes problems and it's not something that I actually ca
 
 ```emacs-lisp
 (setq require-final-newline nil)
+```
+
+
+## Caps lock mode
+
+For those of us who did away with the caps lock button but write SQL sometimes
+
+```emacs-lisp
+(use-package caps-lock)
 ```
 
 
