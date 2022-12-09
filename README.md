@@ -795,7 +795,7 @@ FiraCode offers ligatures for programming symbols, which is cool.
   (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
 
   ;; ;; Enable ligatures in programming modes                                                           
-  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-"
 				       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
 				       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
 				       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
@@ -805,6 +805,9 @@ FiraCode offers ligatures for programming symbols, which is cool.
 				       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
 				       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
 				       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+
+  ;; disabled combinations that could be ligatures
+  ;;  "::"
 
  (global-ligature-mode 't))
 ```
@@ -1176,6 +1179,7 @@ To install the Rust language server:
 
 ```emacs-lisp
 (use-package rust-mode
+  :mode (("\\.rs$" . rust-mode))
   :hook ((rust-mode . lsp-deferred)))
 
 
@@ -2327,3 +2331,14 @@ StartupWMClass=Emacs
 ### TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit
 
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
+
+
+# Compiling Emacs from Source
+
+Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I likhttps://nypost.com/2022/08/05/amazing-space-telescope-image-was-actually-a-slice-of-chorizo/e
+
+```shell
+./autogen.sh
+sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev
+./configure --without-toolkit-scroll-bars --with-imagemagick --with-x --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils
+```
