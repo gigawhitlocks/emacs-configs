@@ -650,7 +650,7 @@ FiraCode offers ligatures for programming symbols, which is cool.
     (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
 
     ;; ;; Enable ligatures in programming modes                                                           
-    (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+    (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-"
                                          ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
                                          "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
                                          "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
@@ -660,6 +660,9 @@ FiraCode offers ligatures for programming symbols, which is cool.
                                          "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
                                          "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                          "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+
+    ;; disabled combinations that could be ligatures
+    ;;  "::"
 
    (global-ligature-mode 't))
 #+end_src
@@ -994,6 +997,7 @@ To install the Rust language server:
 
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
+    :mode (("\\.rs$" . rust-mode))
     :hook ((rust-mode . lsp-deferred)))
 
 
