@@ -852,6 +852,15 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
   (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
   (add-hook 'go-test-mode-hook 'visual-line-mode)
 #+END_SRC
+
+*** Enable Go struct memory optimiztion linting setting
+Go does not optimize the ordering of struct fields in memory in order to preserve space, so space can be wasted depending upon the order of the struct fields. This setting will tell gopls to call this out.
+
+#+begin_src emacs-lisp
+  (lsp-register-custom-settings
+   '(("gopls.analyses" "fieldalignment" t)))
+#+end_src
+
 *** REPL
 [[https://github.com/motemen/gore][Gore]] provides a REPL and [[https://github.com/manute/gorepl-mode][gorepl-mode]] lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
 #+BEGIN_SRC sh
