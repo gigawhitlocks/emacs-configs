@@ -1794,6 +1794,12 @@ Very occasionally this causes problems and it's not something that I actually ca
   (setq require-final-newline nil)
 #+end_src
 
+** Caps lock mode
+For those of us who did away with the caps lock button but write SQL sometimes
+#+begin_src emacs-lisp
+  (use-package caps-lock)
+#+end_src
+
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
