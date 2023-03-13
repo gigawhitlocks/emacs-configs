@@ -919,7 +919,7 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
    :keymaps 'go-mode-map
    ",a"     'go-import-add
    ",d"     'lsp-describe-thing-at-point
-   ",gg"    'lsp-find-definition
+   "gd"    'lsp-find-definition
    ",gt"    'lsp-find-type-definition
    ",i"     'lsp-find-implementation
    ",n"     'lsp-rename
