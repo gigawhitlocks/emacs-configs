@@ -886,7 +886,7 @@ Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languag
 
 #+begin_src emacs-lisp
   (use-package dap-mode)
-  (require 'dap-go)
+  (require 'dap-dlv-go)
   (dap-mode 0)
   (dap-ui-mode 0)
   (dap-ui-controls-mode 0)
