@@ -251,7 +251,11 @@ It's controversial but I think modal editing is brilliant and have been using ~v
     (use-package evil-collection
       :after evil
       :config
+      ;; don't let evil-collection manage go-mode
+      ;; it is overriding gd
+      (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
       (evil-collection-init))
+
 
     ;; the evil-collection overrides the worktree binding :(
     (general-define-key
@@ -267,11 +271,11 @@ It's controversial but I think modal editing is brilliant and have been using ~v
     (use-package evil-surround
       :config
       (global-evil-surround-mode 1))
-      (use-package undo-tree
-        :config
-        (global-undo-tree-mode)
-        (evil-set-undo-system 'undo-tree)
-        (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+    (use-package undo-tree
+      :config
+      (global-undo-tree-mode)
+      (evil-set-undo-system 'undo-tree)
+      (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
     (use-package treemacs-evil)
     (setq-default evil-escape-key-sequence "fd"))
