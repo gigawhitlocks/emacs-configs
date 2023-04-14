@@ -1543,8 +1543,8 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
 ** Opening the Remote Repo in the Browser from Emacs
 [[https://github.com/rmuslimov/browse-at-remote][browse-at-remote.el]] solves this
 #+begin_src emacs-lisp
-;;  (use-package browse-at-remote) ;; broken on MELPA as of 3/21/2023
-  (require 'browse-at-remote)
+  (use-package browse-at-remote) ;; broken on MELPA as of 3/21/2023
+;;  (require 'browse-at-remote)
 #+end_src
 
 ** Opening Sources Directly in Emacs from the Browser
