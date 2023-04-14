@@ -693,7 +693,7 @@ LSP provides a generic interface for text editors to talk to various language se
   (setq lsp-enable-links nil)
 
   ;; folding library integation
-  (use-package lsp-origami)
+  ;; (use-package lsp-origami)
 
   ;; helm integration
   (use-package helm-lsp)
@@ -751,6 +751,8 @@ Tree-sitter reads the AST to provide better syntax highlighting
     (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . tsx)))
 
 #+end_src
+
+
 
 ** YAML
 #+BEGIN_SRC emacs-lisp
@@ -945,19 +947,19 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
    ",cl"     'gorepl-eval-line
 
    ;; origami-mode works better with lsp than regular evil-mode
-   "TAB"    'origami-toggle-node
+   ;; "TAB"    'origami-toggle-node
 
-   "zm"     'origami-toggle-node
-   "zM"     'origami-toggle-all-nodes
+   ;; "zm"     'origami-toggle-node
+   ;; "zM"     'origami-toggle-all-nodes
 
-   "zc"     'origami-close-node
-   "zC"     'origami-close-node-recursively
+   ;; "zc"     'origami-close-node
+   ;; "zC"     'origami-close-node-recursively
 
-   "zo"     'origami-open-node
-   "zO"     'origami-open-node-recursively
+   ;; "zo"     'origami-open-node
+   ;; "zO"     'origami-open-node-recursively
 
-   ;; except for when it totally breaks lol
-   "zr"     'origami-reset
+   ;; ;; except for when it totally breaks lol
+   ;; "zr"     'origami-reset
    )
 
   (autoload 'go-mode "go-mode" nil t)
@@ -970,7 +972,7 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
   (add-hook 'go-mode-hook
             (lambda ()
               ;; Go likes origami-mode
-              (origami-mode)
+              ;; (origami-mode)
               ;; lsp ui sideline code actions are annoying in Go
               (setq-local lsp-ui-sideline-show-code-actions nil)))
 
