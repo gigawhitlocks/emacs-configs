@@ -1320,6 +1320,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "ww"     'ace-window
     "wo"     'other-window
     "w="     'balance-windows
+    "W"      '(:keymap evil-window-map)
     "SPC"    'helm-M-x
     )
 
