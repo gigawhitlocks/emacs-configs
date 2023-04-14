@@ -1546,8 +1546,7 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
 ** Opening the Remote Repo in the Browser from Emacs
 [[https://github.com/rmuslimov/browse-at-remote][browse-at-remote.el]] solves this
 #+begin_src emacs-lisp
-  (use-package browse-at-remote) ;; broken on MELPA as of 3/21/2023
-;;  (require 'browse-at-remote)
+  (use-package browse-at-remote)
 #+end_src
 
 ** Opening Sources Directly in Emacs from the Browser
@@ -1810,6 +1809,27 @@ Very occasionally this causes problems and it's not something that I actually ca
 For those of us who did away with the caps lock button but write SQL sometimes
 #+begin_src emacs-lisp
   (use-package caps-lock)
+#+end_src
+
+** Allow swapping windows with ctrl + shift + left-click-drag
+#+begin_src emacs-lisp :tangle yes
+  (defvar window-swap-origin nil)
+
+  (defun window-swap-start (event)
+    "Start swapping windows using mouse events."
+    (interactive "e")
+    (setq window-swap-origin (posn-window (event-start event))))
+
+  (defun window-swap-end (event)
+    "End swapping windows using mouse events."
+    (interactive "e")
+    (let ((origin window-swap-origin)
+          (target (posn-window (event-end event))))
+      (window-swap-states origin target))
+    (setq window-swap-origin nil))
+
+  (global-set-key (kbd "<C-S-mouse-1>") 'window-swap-start)
+  (global-set-key (kbd "<C-S-drag-mouse-1>") 'window-swap-end)
 #+end_src
 
 * Render this file for display on the web
