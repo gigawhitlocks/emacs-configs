@@ -1497,7 +1497,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-## Global Leader Keymappings
+## Main Global Keymap
 
 These are all under SPACE, following the Spacemacs pattern. Yeah, my configuration is a little of Spacemacs, a little of Doom, and a little of whatever I feel inspired by.
 
