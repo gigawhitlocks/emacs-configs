@@ -25,7 +25,7 @@ If you read this file, you may find things you can copy-paste into your Emacs co
 Here is a screenshot of my environment:
 </p>
 
-<div id="org0b11b7c" class="figure">
+<div id="org3da82d5" class="figure">
 <p><img src="Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" alt="2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" />
 </p>
 </div>
@@ -136,8 +136,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 <span style="color: #c099ff;">(</span><span style="color: #c099ff;">require</span> '<span style="color: #ff995e;">use-package-ensure</span><span style="color: #c099ff;">)</span>
 <span style="color: #c099ff;">(</span><span style="color: #c099ff;">setq</span> use-package-always-ensure t<span style="color: #c099ff;">)</span>
 
-<span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">use-package-ensure-system-package</span><span style="color: #c099ff;">)</span>
-
 <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">these go in bootstrap because packages installed</span>
 <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">with use-package use :diminish and :delight</span>
 <span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">diminish</span><span style="color: #c099ff;">)</span>
@@ -151,16 +149,16 @@ Once this is done I need to install and configure any third party packages that 
 </div>
 </div>
 
-<div id="outline-container-Package%20Installation%20and%20Configuration" class="outline-2">
-<h2 id="Package%20Installation%20and%20Configuration">Package Installation and Configuration</h2>
-<div class="outline-text-2" id="text-Package%20Installation%20and%20Configuration">
+<div id="outline-container-Fundamental%20Package%20Installation%20and%20Configuration" class="outline-2">
+<h2 id="Fundamental%20Package%20Installation%20and%20Configuration">Fundamental Package Installation and Configuration</h2>
+<div class="outline-text-2" id="text-Fundamental%20Package%20Installation%20and%20Configuration">
 <p>
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 </p>
 </div>
-<div id="outline-container-Icons" class="outline-4">
-<h4 id="Icons">Icons</h4>
-<div class="outline-text-4" id="text-Icons">
+<div id="outline-container-Icons" class="outline-3">
+<h3 id="Icons">Icons</h3>
+<div class="outline-text-3" id="text-Icons">
 <p>
 Treemacs and Doom themes both rely upon <code>all-the-icons</code> to look nice
 </p>
@@ -170,10 +168,9 @@ Treemacs and Doom themes both rely upon <code>all-the-icons</code> to look nice
 </div>
 </div>
 </div>
-
-<div id="outline-container-Treemacs" class="outline-4">
-<h4 id="Treemacs">Treemacs</h4>
-<div class="outline-text-4" id="text-Treemacs">
+<div id="outline-container-Treemacs" class="outline-3">
+<h3 id="Treemacs">Treemacs</h3>
+<div class="outline-text-3" id="text-Treemacs">
 <p>
 Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
 </p>
@@ -189,9 +186,9 @@ It's installed early because many things have integrations with it, including so
 </div>
 </div>
 </div>
-<div id="outline-container-Theme" class="outline-4">
-<h4 id="Theme">Theme</h4>
-<div class="outline-text-4" id="text-Theme">
+<div id="outline-container-Theme" class="outline-3">
+<h3 id="Theme">Theme</h3>
+<div class="outline-text-3" id="text-Theme">
 <p>
 I'm using the Doom Emacs theme pack.
 I think they're really nice to look at, especially with <code>solaire-mode</code>.
@@ -227,9 +224,7 @@ Apply a small fix where doom-colors Treemacs theme is missing a few icons
 </pre>
 </div>
 <p>
-I have separated the Doom themes into light and dark, so I can have a
-randomly chosen light theme in the late morning and early afternoon,
-and switch back to a dark theme at other times.
+I have separated the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
 </p>
 
 <p>
@@ -237,9 +232,9 @@ I'll curate the lists as I use the new functionality, to remove ones I
 don't like.
 </p>
 </div>
-<ul class="org-ul">
-<li><a id="Light%20themes"></a>Light themes<br />
-<div class="outline-text-5" id="text-Light%20themes">
+<div id="outline-container-Light%20themes" class="outline-4">
+<h4 id="Light%20themes">Light themes</h4>
+<div class="outline-text-4" id="text-Light%20themes">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">defvar</span> <span style="color: #ff98a4;">light-theme-list</span> '<span style="color: #ff995e;">(</span>doom-one-light
                            doom-acario-light
@@ -255,10 +250,11 @@ don't like.
 </pre>
 </div>
 </div>
-</li>
+</div>
 
-<li><a id="Dark%20themes"></a>Dark themes<br />
-<div class="outline-text-5" id="text-Dark%20themes">
+<div id="outline-container-Dark%20themes" class="outline-4">
+<h4 id="Dark%20themes">Dark themes</h4>
+<div class="outline-text-4" id="text-Dark%20themes">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">defvar</span> <span style="color: #ff98a4;">dark-theme-list</span> '<span style="color: #ff995e;">(</span>doom-one-dark
                           doom-one-vibrant
@@ -299,10 +295,10 @@ don't like.
 </pre>
 </div>
 </div>
-</li>
-
-<li><a id="Noninteractive%20theme%20picker"></a>Noninteractive theme picker<br />
-<div class="outline-text-5" id="text-Noninteractive%20theme%20picker">
+</div>
+<div id="outline-container-Noninteractive%20theme%20picker" class="outline-4">
+<h4 id="Noninteractive%20theme%20picker">Noninteractive theme picker</h4>
+<div class="outline-text-4" id="text-Noninteractive%20theme%20picker">
 <p>
 For running at startup
 </p>
@@ -320,16 +316,13 @@ For running at startup
 </pre>
 </div>
 </div>
-</li>
-
-<li><a id="Interactive%20theme%20picker"></a>Interactive theme picker<br />
-<div class="outline-text-5" id="text-Interactive%20theme%20picker">
+</div>
+<div id="outline-container-Interactive%20theme%20picker" class="outline-4">
+<h4 id="Interactive%20theme%20picker">Interactive theme picker</h4>
+<div class="outline-text-4" id="text-Interactive%20theme%20picker">
 <p>
-Spawns Helm and allows you to pick, but from the appropriate list for the time of day
-</p>
-
-<p>
-First the underlying implementation
+Spawns Helm and allows you to pick, but from the appropriate list for the time of day.
+First the underlying implementation:
 </p>
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">defun</span> <span style="color: #82aaff;">choose-theme-impl</span> <span style="color: #ff995e;">(</span>light-theme-list dark-theme-list<span style="color: #ff995e;">)</span>
@@ -345,7 +338,6 @@ First the underlying implementation
     <span style="color: #ff98a4;">(</span>intern theme-name<span style="color: #ff98a4;">)</span><span style="color: #ff995e;">)</span><span style="color: #c099ff;">)</span>
 </pre>
 </div>
-
 <p>
 Entrypoint
 </p>
@@ -358,13 +350,11 @@ Entrypoint
 </pre>
 </div>
 </div>
-</li>
-</ul>
 </div>
-
-<div id="outline-container-Solaire%20Mode" class="outline-4">
-<h4 id="Solaire%20Mode">Solaire Mode</h4>
-<div class="outline-text-4" id="text-Solaire%20Mode">
+</div>
+<div id="outline-container-Solaire%20Mode" class="outline-3">
+<h3 id="Solaire%20Mode">Solaire Mode</h3>
+<div class="outline-text-3" id="text-Solaire%20Mode">
 <p>
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. <b>compilation</b> or magit buffers
 </p>
@@ -376,9 +366,9 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 </div>
 </div>
 
-<div id="outline-container-Doom%20Modeline" class="outline-4">
-<h4 id="Doom%20Modeline">Doom Modeline</h4>
-<div class="outline-text-4" id="text-Doom%20Modeline">
+<div id="outline-container-Doom%20Modeline" class="outline-3">
+<h3 id="Doom%20Modeline">Doom Modeline</h3>
+<div class="outline-text-3" id="text-Doom%20Modeline">
 <p>
 The Doom Emacs project also provides a fancy modeline to go along with their themes.
 </p>
@@ -393,9 +383,9 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 </div>
 </div>
 
-<div id="outline-container-Emoji%20%F0%9F%99%8F" class="outline-4">
-<h4 id="Emoji%20%F0%9F%99%8F">Emoji 🙏</h4>
-<div class="outline-text-4" id="text-Emoji%20%F0%9F%99%8F">
+<div id="outline-container-Emoji%20%F0%9F%99%8F" class="outline-3">
+<h3 id="Emoji%20%F0%9F%99%8F">Emoji 🙏</h3>
+<div class="outline-text-3" id="text-Emoji%20%F0%9F%99%8F">
 <p>
 Provided by <a href="https://github.com/iqbalansari/emacs-emojify">emojify</a>.
 </p>
@@ -410,9 +400,9 @@ Provided by <a href="https://github.com/iqbalansari/emacs-emojify">emojify</a>.
 </div>
 </div>
 </div>
-<div id="outline-container-Configure%20Recent%20File%20Tracking" class="outline-4">
-<h4 id="Configure%20Recent%20File%20Tracking">Configure Recent File Tracking</h4>
-<div class="outline-text-4" id="text-Configure%20Recent%20File%20Tracking">
+<div id="outline-container-Configure%20Recent%20File%20Tracking" class="outline-3">
+<h3 id="Configure%20Recent%20File%20Tracking">Configure Recent File Tracking</h3>
+<div class="outline-text-3" id="text-Configure%20Recent%20File%20Tracking">
 <p>
 Emacs comes with <code>recentf-mode</code> which helps me remember what I was doing after I restart my session.
 </p>
@@ -430,9 +420,9 @@ Emacs comes with <code>recentf-mode</code> which helps me remember what I was do
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20and%20Configure%20Projectile" class="outline-4">
-<h4 id="Install%20and%20Configure%20Projectile">Install and Configure Projectile</h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20Projectile">
+<div id="outline-container-Install%20and%20Configure%20Projectile" class="outline-3">
+<h3 id="Install%20and%20Configure%20Projectile">Install and Configure Projectile</h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20Projectile">
 <p>
 <a href="https://projectile.readthedocs.io/en/latest/"><code>projectile</code></a> is a fantastic package that provides all kinds of project context-aware functions for things like:
 </p>
@@ -446,7 +436,7 @@ It's great, it gets installed early, can't live without it. 💘 <code>projectil
 </p>
 
 
-<div id="orgb765847" class="figure">
+<div id="orga976a99" class="figure">
 <p><img src="My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" alt="2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" />
 </p>
 </div>
@@ -472,9 +462,9 @@ The impression that I got was that <code>project.el</code> is a first-party repl
 </ul>
 </div>
 
-<div id="outline-container-Install%20and%20Configure%20Evil%20Mode" class="outline-4">
-<h4 id="Install%20and%20Configure%20Evil%20Mode">Install and Configure Evil Mode</h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20Evil%20Mode">
+<div id="outline-container-Install%20and%20Configure%20Evil%20Mode" class="outline-3">
+<h3 id="Install%20and%20Configure%20Evil%20Mode">Install and Configure Evil Mode</h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20Evil%20Mode">
 <p>
 <a href="https://github.com/emacs-evil/evil"><code>evil-mode</code></a> fundamentally changes Emacs so that while editing all of the modes and keybindings from <code>vim</code> are present.
 It's controversial but I think modal editing is brilliant and have been using <code>vim</code> bindings since the mid-aughts. No going back.
@@ -525,9 +515,9 @@ It's controversial but I think modal editing is brilliant and have been using <c
 </div>
 </div>
 
-<div id="outline-container-Install%20and%20Configure%20Keybindings%20Helper" class="outline-4">
-<h4 id="Install%20and%20Configure%20Keybindings%20Helper">Install and Configure Keybindings Helper</h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20Keybindings%20Helper">
+<div id="outline-container-Install%20and%20Configure%20Keybindings%20Helper" class="outline-3">
+<h3 id="Install%20and%20Configure%20Keybindings%20Helper">Install and Configure Keybindings Helper</h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20Keybindings%20Helper">
 <p>
 <a href="https://github.com/noctuid/general.el">General</a> provides more consistent and convenient keybindings, especially with <code>evil-mode</code>.
 </p>
@@ -545,9 +535,9 @@ It's mostly used below in the <a href="#Global%20Keybindings">global keybindings
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20and%20Configure%20Helm%20for%20Command%20and%20Control" class="outline-4">
-<h4 id="Install%20and%20Configure%20Helm%20for%20Command%20and%20Control">Install and Configure Helm for Command and Control</h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20Helm%20for%20Command%20and%20Control">
+<div id="outline-container-Install%20and%20Configure%20Helm%20for%20Command%20and%20Control" class="outline-3">
+<h3 id="Install%20and%20Configure%20Helm%20for%20Command%20and%20Control">Install and Configure Helm for Command and Control</h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20Helm%20for%20Command%20and%20Control">
 <p>
 <a href="https://github.com/emacs-helm/helm">Helm</a> is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press <code>M-x</code> (with the way I have it configured, anyway).
 </p>
@@ -568,14 +558,14 @@ It's mostly used below in the <a href="#Global%20Keybindings">global keybindings
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20and%20Configure%20Magit" class="outline-4">
-<h4 id="Install%20and%20Configure%20Magit">Install and Configure Magit</h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20Magit">
+<div id="outline-container-Install%20and%20Configure%20Magit" class="outline-3">
+<h3 id="Install%20and%20Configure%20Magit">Install and Configure Magit</h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20Magit">
 <p>
 <a href="https://github.com/magit/magit">Magit</a> is an incredible integrated <code>git</code> UI for Emacs.
 </p>
 
-<div id="org257aacc" class="figure">
+<div id="org39a571e" class="figure">
 <p><img src="My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" alt="2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" />
 </p>
 </div>
@@ -616,22 +606,22 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </p>
 
 
-<div id="org141a2f3" class="figure">
+<div id="org74b4809" class="figure">
 <p><img src="My_Environment/2020-01-15_13-17-16_2020-01-14T13_58_07.gif" alt="2020-01-15_13-17-16_2020-01-14T13_58_07.gif" />
 </p>
 </div>
 </div>
 </div>
 
-<div id="outline-container-Install%20and%20Configure%20~git-timemachine~" class="outline-4">
-<h4 id="Install%20and%20Configure%20~git-timemachine~">Install and Configure <code>git-timemachine</code></h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20~git-timemachine~">
+<div id="outline-container-Install%20and%20Configure%20~git-timemachine~" class="outline-3">
+<h3 id="Install%20and%20Configure%20~git-timemachine~">Install and Configure <code>git-timemachine</code></h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20~git-timemachine~">
 <p>
 <code>git-timeline</code> lets you step through the history of a file.
 </p>
 
 
-<div id="org0a8ef2b" class="figure">
+<div id="orgd5e9840" class="figure">
 <p><img src="My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif" alt="2020-01-11_23-23-47_2020-01-11T23:15:54.gif" />
 </p>
 </div>
@@ -651,14 +641,14 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20and%20Configure%20~which-key~" class="outline-4">
-<h4 id="Install%20and%20Configure%20~which-key~">Install and Configure <code>which-key</code></h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20~which-key~">
+<div id="outline-container-Install%20and%20Configure%20~which-key~" class="outline-3">
+<h3 id="Install%20and%20Configure%20~which-key~">Install and Configure <code>which-key</code></h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20~which-key~">
 <p>
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so <a href="https://github.com/justbur/emacs-which-key"><code>which-key</code></a> pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 </p>
 
-<div id="org85fafc1" class="figure">
+<div id="org36a8c88" class="figure">
 <p><img src="My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" alt="2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" />
 </p>
 </div>
@@ -672,9 +662,9 @@ It can be difficult to to remember and discover all of the available shortcuts i
 </div>
 </div>
 </div>
-<div id="outline-container-Colorize%20ANSI%20colors%20in%20~%2Acompilation%2A~" class="outline-4">
-<h4 id="Colorize%20ANSI%20colors%20in%20~%2Acompilation%2A~">Colorize ANSI colors in <code>*compilation*</code></h4>
-<div class="outline-text-4" id="text-Colorize%20ANSI%20colors%20in%20~%2Acompilation%2A~">
+<div id="outline-container-Colorize%20ANSI%20colors%20in%20~%2Acompilation%2A~" class="outline-3">
+<h3 id="Colorize%20ANSI%20colors%20in%20~%2Acompilation%2A~">Colorize ANSI colors in <code>*compilation*</code></h3>
+<div class="outline-text-3" id="text-Colorize%20ANSI%20colors%20in%20~%2Acompilation%2A~">
 <p>
 If you run a command through <code>M-x compile</code> by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the <code>*compilation*</code> buffer.
 </p>
@@ -698,9 +688,9 @@ If you run a command through <code>M-x compile</code> by default Emacs prints AN
 </div>
 </div>
 </div>
-<div id="outline-container-Scream%20when%20compilation%20is%20finished" class="outline-4">
-<h4 id="Scream%20when%20compilation%20is%20finished">Scream when compilation is finished</h4>
-<div class="outline-text-4" id="text-Scream%20when%20compilation%20is%20finished">
+<div id="outline-container-Scream%20when%20compilation%20is%20finished" class="outline-3">
+<h3 id="Scream%20when%20compilation%20is%20finished">Scream when compilation is finished</h3>
+<div class="outline-text-3" id="text-Scream%20when%20compilation%20is%20finished">
 <p>
 Sometimes when the compile process takes more than a few seconds I change windows and get distracted. This hook plays a file through <code>aplay</code> (something else that will break on a non-Linux machine) to notify me that compilation is done. I was looking for something like a kitchen timer but I couldn't find one so right now the vendored sound is the <a href="https://en.wikipedia.org/wiki/Wilhelm_scream">Wilhelm Scream</a>.
 </p>
@@ -727,9 +717,9 @@ A function for toggling the screaming on and off. I love scream-when-finished bu
 </div>
 </div>
 </div>
-<div id="outline-container-Configure%20the%20Startup%20Splashscreen" class="outline-4">
-<h4 id="Configure%20the%20Startup%20Splashscreen">Configure the Startup Splashscreen</h4>
-<div class="outline-text-4" id="text-Configure%20the%20Startup%20Splashscreen">
+<div id="outline-container-Configure%20the%20Startup%20Splashscreen" class="outline-3">
+<h3 id="Configure%20the%20Startup%20Splashscreen">Configure the Startup Splashscreen</h3>
+<div class="outline-text-3" id="text-Configure%20the%20Startup%20Splashscreen">
 <p>
 Following Spacemacs's style, I use the <a href="https://github.com/emacs-dashboard/emacs-dashboard"><code>emacs-dashboard</code></a> project and <a href="https://github.com/domtronn/all-the-icons.el"><code>all-the-icons</code></a> to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
 </p>
@@ -739,7 +729,7 @@ Actually, looking at the project page, the icons don't seem to be working for me
 </p>
 
 
-<div id="org038ec6f" class="figure">
+<div id="orgaf909ca" class="figure">
 <p><img src="My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" alt="2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" />
 </p>
 </div>
@@ -764,15 +754,15 @@ Actually, looking at the project page, the icons don't seem to be working for me
 </div>
 </div>
 
-<div id="outline-container-Install%20templating%20tool%20and%20default%20snippets" class="outline-4">
-<h4 id="Install%20templating%20tool%20and%20default%20snippets">Install templating tool and default snippets</h4>
-<div class="outline-text-4" id="text-Install%20templating%20tool%20and%20default%20snippets">
+<div id="outline-container-Install%20templating%20tool%20and%20default%20snippets" class="outline-3">
+<h3 id="Install%20templating%20tool%20and%20default%20snippets">Install templating tool and default snippets</h3>
+<div class="outline-text-3" id="text-Install%20templating%20tool%20and%20default%20snippets">
 <p>
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more.
 <a href="https://www.emacswiki.org/emacs/Yasnippet">Here are the YASnippet docs.</a>
 </p>
 
-<div id="org0a3eb51" class="figure">
+<div id="orge783139" class="figure">
 <p><img src="My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" alt="2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" />
 </p>
 </div>
@@ -798,8 +788,8 @@ Enable yas-mode everywhere
 </div>
 </div>
 </div>
-<div id="outline-container-Smooth%20scrolling%2C%20distraction-free%20mode%2C%20and%20minimap" class="outline-4">
-<h4 id="Smooth%20scrolling%2C%20distraction-free%20mode%2C%20and%20minimap">Smooth scrolling, distraction-free mode, and minimap</h4>
+<div id="outline-container-Smooth%20scrolling%2C%20distraction-free%20mode%2C%20and%20minimap" class="outline-3">
+<h3 id="Smooth%20scrolling%2C%20distraction-free%20mode%2C%20and%20minimap">Smooth scrolling, distraction-free mode, and minimap</h3>
 </div>
 </div>
 <div id="outline-container-Extra%20Packages" class="outline-2">
@@ -809,9 +799,9 @@ Enable yas-mode everywhere
 Packages with a smaller effect on the experience.
 </p>
 </div>
-<div id="outline-container-prism%20colors%20by%20indent%20level" class="outline-4">
-<h4 id="prism%20colors%20by%20indent%20level">prism colors by indent level</h4>
-<div class="outline-text-4" id="text-prism%20colors%20by%20indent%20level">
+<div id="outline-container-prism%20colors%20by%20indent%20level" class="outline-3">
+<h3 id="prism%20colors%20by%20indent%20level">prism colors by indent level</h3>
+<div class="outline-text-3" id="text-prism%20colors%20by%20indent%20level">
 <p>
 It takes over the color theme and I don't know if I want it on all the time but it's interesting and I want to have it installed so that I can turn it on in certain situations, like editing highly nested YAML, where it might be invaluable.
 If I can remember to use it :)
@@ -823,9 +813,9 @@ If I can remember to use it :)
 </div>
 </div>
 </div>
-<div id="outline-container-git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter" class="outline-4">
-<h4 id="git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter">git-gutter shows unstaged changes in the gutter</h4>
-<div class="outline-text-4" id="text-git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter">
+<div id="outline-container-git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter" class="outline-3">
+<h3 id="git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter">git-gutter shows unstaged changes in the gutter</h3>
+<div class="outline-text-3" id="text-git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">git-gutter</span>
     <span style="color: #c099ff;">:delight</span>
@@ -835,9 +825,9 @@ If I can remember to use it :)
 </div>
 </div>
 </div>
-<div id="outline-container-Highlight%20the%20current%20line" class="outline-4">
-<h4 id="Highlight%20the%20current%20line">Highlight the current line</h4>
-<div class="outline-text-4" id="text-Highlight%20the%20current%20line">
+<div id="outline-container-Highlight%20the%20current%20line" class="outline-3">
+<h3 id="Highlight%20the%20current%20line">Highlight the current line</h3>
+<div class="outline-text-3" id="text-Highlight%20the%20current%20line">
 <p>
 I like to highlight the current line so that it is easy to identify where my cursor is.
 </p>
@@ -848,9 +838,9 @@ I like to highlight the current line so that it is easy to identify where my cur
 </div>
 </div>
 </div>
-<div id="outline-container-Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses" class="outline-4">
-<h4 id="Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses">Rainbow delimiters make it easier to identify matching parentheses</h4>
-<div class="outline-text-4" id="text-Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses">
+<div id="outline-container-Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses" class="outline-3">
+<h3 id="Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses">Rainbow delimiters make it easier to identify matching parentheses</h3>
+<div class="outline-text-3" id="text-Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">rainbow-delimiters</span>
   <span style="color: #c099ff;">:config</span>
@@ -861,18 +851,18 @@ I like to highlight the current line so that it is easy to identify where my cur
 </div>
 </div>
 </div>
-<div id="outline-container-restart-emacs%20does%20what%20it%20says%20on%20the%20tin" class="outline-4">
-<h4 id="restart-emacs%20does%20what%20it%20says%20on%20the%20tin">restart-emacs does what it says on the tin</h4>
-<div class="outline-text-4" id="text-restart-emacs%20does%20what%20it%20says%20on%20the%20tin">
+<div id="outline-container-restart-emacs%20does%20what%20it%20says%20on%20the%20tin" class="outline-3">
+<h3 id="restart-emacs%20does%20what%20it%20says%20on%20the%20tin">restart-emacs does what it says on the tin</h3>
+<div class="outline-text-3" id="text-restart-emacs%20does%20what%20it%20says%20on%20the%20tin">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">restart-emacs</span><span style="color: #c099ff;">)</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-s%20is%20a%20string%20manipulation%20utility" class="outline-4">
-<h4 id="s%20is%20a%20string%20manipulation%20utility">s is a string manipulation utility</h4>
-<div class="outline-text-4" id="text-s%20is%20a%20string%20manipulation%20utility">
+<div id="outline-container-s%20is%20a%20string%20manipulation%20utility" class="outline-3">
+<h3 id="s%20is%20a%20string%20manipulation%20utility">s is a string manipulation utility</h3>
+<div class="outline-text-3" id="text-s%20is%20a%20string%20manipulation%20utility">
 <p>
 I use this for a trim() function far down below. I think it gets pulled in as a dependency anyway, but in any case it provides a bunch of helper functions and stuff. <a href="https://github.com/magnars/s.el">Docs are here.</a>
 </p>
@@ -882,21 +872,9 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 </div>
 </div>
 </div>
-<div id="outline-container-~figlet~" class="outline-4">
-<h4 id="~figlet~"><code>figlet</code></h4>
-<div class="outline-text-4" id="text-~figlet~">
-<p>
-The description on the package is "Annoy people with big, ascii art text" 🤣
-</p>
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">figlet</span><span style="color: #c099ff;">)</span>
-</pre>
-</div>
-</div>
-</div>
-<div id="outline-container-a%20systemd%20file%20mode" class="outline-4">
-<h4 id="a%20systemd%20file%20mode">a systemd file mode</h4>
-<div class="outline-text-4" id="text-a%20systemd%20file%20mode">
+<div id="outline-container-a%20systemd%20file%20mode" class="outline-3">
+<h3 id="a%20systemd%20file%20mode">a systemd file mode</h3>
+<div class="outline-text-3" id="text-a%20systemd%20file%20mode">
 <p>
 Just provides syntax highlighting in <code>.unit</code> files.
 </p>
@@ -906,9 +884,9 @@ Just provides syntax highlighting in <code>.unit</code> files.
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20and%20Configure%20Company%20for%20Auto-Completion" class="outline-4">
-<h4 id="Install%20and%20Configure%20Company%20for%20Auto-Completion">Install and Configure Company for Auto-Completion</h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20Company%20for%20Auto-Completion">
+<div id="outline-container-Install%20and%20Configure%20Company%20for%20Auto-Completion" class="outline-3">
+<h3 id="Install%20and%20Configure%20Company%20for%20Auto-Completion">Install and Configure Company for Auto-Completion</h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20Company%20for%20Auto-Completion">
 <p>
 Great tab-complete and auto-complete with <a href="https://github.com/company-mode/company-mode">Company Mode</a>.
 </p>
@@ -934,9 +912,9 @@ Great tab-complete and auto-complete with <a href="https://github.com/company-mo
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20and%20Configure%20Flycheck%20for%20Linting" class="outline-4">
-<h4 id="Install%20and%20Configure%20Flycheck%20for%20Linting">Install and Configure Flycheck for Linting</h4>
-<div class="outline-text-4" id="text-Install%20and%20Configure%20Flycheck%20for%20Linting">
+<div id="outline-container-Install%20and%20Configure%20Flycheck%20for%20Linting" class="outline-3">
+<h3 id="Install%20and%20Configure%20Flycheck%20for%20Linting">Install and Configure Flycheck for Linting</h3>
+<div class="outline-text-3" id="text-Install%20and%20Configure%20Flycheck%20for%20Linting">
 <p>
 <a href="https://www.flycheck.org/en/latest/">Flycheck</a> is an on-the-fly checker that hooks into most language backends.
 </p>
@@ -953,9 +931,9 @@ Great tab-complete and auto-complete with <a href="https://github.com/company-mo
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH" class="outline-4">
-<h4 id="Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH">Install <code>exec-path-from-shell</code> to manage the PATH</h4>
-<div class="outline-text-4" id="text-Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH">
+<div id="outline-container-Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH" class="outline-3">
+<h3 id="Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH">Install <code>exec-path-from-shell</code> to manage the PATH</h3>
+<div class="outline-text-3" id="text-Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH">
 <p>
 <a href="https://github.com/purcell/exec-path-from-shell">exec-path-from-shell</a> mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
 </p>
@@ -967,18 +945,18 @@ Great tab-complete and auto-complete with <a href="https://github.com/company-mo
 </div>
 </div>
 </div>
-<div id="outline-container-ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows" class="outline-4">
-<h4 id="ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows">ace-window provides an ace-jump experience for switching windows</h4>
-<div class="outline-text-4" id="text-ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows">
+<div id="outline-container-ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows" class="outline-3">
+<h3 id="ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows">ace-window provides an ace-jump experience for switching windows</h3>
+<div class="outline-text-3" id="text-ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">ace-window</span><span style="color: #c099ff;">)</span>
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-Install%20a%20mode%20for%20drawing%20indentation%20guides" class="outline-4">
-<h4 id="Install%20a%20mode%20for%20drawing%20indentation%20guides">Install a mode for drawing indentation guides</h4>
-<div class="outline-text-4" id="text-Install%20a%20mode%20for%20drawing%20indentation%20guides">
+<div id="outline-container-Install%20a%20mode%20for%20drawing%20indentation%20guides" class="outline-3">
+<h3 id="Install%20a%20mode%20for%20drawing%20indentation%20guides">Install a mode for drawing indentation guides</h3>
+<div class="outline-text-3" id="text-Install%20a%20mode%20for%20drawing%20indentation%20guides">
 <p>
 This mode adds subtle coloration to indentation whitespace for whitespace-delimited languages like YAML where sometimes it can be difficult to see the nesting level of a given headline in deeply-nested configuration.
 </p>
@@ -988,9 +966,9 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 </div>
 </div>
 </div>
-<div id="outline-container-Quick%20buffer%20switcher" class="outline-4">
-<h4 id="Quick%20buffer%20switcher">Quick buffer switcher</h4>
-<div class="outline-text-4" id="text-Quick%20buffer%20switcher">
+<div id="outline-container-Quick%20buffer%20switcher" class="outline-3">
+<h3 id="Quick%20buffer%20switcher">Quick buffer switcher</h3>
+<div class="outline-text-3" id="text-Quick%20buffer%20switcher">
 <blockquote>
 <p>
 PC style quick buffer switcher for Emacs
@@ -1011,9 +989,9 @@ Bound by default to <code>C-&lt;TAB&gt;</code> and <code>C-S-&lt;TAB&gt;</code>,
 </div>
 </div>
 </div>
-<div id="outline-container-Writeable%20grep%20mode%20with%20ack" class="outline-4">
-<h4 id="Writeable%20grep%20mode%20with%20ack">Writeable grep mode with ack</h4>
-<div class="outline-text-4" id="text-Writeable%20grep%20mode%20with%20ack">
+<div id="outline-container-Writeable%20grep%20mode%20with%20ack" class="outline-3">
+<h3 id="Writeable%20grep%20mode%20with%20ack">Writeable grep mode with ack</h3>
+<div class="outline-text-3" id="text-Writeable%20grep%20mode%20with%20ack">
 <p>
 Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
 </p>
@@ -1024,9 +1002,9 @@ Writable grep mode allows you to edit the results from running grep on a project
 </div>
 </div>
 </div>
-<div id="outline-container-Better%20help%20buffers" class="outline-4">
-<h4 id="Better%20help%20buffers">Better help buffers</h4>
-<div class="outline-text-4" id="text-Better%20help%20buffers">
+<div id="outline-container-Better%20help%20buffers" class="outline-3">
+<h3 id="Better%20help%20buffers">Better help buffers</h3>
+<div class="outline-text-3" id="text-Better%20help%20buffers">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">helpful</span><span style="color: #c099ff;">)</span>
 <span style="color: #c099ff;">(</span>global-set-key <span style="color: #ff995e;">(</span>kbd <span style="color: #c3e88d;">"C-h f"</span><span style="color: #ff995e;">)</span> #'helpful-callable<span style="color: #c099ff;">)</span>
@@ -1036,9 +1014,9 @@ Writable grep mode allows you to edit the results from running grep on a project
 </div>
 </div>
 </div>
-<div id="outline-container-Quickly%20jump%20around%20buffers" class="outline-4">
-<h4 id="Quickly%20jump%20around%20buffers">Quickly jump around buffers</h4>
-<div class="outline-text-4" id="text-Quickly%20jump%20around%20buffers">
+<div id="outline-container-Quickly%20jump%20around%20buffers" class="outline-3">
+<h3 id="Quickly%20jump%20around%20buffers">Quickly jump around buffers</h3>
+<div class="outline-text-3" id="text-Quickly%20jump%20around%20buffers">
 <div class="org-src-container">
 <pre class="src src-emacs-lisp"><span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">ace-jump-mode</span><span style="color: #c099ff;">)</span>
 </pre>
@@ -1180,6 +1158,9 @@ FiraCode offers ligatures for programming symbols, which is cool.
 <div id="outline-container-Language%20Configuration" class="outline-2">
 <h2 id="Language%20Configuration">Language Configuration</h2>
 <div class="outline-text-2" id="text-Language%20Configuration">
+<p>
+This section contains all of the IDE-like features in my configuration, centered around LSP (lsp-mode) and  DAP, at least for today.
+</p>
 </div>
 <div id="outline-container-Language%20Server%20Protocol" class="outline-3">
 <h3 id="Language%20Server%20Protocol">Language Server Protocol</h3>
@@ -1285,8 +1266,6 @@ Tree-sitter reads the AST to provide better syntax highlighting
 </div>
 </div>
 
-
-
 <div id="outline-container-YAML" class="outline-3">
 <h3 id="YAML">YAML</h3>
 <div class="outline-text-3" id="text-YAML">
@@ -1363,8 +1342,11 @@ So the convention for use is:
 <div id="outline-container-Go" class="outline-3">
 <h3 id="Go">Go</h3>
 <div class="outline-text-3" id="text-Go">
+<p>
+Go is my primary language so it's my most dynamic and complicated configuration.
+</p>
 
-<div id="org6258495" class="figure">
+<div id="org3318558" class="figure">
 <p><img src="My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif" alt="2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif" />
 </p>
 </div>
@@ -2058,6 +2040,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   <span style="color: #c3e88d;">"gt"</span>     'git-timemachine
   <span style="color: #c3e88d;">"gd"</span>     'magit-diff
   <span style="color: #c3e88d;">"go"</span>     'browse-at-remote
+  <span style="color: #c3e88d;">"gi"</span>     'helm-imenu
   <span style="color: #c3e88d;">"h"</span>      'hyperbole
   <span style="color: #c3e88d;">"jj"</span>     'bookmark-jump
   <span style="color: #c3e88d;">"js"</span>     'bookmark-set
@@ -2137,7 +2120,7 @@ Image drag-and-drop for org-mode
 </pre>
 </div>
 
-<div id="org8e158a0" class="figure">
+<div id="orgcde2390" class="figure">
 <p><img src="My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" alt="2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" />
 </p>
 </div>
@@ -2493,9 +2476,9 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 </div>
 </div>
 </div>
-<div id="outline-container-Switch%20theme" class="outline-3">
-<h3 id="Switch%20theme">Switch theme</h3>
-<div class="outline-text-3" id="text-Switch%20theme">
+<div id="outline-container-Switch%20Theme" class="outline-3">
+<h3 id="Switch%20Theme">Switch Theme</h3>
+<div class="outline-text-3" id="text-Switch%20Theme">
 <p>
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just <code>M-x load-theme</code>.
 </p>
@@ -2551,7 +2534,7 @@ Probably from Spacemacs. Thanks, Spacemacs.
 </p>
 
 
-<div id="org5770c51" class="figure">
+<div id="org3ae9f12" class="figure">
 <p><img src="My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif" alt="2020-05-18_21-46-59_2020-05-18T21:46:03.gif" />
 </p>
 </div>

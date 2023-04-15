@@ -94,8 +94,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
 
-(use-package use-package-ensure-system-package)
-
 ;; these go in bootstrap because packages installed
 ;; with use-package use :diminish and :delight
 (use-package diminish)
@@ -105,12 +103,12 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-# Package Installation and Configuration
+# Fundamental Package Installation and Configuration
 
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
 
-### Icons
+## Icons
 
 Treemacs and Doom themes both rely upon `all-the-icons` to look nice
 
@@ -119,7 +117,7 @@ Treemacs and Doom themes both rely upon `all-the-icons` to look nice
 ```
 
 
-### Treemacs
+## Treemacs
 
 Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
 
@@ -131,7 +129,7 @@ It's installed early because many things have integrations with it, including so
 ```
 
 
-### Theme
+## Theme
 
 I'm using the Doom Emacs theme pack. I think they're really nice to look at, especially with `solaire-mode`.
 
@@ -165,112 +163,114 @@ I have separated the Doom themes into light and dark, so I can have a randomly c
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
 
--   Light themes
 
-    ```emacs-lisp
-    (defvar light-theme-list '(doom-one-light
-    			   doom-acario-light
-    			   doom-city-lights
-    			   doom-fairy-floss
-    			   doom-flatwhite
-    			   doom-gruvbox-light
-    			   doom-horizon
-    			   doom-laserwave
-    			   doom-miramare
-    			   doom-monokai-classic
-    			   doom-monokai-pro))
-    ```
+### Light themes
 
--   Dark themes
-
-    ```emacs-lisp
-    (defvar dark-theme-list '(doom-one-dark
-    			  doom-one-vibrant
-    			  doom-acario-dark
-    			  doom-city-lights
-    			  doom-challenger-deep
-    			  doom-dark+
-    			  doom-dracula
-    			  doom-ephemeral
-    			  doom-fairy-floss
-    			  doom-gruvbox
-    			  doom-henna
-    			  doom-horizon
-    			  doom-Iosvkem
-    			  doom-laserwave
-    			  doom-material
-    			  doom-miramare
-    			  doom-molokai
-    			  doom-monokai-classic
-    			  doom-monokai-pro
-    			  doom-moonlight
-    			  doom-nord
-    			  doom-nova
-    			  doom-oceanic-next
-    			  doom-old-hope
-    			  doom-opera
-    			  doom-outrun-electric
-    			  doom-palenight
-    			  doom-plain
-    			  doom-peacock
-    			  doom-rouge
-    			  doom-snazzy
-    			  doom-solarized-dark
-    			  doom-spacegrey
-    			  doom-tomorrow-night
-    			  doom-zenburn
-    			  doom-mono-dark))
-    ```
-
--   Noninteractive theme picker
-
-    For running at startup
-    
-    ```emacs-lisp
-    (defun set-theme-at-specific-times ()
-      "Set light theme at 10AM, dark theme at 3PM"
-      (let ((now (decode-time))
-    	(light-theme (nth (random (length light-theme-list)) light-theme-list))
-    	(dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
-        (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
-    	(load-theme light-theme t)
-          (load-theme dark-theme t))))
-    
-    (add-hook 'after-init-hook 'set-theme-at-specific-times)
-    ```
-
--   Interactive theme picker
-
-    Spawns Helm and allows you to pick, but from the appropriate list for the time of day
-    
-    First the underlying implementation
-    
-    ```emacs-lisp
-    (defun choose-theme-impl (light-theme-list dark-theme-list)
-      "Choose a theme from the appropriate list based on the current time"
-      (let* ((now (decode-time))
-    	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
-    		     light-theme-list
-    		   dark-theme-list))
-    	 (theme-names (mapcar 'symbol-name themes))
-    	 (theme-name (helm :sources (helm-build-sync-source "Themes"
-    				      :candidates theme-names)
-    			   :buffer "*helm choose-theme*")))
-        (intern theme-name)))
-    ```
-    
-    Entrypoint
-    
-    ```emacs-lisp
-    (defun choose-theme ()
-      "Choose a theme interactively using Helm"
-      (interactive)
-      (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
-        (load-theme theme t)))
-    ```
+```emacs-lisp
+(defvar light-theme-list '(doom-one-light
+			   doom-acario-light
+			   doom-city-lights
+			   doom-fairy-floss
+			   doom-flatwhite
+			   doom-gruvbox-light
+			   doom-horizon
+			   doom-laserwave
+			   doom-miramare
+			   doom-monokai-classic
+			   doom-monokai-pro))
+```
 
 
-### Solaire Mode
+### Dark themes
+
+```emacs-lisp
+(defvar dark-theme-list '(doom-one-dark
+			  doom-one-vibrant
+			  doom-acario-dark
+			  doom-city-lights
+			  doom-challenger-deep
+			  doom-dark+
+			  doom-dracula
+			  doom-ephemeral
+			  doom-fairy-floss
+			  doom-gruvbox
+			  doom-henna
+			  doom-horizon
+			  doom-Iosvkem
+			  doom-laserwave
+			  doom-material
+			  doom-miramare
+			  doom-molokai
+			  doom-monokai-classic
+			  doom-monokai-pro
+			  doom-moonlight
+			  doom-nord
+			  doom-nova
+			  doom-oceanic-next
+			  doom-old-hope
+			  doom-opera
+			  doom-outrun-electric
+			  doom-palenight
+			  doom-plain
+			  doom-peacock
+			  doom-rouge
+			  doom-snazzy
+			  doom-solarized-dark
+			  doom-spacegrey
+			  doom-tomorrow-night
+			  doom-zenburn
+			  doom-mono-dark))
+```
+
+
+### Noninteractive theme picker
+
+For running at startup
+
+```emacs-lisp
+(defun set-theme-at-specific-times ()
+  "Set light theme at 10AM, dark theme at 3PM"
+  (let ((now (decode-time))
+	(light-theme (nth (random (length light-theme-list)) light-theme-list))
+	(dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
+    (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+	(load-theme light-theme t)
+      (load-theme dark-theme t))))
+
+(add-hook 'after-init-hook 'set-theme-at-specific-times)
+```
+
+
+### Interactive theme picker
+
+Spawns Helm and allows you to pick, but from the appropriate list for the time of day. First the underlying implementation:
+
+```emacs-lisp
+(defun choose-theme-impl (light-theme-list dark-theme-list)
+  "Choose a theme from the appropriate list based on the current time"
+  (let* ((now (decode-time))
+	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+		     light-theme-list
+		   dark-theme-list))
+	 (theme-names (mapcar 'symbol-name themes))
+	 (theme-name (helm :sources (helm-build-sync-source "Themes"
+				      :candidates theme-names)
+			   :buffer "*helm choose-theme*")))
+    (intern theme-name)))
+```
+
+Entrypoint
+
+```emacs-lisp
+(defun choose-theme ()
+  "Choose a theme interactively using Helm"
+  (interactive)
+  (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
+    (load-theme theme t)))
+```
+
+
+## Solaire Mode
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
 
@@ -280,7 +280,7 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 ```
 
 
-### Doom Modeline
+## Doom Modeline
 
 The Doom Emacs project also provides a fancy modeline to go along with their themes.
 
@@ -293,7 +293,7 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 ```
 
 
-### Emoji 🙏
+## Emoji 🙏
 
 Provided by [emojify](https://github.com/iqbalansari/emacs-emojify).
 
@@ -307,7 +307,7 @@ Provided by [emojify](https://github.com/iqbalansari/emacs-emojify).
 ```
 
 
-### Configure Recent File Tracking
+## Configure Recent File Tracking
 
 Emacs comes with `recentf-mode` which helps me remember what I was doing after I restart my session.
 
@@ -323,7 +323,7 @@ Emacs comes with `recentf-mode` which helps me remember what I was doing after I
 ```
 
 
-### Install and Configure Projectile
+## Install and Configure Projectile
 
 [`projectile`](https://projectile.readthedocs.io/en/latest/) is a fantastic package that provides all kinds of project context-aware functions for things like:
 
@@ -348,7 +348,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
     The impression that I got was that `project.el` is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate `project.el`.
 
 
-### Install and Configure Evil Mode
+## Install and Configure Evil Mode
 
 [`evil-mode`](https://github.com/emacs-evil/evil) fundamentally changes Emacs so that while editing all of the modes and keybindings from `vim` are present. It's controversial but I think modal editing is brilliant and have been using `vim` bindings since the mid-aughts. No going back.
 
@@ -396,7 +396,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 ```
 
 
-### Install and Configure Keybindings Helper
+## Install and Configure Keybindings Helper
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
 
@@ -411,7 +411,7 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
-### Install and Configure Helm for Command and Control
+## Install and Configure Helm for Command and Control
 
 [Helm](https://github.com/emacs-helm/helm) is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press `M-x` (with the way I have it configured, anyway).
 
@@ -431,7 +431,7 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
-### Install and Configure Magit
+## Install and Configure Magit
 
 [Magit](https://github.com/magit/magit) is an incredible integrated `git` UI for Emacs.
 
@@ -464,7 +464,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 ![img](My_Environment/2020-01-15_13-17-16_2020-01-14T13_58_07.gif)
 
 
-### Install and Configure `git-timemachine`
+## Install and Configure `git-timemachine`
 
 `git-timeline` lets you step through the history of a file.
 
@@ -484,7 +484,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 ```
 
 
-### Install and Configure `which-key`
+## Install and Configure `which-key`
 
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [`which-key`](https://github.com/justbur/emacs-which-key) pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 
@@ -499,7 +499,7 @@ It can be difficult to to remember and discover all of the available shortcuts i
 ```
 
 
-### Colorize ANSI colors in `*compilation*`
+## Colorize ANSI colors in `*compilation*`
 
 If you run a command through `M-x compile` by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the `*compilation*` buffer.
 
@@ -522,7 +522,7 @@ If you run a command through `M-x compile` by default Emacs prints ANSI codes li
 ```
 
 
-### Scream when compilation is finished
+## Scream when compilation is finished
 
 Sometimes when the compile process takes more than a few seconds I change windows and get distracted. This hook plays a file through `aplay` (something else that will break on a non-Linux machine) to notify me that compilation is done. I was looking for something like a kitchen timer but I couldn't find one so right now the vendored sound is the [Wilhelm Scream](https://en.wikipedia.org/wiki/Wilhelm_scream).
 
@@ -546,7 +546,7 @@ A function for toggling the screaming on and off. I love scream-when-finished bu
 ```
 
 
-### Configure the Startup Splashscreen
+## Configure the Startup Splashscreen
 
 Following Spacemacs's style, I use the [`emacs-dashboard`](https://github.com/emacs-dashboard/emacs-dashboard) project and [`all-the-icons`](https://github.com/domtronn/all-the-icons.el) to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
 
@@ -572,7 +572,7 @@ Actually, looking at the project page, the icons don't seem to be working for me
 ```
 
 
-### Install templating tool and default snippets
+## Install templating tool and default snippets
 
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more. [Here are the YASnippet docs.](https://www.emacswiki.org/emacs/Yasnippet)
 
@@ -594,7 +594,7 @@ Enable yas-mode everywhere
 ```
 
 
-### Smooth scrolling, distraction-free mode, and minimap
+## Smooth scrolling, distraction-free mode, and minimap
 
 
 # Extra Packages
@@ -602,7 +602,7 @@ Enable yas-mode everywhere
 Packages with a smaller effect on the experience.
 
 
-### prism colors by indent level
+## prism colors by indent level
 
 It takes over the color theme and I don't know if I want it on all the time but it's interesting and I want to have it installed so that I can turn it on in certain situations, like editing highly nested YAML, where it might be invaluable. If I can remember to use it :)
 
@@ -611,7 +611,7 @@ It takes over the color theme and I don't know if I want it on all the time but 
 ```
 
 
-### git-gutter shows unstaged changes in the gutter
+## git-gutter shows unstaged changes in the gutter
 
 ```emacs-lisp
 (use-package git-gutter
@@ -621,7 +621,7 @@ It takes over the color theme and I don't know if I want it on all the time but 
 ```
 
 
-### Highlight the current line
+## Highlight the current line
 
 I like to highlight the current line so that it is easy to identify where my cursor is.
 
@@ -631,7 +631,7 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-### Rainbow delimiters make it easier to identify matching parentheses
+## Rainbow delimiters make it easier to identify matching parentheses
 
 ```emacs-lisp
 (use-package rainbow-delimiters
@@ -642,14 +642,14 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-### restart-emacs does what it says on the tin
+## restart-emacs does what it says on the tin
 
 ```emacs-lisp
 (use-package restart-emacs)
 ```
 
 
-### s is a string manipulation utility
+## s is a string manipulation utility
 
 I use this for a trim() function far down below. I think it gets pulled in as a dependency anyway, but in any case it provides a bunch of helper functions and stuff. [Docs are here.](https://github.com/magnars/s.el)
 
@@ -658,16 +658,7 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 ```
 
 
-### `figlet`
-
-The description on the package is "Annoy people with big, ascii art text" 🤣
-
-```emacs-lisp
-(use-package figlet)
-```
-
-
-### a systemd file mode
+## a systemd file mode
 
 Just provides syntax highlighting in `.unit` files.
 
@@ -676,7 +667,7 @@ Just provides syntax highlighting in `.unit` files.
 ```
 
 
-### Install and Configure Company for Auto-Completion
+## Install and Configure Company for Auto-Completion
 
 Great tab-complete and auto-complete with [Company Mode](https://github.com/company-mode/company-mode).
 
@@ -701,7 +692,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-### Install and Configure Flycheck for Linting
+## Install and Configure Flycheck for Linting
 
 [Flycheck](https://www.flycheck.org/en/latest/) is an on-the-fly checker that hooks into most language backends.
 
@@ -717,7 +708,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-### Install `exec-path-from-shell` to manage the PATH
+## Install `exec-path-from-shell` to manage the PATH
 
 [exec-path-from-shell](https://github.com/purcell/exec-path-from-shell) mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
 
@@ -728,14 +719,14 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-### ace-window provides an ace-jump experience for switching windows
+## ace-window provides an ace-jump experience for switching windows
 
 ```emacs-lisp
 (use-package ace-window)
 ```
 
 
-### Install a mode for drawing indentation guides
+## Install a mode for drawing indentation guides
 
 This mode adds subtle coloration to indentation whitespace for whitespace-delimited languages like YAML where sometimes it can be difficult to see the nesting level of a given headline in deeply-nested configuration.
 
@@ -744,7 +735,7 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 ```
 
 
-### Quick buffer switcher
+## Quick buffer switcher
 
 > PC style quick buffer switcher for Emacs
 > 
@@ -758,7 +749,7 @@ Bound by default to `C-<TAB>` and `C-S-<TAB>`, I have decided that these are san
 ```
 
 
-### Writeable grep mode with ack
+## Writeable grep mode with ack
 
 Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
 
@@ -768,7 +759,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-### Better help buffers
+## Better help buffers
 
 ```emacs-lisp
 (use-package helpful)
@@ -778,7 +769,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-### Quickly jump around buffers
+## Quickly jump around buffers
 
 ```emacs-lisp
 (use-package ace-jump-mode)
@@ -884,6 +875,8 @@ FiraCode offers ligatures for programming symbols, which is cool.
 
 
 # Language Configuration
+
+This section contains all of the IDE-like features in my configuration, centered around LSP (lsp-mode) and DAP, at least for today.
 
 
 ## Language Server Protocol
@@ -1028,6 +1021,8 @@ So the convention for use is:
 
 
 ## Go
+
+Go is my primary language so it's my most dynamic and complicated configuration.
 
 ![img](My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif)
 
@@ -1571,6 +1566,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "gt"     'git-timemachine
   "gd"     'magit-diff
   "go"     'browse-at-remote
+  "gi"     'helm-imenu
   "h"      'hyperbole
   "jj"     'bookmark-jump
   "js"     'bookmark-set
@@ -1936,7 +1932,7 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 ```
 
 
-## Switch theme
+## Switch Theme
 
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just `M-x load-theme`.
 
