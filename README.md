@@ -268,23 +268,29 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
       (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
         (load-theme theme t)))
     ```
-    
-    Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
-    
-    ```emacs-lisp
-    (use-package solaire-mode)
-    (solaire-global-mode +1)
-    ```
-    
-    The Doom Emacs project also provides a fancy modeline to go along with their themes.
-    
-    ```emacs-lisp
-    (use-package doom-modeline
-      :config       (doom-modeline-def-modeline 'main
-    		  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-    		  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
-      :hook (after-init . doom-modeline-mode))
-    ```
+
+
+### Solaire Mode
+
+Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
+
+```emacs-lisp
+(use-package solaire-mode)
+(solaire-global-mode +1)
+```
+
+
+### Doom Modeline
+
+The Doom Emacs project also provides a fancy modeline to go along with their themes.
+
+```emacs-lisp
+(use-package doom-modeline
+  :config       (doom-modeline-def-modeline 'main
+		  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+		  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
+  :hook (after-init . doom-modeline-mode))
+```
 
 
 ### Emoji 🙏

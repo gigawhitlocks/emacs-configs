@@ -253,12 +253,14 @@ Entrypoint
       (load-theme theme t)))
 #+end_src
 
+*** Solaire Mode
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
 #+begin_src emacs-lisp
   (use-package solaire-mode)
   (solaire-global-mode +1)
 #+end_src
 
+*** Doom Modeline
 The Doom Emacs project also provides a fancy modeline to go along with their themes.
 #+begin_src emacs-lisp
   (use-package doom-modeline
