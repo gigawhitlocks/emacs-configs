@@ -1656,7 +1656,7 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 #+begin_src emacs-lisp
 (setq warning-minimum-level :emergency)
 #+end_src
-** Switch Theme
+** Theme Switching Helper
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just ~M-x load-theme~.
 
 Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-emacs-themes/]].
