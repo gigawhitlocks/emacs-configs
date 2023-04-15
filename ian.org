@@ -167,7 +167,7 @@ don't like.
 *** Dark themes
  #+begin_src emacs-lisp
   (defvar dark-theme-list '(doom-one-dark
-                            doom-one-vibrant
+                            doom-vibrant
                             doom-city-lights
                             doom-challenger-deep
                             doom-dark+
