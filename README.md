@@ -161,49 +161,130 @@ Apply a small fix where doom-colors Treemacs theme is missing a few icons
  (treemacs-get-icon-value "cache") "sqlite")
 ```
 
-The Doom theme pack provides many beautiful themes, and I like to take advantage of this by frequently changing up my theme. Thanks, Doom community, for providing a variety of lovely light and dark themes to choose from.
+I have separated the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
 
-However, I don't like all of the Doom themes and I also do not have a clear favorite. I will maintain a list of my favorites and later apply some heuristics to semi-randomly choose a theme at startup, but for now it will be fully random.
+I'll curate the lists as I use the new functionality, to remove ones I don't like.
 
-```emacs-lisp
-;; for now, load a random one of the ones I like
-(setq ian-favorite-themes (list
-			   'doom-vibrant
-			   'doom-one
-			   'doom-one-light
-			   'doom-flatwhite
-			   'doom-nord
-			   'doom-nord-light
-			   'doom-dracula
-			   'doom-challenger-deep
-			   ))
+-   Light themes
 
-(defun load-random-theme ()
-  "Load a random favorite theme"
-  (interactive)
-  (load-theme
-   (nth (random (length ian-favorite-themes)) ian-favorite-themes)
-   t))
+    ```emacs-lisp
+    (defvar light-theme-list '(doom-one-light
+    			   doom-acario-light
+    			   doom-city-lights
+    			   doom-fairy-floss
+    			   doom-flatwhite
+    			   doom-gruvbox-light
+    			   doom-horizon
+    			   doom-laserwave
+    			   doom-miramare
+    			   doom-monokai-classic
+    			   doom-monokai-pro))
+    ```
 
-(load-random-theme)
-```
+-   Dark themes
 
-Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
+    ```emacs-lisp
+    (defvar dark-theme-list '(doom-one-dark
+    			  doom-one-vibrant
+    			  doom-acario-dark
+    			  doom-city-lights
+    			  doom-challenger-deep
+    			  doom-dark+
+    			  doom-dracula
+    			  doom-ephemeral
+    			  doom-fairy-floss
+    			  doom-gruvbox
+    			  doom-henna
+    			  doom-horizon
+    			  doom-Iosvkem
+    			  doom-laserwave
+    			  doom-material
+    			  doom-miramare
+    			  doom-molokai
+    			  doom-monokai-classic
+    			  doom-monokai-pro
+    			  doom-moonlight
+    			  doom-nord
+    			  doom-nova
+    			  doom-oceanic-next
+    			  doom-old-hope
+    			  doom-opera
+    			  doom-outrun-electric
+    			  doom-palenight
+    			  doom-plain
+    			  doom-peacock
+    			  doom-rouge
+    			  doom-snazzy
+    			  doom-solarized-dark
+    			  doom-spacegrey
+    			  doom-tomorrow-night
+    			  doom-zenburn
+    			  doom-mono-dark))
+    ```
 
-```emacs-lisp
-(use-package solaire-mode)
-(solaire-global-mode +1)
-```
+-   Noninteractive theme picker
 
-The Doom Emacs project also provides a fancy modeline to go along with their themes.
+    For running at startup
+    
+    ```emacs-lisp
+    (defun set-theme-at-specific-times ()
+      "Set light theme at 10AM, dark theme at 3PM"
+      (let ((now (decode-time))
+    	(light-theme (nth (random (length light-theme-list)) light-theme-list))
+    	(dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
+        (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+    	(load-theme light-theme t)
+          (load-theme dark-theme t))))
+    
+    (add-hook 'after-init-hook 'set-theme-at-specific-times)
+    ```
 
-```emacs-lisp
-(use-package doom-modeline
-  :config       (doom-modeline-def-modeline 'main
-		  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-		  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
-  :hook (after-init . doom-modeline-mode))
-```
+-   Interactive theme picker
+
+    Spawns Helm and allows you to pick, but from the appropriate list for the time of day
+    
+    First the underlying implementation
+    
+    ```emacs-lisp
+    (defun choose-theme-impl (light-theme-list dark-theme-list)
+      "Choose a theme from the appropriate list based on the current time"
+      (let* ((now (decode-time))
+    	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+    		     light-theme-list
+    		   dark-theme-list))
+    	 (theme-names (mapcar 'symbol-name themes))
+    	 (theme-name (helm :sources (helm-build-sync-source "Themes"
+    				      :candidates theme-names)
+    			   :buffer "*helm choose-theme*")))
+        (intern theme-name)))
+    ```
+    
+    Entrypoint
+    
+    ```emacs-lisp
+    (defun choose-theme ()
+      "Choose a theme interactively using Helm"
+      (interactive)
+      (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
+        (load-theme theme t)))
+    ```
+    
+    Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
+    
+    ```emacs-lisp
+    (use-package solaire-mode)
+    (solaire-global-mode +1)
+    ```
+    
+    The Doom Emacs project also provides a fancy modeline to go along with their themes.
+    
+    ```emacs-lisp
+    (use-package doom-modeline
+      :config       (doom-modeline-def-modeline 'main
+    		  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+    		  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
+      :hook (after-init . doom-modeline-mode))
+    ```
 
 
 ### Emoji 🙏
@@ -278,7 +359,11 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
   (use-package evil-collection
     :after evil
     :config
+    ;; don't let evil-collection manage go-mode
+    ;; it is overriding gd
+    (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
     (evil-collection-init))
+
 
   ;; the evil-collection overrides the worktree binding :(
   (general-define-key
@@ -294,11 +379,11 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
   (use-package evil-surround
     :config
     (global-evil-surround-mode 1))
-    (use-package undo-tree
-      :config
-      (global-undo-tree-mode)
-      (evil-set-undo-system 'undo-tree)
-      (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+  (use-package undo-tree
+    :config
+    (global-undo-tree-mode)
+    (evil-set-undo-system 'undo-tree)
+    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
   (use-package treemacs-evil)
   (setq-default evil-escape-key-sequence "fd"))
@@ -817,7 +902,7 @@ LSP provides a generic interface for text editors to talk to various language se
 (setq lsp-enable-links nil)
 
 ;; folding library integation
-(use-package lsp-origami)
+;; (use-package lsp-origami)
 
 ;; helm integration
 (use-package helm-lsp)
@@ -1046,7 +1131,7 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
     
     ```emacs-lisp
     (use-package dap-mode)
-    (require 'dap-go)
+    (require 'dap-dlv-go)
     (dap-mode 0)
     (dap-ui-mode 0)
     (dap-ui-controls-mode 0)
@@ -1089,7 +1174,7 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
  :keymaps 'go-mode-map
  ",a"     'go-import-add
  ",d"     'lsp-describe-thing-at-point
- ",gg"    'lsp-find-definition
+ "gd"    'lsp-find-definition
  ",gt"    'lsp-find-type-definition
  ",i"     'lsp-find-implementation
  ",n"     'lsp-rename
@@ -1111,19 +1196,19 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
  ",cl"     'gorepl-eval-line
 
  ;; origami-mode works better with lsp than regular evil-mode
- "TAB"    'origami-toggle-node
+ ;; "TAB"    'origami-toggle-node
 
- "zm"     'origami-toggle-node
- "zM"     'origami-toggle-all-nodes
+ ;; "zm"     'origami-toggle-node
+ ;; "zM"     'origami-toggle-all-nodes
 
- "zc"     'origami-close-node
- "zC"     'origami-close-node-recursively
+ ;; "zc"     'origami-close-node
+ ;; "zC"     'origami-close-node-recursively
 
- "zo"     'origami-open-node
- "zO"     'origami-open-node-recursively
+ ;; "zo"     'origami-open-node
+ ;; "zO"     'origami-open-node-recursively
 
- ;; except for when it totally breaks lol
- "zr"     'origami-reset
+ ;; ;; except for when it totally breaks lol
+ ;; "zr"     'origami-reset
  )
 
 (autoload 'go-mode "go-mode" nil t)
@@ -1138,7 +1223,7 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
 (add-hook 'go-mode-hook
 	  (lambda ()
 	    ;; Go likes origami-mode
-	    (origami-mode)
+	    ;; (origami-mode)
 	    ;; lsp ui sideline code actions are annoying in Go
 	    (setq-local lsp-ui-sideline-show-code-actions nil)))
 
@@ -1414,22 +1499,20 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 	(display-line-numbers-mode -1)
 	(display-line-numbers-mode))))
 
+(defun random-theme (light-theme-list dark-theme-list)
+  "Choose a random theme from the appropriate list based on the current time"
+  (let* ((now (decode-time))
+	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+		     light-theme-list
+		   dark-theme-list)))
+    (nth (random (length themes)) themes)))
 
 (defun load-next-favorite-theme ()
-  "Loads the next theme on my favorite themes list"
+  "Switch to a random theme appropriate for the current time."
   (interactive)
-  (if (eq ian-current-theme nil)
-      (load-theme (car ian-favorite-themes))
-    (progn
-      (setq next-theme (car (cdr (memq ian-current-theme ian-favorite-themes))))
-      (if (eq next-theme nil)
-	  (progn
-	    (print "was nil")
-	    (load-theme (car ian-favorite-themes)))
-	(progn
-	  (print next-theme)
-	  (load-theme next-theme)))
-    )))
+  (let ((theme (random-theme light-theme-list dark-theme-list)))
+    (load-theme theme t)
+    (message "Switched to theme: %s" theme)))
 ```
 
 
@@ -1501,7 +1584,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "qz"     'delete-frame
   "ta"     'treemacs-add-project-to-workspace
   "thr"    'load-random-theme
-  "thl"    'load-theme
+  "thl"    'choose-theme
   "thn"    'load-next-favorite-theme
   "tl"     'toggle-ligatures
   "tnn"    'display-line-numbers-mode
@@ -1523,6 +1606,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "ww"     'ace-window
   "wo"     'other-window
   "w="     'balance-windows
+  "W"      '(:keymap evil-window-map)
   "SPC"    'helm-M-x
   )
 
@@ -2110,6 +2194,29 @@ For those of us who did away with the caps lock button but write SQL sometimes
 ```
 
 
+## Allow swapping windows with ctrl + shift + left-click-drag
+
+```emacs-lisp
+(defvar window-swap-origin nil)
+
+(defun window-swap-start (event)
+  "Start swapping windows using mouse events."
+  (interactive "e")
+  (setq window-swap-origin (posn-window (event-start event))))
+
+(defun window-swap-end (event)
+  "End swapping windows using mouse events."
+  (interactive "e")
+  (let ((origin window-swap-origin)
+	(target (posn-window (event-end event))))
+    (window-swap-states origin target))
+  (setq window-swap-origin nil))
+
+(global-set-key (kbd "<C-S-mouse-1>") 'window-swap-start)
+(global-set-key (kbd "<C-S-drag-mouse-1>") 'window-swap-end)
+```
+
+
 # Render this file for display on the web
 
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
@@ -2355,6 +2462,6 @@ Some notes on the dependencies that I found were needed to build Emacs 28.1 on f
 
 ```shell
 ./autogen.sh
-sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev
+sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev
 ./configure --without-toolkit-scroll-bars --with-imagemagick --with-x --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils
 ```

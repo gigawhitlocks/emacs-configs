@@ -148,32 +148,109 @@ Apply a small fix where doom-colors Treemacs theme is missing a few icons
   (treemacs-define-custom-icon
    (treemacs-get-icon-value "cache") "sqlite")
 #+end_src 
+I have separated the Doom themes into light and dark, so I can have a
+randomly chosen light theme in the late morning and early afternoon,
+and switch back to a dark theme at other times.
 
-The Doom theme pack provides many beautiful themes, and I like to take advantage of this by frequently changing up my theme.  Thanks, Doom community, for providing a variety of lovely light and dark themes to choose from.
-
-However, I don't like all of the Doom themes and I also do not have a clear favorite.
-I will maintain a list of my favorites and later apply some heuristics to semi-randomly choose a theme at startup, but for now it will be fully random.
+I'll curate the lists as I use the new functionality, to remove ones I
+don't like.
+**** Light themes
 #+begin_src emacs-lisp
-  ;; for now, load a random one of the ones I like
-  (setq ian-favorite-themes (list
-                             'doom-vibrant
-                             'doom-one
-                             'doom-one-light
-                             'doom-flatwhite
-                             'doom-nord
-                             'doom-nord-light
-                             'doom-dracula
-                             'doom-challenger-deep
-                             ))
+  (defvar light-theme-list '(doom-one-light
+                             doom-acario-light
+                             doom-city-lights
+                             doom-fairy-floss
+                             doom-flatwhite
+                             doom-gruvbox-light
+                             doom-horizon
+                             doom-laserwave
+                             doom-miramare
+                             doom-monokai-classic
+                             doom-monokai-pro))
+ #+end_src
 
-  (defun load-random-theme ()
-    "Load a random favorite theme"
+**** Dark themes
+ #+begin_src emacs-lisp
+  (defvar dark-theme-list '(doom-one-dark
+                            doom-one-vibrant
+                            doom-acario-dark
+                            doom-city-lights
+                            doom-challenger-deep
+                            doom-dark+
+                            doom-dracula
+                            doom-ephemeral
+                            doom-fairy-floss
+                            doom-gruvbox
+                            doom-henna
+                            doom-horizon
+                            doom-Iosvkem
+                            doom-laserwave
+                            doom-material
+                            doom-miramare
+                            doom-molokai
+                            doom-monokai-classic
+                            doom-monokai-pro
+                            doom-moonlight
+                            doom-nord
+                            doom-nova
+                            doom-oceanic-next
+                            doom-old-hope
+                            doom-opera
+                            doom-outrun-electric
+                            doom-palenight
+                            doom-plain
+                            doom-peacock
+                            doom-rouge
+                            doom-snazzy
+                            doom-solarized-dark
+                            doom-spacegrey
+                            doom-tomorrow-night
+                            doom-zenburn
+                            doom-mono-dark))
+#+end_src
+
+**** Noninteractive theme picker
+
+For running at startup
+#+begin_src emacs-lisp
+  (defun set-theme-at-specific-times ()
+    "Set light theme at 10AM, dark theme at 3PM"
+    (let ((now (decode-time))
+          (light-theme (nth (random (length light-theme-list)) light-theme-list))
+          (dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
+      (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+          (load-theme light-theme t)
+        (load-theme dark-theme t))))
+
+  (add-hook 'after-init-hook 'set-theme-at-specific-times)
+#+end_src
+
+**** Interactive theme picker
+
+Spawns Helm and allows you to pick, but from the appropriate list for the time of day
+
+First the underlying implementation
+#+begin_src emacs-lisp
+  (defun choose-theme-impl (light-theme-list dark-theme-list)
+    "Choose a theme from the appropriate list based on the current time"
+    (let* ((now (decode-time))
+           (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+                       light-theme-list
+                     dark-theme-list))
+           (theme-names (mapcar 'symbol-name themes))
+           (theme-name (helm :sources (helm-build-sync-source "Themes"
+                                        :candidates theme-names)
+                             :buffer "*helm choose-theme*")))
+      (intern theme-name)))
+#+end_src
+
+Entrypoint
+#+begin_src emacs-lisp
+  (defun choose-theme ()
+    "Choose a theme interactively using Helm"
     (interactive)
-    (load-theme
-     (nth (random (length ian-favorite-themes)) ian-favorite-themes)
-     t))
-
-  (load-random-theme)
+    (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
+      (load-theme theme t)))
 #+end_src
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
@@ -1214,22 +1291,20 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
           (display-line-numbers-mode -1)
           (display-line-numbers-mode))))
 
+  (defun random-theme (light-theme-list dark-theme-list)
+    "Choose a random theme from the appropriate list based on the current time"
+    (let* ((now (decode-time))
+           (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+                       light-theme-list
+                     dark-theme-list)))
+      (nth (random (length themes)) themes)))
 
   (defun load-next-favorite-theme ()
-    "Loads the next theme on my favorite themes list"
+    "Switch to a random theme appropriate for the current time."
     (interactive)
-    (if (eq ian-current-theme nil)
-        (load-theme (car ian-favorite-themes))
-      (progn
-        (setq next-theme (car (cdr (memq ian-current-theme ian-favorite-themes))))
-        (if (eq next-theme nil)
-            (progn
-              (print "was nil")
-              (load-theme (car ian-favorite-themes)))
-          (progn
-            (print next-theme)
-            (load-theme next-theme)))
-      )))
+    (let ((theme (random-theme light-theme-list dark-theme-list)))
+      (load-theme theme t)
+      (message "Switched to theme: %s" theme)))
 #+end_src
 
 ** Global Leader Keymappings
@@ -1300,7 +1375,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "qz"     'delete-frame
     "ta"     'treemacs-add-project-to-workspace
     "thr"    'load-random-theme
-    "thl"    'load-theme
+    "thl"    'choose-theme
     "thn"    'load-next-favorite-theme
     "tl"     'toggle-ligatures
     "tnn"    'display-line-numbers-mode
