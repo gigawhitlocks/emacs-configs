@@ -147,8 +147,7 @@ Apply a small fix where doom-colors Treemacs theme is missing a few icons
 #+end_src 
 I have separated the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
 
-I'll curate the lists as I use the new functionality, to remove ones I
-don't like.
+I'll curate the lists as I use the new functionality, to remove ones I don't like.
 *** Light themes
 #+begin_src emacs-lisp
   (defvar light-theme-list '(doom-one-light
@@ -210,7 +209,7 @@ For running at startup
     (let ((now (decode-time))
           (light-theme (nth (random (length light-theme-list)) light-theme-list))
           (dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
-      (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+      (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
           (load-theme light-theme t)
         (load-theme dark-theme t))))
 
@@ -223,7 +222,7 @@ First the underlying implementation:
   (defun choose-theme-impl (light-theme-list dark-theme-list)
     "Choose a theme from the appropriate list based on the current time"
     (let* ((now (decode-time))
-           (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+           (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
                        light-theme-list
                      dark-theme-list))
            (theme-names (mapcar 'symbol-name themes))
@@ -666,7 +665,7 @@ This guard will check to see if there's any font with 'fira' in it (case insensi
   [[ $(fc-list | grep -i fira) != "" ]] && exit 0
 #+end_src
 
-Now here's the standard installation script, stripped of the shebang to go after my guard
+Now here's the standard installation script
 
 #+begin_src bash
   fonts_dir="${HOME}/.local/share/fonts"
@@ -1432,6 +1431,7 @@ Install some tools for archiving web content into Org
     :states  'normal
     :keymaps 'org-mode-map
     "y"      'org-store-link
+    "i"      'org-toggle-inline-images
     "p"      'org-insert-link
     "x"      'org-babel-execute-src-block
     "s"      'org-insert-structure-template
@@ -1462,9 +1462,9 @@ Install some tools for archiving web content into Org
 
   ;; todo states
   (setq org-todo-keywords
-        '((sequence "TODO(t)" "|" "IN PROGRESS(p)" "|" "DONE(d)")
+        '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)")
           (sequence "QUESTION(q)" "|" "ANSWERED(a)")
-          (sequence "AGENDA(a)" "|" "DONE(d)" )))
+          (sequence "AGENDA(a)"   "|" "DONE(d)" )))
 
   ;; enable org-protocol
   (require 'org-protocol)
