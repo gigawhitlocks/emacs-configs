@@ -900,9 +900,6 @@ LSP provides a generic interface for text editors to talk to various language se
 ;; also it's annoying
 (setq lsp-enable-links nil)
 
-;; folding library integation
-;; (use-package lsp-origami)
-
 ;; helm integration
 (use-package helm-lsp)
 
@@ -1193,22 +1190,7 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
  ",cg"     'gorepl-run-load-current-file
  ",cx"     'gorepl-eval-region
  ",cl"     'gorepl-eval-line
-
- ;; origami-mode works better with lsp than regular evil-mode
- ;; "TAB"    'origami-toggle-node
-
- ;; "zm"     'origami-toggle-node
- ;; "zM"     'origami-toggle-all-nodes
-
- ;; "zc"     'origami-close-node
- ;; "zC"     'origami-close-node-recursively
-
- ;; "zo"     'origami-open-node
- ;; "zO"     'origami-open-node-recursively
-
- ;; ;; except for when it totally breaks lol
- ;; "zr"     'origami-reset
- )
+  )
 
 (autoload 'go-mode "go-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))

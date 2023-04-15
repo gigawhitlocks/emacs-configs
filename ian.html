@@ -25,7 +25,7 @@ If you read this file, you may find things you can copy-paste into your Emacs co
 Here is a screenshot of my environment:
 </p>
 
-<div id="orga3b8fa4" class="figure">
+<div id="org02f0cd2" class="figure">
 <p><img src="Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" alt="2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" />
 </p>
 </div>
@@ -436,7 +436,7 @@ It's great, it gets installed early, can't live without it. ðŸ’˜ <code>projectil
 </p>
 
 
-<div id="org7da41be" class="figure">
+<div id="org0768927" class="figure">
 <p><img src="My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" alt="2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" />
 </p>
 </div>
@@ -565,7 +565,7 @@ It's mostly used below in the <a href="#Global%20Keybindings">global keybindings
 <a href="https://github.com/magit/magit">Magit</a> is an incredible integrated <code>git</code> UI for Emacs.
 </p>
 
-<div id="org2ee9e1b" class="figure">
+<div id="orga6cca02" class="figure">
 <p><img src="My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" alt="2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" />
 </p>
 </div>
@@ -606,7 +606,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </p>
 
 
-<div id="org9ac1fdc" class="figure">
+<div id="org99831ee" class="figure">
 <p><img src="My_Environment/2020-01-15_13-17-16_2020-01-14T13_58_07.gif" alt="2020-01-15_13-17-16_2020-01-14T13_58_07.gif" />
 </p>
 </div>
@@ -621,7 +621,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </p>
 
 
-<div id="orgacb45b1" class="figure">
+<div id="orga47dff8" class="figure">
 <p><img src="My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif" alt="2020-01-11_23-23-47_2020-01-11T23:15:54.gif" />
 </p>
 </div>
@@ -648,7 +648,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so <a href="https://github.com/justbur/emacs-which-key"><code>which-key</code></a> pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 </p>
 
-<div id="org6303310" class="figure">
+<div id="orgb6be1e6" class="figure">
 <p><img src="My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" alt="2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" />
 </p>
 </div>
@@ -729,7 +729,7 @@ Actually, looking at the project page, the icons don't seem to be working for me
 </p>
 
 
-<div id="org882adba" class="figure">
+<div id="org0f27740" class="figure">
 <p><img src="My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" alt="2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" />
 </p>
 </div>
@@ -762,7 +762,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 <a href="https://www.emacswiki.org/emacs/Yasnippet">Here are the YASnippet docs.</a>
 </p>
 
-<div id="orgbea23a0" class="figure">
+<div id="org91f228f" class="figure">
 <p><img src="My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" alt="2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" />
 </p>
 </div>
@@ -1186,9 +1186,6 @@ LSP provides a generic interface for text editors to talk to various language se
 <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">also it's annoying</span>
 <span style="color: #c099ff;">(</span><span style="color: #c099ff;">setq</span> lsp-enable-links nil<span style="color: #c099ff;">)</span>
 
-<span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">folding library integation</span>
-<span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">(use-package lsp-origami)</span>
-
 <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">helm integration</span>
 <span style="color: #c099ff;">(</span><span style="color: #c099ff;">use-package</span> <span style="color: #ff995e;">helm-lsp</span><span style="color: #c099ff;">)</span>
 
@@ -1583,22 +1580,7 @@ Click in the margins to set breakpoints with <code>dap-ui-mode</code> enabled (ð
  <span style="color: #c3e88d;">",cg"</span>     'gorepl-run-load-current-file
  <span style="color: #c3e88d;">",cx"</span>     'gorepl-eval-region
  <span style="color: #c3e88d;">",cl"</span>     'gorepl-eval-line
-
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">origami-mode works better with lsp than regular evil-mode</span>
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"TAB"    'origami-toggle-node</span>
-
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"zm"     'origami-toggle-node</span>
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"zM"     'origami-toggle-all-nodes</span>
-
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"zc"     'origami-close-node</span>
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"zC"     'origami-close-node-recursively</span>
-
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"zo"     'origami-open-node</span>
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"zO"     'origami-open-node-recursively</span>
-
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">;; except for when it totally breaks lol</span>
- <span style="color: #7a88cf;">;; </span><span style="color: #7a88cf;">"zr"     'origami-reset</span>
- <span style="color: #c099ff;">)</span>
+  <span style="color: #c099ff;">)</span>
 
 <span style="color: #c099ff;">(</span>autoload 'go-mode <span style="color: #c3e88d;">"go-mode"</span> nil t<span style="color: #c099ff;">)</span>
 <span style="color: #c099ff;">(</span>add-to-list 'auto-mode-alist '<span style="color: #ff995e;">(</span><span style="color: #c3e88d;">"\\.go\\'"</span> . go-mode<span style="color: #ff995e;">)</span><span style="color: #c099ff;">)</span>
@@ -2115,7 +2097,7 @@ Image drag-and-drop for org-mode
 </pre>
 </div>
 
-<div id="orgecbdb04" class="figure">
+<div id="org54263d6" class="figure">
 <p><img src="My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" alt="2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" />
 </p>
 </div>
@@ -2529,7 +2511,7 @@ Probably from Spacemacs. Thanks, Spacemacs.
 </p>
 
 
-<div id="org2da1af5" class="figure">
+<div id="org86d4d11" class="figure">
 <p><img src="My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif" alt="2020-05-18_21-46-59_2020-05-18T21:46:03.gif" />
 </p>
 </div>
