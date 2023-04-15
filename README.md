@@ -541,8 +541,12 @@ A function for toggling the screaming on and off. I love scream-when-finished bu
 (defun toggle-screaming ()
   (interactive)
   (if (eq isw-should-play-chime t)
-      (setq isw-should-play-chime nil)
-    (setq isw-should-play-chime t)))
+      (progn
+	(setq isw-should-play-chime nil)
+	(message "Screaming disabled."))
+    (progn
+      (setq isw-should-play-chime t)
+      (message "Screaming enabled."))))
 ```
 
 
