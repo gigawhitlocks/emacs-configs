@@ -342,9 +342,10 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 (projectile-mode +1)
 ```
 
--   TODO I've read about something called project.el
 
-    The impression that I got was that `project.el` is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate `project.el`.
+### TODO I've read about something called project.el
+
+The impression that I got was that `project.el` is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate `project.el`.
 
 
 ## Install and Configure Evil Mode
@@ -1704,7 +1705,7 @@ Install some tools for archiving web content into Org
 ```
 
 
-### Use a variable-pitch font in Org-Mode
+## Use a variable-pitch font in Org-Mode
 
 Org is mostly prose and prose should be read in a variable-pitch font where possible. This changes fonts in Org to be variable-pitch where it makes sense
 
@@ -1724,7 +1725,7 @@ Inside of code blocks I want a fixed-pitch font
 ```
 
 
-### Useful anchors in HTML export
+## Useful anchors in HTML export
 
 This is taken from [github.com/alphapapa's Unpackaged.el](https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors) collection, unmodified.
 
@@ -1871,29 +1872,30 @@ emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://
 
 For now this is extremely rudimentary and I will improve it as needed.
 
--   Manual Steps:
 
-    1.  The first time, add a button in the browser by creating a bookmarklet containing the following target:
-    
-        javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
-    
-    1.  Add an entry to `org-protocol-project-alist`, defined in the local machine's hostname-specific config found in `local/`. An example can be found on the Worg page above, but here it is again for easy reference:
-    
-    ```emacs-lisp
-    (setq org-protocol-project-alist
-          '(("Worg"
-    	 :base-url "https://orgmode.org/worg/"
-    	 :working-directory "/home/user/worg/"
-    	 :online-suffix ".html"
-    	 :working-suffix ".org")
-    	("My local Org-notes"
-    	 :base-url "http://localhost/org/"
-    	 :working-directory "/home/user/org/"
-    	 :online-suffix ".php"
-    	 :working-suffix ".org")))
-    ```
-    
-    N.B. this code block does ****not**** get tangled into `ian.el`.
+### Manual Steps:
+
+1.  The first time, add a button in the browser by creating a bookmarklet containing the following target:
+
+    javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
+
+1.  Add an entry to `org-protocol-project-alist`, defined in the local machine's hostname-specific config found in `local/`. An example can be found on the Worg page above, but here it is again for easy reference:
+
+```emacs-lisp
+(setq org-protocol-project-alist
+      '(("Worg"
+	 :base-url "https://orgmode.org/worg/"
+	 :working-directory "/home/user/worg/"
+	 :online-suffix ".html"
+	 :working-suffix ".org")
+	("My local Org-notes"
+	 :base-url "http://localhost/org/"
+	 :working-directory "/home/user/org/"
+	 :online-suffix ".php"
+	 :working-suffix ".org")))
+```
+
+N.B. this code block does ****not**** get tangled into `ian.el`.
 
 
 ## TRAMP settings
@@ -2435,7 +2437,7 @@ StartupWMClass=Emacs
 ```
 
 
-### TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit
+## TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit
 
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
 

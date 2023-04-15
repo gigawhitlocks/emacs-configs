@@ -298,7 +298,7 @@ It's great, it gets installed early, can't live without it. 💘 ~projectile~
   (projectile-mode +1)
 #+END_SRC
 
-**** TODO I've read about something called project.el
+*** TODO I've read about something called project.el
 The impression that I got was that ~project.el~ is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate ~project.el~.
 
 ** Install and Configure Evil Mode
@@ -1113,7 +1113,6 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
     :hook ((web-mode . prettier-js-mode)))
 #+end_src
 
-
 *** Setting highlighting for special template modes
 #+BEGIN_SRC emacs-lisp
   ;; web-mode can provide syntax highlighting for many template
@@ -1471,7 +1470,7 @@ Install some tools for archiving web content into Org
   (require 'org-protocol)
 #+END_SRC
 
-*** Use a variable-pitch font in Org-Mode
+** Use a variable-pitch font in Org-Mode
 Org is mostly prose and prose should be read in a variable-pitch font where possible.
 This changes fonts in Org to be variable-pitch where it makes sense
 #+begin_src emacs-lisp
@@ -1488,7 +1487,7 @@ Inside of code blocks I want a fixed-pitch font
   (add-hook 'org-mode-hook 'ian-org-fixed-pitch)
 #+end_src
 
-*** Useful anchors in HTML export
+** Useful anchors in HTML export
 This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-with-useful-anchors][github.com/alphapapa's Unpackaged.el]] collection, unmodified.
 
 #+begin_src emacs-lisp
@@ -1625,7 +1624,7 @@ Add the custom ~org-protocol~ script to intercept calls from the browser, do any
 
 For now this is extremely rudimentary and I will improve it as needed.
 
-**** Manual Steps:
+*** Manual Steps:
 1. The first time, add a button in the browser by creating a bookmarklet containing the following target:
 : javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
 
@@ -2093,7 +2092,7 @@ Tangling this file will install the .desktop file to the correct location (~~/.l
   StartupWMClass=Emacs
 #+end_src
 
-*** TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit 
+** TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit 
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug. 
 
 * Compiling Emacs from Source
