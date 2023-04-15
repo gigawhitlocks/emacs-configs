@@ -186,7 +186,6 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
 ```emacs-lisp
 (defvar dark-theme-list '(doom-one-dark
 			  doom-one-vibrant
-			  doom-acario-dark
 			  doom-city-lights
 			  doom-challenger-deep
 			  doom-dark+

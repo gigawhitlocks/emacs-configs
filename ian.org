@@ -168,7 +168,6 @@ don't like.
  #+begin_src emacs-lisp
   (defvar dark-theme-list '(doom-one-dark
                             doom-one-vibrant
-                            doom-acario-dark
                             doom-city-lights
                             doom-challenger-deep
                             doom-dark+
