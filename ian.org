@@ -342,6 +342,15 @@ It's controversial but I think modal editing is brilliant and have been using ~v
       (evil-set-undo-system 'undo-tree)
       (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
+    ;; add some advice to undo-tree-save-history to suppress messages
+    ;; when it saves its backup files
+    (defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
+      (let ((message-log-max nil)
+            (inhibit-message t))
+        (apply undo-tree-save-history args)))
+
+    (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
+
     (use-package treemacs-evil)
     (setq-default evil-escape-key-sequence "fd"))
 #+END_SRC
