@@ -1024,8 +1024,6 @@ So the convention for use is:
 
 Go is my primary language so it's my most dynamic and complicated configuration.
 
-![img](My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif)
-
 
 ### Dependencies
 

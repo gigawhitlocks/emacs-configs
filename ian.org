@@ -864,8 +864,6 @@ So the convention for use is:
 
 ** Go
 Go is my primary language so it's my most dynamic and complicated configuration.
-#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2022-11.gif @ 2020-05-18 22:12:18
-[[file:My_Environment/2020-05-18_22-12-18_Peek%25202020-05-18%252022-11.gif]]
 *** Dependencies
 Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
