@@ -1346,7 +1346,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "thr"    'load-random-theme
     "thl"    'choose-theme
     "thn"    'load-next-favorite-theme
-    "tl"     'toggle-ligatures
     "tnn"    'display-line-numbers-mode
     "tnt"    'toggle-line-numbers-rel-abs
     "tr"     'treemacs-select-window
