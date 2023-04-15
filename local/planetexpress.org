@@ -1,6 +1,6 @@
-#+TITLE: The Laptop's Config
+#+TITLE: The Windows Machine's Config!
 
-Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
+Stuff that's specific to my gaming PC! For when I just sit at that desk too long, because running Emacs works in WSL so why not?
 
 ** Variable-width font
 For prose modes like Org and Markdown
