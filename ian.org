@@ -205,7 +205,7 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
 For running at startup
 #+begin_src emacs-lisp
   (defun set-theme-at-specific-times ()
-    "Set light theme at 10AM, dark theme at 3PM"
+    "Set light theme at 10AM, dark theme at 4PM"
     (let ((now (decode-time))
           (light-theme (nth (random (length light-theme-list)) light-theme-list))
           (dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
@@ -214,6 +214,8 @@ For running at startup
         (load-theme dark-theme t))))
 
   (add-hook 'after-init-hook 'set-theme-at-specific-times)
+  (run-at-time "10:00am" nil #'set-theme-at-specific-times)
+  (run-at-time "4:00pm" nil #'set-theme-at-specific-times)
 #+end_src
 *** Interactive theme picker
 Spawns Helm and allows you to pick, but from the appropriate list for the time of day.
@@ -1351,7 +1353,11 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "qz"     'delete-frame
     "ta"     'treemacs-add-project-to-workspace
     "thr"    'load-random-theme
-    "thl"    'choose-theme
+    "thl"    (defun load-light-theme () (interactive)(load-theme  (nth (random (length light-theme-list)) light-theme-list)))
+    "thd"    (defun load-dark-theme () (interactive) (load-theme (nth (random (length
+ dark-theme-list)) dark-theme-list)))
+    "thh"    'choose-theme
+    "thc"    'load-theme
     "thn"    'load-next-favorite-theme
     "tnn"    'display-line-numbers-mode
     "tnt"    'toggle-line-numbers-rel-abs
