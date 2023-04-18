@@ -152,54 +152,49 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
 #+begin_src emacs-lisp
   (defvar light-theme-list '(doom-one-light
                              doom-acario-light
-                             doom-city-lights
                              doom-fairy-floss
                              doom-flatwhite
+                             doom-opera-light
                              doom-gruvbox-light
-                             doom-horizon
-                             doom-laserwave
-                             doom-miramare
-                             doom-monokai-classic
-                             doom-monokai-pro))
+                             doom-horizon))
  #+end_src
 
 *** Dark themes
  #+begin_src emacs-lisp
-  (defvar dark-theme-list '(doom-one-dark
-                            doom-vibrant
-                            doom-city-lights
-                            doom-challenger-deep
-                            doom-dark+
-                            doom-dracula
-                            doom-ephemeral
-                            doom-fairy-floss
-                            doom-gruvbox
-                            doom-henna
-                            doom-horizon
-                            doom-Iosvkem
-                            doom-laserwave
-                            doom-material
-                            doom-miramare
-                            doom-molokai
-                            doom-monokai-classic
-                            doom-monokai-pro
-                            doom-moonlight
-                            doom-nord
-                            doom-nova
-                            doom-oceanic-next
-                            doom-old-hope
-                            doom-opera
-                            doom-outrun-electric
-                            doom-palenight
-                            doom-plain
-                            doom-peacock
-                            doom-rouge
-                            doom-snazzy
-                            doom-solarized-dark
-                            doom-spacegrey
-                            doom-tomorrow-night
-                            doom-zenburn
-                            doom-mono-dark))
+   (defvar dark-theme-list '(doom-Iosvkem
+                             doom-challenger-deep
+                             doom-city-lights
+                             doom-dark+
+                             doom-dracula
+                             doom-ephemeral
+                             doom-fairy-floss
+                             doom-gruvbox
+                             doom-henna
+                             doom-horizon
+                             doom-laserwave
+                             doom-material
+                             doom-miramare
+                             doom-molokai
+                             doom-monokai-classic
+                             doom-monokai-pro
+                             doom-moonlight
+                             doom-nord
+                             doom-nova
+                             doom-oceanic-next
+                             doom-old-hope
+                             doom-one-dark
+                             doom-opera
+                             doom-outrun-electric
+                             doom-palenight
+                             doom-peacock
+                             doom-plain
+                             doom-rouge
+                             doom-snazzy
+                             doom-solarized-dark
+                             doom-spacegrey
+                             doom-tomorrow-night
+                             doom-vibrant
+                             doom-zenburn))
 #+end_src
 *** Noninteractive theme picker
 For running at startup
