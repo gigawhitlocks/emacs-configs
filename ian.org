@@ -182,7 +182,7 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
                              doom-nova
                              doom-oceanic-next
                              doom-old-hope
-                             doom-one-dark
+                             doom-one
                              doom-opera
                              doom-outrun-electric
                              doom-palenight
@@ -1750,11 +1750,12 @@ Lifted from StackOverflow:
           ad-do-it))
      #+END_SRC
 
-** Configure automatic backups/recovery files
+** Configure automatic backup/recovery files
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in ~/tmp~.
 
 #+BEGIN_SRC emacs-lisp
-  (setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
+  (setq make-backup-files nil)
+  (setq backup-directory-alist `((".*" . "/tmp/.emacs-saves")))
   (setq backup-by-copying t)
   (setq delete-old-versions t)
 #+END_SRC
