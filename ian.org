@@ -119,7 +119,7 @@ It's installed early because many things have integrations with it, including so
   (use-package treemacs-all-the-icons)
 #+end_src
 ** Theme
-I'm using the Doom Emacs theme pack.
+I'm mainly using the Doom Emacs theme pack.
 I think they're really nice to look at, especially with ~solaire-mode~.
 
 First install the theme pack:
@@ -145,10 +145,17 @@ Apply a small fix where doom-colors Treemacs theme is missing a few icons
   (treemacs-define-custom-icon
    (treemacs-get-icon-value "cache") "sqlite")
 #+end_src 
+
+Protesilaos Stavrou has a nice theme pack too:
+#+begin_src emacs-lisp
+  (use-package ef-themes)
+#+end_src
+
+*** Theme lists
 I have separated the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
-*** Light themes
+**** Light themes
 #+begin_src emacs-lisp
   (defvar light-theme-list '(doom-one-light
                              doom-acario-light
@@ -159,7 +166,7 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
                              doom-horizon))
  #+end_src
 
-*** Dark themes
+**** Dark themes
  #+begin_src emacs-lisp
    (defvar dark-theme-list '(doom-Iosvkem
                              doom-challenger-deep
@@ -1156,6 +1163,8 @@ Default Keybindings
 #+END_QUOTE
 
 ** Shell
+
+*** TODO I don't know if this still works
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
 
 But for now, disable ~indent-tabs-mode~ in shell script editing mode because I have been observing behavior from ~whitespace-cleanup-mode~ that when ~indent-tabs-mode~ is ~t~ it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
@@ -1164,7 +1173,12 @@ But for now, disable ~indent-tabs-mode~ in shell script editing mode because I h
             (lambda ()
               (defvar-local indent-tabs-mode nil)))
 #+END_SRC
-*** TODO I don't know if this still works 👆
+
+*** Zsh
+I also write Zsh scripts and Emacs doesn't detect automatically I think
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+#+end_src
 ** Salt
 #+begin_src emacs-lisp
   (use-package salt-mode)
@@ -1286,106 +1300,123 @@ Yeah, my configuration is a little of Spacemacs, a little of Doom, and a little 
 These keybindings are probably the most opinionated part of my configuration. They're shortcuts I can remember, logically or not.
 
 #+begin_src emacs-lisp
-  ;; define the spacebar as the global leader key, following the
-  ;; Spacemacs pattern, which I've been using since 2014
-  (general-create-definer my-leader-def
-    :prefix "SPC")
+   ;; define the spacebar as the global leader key, following the
+   ;; Spacemacs pattern, which I've been using since 2014
+   (general-create-definer my-leader-def
+     :prefix "SPC")
 
-  ;; define SPC m for minor mode keys, even though I use , sometimes
-  (general-create-definer my-local-leader-def
-    :prefix "SPC m")
+   ;; define SPC m for minor mode keys, even though I use , sometimes
+   (general-create-definer my-local-leader-def
+     :prefix "SPC m")
 
-  ;; global keybindings with LEADER
-  (my-leader-def 'normal 'override
-    "aa"     'ace-jump-mode
-    "ag"     'org-agenda
-    "bb"     'helm-buffers-list
-    "TAB"    #'switch-to-prev-buffer
-    "br"     'revert-buffer
-    "bd"     'evil-delete-buffer
-    "ds"     (defun isw-desktop-save ()
-               (interactive)
-               (desktop-save "~/desktop-saves"))
-    "dr"     (defun isw-desktop-read ()
-               (interactive)
-               (desktop-read "~/desktop-saves"))
-    "cc"     'projectile-compile-project
-    "ec"     'flycheck-clear
-    "el"     'flycheck-list-errors
-    "en"     'flycheck-next-error
-    "ep"     'flycheck-previous-error
-    "Fm"     'make-frame
-    "Ff"     'toggle-frame-fullscreen
-    "ff"     'helm-find-files
-    "fr"     'helm-recentf
-    "fd"     'dired
-    "fed"    'find-initfile
-    "feD"    'find-initfile-other-frame
-    "feR"    'reload-initfile
-    "gb"     'magit-blame
-    "gs"     'magit-status
-    "gg"     'magit
-    "gt"     'git-timemachine
-    "gd"     'magit-diff
-    "go"     'browse-at-remote
-    "gi"     'helm-imenu
-    "h"      'hyperbole
-    "jj"     'bookmark-jump
-    "js"     'bookmark-set
-    "jo"     'org-babel-tangle-jump-to-org
-    "ic"     'insert-char
-    "is"     'yas-insert-snippet
-    "n"      '(:keymap narrow-map)
-    "oo"     'browse-url-at-point
-    "p"      'projectile-command-map
-    "pf"     'helm-projectile-find-file
-    "p!"     'projectile-run-async-shell-command-in-root
-    "si"     'yas-insert-snippet
-    "sn"     'yas-new-snippet
-    "sp"     'helm-projectile-ag
-    "qq"     'save-buffers-kill-terminal
-    "qr"     'restart-emacs
-    "qz"     'delete-frame
-    "ta"     'treemacs-add-project-to-workspace
-    "thr"    'load-random-theme
-    "thl"    (defun load-light-theme () (interactive)(load-theme  (nth (random (length light-theme-list)) light-theme-list)))
-    "thd"    (defun load-dark-theme () (interactive) (load-theme (nth (random (length
- dark-theme-list)) dark-theme-list)))
-    "thh"    'choose-theme
-    "thc"    'load-theme
-    "thn"    'load-next-favorite-theme
-    "tnn"    'display-line-numbers-mode
-    "tnt"    'toggle-line-numbers-rel-abs
-    "tr"     'treemacs-select-window
-    "ts"     'toggle-screaming
-    "tt"     'toggle-transparency
-    "tp"     (defun toggle-prism () (interactive) (prism-mode 'toggle))
-    "tw"     'whitespace-mode
-    "w-"     'split-window-below
-    "w/"     'split-window-right
-    "wb"     'last-window
-    "wj"     'evil-window-down
-    "wk"     'evil-window-up
-    "wh"     'evil-window-left
-    "wl"     'evil-window-right
-    "wd"     'delete-window
-    "wD"     'delete-other-windows
-    "ww"     'ace-window
-    "wo"     'other-window
-    "w="     'balance-windows
-    "W"      '(:keymap evil-window-map)
-    "SPC"    'helm-M-x
-    )
+   ;; global keybindings with LEADER
+   (my-leader-def 'normal 'override
+     "aa"     'ace-jump-mode
+     "ag"     'org-agenda
+     "bb"     'helm-buffers-list
+     "TAB"    #'switch-to-prev-buffer
+     "br"     'revert-buffer
+     "bd"     'evil-delete-buffer
+     "ds"     (defun ian-desktop-save ()
+                (interactive)
+                (desktop-save "~/desktop-saves"))
+     "dr"     (defun ian-desktop-read ()
+                (interactive)
+                (desktop-read "~/desktop-saves"))
+     "cc"     'projectile-compile-project
+     "ec"     'flycheck-clear
+     "el"     'flycheck-list-errors
+     "en"     'flycheck-next-error
+     "ep"     'flycheck-previous-error
+     "Fm"     'make-frame
+     "Ff"     'toggle-frame-fullscreen
+     "ff"     'helm-find-files
+     "fr"     'helm-recentf
+     "fd"     'dired
+     "fed"    'find-initfile
+     "feD"    'find-initfile-other-frame
+     "feR"    'reload-initfile
+     "gb"     'magit-blame
+     "gs"     'magit-status
+     "gg"     'magit
+     "gt"     'git-timemachine
+     "gd"     'magit-diff
+     "go"     'browse-at-remote
+     "gi"     'helm-imenu
+     "h"      'hyperbole
+     "jj"     'bookmark-jump
+     "js"     'bookmark-set
+     "jo"     'org-babel-tangle-jump-to-org
+     "ic"     'insert-char
+     "is"     'yas-insert-snippet
+     "n"      '(:keymap narrow-map)
+     "oo"     'browse-url-at-point
+     "p"      'projectile-command-map
+     "pf"     'helm-projectile-find-file
+     "p!"     'projectile-run-async-shell-command-in-root
+     "si"     'yas-insert-snippet
+     "sn"     'yas-new-snippet
+     "sp"     'helm-projectile-ag
+     "qq"     'save-buffers-kill-terminal
+     "qr"     'restart-emacs
+     "qz"     'delete-frame
+     "ta"     'treemacs-add-project-to-workspace
+     "thi"    (defun ian-theme-information ()
+                "Display the last applied theme."
+                (interactive)
+                (let ((last-theme (car (reverse custom-enabled-themes))))
+                  (if last-theme
+                      (message "Last applied theme: %s" last-theme)
+                    (message "No themes are currently enabled."))))
+     "thr"    'load-random-theme
+     "thl"    (defun ian-load-light-theme ()
+                (interactive)
+                (load-theme
+                 (nth
+                  (random
+                   (length light-theme-list)) light-theme-list)))
+     "thd"    (defun ian-load-dark-theme ()
+                (interactive)
+                (load-theme
+                 (nth
+                  (random
+                   (length
+                    dark-theme-list)) dark-theme-list)))
+     "thh"    'choose-theme
+     "thc"    'load-theme
+     "thn"    'load-next-favorite-theme
+     "tnn"    'display-line-numbers-mode
+     "tnt"    'toggle-line-numbers-rel-abs
+     "tr"     'treemacs-select-window
+     "ts"     'toggle-screaming
+     "tt"     'toggle-transparency
+     "tp"     (defun ian-toggle-prism () (interactive) (prism-mode 'toggle))
+     "tw"     'whitespace-mode
+     "w-"     'split-window-below
+     "w/"     'split-window-right
+     "wb"     'last-window
+     "wj"     'evil-window-down
+     "wk"     'evil-window-up
+     "wh"     'evil-window-left
+     "wl"     'evil-window-right
+     "wd"     'delete-window
+     "wD"     'delete-other-windows
+     "ww"     'ace-window
+     "wo"     'other-window
+     "w="     'balance-windows
+     "W"      '(:keymap evil-window-map)
+     "SPC"    'helm-M-x
+     )
 
-  ;; global VISUAL mode map
-  (general-vmap
-    ";" 'comment-or-uncomment-region)
+   ;; global VISUAL mode map
+   (general-vmap
+     ";" 'comment-or-uncomment-region)
 
-  ;; top right button on my trackball is equivalent to click (select) +
-  ;; RET (open) on files in Treemacs
-  (general-define-key
-     :keymaps 'treemacs-mode-map
-     "<mouse-8>" 'treemacs-RET-action)
+   ;; top right button on my trackball is equivalent to click (select) +
+   ;; RET (open) on files in Treemacs
+   (general-define-key
+      :keymaps 'treemacs-mode-map
+      "<mouse-8>" 'treemacs-RET-action)
     #+END_SRC
 
 * Org Mode Settings
