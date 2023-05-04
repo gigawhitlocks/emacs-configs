@@ -1049,6 +1049,8 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+  (setq lsp-file-watch-threshold 5000)
 #+END_SRC
 *** Exclude a certain folder from LSP projects
 Certain projects use a gopath folder inside the project root and this confuses LSP/gopls.
