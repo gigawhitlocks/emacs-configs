@@ -833,6 +833,12 @@ Tree-sitter reads the AST to provide better syntax highlighting
   (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 #+END_SRC
 
+** Rego
+whatever that is
+#+begin_src emacs-lisp :tangle yes
+  (use-package rego-mode)
+#+end_src
+
 ** Markdown
 #+BEGIN_SRC emacs-lisp
   (use-package markdown-mode
