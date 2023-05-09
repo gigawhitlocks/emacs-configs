@@ -1133,6 +1133,22 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
     :hook ((web-mode . prettier-js-mode)))
 #+end_src
 
+***  add a command for manual formatting w/ Prettier
+IDK, for some reason the auto-formatter wasn't working for me so I had Phind generate a command for me to call the command interactively whenever I feel like. This command replaces the current buffer with formatted text.
+#+begin_src emacs-lisp
+  (defun ian-prettier-format ()
+    "Format the current buffer with Prettier."
+    (interactive)
+    (let ((file-name (buffer-file-name))
+          (current-point (point)))
+      (unless file-name
+        (error "Buffer is not associated with a file"))
+      (let ((formatted-output (shell-command-to-string (format "yarn prettier %s" file-name))))
+        (erase-buffer)
+        (insert formatted-output)
+        (goto-char current-point))))
+#+end_src
+
 *** Setting highlighting for special template modes
 #+BEGIN_SRC emacs-lisp
   ;; web-mode can provide syntax highlighting for many template
