@@ -1129,8 +1129,8 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
 
 *** enable Prettier auto-formatting for JavaScript and TypeScript
 #+begin_src emacs-lisp
-  (use-package prettier-js
-    :hook ((web-mode . prettier-js-mode)))
+  ;(use-package prettier-js
+  ;  :hook ((web-mode . prettier-js-mode)))
 #+end_src
 
 ***  add a command for manual formatting w/ Prettier
@@ -1147,6 +1147,13 @@ IDK, for some reason the auto-formatter wasn't working for me so I had Phind gen
         (erase-buffer)
         (insert formatted-output)
         (goto-char current-point))))
+#+end_src
+*** automatically format on save
+at least until I figure out why prettier-js-mode isn't working, I can just call ian-prettier-format on save
+#+begin_src emacs-lisp
+  (add-hook 'web-mode-hook
+            (lambda ()
+              (add-hook 'before-save-hook 'ian-prettier-format nil t)))
 #+end_src
 
 *** Setting highlighting for special template modes
