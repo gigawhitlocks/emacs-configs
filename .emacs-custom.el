@@ -31,7 +31,9 @@
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])
  '(safe-local-variable-values
-   '((go-test-args . "-failfast -test.db.migrations=/home/iwhitlock/addr-api/deployments/migrations")))
+   '((eval add-hook 'before-save-hook 'addr-prettier-format nil t)
+     (eval add-hook 'before-save-hook 'ian-prettier-format nil t)
+     (go-test-args . "-failfast -test.db.migrations=/home/iwhitlock/addr-api/deployments/migrations")))
  '(vc-annotate-background "#242730")
  '(vc-annotate-color-map
    (list
