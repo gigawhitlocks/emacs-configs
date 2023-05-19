@@ -831,6 +831,14 @@ Tree-sitter reads the AST to provide better syntax highlighting
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
   (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
+  (add-hook 'yaml-mode-hook 'origami-mode)
+
+  (general-define-key
+   :states  'normal
+   :keymaps 'yaml-mode-map
+   "zo"     'origami-open-node-recursively
+   "zO"     'origami-open-all-nodes
+   "zc"     'origami-close-node-recursively)
 #+END_SRC
 
 ** Rego
