@@ -1990,6 +1990,14 @@ There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually b
 This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
 
+* Secrets
+Load in any additional settings that I do not wish to make public, if set
+#+begin_src emacs-lisp
+  (if (file-exists-p "~/.secret.el")
+      (load-file "~/.secret.el")
+    (require '.secret))
+#+end_src
+
 * Footer
 ** Start server
 #+BEGIN_SRC emacs-lisp
