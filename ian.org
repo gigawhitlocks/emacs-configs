@@ -1512,7 +1512,6 @@ Install some tools for archiving web content into Org
     "e"      'org-edit-src-code
     "t"      'org-babel-tangle
     "o"      'org-export-dispatch
-    "m"      '(:keymap org-mode-map)
     )
 
   (general-define-key
