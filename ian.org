@@ -109,6 +109,12 @@ Treemacs and Doom themes both rely upon ~all-the-icons~ to look nice
 #+begin_src emacs-lisp
   (use-package all-the-icons)
 #+end_src
+
+Along the way nerd-icons also gets installed. On first run or after clearing out elpa/, need to run the following:
+: M-x nerd-icons-install-fonts
+: M-x all-the-icons-install-fonts
+
+This installs the actual fonts and only needs to be called once. Maybe I'll automate it someday.
 ** Treemacs
 Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
 
