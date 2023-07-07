@@ -2018,8 +2018,9 @@ It may someday feel worth my time to automate this, but so far it hasn't been wo
 Load in any additional settings that I do not wish to make public, if set
 #+begin_src emacs-lisp
   (if (file-exists-p "~/.secret.el")
-      (load-file "~/.secret.el")
-    (require '.secret))
+      (progn
+        (load-file "~/.secret.el")
+        (require '.secret)))
 #+end_src
 
 * Footer
