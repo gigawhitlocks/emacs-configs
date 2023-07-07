@@ -756,7 +756,7 @@ FiraCode offers ligatures for programming symbols, which is cool.
 
 * Language Configuration
 This section contains all of the IDE-like features in my configuration, centered around LSP (lsp-mode) and  DAP, at least for today.
-** Language Server Protocol
+** Language Server Protocol (LSP)
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
 #+BEGIN_SRC emacs-lisp
@@ -771,6 +771,9 @@ LSP provides a generic interface for text editors to talk to various language se
 
   ;; the UI
   (use-package lsp-ui)
+
+  ;; add a longer delay to the help mouseover
+  (setq lsp-ui-doc-delay 1)
 
   ;; linking breaks treemacs
   ;; also it's annoying
@@ -790,17 +793,17 @@ LSP provides a generic interface for text editors to talk to various language se
   (general-define-key
    :states 'normal
    :keymaps 'prog-mode-map
-     ",d"     'lsp-describe-thing-at-point
-     ",gg"    'lsp-find-definition
-     ",gt"    'lsp-find-type-definition
-     ",i"     'lsp-find-implementation
-     ",n"     'lsp-rename
-     ",r"     'lsp-ui-peek-find-references
-     ",R"     'lsp-find-references
-     ",x"     'lsp-execute-code-action
-     ",lsp"   'lsp-workspace-restart
-     "gd"     'lsp-find-definition
-     )
+   ",d"     'lsp-describe-thing-at-point
+   ",gg"    'lsp-find-definition
+   ",gt"    'lsp-find-type-definition
+   ",i"     'lsp-find-implementation
+   ",n"     'lsp-rename
+   ",r"     'lsp-ui-peek-find-references
+   ",R"     'lsp-find-references
+   ",x"     'lsp-execute-code-action
+   ",lsp"   'lsp-workspace-restart
+   "gd"     'lsp-find-definition
+   )
 #+END_SRC
 
 *** Fix background color of lsp-ui-doc in various themes
