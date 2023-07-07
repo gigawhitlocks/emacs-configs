@@ -116,6 +116,13 @@ Treemacs and Doom themes both rely upon `all-the-icons` to look nice
 (use-package all-the-icons)
 ```
 
+Along the way nerd-icons also gets installed. On first run or after clearing out elpa/, need to run the following:
+
+    M-x nerd-icons-install-fonts
+    M-x all-the-icons-install-fonts
+
+This installs the actual fonts and only needs to be called once. Maybe I'll automate it someday.
+
 
 ## Treemacs
 
@@ -131,7 +138,7 @@ It's installed early because many things have integrations with it, including so
 
 ## Theme
 
-I'm using the Doom Emacs theme pack. I think they're really nice to look at, especially with `solaire-mode`.
+I'm mainly using the Doom Emacs theme pack. I think they're really nice to look at, especially with `solaire-mode`.
 
 First install the theme pack:
 
@@ -159,67 +166,69 @@ Apply a small fix where doom-colors Treemacs theme is missing a few icons
  (treemacs-get-icon-value "cache") "sqlite")
 ```
 
+Protesilaos Stavrou has a nice theme pack too:
+
+```emacs-lisp
+(use-package ef-themes)
+```
+
+
+### Theme lists
+
 I have separated the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
 
+-   Light themes
 
-### Light themes
+    ```emacs-lisp
+    (defvar light-theme-list '(doom-one-light
+    			   doom-acario-light
+    			   doom-fairy-floss
+    			   doom-flatwhite
+    			   doom-opera-light
+    			   doom-gruvbox-light
+    			   doom-horizon))
+    ```
 
-```emacs-lisp
-(defvar light-theme-list '(doom-one-light
-			   doom-acario-light
-			   doom-city-lights
-			   doom-fairy-floss
-			   doom-flatwhite
-			   doom-gruvbox-light
-			   doom-horizon
-			   doom-laserwave
-			   doom-miramare
-			   doom-monokai-classic
-			   doom-monokai-pro))
-```
+-   Dark themes
 
-
-### Dark themes
-
-```emacs-lisp
-(defvar dark-theme-list '(doom-one-dark
-			  doom-vibrant
-			  doom-city-lights
-			  doom-challenger-deep
-			  doom-dark+
-			  doom-dracula
-			  doom-ephemeral
-			  doom-fairy-floss
-			  doom-gruvbox
-			  doom-henna
-			  doom-horizon
-			  doom-Iosvkem
-			  doom-laserwave
-			  doom-material
-			  doom-miramare
-			  doom-molokai
-			  doom-monokai-classic
-			  doom-monokai-pro
-			  doom-moonlight
-			  doom-nord
-			  doom-nova
-			  doom-oceanic-next
-			  doom-old-hope
-			  doom-opera
-			  doom-outrun-electric
-			  doom-palenight
-			  doom-plain
-			  doom-peacock
-			  doom-rouge
-			  doom-snazzy
-			  doom-solarized-dark
-			  doom-spacegrey
-			  doom-tomorrow-night
-			  doom-zenburn
-			  doom-mono-dark))
-```
+    ```emacs-lisp
+    (defvar dark-theme-list '(doom-Iosvkem
+    			  doom-challenger-deep
+    			  doom-city-lights
+    			  doom-dark+
+    			  doom-dracula
+    			  doom-ephemeral
+    			  doom-fairy-floss
+    			  doom-gruvbox
+    			  doom-henna
+    			  doom-horizon
+    			  doom-laserwave
+    			  doom-material
+    			  doom-miramare
+    			  doom-molokai
+    			  doom-monokai-classic
+    			  doom-monokai-pro
+    			  doom-moonlight
+    			  doom-nord
+    			  doom-nova
+    			  doom-oceanic-next
+    			  doom-old-hope
+    			  doom-one
+    			  doom-opera
+    			  doom-outrun-electric
+    			  doom-palenight
+    			  doom-peacock
+    			  doom-plain
+    			  doom-rouge
+    			  doom-snazzy
+    			  doom-solarized-dark
+    			  doom-spacegrey
+    			  doom-tomorrow-night
+    			  doom-vibrant
+    			  doom-zenburn))
+    ```
 
 
 ### Noninteractive theme picker
@@ -228,15 +237,17 @@ For running at startup
 
 ```emacs-lisp
 (defun set-theme-at-specific-times ()
-  "Set light theme at 10AM, dark theme at 3PM"
+  "Set light theme at 10AM, dark theme at 4PM"
   (let ((now (decode-time))
 	(light-theme (nth (random (length light-theme-list)) light-theme-list))
 	(dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
-    (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+    (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
 	(load-theme light-theme t)
       (load-theme dark-theme t))))
 
 (add-hook 'after-init-hook 'set-theme-at-specific-times)
+(run-at-time "10:00am" nil #'set-theme-at-specific-times)
+(run-at-time "4:00pm" nil #'set-theme-at-specific-times)
 ```
 
 
@@ -248,7 +259,7 @@ Spawns Helm and allows you to pick, but from the appropriate list for the time o
 (defun choose-theme-impl (light-theme-list dark-theme-list)
   "Choose a theme from the appropriate list based on the current time"
   (let* ((now (decode-time))
-	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
 		     light-theme-list
 		   dark-theme-list))
 	 (theme-names (mapcar 'symbol-name themes))
@@ -390,6 +401,15 @@ The impression that I got was that `project.el` is a first-party replacement for
     (global-undo-tree-mode)
     (evil-set-undo-system 'undo-tree)
     (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+
+  ;; add some advice to undo-tree-save-history to suppress messages
+  ;; when it saves its backup files
+  (defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
+    (let ((message-log-max nil)
+	  (inhibit-message t))
+      (apply undo-tree-save-history args)))
+
+  (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
 
   (use-package treemacs-evil)
   (setq-default evil-escape-key-sequence "fd"))
@@ -802,7 +822,7 @@ set -eo pipefail
 [[ $(fc-list | grep -i fira) != "" ]] && exit 0
 ```
 
-Now here's the standard installation script, stripped of the shebang to go after my guard
+Now here's the standard installation script
 
 ```bash
 fonts_dir="${HOME}/.local/share/fonts"
@@ -972,6 +992,23 @@ Tree-sitter reads the AST to provide better syntax highlighting
 ```emacs-lisp
 (use-package yaml-mode)
 (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
+(add-hook 'yaml-mode-hook 'origami-mode)
+
+(general-define-key
+ :states  'normal
+ :keymaps 'yaml-mode-map
+ "zo"     'origami-open-node-recursively
+ "zO"     'origami-open-all-nodes
+ "zc"     'origami-close-node-recursively)
+```
+
+
+## Rego
+
+whatever that is
+
+```emacs-lisp
+(use-package rego-mode)
 ```
 
 
@@ -1087,16 +1124,6 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
 (add-hook 'go-test-mode-hook 'visual-line-mode)
-```
-
-
-### Enable Go struct memory optimiztion linting setting
-
-Go does not optimize the ordering of struct fields in memory in order to preserve space, so space can be wasted depending upon the order of the struct fields. This setting will tell gopls to call this out.
-
-```emacs-lisp
-(lsp-register-custom-settings
- '(("gopls.analyses" "fieldalignment" t)))
 ```
 
 
@@ -1222,6 +1249,8 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+(setq lsp-file-watch-threshold 5000)
 ```
 
 
@@ -1310,14 +1339,6 @@ For now though, this is sufficient for me
 Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 
 
-### enable Prettier auto-formatting for JavaScript and TypeScript
-
-```emacs-lisp
-(use-package prettier-js
-  :hook ((web-mode . prettier-js-mode)))
-```
-
-
 ### Setting highlighting for special template modes
 
 ```emacs-lisp
@@ -1351,6 +1372,9 @@ Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 
 ## Shell
 
+
+### TODO I don't know if this still works
+
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
 
 But for now, disable `indent-tabs-mode` in shell script editing mode because I have been observing behavior from `whitespace-cleanup-mode` that when `indent-tabs-mode` is `t` it will change 4 spaces to a tab even if there are other spaces being used for indent, even on the same line, and regardless as to the never-ending debate about spaces and tabs and all that, everyone can agree that 1) mixing spaces and tabs is terrible and 2) your editor shouldn't be mixing spaces and tabs automatically at pre-save time.
@@ -1362,7 +1386,13 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
-### TODO I don't know if this still works 👆
+### Zsh
+
+I also write Zsh scripts and Emacs doesn't detect automatically I think
+
+```emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+```
 
 
 ## Salt
@@ -1410,6 +1440,35 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 (use-package sql-indent)
 ```
 
+SQL doesn't &#x2013; as far as I'm aware, and I'm not taking the time to look harder at the moment anyway &#x2013; have an LSP backend (probably doesn't help that there are multiple dialects of SQL so I'd have to find one for PG or SQLite or whatever I'm using that day) so `lsp-find-definition` doesn't work. Below I set `gd` in evil-mode back to the default (`evil-goto-definition`) and add dumb jump as a backend to xref so that it can be used for finding SQL function definitions. Works pretty well but I haven't tested to see if the new hook & the new xref-show-definitions-function values will affect non-SQL modes negatively.
+
+It might be that this essentially sets up dumb-jump to work anywhere that I've not mapped `gd` to `lsp-find-function` and that's fine but I will have to move this code elsewhere so it makes more sense, if that is the case. A task for another day.
+
+```emacs-lisp
+(general-define-key
+ :states 'normal
+ :keymaps 'sql-mode-map
+ "gd" 'evil-goto-definition
+ )
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+(setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+```
+
+
+## Emacs Lisp
+
+I don't have any custom configuration for Emacs Lisp yet, but I am going to use this space to collect tools and resources that might become useful in the future, and which I may install.
+
+
+### A collection of development modes and utilities
+
+<https://github.com/p3r7/awesome-elisp>
+
+
+### editing s-exps
+
+<https://github.com/p3r7/awesome-elisp#lispy> <https://github.com/abo-abo/lispy>
+
 
 # Adaptive Wrap and Visual Line Mode
 
@@ -1438,8 +1497,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (setq compilation-scroll-output t))
 ```
 
-
-<a id="Global%20Keybindings"></a>
 
 # Global Keybindings
 
@@ -1525,10 +1582,10 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "TAB"    #'switch-to-prev-buffer
   "br"     'revert-buffer
   "bd"     'evil-delete-buffer
-  "ds"     (defun isw-desktop-save ()
+  "ds"     (defun ian-desktop-save ()
 	     (interactive)
 	     (desktop-save "~/desktop-saves"))
-  "dr"     (defun isw-desktop-read ()
+  "dr"     (defun ian-desktop-read ()
 	     (interactive)
 	     (desktop-read "~/desktop-saves"))
   "cc"     'projectile-compile-project
@@ -1569,15 +1626,36 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "qr"     'restart-emacs
   "qz"     'delete-frame
   "ta"     'treemacs-add-project-to-workspace
+  "thi"    (defun ian-theme-information ()
+	     "Display the last applied theme."
+	     (interactive)
+	     (let ((last-theme (car (reverse custom-enabled-themes))))
+	       (if last-theme
+		   (message "Last applied theme: %s" last-theme)
+		 (message "No themes are currently enabled."))))
   "thr"    'load-random-theme
-  "thl"    'choose-theme
+  "thl"    (defun ian-load-light-theme ()
+	     (interactive)
+	     (load-theme
+	      (nth
+	       (random
+		(length light-theme-list)) light-theme-list)))
+  "thd"    (defun ian-load-dark-theme ()
+	     (interactive)
+	     (load-theme
+	      (nth
+	       (random
+		(length
+		 dark-theme-list)) dark-theme-list)))
+  "thh"    'choose-theme
+  "thc"    'load-theme
   "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
   "tr"     'treemacs-select-window
   "ts"     'toggle-screaming
   "tt"     'toggle-transparency
-  "tp"     (defun toggle-prism () (interactive) (prism-mode 'toggle))
+  "tp"     (defun ian-toggle-prism () (interactive) (prism-mode 'toggle))
   "tw"     'whitespace-mode
   "w-"     'split-window-below
   "w/"     'split-window-right
@@ -1666,6 +1744,7 @@ Install some tools for archiving web content into Org
   :states  'normal
   :keymaps 'org-mode-map
   "y"      'org-store-link
+  "i"      'org-toggle-inline-images
   "p"      'org-insert-link
   "x"      'org-babel-execute-src-block
   "s"      'org-insert-structure-template
@@ -1696,9 +1775,9 @@ Install some tools for archiving web content into Org
 
 ;; todo states
 (setq org-todo-keywords
-      '((sequence "TODO(t)" "|" "IN PROGRESS(p)" "|" "DONE(d)")
+      '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)")
 	(sequence "QUESTION(q)" "|" "ANSWERED(a)")
-	(sequence "AGENDA(a)" "|" "DONE(d)" )))
+	(sequence "AGENDA(a)"   "|" "DONE(d)" )))
 
 ;; enable org-protocol
 (require 'org-protocol)
@@ -1827,6 +1906,13 @@ made unique when necessary."
 # Miscellaneous standalone global configuration changes
 
 
+## Allow local variables marked safe to be applied without notice
+
+```emacs-lisp
+(setq enable-local-variables :safe)
+```
+
+
 ## Opening the Remote Repo in the Browser from Emacs
 
 [browse-at-remote.el](https://github.com/rmuslimov/browse-at-remote) solves this
@@ -1916,7 +2002,7 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 ```
 
 
-## Switch Theme
+## Theme Switching Helper
 
 Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just `M-x load-theme`.
 
@@ -2025,12 +2111,13 @@ Lifted from StackOverflow:
 ```
 
 
-## Configure automatic backups/recovery files
+## Configure automatic backup/recovery files
 
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in `/tmp`.
 
 ```emacs-lisp
-(setq backup-directory-alist `(("." . "/tmp/.emacs-saves")))
+(setq make-backup-files nil)
+(setq backup-directory-alist `((".*" . "/tmp/.emacs-saves")))
 (setq backup-by-copying t)
 (setq delete-old-versions t)
 ```
@@ -2269,6 +2356,18 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
+# Secrets
+
+Load in any additional settings that I do not wish to make public, if set
+
+```emacs-lisp
+(if (file-exists-p "~/.secret.el")
+    (progn
+      (load-file "~/.secret.el")
+      (require '.secret)))
+```
+
+
 # Footer
 
 
@@ -2448,6 +2547,6 @@ Some notes on the dependencies that I found were needed to build Emacs 28.1 on f
 
 ```shell
 ./autogen.sh
-sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev
+sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo
 ./configure --without-toolkit-scroll-bars --with-imagemagick --with-x --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils
 ```
