@@ -121,26 +121,39 @@ Treemacs provides a file browser on the left hand side of Emacs that I have grow
 It's installed early because many things have integrations with it, including some themes.
 
 #+begin_src emacs-lisp
-  (use-package treemacs)
+  (use-package treemacs
+    :defer t
+    )
+
   (use-package treemacs-all-the-icons)
+
+  (use-package treemacs-evil
+    :after (treemacs evil)
+    :ensure t)
+
+  (use-package treemacs-projectile
+    :after (treemacs projectile)
+    :ensure t)
 #+end_src
+
 ** Theme
 I'm mainly using the Doom Emacs theme pack.
 I think they're really nice to look at, especially with ~solaire-mode~.
 
 First install the theme pack:
 #+begin_src emacs-lisp
-  (use-package doom-themes
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t
-          doom-themes-treemacs-theme "doom-colors"
-          ) ; if nil, italics is universally disabled
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config)
-    ;; Configures Treemacs to play nicely with Doom themes
-    (doom-themes-treemacs-config))
+    (use-package doom-themes
+      :config
+      ;; Global settings (defaults)
+      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+            doom-themes-enable-italic t
+            doom-themes-treemacs-theme "doom-colors" 
+            ) ; if nil, italics is universally disabled
+      ;; Corrects (and improves) org-mode's native fontification.
+      (doom-themes-org-config)
+      ;; Configures Treemacs to play nicely with Doom themes
+      (doom-themes-treemacs-config)
+  )
 #+end_src
 
 Apply a small fix where doom-colors Treemacs theme is missing a few icons
@@ -253,6 +266,11 @@ Entrypoint
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
 #+begin_src emacs-lisp
   (use-package solaire-mode)
+
+  ;; treemacs got redefined as a normal window at some point
+  (push '(treemacs-window-background-face . solaire-default-face) solaire-mode-remap-alist)
+  (push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
+
   (solaire-global-mode +1)
 #+end_src
 
