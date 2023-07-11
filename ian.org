@@ -130,12 +130,13 @@ It's installed early because many things have integrations with it, including so
   (setq treemacs-no-png-images t) 
 
   (use-package treemacs-evil
-    :after (treemacs evil)
-    :ensure t)
+    :after (treemacs evil))
 
   (use-package treemacs-projectile
-    :after (treemacs projectile)
-    :ensure t)
+    :after (treemacs projectile))
+
+  (use-package treemacs-magit
+  :after (treemacs magit))
 #+end_src
 
 ** Theme

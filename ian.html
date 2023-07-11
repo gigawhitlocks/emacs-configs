@@ -25,7 +25,7 @@ If you read this file, you may find things you can copy-paste into your Emacs co
 Here is a screenshot of my environment:
 </p>
 
-<div id="org2a1c775" class="figure">
+<div id="orgfcc83b7" class="figure">
 <p><img src="Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" alt="2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" />
 </p>
 </div>
@@ -202,12 +202,13 @@ It's installed early because many things have integrations with it, including so
 <span style="color: #51afef;">(</span><span style="color: #51afef;">setq</span> treemacs-no-png-images t<span style="color: #51afef;">)</span> 
 
 <span style="color: #51afef;">(</span><span style="color: #51afef;">use-package</span> <span style="color: #a991f1;">treemacs-evil</span>
-  <span style="color: #C57BDB;">:after</span> <span style="color: #C57BDB;">(</span>treemacs evil<span style="color: #C57BDB;">)</span>
-  <span style="color: #C57BDB;">:ensure</span> t<span style="color: #51afef;">)</span>
+  <span style="color: #C57BDB;">:after</span> <span style="color: #C57BDB;">(</span>treemacs evil<span style="color: #C57BDB;">)</span><span style="color: #51afef;">)</span>
 
 <span style="color: #51afef;">(</span><span style="color: #51afef;">use-package</span> <span style="color: #a991f1;">treemacs-projectile</span>
-  <span style="color: #C57BDB;">:after</span> <span style="color: #C57BDB;">(</span>treemacs projectile<span style="color: #C57BDB;">)</span>
-  <span style="color: #C57BDB;">:ensure</span> t<span style="color: #51afef;">)</span>
+  <span style="color: #C57BDB;">:after</span> <span style="color: #C57BDB;">(</span>treemacs projectile<span style="color: #C57BDB;">)</span><span style="color: #51afef;">)</span>
+
+<span style="color: #51afef;">(</span><span style="color: #51afef;">use-package</span> <span style="color: #a991f1;">treemacs-magit</span>
+<span style="color: #C57BDB;">:after</span> <span style="color: #C57BDB;">(</span>treemacs magit<span style="color: #C57BDB;">)</span><span style="color: #51afef;">)</span>
 </pre>
 </div>
 </div>
@@ -463,7 +464,7 @@ It's great, it gets installed early, can't live without it. 💘 <code>projectil
 </p>
 
 
-<div id="org709558f" class="figure">
+<div id="org30439c5" class="figure">
 <p><img src="My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" alt="2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" />
 </p>
 </div>
@@ -605,7 +606,7 @@ It's mostly used below in the <a href="#Global%20Keybindings">global keybindings
 <a href="https://github.com/magit/magit">Magit</a> is an incredible integrated <code>git</code> UI for Emacs.
 </p>
 
-<div id="org6e6925c" class="figure">
+<div id="org5447673" class="figure">
 <p><img src="My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" alt="2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" />
 </p>
 </div>
@@ -646,7 +647,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </p>
 
 
-<div id="org6b46954" class="figure">
+<div id="orgb70bdf5" class="figure">
 <p><img src="My_Environment/2020-01-15_13-17-16_2020-01-14T13_58_07.gif" alt="2020-01-15_13-17-16_2020-01-14T13_58_07.gif" />
 </p>
 </div>
@@ -661,7 +662,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 </p>
 
 
-<div id="orgb116c4e" class="figure">
+<div id="orgfb8eb45" class="figure">
 <p><img src="My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif" alt="2020-01-11_23-23-47_2020-01-11T23:15:54.gif" />
 </p>
 </div>
@@ -688,7 +689,7 @@ Also, I've only tried this with GitHub. But at least in the case of GitHub, once
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so <a href="https://github.com/justbur/emacs-which-key"><code>which-key</code></a> pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 </p>
 
-<div id="org1f7a753" class="figure">
+<div id="orgb524fa3" class="figure">
 <p><img src="My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" alt="2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" />
 </p>
 </div>
@@ -773,7 +774,7 @@ Actually, looking at the project page, the icons don't seem to be working for me
 </p>
 
 
-<div id="orgae564c9" class="figure">
+<div id="orgcf0a6a0" class="figure">
 <p><img src="My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" alt="2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" />
 </p>
 </div>
@@ -806,7 +807,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 <a href="https://www.emacswiki.org/emacs/Yasnippet">Here are the YASnippet docs.</a>
 </p>
 
-<div id="orgfe022ea" class="figure">
+<div id="orgb14c3c2" class="figure">
 <p><img src="My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" alt="2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" />
 </p>
 </div>
@@ -2245,7 +2246,7 @@ Image drag-and-drop for org-mode
 </pre>
 </div>
 
-<div id="org2463555" class="figure">
+<div id="org173cbfc" class="figure">
 <p><img src="My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" alt="2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" />
 </p>
 </div>
@@ -2681,7 +2682,7 @@ Probably from Spacemacs. Thanks, Spacemacs.
 </p>
 
 
-<div id="org497ae04" class="figure">
+<div id="orgde0bf5b" class="figure">
 <p><img src="My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif" alt="2020-05-18_21-46-59_2020-05-18T21:46:03.gif" />
 </p>
 </div>
