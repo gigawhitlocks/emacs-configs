@@ -125,8 +125,9 @@ It's installed early because many things have integrations with it, including so
     :defer t
     )
 
-  (setq treemacs-no-png-images t) ;; disable icons
-  (use-package treemacs-all-the-icons)
+  ;; disable icons at least until they are fixed
+  ;; see commit message for more details 7/11/23
+  (setq treemacs-no-png-images t) 
 
   (use-package treemacs-evil
     :after (treemacs evil)
@@ -148,23 +149,11 @@ First install the theme pack:
       ;; Global settings (defaults)
       (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
             doom-themes-enable-italic t
-            doom-themes-treemacs-theme "doom-colors" 
             ) ; if nil, italics is universally disabled
       ;; Corrects (and improves) org-mode's native fontification.
       (doom-themes-org-config)
-      ;; Configures Treemacs to play nicely with Doom themes
-      (doom-themes-treemacs-config)
   )
 #+end_src
-
-Apply a small fix where doom-colors Treemacs theme is missing a few icons
-#+begin_src emacs-lisp
-  (treemacs-define-custom-icon
-   (treemacs-get-icon-value "sh") "bash")
-
-  (treemacs-define-custom-icon
-   (treemacs-get-icon-value "cache") "sqlite")
-#+end_src 
 
 Protesilaos Stavrou has a nice theme pack too:
 #+begin_src emacs-lisp

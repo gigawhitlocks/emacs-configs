@@ -131,8 +131,21 @@ Treemacs provides a file browser on the left hand side of Emacs that I have grow
 It's installed early because many things have integrations with it, including some themes.
 
 ```emacs-lisp
-(use-package treemacs)
-(use-package treemacs-all-the-icons)
+(use-package treemacs
+  :defer t
+  )
+
+;; disable icons at least until they are fixed
+;; see commit message for more details 7/11/23
+(setq treemacs-no-png-images t) 
+
+(use-package treemacs-evil
+  :after (treemacs evil)
+  :ensure t)
+
+(use-package treemacs-projectile
+  :after (treemacs projectile)
+  :ensure t)
 ```
 
 
@@ -143,27 +156,15 @@ I'm mainly using the Doom Emacs theme pack. I think they're really nice to look 
 First install the theme pack:
 
 ```emacs-lisp
-(use-package doom-themes
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-	doom-themes-enable-italic t
-	doom-themes-treemacs-theme "doom-colors"
-	) ; if nil, italics is universally disabled
-  ;; Corrects (and improves) org-mode's native fontification.
-  (doom-themes-org-config)
-  ;; Configures Treemacs to play nicely with Doom themes
-  (doom-themes-treemacs-config))
-```
-
-Apply a small fix where doom-colors Treemacs theme is missing a few icons
-
-```emacs-lisp
-(treemacs-define-custom-icon
- (treemacs-get-icon-value "sh") "bash")
-
-(treemacs-define-custom-icon
- (treemacs-get-icon-value "cache") "sqlite")
+  (use-package doom-themes
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+	  doom-themes-enable-italic t
+	  ) ; if nil, italics is universally disabled
+    ;; Corrects (and improves) org-mode's native fontification.
+    (doom-themes-org-config)
+)
 ```
 
 Protesilaos Stavrou has a nice theme pack too:
@@ -286,6 +287,11 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 
 ```emacs-lisp
 (use-package solaire-mode)
+
+;; treemacs got redefined as a normal window at some point
+(push '(treemacs-window-background-face . solaire-default-face) solaire-mode-remap-alist)
+(push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
+
 (solaire-global-mode +1)
 ```
 
@@ -411,8 +417,13 @@ The impression that I got was that `project.el` is a first-party replacement for
 
   (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
 
-  (use-package treemacs-evil)
-  (setq-default evil-escape-key-sequence "fd"))
+  (setq-default evil-escape-key-sequence "fd")
+
+  ;; unbind RET since it does the same thing as j and in some
+  ;; modes RET is used for other things, and evil conflicts
+  (with-eval-after-load 'evil-maps
+    (define-key evil-motion-state-map (kbd "RET") nil))
+  )
 ```
 
 
@@ -800,6 +811,26 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
+## TODO Workaround for emacs-sqlite until 29.1
+
+I keep getting a warning about this, and it's annoying because I'm not ready to upgrade to 29.1 but I have to add this temporary configuration setting
+
+```emacs-lisp
+(use-package sqlite3)
+```
+
+
+## Dumb jump
+
+Dumb jump provides an interface to grep that does a pretty good job of finding definitions when a smarter backend like LSP is not available. This registers it as a backend for XREF.
+
+```emacs-lisp
+(use-package dumb-jump)
+(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+(setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+```
+
+
 # Font
 
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
@@ -903,7 +934,7 @@ FiraCode offers ligatures for programming symbols, which is cool.
 This section contains all of the IDE-like features in my configuration, centered around LSP (lsp-mode) and DAP, at least for today.
 
 
-## Language Server Protocol
+## Language Server Protocol (LSP)
 
 LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
 
@@ -919,6 +950,9 @@ LSP provides a generic interface for text editors to talk to various language se
 
 ;; the UI
 (use-package lsp-ui)
+
+;; add a longer delay to the help mouseover
+(setq lsp-ui-doc-delay 1)
 
 ;; linking breaks treemacs
 ;; also it's annoying
@@ -938,17 +972,17 @@ LSP provides a generic interface for text editors to talk to various language se
 (general-define-key
  :states 'normal
  :keymaps 'prog-mode-map
-   ",d"     'lsp-describe-thing-at-point
-   ",gg"    'lsp-find-definition
-   ",gt"    'lsp-find-type-definition
-   ",i"     'lsp-find-implementation
-   ",n"     'lsp-rename
-   ",r"     'lsp-ui-peek-find-references
-   ",R"     'lsp-find-references
-   ",x"     'lsp-execute-code-action
-   ",lsp"   'lsp-workspace-restart
-   "gd"     'lsp-find-definition
-   )
+ ",d"     'lsp-describe-thing-at-point
+ ",gg"    'lsp-find-definition
+ ",gt"    'lsp-find-type-definition
+ ",i"     'lsp-find-implementation
+ ",n"     'lsp-rename
+ ",r"     'lsp-ui-peek-find-references
+ ",R"     'lsp-find-references
+ ",x"     'lsp-execute-code-action
+ ",lsp"   'lsp-workspace-restart
+ "gd"     'lsp-find-definition
+ )
 ```
 
 
@@ -1450,8 +1484,6 @@ It might be that this essentially sets up dumb-jump to work anywhere that I've n
  :keymaps 'sql-mode-map
  "gd" 'evil-goto-definition
  )
-(add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-(setq xref-show-definitions-function #'xref-show-definitions-completing-read)
 ```
 
 
@@ -1781,6 +1813,9 @@ Install some tools for archiving web content into Org
 
 ;; enable org-protocol
 (require 'org-protocol)
+
+;; enter follows links.. how was this not a default?
+(setq org-return-follows-link  t)
 ```
 
 
@@ -1922,7 +1957,7 @@ made unique when necessary."
 ```
 
 
-## Opening Sources Directly in Emacs from the Browser
+## Opening Sources in Emacs from the Browser
 
 <https://orgmode.org/worg/org-contrib/org-protocol.html>
 
@@ -1982,6 +2017,10 @@ For now this is extremely rudimentary and I will improve it as needed.
 ```
 
 N.B. this code block does ****not**** get tangled into `ian.el`.
+
+-   TODO automate the cloning of unknown repos and addition to this list
+
+    I want to be able to press the button on new repos that I haven't cloned yet, and have them dumped to a sane location and then added to the list and opened.
 
 
 ## TRAMP settings
