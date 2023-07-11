@@ -1576,6 +1576,9 @@ Install some tools for archiving web content into Org
 
   ;; enable org-protocol
   (require 'org-protocol)
+
+  ;; enter follows links.. how was this not a default?
+  (setq org-return-follows-link  t)
 #+END_SRC
 
 ** Use a variable-pitch font in Org-Mode
