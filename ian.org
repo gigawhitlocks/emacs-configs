@@ -1706,7 +1706,7 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
   (use-package browse-at-remote)
 #+end_src
 
-** Opening Sources Directly in Emacs from the Browser
+** Opening Sources in Emacs from the Browser
 https://orgmode.org/worg/org-contrib/org-protocol.html
 
 First use this ~.desktop~ file to register a handler for the new protocol scheme:
@@ -1760,6 +1760,9 @@ For now this is extremely rudimentary and I will improve it as needed.
 #+end_src
 
 N.B. this code block does **not** get tangled into ~ian.el~.
+
+**** TODO automate the cloning of unknown repos and addition to this list
+I want to be able to press the button on new repos that I haven't cloned yet, and have them dumped to a sane location and then added to the list and opened.
 
 ** TRAMP settings
 Only one setting at the moment: use ~ssh~ instead of ~scp~ when accessing files with ~ssh:~ schemes
