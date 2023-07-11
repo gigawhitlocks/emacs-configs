@@ -690,6 +690,13 @@ I keep getting a warning about this, and it's annoying because I'm not ready to 
 #+begin_src emacs-lisp :tangle yes
   (use-package sqlite3)
 #+end_src
+** Dumb jump
+Dumb jump provides an interface to grep that does a pretty good job of finding definitions when a smarter backend like LSP is not available. This registers it as a backend for XREF.
+#+begin_src emacs-lisp
+  (use-package dumb-jump)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+#+end_src
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 ** FiraCode Font Installation Script
@@ -1263,8 +1270,6 @@ It might be that this essentially sets up dumb-jump to work anywhere that I've n
    :keymaps 'sql-mode-map
    "gd" 'evil-goto-definition
    )
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
 #+end_src
 
 ** Emacs Lisp
