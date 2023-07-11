@@ -125,6 +125,7 @@ It's installed early because many things have integrations with it, including so
     :defer t
     )
 
+  (setq treemacs-no-png-images t) ;; disable icons
   (use-package treemacs-all-the-icons)
 
   (use-package treemacs-evil
