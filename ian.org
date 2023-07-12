@@ -1224,6 +1224,7 @@ I also write Zsh scripts and Emacs doesn't detect automatically I think
           (lambda ()
               (flyspell-mode 1)))
 
+  (add-hook 'salt-mode-hook 'highlight-indent-guides-mode)
 
   (general-define-key
    :states  'normal
