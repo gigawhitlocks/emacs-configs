@@ -1562,9 +1562,14 @@ Install some tools for archiving web content into Org
 
   ;; todo states
   (setq org-todo-keywords
-        '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)")
-          (sequence "QUESTION(q)" "|" "ANSWERED(a)")
-          (sequence "AGENDA(a)"   "|" "DONE(d)" )))
+        '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
+          (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
+          (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
+
+  ;; todo faces
+  (setq org-todo-keyword-faces
+        '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
+          ("WAITING" . org-warning)))
 
   ;; enable org-protocol
   (require 'org-protocol)
