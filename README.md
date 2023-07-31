@@ -312,7 +312,7 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 
 ## Emoji 🙏
 
-Provided by [emojify](https://github.com/iqbalansari/emacs-emojify).
+Provided by [emojify](https://github.com/iqbalansari/emacs-emojify). Run `emojify-download-emoji`
 
 ```emacs-lisp
 ;; 🙌 Emoji! 🙌
@@ -1027,7 +1027,7 @@ Tree-sitter reads the AST to provide better syntax highlighting
 ```emacs-lisp
 (use-package yaml-mode)
 (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
-(add-hook 'yaml-mode-hook 'origami-mode)
+;;(add-hook 'yaml-mode-hook 'origami-mode)
 
 (general-define-key
  :states  'normal
@@ -1438,6 +1438,7 @@ I also write Zsh scripts and Emacs doesn't detect automatically I think
 	(lambda ()
 	    (flyspell-mode 1)))
 
+(add-hook 'salt-mode-hook 'highlight-indent-guides-mode)
 
 (general-define-key
  :states  'normal
@@ -1808,9 +1809,14 @@ Install some tools for archiving web content into Org
 
 ;; todo states
 (setq org-todo-keywords
-      '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)")
-	(sequence "QUESTION(q)" "|" "ANSWERED(a)")
-	(sequence "AGENDA(a)"   "|" "DONE(d)" )))
+      '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
+	(sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
+	(sequence "QUESTION(q)" "|" "ANSWERED(a)")))
+
+;; todo faces
+(setq org-todo-keyword-faces
+      '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
+	("WAITING" . org-warning)))
 
 ;; enable org-protocol
 (require 'org-protocol)
@@ -2583,7 +2589,7 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 
 # Compiling Emacs from Source
 
-Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I likhttps://nypost.com/2022/08/05/amazing-space-telescope-image-was-actually-a-slice-of-chorizo/e
+Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I like
 
 ```shell
 ./autogen.sh
