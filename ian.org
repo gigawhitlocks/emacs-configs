@@ -41,7 +41,7 @@ Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds t
          (load-path (append (list org-dir org-contrib-dir)
                             (or load-path nil))))
     ;; load up Org-mode and Org-babel
-    ;;(require 'org-install)
+    (require 'org-install)
     (require 'ob-tangle))
 
   ;; load up all literate org-mode files in this directory
@@ -842,10 +842,25 @@ I had to edit a few faces with Customize. Some notes:
 2. Thus, ~lsp-ui-doc-background~ is set via ~M-x customize-face~ to inherit from (match) ~markdown-code-face~ and saved in ~.emacs-custom.el~
 
 ** Tree Sitter
+Tree-sitter reads the AST to provide better syntax highlighting
+#+begin_src emacs-lisp
+  (use-package tree-sitter
+    :diminish)
 
-Tree-Sitter is now supported natively
-*** TODO update config to use -ts-modes etc
-https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter
+  (use-package tree-sitter-langs)
+
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+
+  (global-tree-sitter-mode)
+
+  (use-package tree-sitter-langs
+    :ensure t
+    :after tree-sitter
+    :config
+    (tree-sitter-require 'tsx)
+    (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . tsx)))
+
+#+end_src
 
 ** YAML
 #+BEGIN_SRC emacs-lisp
@@ -1701,6 +1716,7 @@ First use this ~.desktop~ file to register a handler for the new protocol scheme
   Icon=emacs
   Type=Application
   Exec=/home/ian/bin/org-protocol %u
+  #Exec=emacsclient -- %u
   Terminal=false
   StartupWMClass=Emacs
   MimeType=x-scheme-handler/org-protocol;
@@ -1726,8 +1742,7 @@ For now this is extremely rudimentary and I will improve it as needed.
 
 2. Add an entry to ~org-protocol-project-alist~, defined in the local machine's hostname-specific config found in ~local/~. An example can be found on the Worg page above, but here it is again for easy reference:
    
- #+EXAMPLE
-#+BEGIN_SRC emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle no
 (setq org-protocol-project-alist
       '(("Worg"
          :base-url "https://orgmode.org/worg/"
@@ -1739,8 +1754,7 @@ For now this is extremely rudimentary and I will improve it as needed.
          :working-directory "/home/user/org/"
          :online-suffix ".php"
          :working-suffix ".org")))
-#+END_SRC
-#+END_EXAMPLE
+#+end_src
 
 N.B. this code block does **not** get tangled into ~ian.el~.
 
@@ -2210,6 +2224,6 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I like 
 #+BEGIN_SRC shell
 ./autogen.sh
-sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo libtree-sitter-dev
-./configure --with-imagemagick --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils --with-x --with-tree-sitter --without-toolkit-scroll-bars
+sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo
+./configure --without-toolkit-scroll-bars --with-imagemagick --with-x --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils
 #+END_SRC
