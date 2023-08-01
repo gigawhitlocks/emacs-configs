@@ -865,25 +865,10 @@ I had to edit a few faces with Customize. Some notes:
 2. Thus, ~lsp-ui-doc-background~ is set via ~M-x customize-face~ to inherit from (match) ~markdown-code-face~ and saved in ~.emacs-custom.el~
 
 ** Tree Sitter
-Tree-sitter reads the AST to provide better syntax highlighting
-#+begin_src emacs-lisp
-  (use-package tree-sitter
-    :diminish)
 
-  (use-package tree-sitter-langs)
-
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-
-  (global-tree-sitter-mode)
-
-  (use-package tree-sitter-langs
-    :ensure t
-    :after tree-sitter
-    :config
-    (tree-sitter-require 'tsx)
-    (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . tsx)))
-
-#+end_src
+Tree-Sitter is now supported natively
+*** TODO update config to use -ts-modes etc
+https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter
 
 ** YAML
 #+BEGIN_SRC emacs-lisp
@@ -2254,6 +2239,6 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I like 
 #+BEGIN_SRC shell
 ./autogen.sh
-sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo
-./configure --without-toolkit-scroll-bars --with-imagemagick --with-x --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils
+sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo libtree-sitter-dev
+./configure --with-imagemagick --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils --with-x --with-tree-sitter --without-toolkit-scroll-bars
 #+END_SRC
