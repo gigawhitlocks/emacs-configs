@@ -19,7 +19,6 @@
        (load-path (append (list org-dir org-contrib-dir)
                           (or load-path nil))))
   ;; load up Org-mode and Org-babel
-  (require 'org-install)
   (require 'ob-tangle))
 
 ;; load up all literate org-mode files in this directory
