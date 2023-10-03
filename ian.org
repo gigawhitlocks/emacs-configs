@@ -1281,7 +1281,9 @@ https://github.com/p3r7/awesome-elisp
 [[https://github.com/abo-abo/lispy]]
 
 ** Robot
-ugh, Robot test framework files -- I hate Robot and think it's fucking trash, but sometimes I have to edit it anyway
+ugh, Robot test framework files -- I find Robot extremely frustrating due to its particularly egregious use of whitespace separators. I always wind up trying to find that spot where I accidentally only inserted one space, instead of two or three.
+
+Oh well.
 #+begin_src emacs-lisp
  (use-package robot-mode) 
 #+end_src
