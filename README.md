@@ -29,17 +29,16 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
-		 "lisp" (expand-file-name
-			 "org" (expand-file-name
-				"src" dotfiles-dir))))
+                 "lisp" (expand-file-name
+                         "org" (expand-file-name
+                                "src" dotfiles-dir))))
        (org-contrib-dir (expand-file-name
-			 "lisp" (expand-file-name
-				 "contrib" (expand-file-name
-					    ".." org-dir))))
+                         "lisp" (expand-file-name
+                                 "contrib" (expand-file-name
+                                            ".." org-dir))))
        (load-path (append (list org-dir org-contrib-dir)
-			  (or load-path nil))))
+                          (or load-path nil))))
   ;; load up Org-mode and Org-babel
-  (require 'org-install)
   (require 'ob-tangle))
 
 ;; load up all literate org-mode files in this directory
@@ -77,8 +76,8 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-			 ("melpa" . "https://melpa.org/packages/")
-			 ("org" . "http://orgmode.org/elpa/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("org" . "http://orgmode.org/elpa/")))
 (package-initialize)
 
 ;; Now install use-package to enable us to use it
@@ -161,8 +160,8 @@ First install the theme pack:
     :config
     ;; Global settings (defaults)
     (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-	  doom-themes-enable-italic t
-	  ) ; if nil, italics is universally disabled
+          doom-themes-enable-italic t
+          ) ; if nil, italics is universally disabled
     ;; Corrects (and improves) org-mode's native fontification.
     (doom-themes-org-config)
 )
@@ -185,51 +184,51 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
 
     ```emacs-lisp
     (defvar light-theme-list '(doom-one-light
-    			   doom-acario-light
-    			   doom-fairy-floss
-    			   doom-flatwhite
-    			   doom-opera-light
-    			   doom-gruvbox-light
-    			   doom-horizon))
+                               doom-acario-light
+                               doom-fairy-floss
+                               doom-flatwhite
+                               doom-opera-light
+                               doom-gruvbox-light
+                               doom-horizon))
     ```
 
 -   Dark themes
 
     ```emacs-lisp
     (defvar dark-theme-list '(doom-Iosvkem
-    			  doom-challenger-deep
-    			  doom-city-lights
-    			  doom-dark+
-    			  doom-dracula
-    			  doom-ephemeral
-    			  doom-fairy-floss
-    			  doom-gruvbox
-    			  doom-henna
-    			  doom-horizon
-    			  doom-laserwave
-    			  doom-material
-    			  doom-miramare
-    			  doom-molokai
-    			  doom-monokai-classic
-    			  doom-monokai-pro
-    			  doom-moonlight
-    			  doom-nord
-    			  doom-nova
-    			  doom-oceanic-next
-    			  doom-old-hope
-    			  doom-one
-    			  doom-opera
-    			  doom-outrun-electric
-    			  doom-palenight
-    			  doom-peacock
-    			  doom-plain
-    			  doom-rouge
-    			  doom-snazzy
-    			  doom-solarized-dark
-    			  doom-spacegrey
-    			  doom-tomorrow-night
-    			  doom-vibrant
-    			  doom-zenburn))
+                              doom-challenger-deep
+                              doom-city-lights
+                              doom-dark+
+                              doom-dracula
+                              doom-ephemeral
+                              doom-fairy-floss
+                              doom-gruvbox
+                              doom-henna
+                              doom-horizon
+                              doom-laserwave
+                              doom-material
+                              doom-miramare
+                              doom-molokai
+                              doom-monokai-classic
+                              doom-monokai-pro
+                              doom-moonlight
+                              doom-nord
+                              doom-nova
+                              doom-oceanic-next
+                              doom-old-hope
+                              doom-one
+                              doom-opera
+                              doom-outrun-electric
+                              doom-palenight
+                              doom-peacock
+                              doom-plain
+                              doom-rouge
+                              doom-snazzy
+                              doom-solarized-dark
+                              doom-spacegrey
+                              doom-tomorrow-night
+                              doom-vibrant
+                              doom-zenburn))
     ```
 
 
@@ -241,10 +240,10 @@ For running at startup
 (defun set-theme-at-specific-times ()
   "Set light theme at 10AM, dark theme at 4PM"
   (let ((now (decode-time))
-	(light-theme (nth (random (length light-theme-list)) light-theme-list))
-	(dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
+        (light-theme (nth (random (length light-theme-list)) light-theme-list))
+        (dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
     (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
-	(load-theme light-theme t)
+        (load-theme light-theme t)
       (load-theme dark-theme t))))
 
 (add-hook 'after-init-hook 'set-theme-at-specific-times)
@@ -261,17 +260,18 @@ Spawns Helm and allows you to pick, but from the appropriate list for the time o
 (defun choose-theme-impl (light-theme-list dark-theme-list)
   "Choose a theme from the appropriate list based on the current time"
   (let* ((now (decode-time))
-	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
-		     light-theme-list
-		   dark-theme-list))
-	 (theme-names (mapcar 'symbol-name themes))
-	 (theme-name (helm :sources (helm-build-sync-source "Themes"
-				      :candidates theme-names)
-			   :buffer "*helm choose-theme*")))
+         (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
+                     light-theme-list
+                   dark-theme-list))
+         (theme-names (mapcar 'symbol-name themes))
+         (theme-name (helm :sources (helm-build-sync-source "Themes"
+                                      :candidates theme-names)
+                           :buffer "*helm choose-theme*")))
     (intern theme-name)))
 ```
 
-Entrypoint
+
+### Entrypoint
 
 ```emacs-lisp
 (defun choose-theme ()
@@ -297,6 +297,20 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 ```
 
 
+## Spacious Padding
+
+More eye candy:
+
+> It increases the padding or spacing of frames and windows on demand. The idea with this package is to provide the means to easily toggle between terse and spacious views, depending on the user’s needs.
+
+Don't know if I'll keep this one but I wanted to try it out
+
+```emacs-lisp
+(use-package spacious-padding
+  :hook (after-init spacious-padding-mode))
+```
+
+
 ## Doom Modeline
 
 The Doom Emacs project also provides a fancy modeline to go along with their themes.
@@ -304,15 +318,15 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 ```emacs-lisp
 (use-package doom-modeline
   :config       (doom-modeline-def-modeline 'main
-		  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-		  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
+                  '(bar matches buffer-info remote-host buffer-position parrot selection-info)
+                  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
   :hook (after-init . doom-modeline-mode))
 ```
 
 
 ## Emoji 🙏
 
-Provided by [emojify](https://github.com/iqbalansari/emacs-emojify).
+Provided by [emojify](https://github.com/iqbalansari/emacs-emojify). Run `emojify-download-emoji`
 
 ```emacs-lisp
 ;; 🙌 Emoji! 🙌
@@ -336,7 +350,7 @@ Emacs comes with `recentf-mode` which helps me remember what I was doing after I
 
 ;; ignore the elpa directory
 (add-to-list 'recentf-exclude
-	     "elpa/*")
+             "elpa/*")
 ```
 
 
@@ -413,7 +427,7 @@ The impression that I got was that `project.el` is a first-party replacement for
   ;; when it saves its backup files
   (defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
     (let ((message-log-max nil)
-	  (inhibit-message t))
+          (inhibit-message t))
       (apply undo-tree-save-history args)))
 
   (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
@@ -548,7 +562,7 @@ If you run a command through `M-x compile` by default Emacs prints ANSI codes li
        compilation-filter-start (point))))
 
   (add-hook 'compilation-filter-hook
-	    #'colorize-compilation))
+            #'colorize-compilation))
 
 (ansi)
 ```
@@ -574,8 +588,8 @@ A function for toggling the screaming on and off. I love scream-when-finished bu
   (interactive)
   (if (eq isw-should-play-chime t)
       (progn
-	(setq isw-should-play-chime nil)
-	(message "Screaming disabled."))
+        (setq isw-should-play-chime nil)
+        (message "Screaming disabled."))
     (progn
       (setq isw-should-play-chime t)
       (message "Screaming enabled."))))
@@ -599,9 +613,9 @@ Actually, looking at the project page, the icons don't seem to be working for me
   (setq dashboard-startup-banner 'logo)
   (setq dashboard-center-content t)
   (setq dashboard-items '((recents  . 5)
-			  (bookmarks . 5)
-			  (projects . 5))
-	)
+                          (bookmarks . 5)
+                          (projects . 5))
+        )
   )
 
 (setq dashboard-set-footer nil)
@@ -740,7 +754,7 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
   :init (global-flycheck-mode))
 
 (add-hook 'flycheck-error-list-mode-hook
-	  'visual-line-mode)
+          'visual-line-mode)
 ```
 
 
@@ -913,15 +927,15 @@ FiraCode offers ligatures for programming symbols, which is cool.
 
   ;; ;; Enable ligatures in programming modes                                                           
   (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-"
-				       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
-				       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
-				       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
-				       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
-				       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
-				       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
-				       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
-				       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-				       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
 
   ;; disabled combinations that could be ligatures
   ;;  "::"
@@ -1027,7 +1041,7 @@ Tree-sitter reads the AST to provide better syntax highlighting
 ```emacs-lisp
 (use-package yaml-mode)
 (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
-(add-hook 'yaml-mode-hook 'origami-mode)
+;;(add-hook 'yaml-mode-hook 'origami-mode)
 
 (general-define-key
  :states  'normal
@@ -1053,8 +1067,8 @@ whatever that is
 (use-package markdown-mode
   :ensure t
   :mode (("README\\.md\\'" . gfm-mode)
-	 ("\\.md\\'" . gfm-mode)
-	 ("\\.markdown\\'" . gfm-mode)))
+         ("\\.md\\'" . gfm-mode)
+         ("\\.markdown\\'" . gfm-mode)))
 (add-hook 'markdown-mode-hook 'visual-line-mode)
 (add-hook 'markdown-mode-hook 'variable-pitch-mode)
 
@@ -1133,14 +1147,14 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
   "Add $GOPATH/pkg/mod to the 'library path'."
   ;; stops lsp from continually asking if Go projects should be imported
   (setq lsp-clients-go-library-directories
-	(list
-	 "/usr"
-	 (concat (getenv "GOPATH") "/pkg/mod"))))
+        (list
+         "/usr"
+         (concat (getenv "GOPATH") "/pkg/mod"))))
 
 (use-package go-mode
   :hook ((go-mode . lsp-deferred)
-	 (go-mode . set-gopls-lib-dirs)
-	 (go-mode . yas-minor-mode))
+         (go-mode . set-gopls-lib-dirs)
+         (go-mode . yas-minor-mode))
   :config
   ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
   ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
@@ -1268,15 +1282,15 @@ I got jealous of a coworker with an IDE who apparently has an interactive debugg
 ```emacs-lisp
 ;; disable "Organize Imports" warning that never goes away
 (add-hook 'go-mode-hook
-	  (lambda ()
-	    ;; Go likes origami-mode
-	    ;; (origami-mode)
-	    ;; lsp ui sideline code actions are annoying in Go
-	    (setq-local lsp-ui-sideline-show-code-actions nil)))
+          (lambda ()
+            ;; Go likes origami-mode
+            ;; (origami-mode)
+            ;; lsp ui sideline code actions are annoying in Go
+            (setq-local lsp-ui-sideline-show-code-actions nil)))
 
 ;; sets the visual tab width to 2 spaces per tab in Go buffers
 (add-hook 'go-mode-hook (lambda ()
-			  (set (make-local-variable 'tab-width) 2)))
+                          (set (make-local-variable 'tab-width) 2)))
 
 
 (defun lsp-go-install-save-hooks ()
@@ -1344,12 +1358,12 @@ So yay for `web-mode`!
 ```emacs-lisp
 (use-package web-mode
   :mode (("\\.html$" . web-mode)
-	 ("\\.js$"   . web-mode)
-	 ("\\.jsx$"  . web-mode)
-	 ("\\.ts$"   . web-mode)
-	 ("\\.tsx$"  . web-mode)
-	 ("\\.css$"  . web-mode)
-	 ("\\.svelte$" . web-mode))
+         ("\\.js$"   . web-mode)
+         ("\\.jsx$"  . web-mode)
+         ("\\.ts$"   . web-mode)
+         ("\\.tsx$"  . web-mode)
+         ("\\.css$"  . web-mode)
+         ("\\.svelte$" . web-mode))
   :hook
   ((web-mode . lsp-deferred))
 
@@ -1387,7 +1401,7 @@ Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 
 ;;(setq web-mode-engines-alist '(
 ;;        ("go" . ".*example_project_dir/.*\\.html\\'")
-	;; add more projects here..
+        ;; add more projects here..
 ;;        ))
 ```
 
@@ -1416,8 +1430,8 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 
 ```emacs-lisp
 (add-hook 'sh-mode-hook
-	  (lambda ()
-	    (defvar-local indent-tabs-mode nil)))
+          (lambda ()
+            (defvar-local indent-tabs-mode nil)))
 ```
 
 
@@ -1435,9 +1449,10 @@ I also write Zsh scripts and Emacs doesn't detect automatically I think
 ```emacs-lisp
 (use-package salt-mode)
 (add-hook 'salt-mode-hook
-	(lambda ()
-	    (flyspell-mode 1)))
+        (lambda ()
+            (flyspell-mode 1)))
 
+(add-hook 'salt-mode-hook 'highlight-indent-guides-mode)
 
 (general-define-key
  :states  'normal
@@ -1463,7 +1478,7 @@ I also write Zsh scripts and Emacs doesn't detect automatically I think
   )
 ;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
 (add-hook 'elixir-mode-hook
-	  (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+          (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 ```
 
 
@@ -1503,6 +1518,15 @@ I don't have any custom configuration for Emacs Lisp yet, but I am going to use 
 <https://github.com/p3r7/awesome-elisp#lispy> <https://github.com/abo-abo/lispy>
 
 
+## Robot
+
+ugh, Robot test framework files &#x2013; I hate Robot and think it's fucking trash, but sometimes I have to edit it anyway
+
+```emacs-lisp
+(use-package robot-mode) 
+```
+
+
 # Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -1513,20 +1537,20 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (setq-default adaptive-wrap-extra-indent 2)
   (defun adaptive-and-visual-line-mode (hook)
     (add-hook hook (lambda ()
-		      (progn
-			(visual-line-mode)
-			(adaptive-wrap-prefix-mode)))))
+                      (progn
+                        (visual-line-mode)
+                        (adaptive-wrap-prefix-mode)))))
 
   (mapc 'adaptive-and-visual-line-mode
-	(list
-	 'markdown-mode
-	 'go-mode-hook
-	 'js2-mode-hook
-	 'yaml-mode-hook
-	 'rjsx-mode-hook))
+        (list
+         'markdown-mode
+         'go-mode-hook
+         'js2-mode-hook
+         'yaml-mode-hook
+         'rjsx-mode-hook))
 
   (add-hook 'compilation-mode-hook
-	    #'adaptive-wrap-prefix-mode)
+            #'adaptive-wrap-prefix-mode)
   (setq compilation-scroll-output t))
 ```
 
@@ -1571,15 +1595,15 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
     (setq display-line-numbers-type 'relative))
   (if (equal display-line-numbers-mode t)
       (progn
-	(display-line-numbers-mode -1)
-	(display-line-numbers-mode))))
+        (display-line-numbers-mode -1)
+        (display-line-numbers-mode))))
 
 (defun random-theme (light-theme-list dark-theme-list)
   "Choose a random theme from the appropriate list based on the current time"
   (let* ((now (decode-time))
-	 (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
-		     light-theme-list
-		   dark-theme-list)))
+         (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
+                     light-theme-list
+                   dark-theme-list)))
     (nth (random (length themes)) themes)))
 
 (defun load-next-favorite-theme ()
@@ -1616,11 +1640,11 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "br"     'revert-buffer
   "bd"     'evil-delete-buffer
   "ds"     (defun ian-desktop-save ()
-	     (interactive)
-	     (desktop-save "~/desktop-saves"))
+             (interactive)
+             (desktop-save "~/desktop-saves"))
   "dr"     (defun ian-desktop-read ()
-	     (interactive)
-	     (desktop-read "~/desktop-saves"))
+             (interactive)
+             (desktop-read "~/desktop-saves"))
   "cc"     'projectile-compile-project
   "ec"     'flycheck-clear
   "el"     'flycheck-list-errors
@@ -1660,26 +1684,26 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "qz"     'delete-frame
   "ta"     'treemacs-add-project-to-workspace
   "thi"    (defun ian-theme-information ()
-	     "Display the last applied theme."
-	     (interactive)
-	     (let ((last-theme (car (reverse custom-enabled-themes))))
-	       (if last-theme
-		   (message "Last applied theme: %s" last-theme)
-		 (message "No themes are currently enabled."))))
+             "Display the last applied theme."
+             (interactive)
+             (let ((last-theme (car (reverse custom-enabled-themes))))
+               (if last-theme
+                   (message "Last applied theme: %s" last-theme)
+                 (message "No themes are currently enabled."))))
   "thr"    'load-random-theme
   "thl"    (defun ian-load-light-theme ()
-	     (interactive)
-	     (load-theme
-	      (nth
-	       (random
-		(length light-theme-list)) light-theme-list)))
+             (interactive)
+             (load-theme
+              (nth
+               (random
+                (length light-theme-list)) light-theme-list)))
   "thd"    (defun ian-load-dark-theme ()
-	     (interactive)
-	     (load-theme
-	      (nth
-	       (random
-		(length
-		 dark-theme-list)) dark-theme-list)))
+             (interactive)
+             (load-theme
+              (nth
+               (random
+                (length
+                 dark-theme-list)) dark-theme-list)))
   "thh"    'choose-theme
   "thc"    'load-theme
   "thn"    'load-next-favorite-theme
@@ -1768,10 +1792,10 @@ Install some tools for archiving web content into Org
 
 ;; enable execution of languages from Babel
 (org-babel-do-load-languages 'org-babel-load-languages
-			     '(
-			       (shell . t)
-			       )
-			     )
+                             '(
+                               (shell . t)
+                               )
+                             )
 
 (my-local-leader-def
   :states  'normal
@@ -1808,9 +1832,14 @@ Install some tools for archiving web content into Org
 
 ;; todo states
 (setq org-todo-keywords
-      '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)")
-	(sequence "QUESTION(q)" "|" "ANSWERED(a)")
-	(sequence "AGENDA(a)"   "|" "DONE(d)" )))
+      '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
+        (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
+        (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
+
+;; todo faces
+(setq org-todo-keyword-faces
+      '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
+        ("WAITING" . org-warning)))
 
 ;; enable org-protocol
 (require 'org-protocol)
@@ -1862,77 +1891,77 @@ made unique when necessary."
   "Like `org-export-get-reference', except uses heading titles instead of random numbers."
   (let ((cache (plist-get info :internal-references)))
     (or (car (rassq datum cache))
-	(let* ((crossrefs (plist-get info :crossrefs))
-	       (cells (org-export-search-cells datum))
-	       ;; Preserve any pre-existing association between
-	       ;; a search cell and a reference, i.e., when some
-	       ;; previously published document referenced a location
-	       ;; within current file (see
-	       ;; `org-publish-resolve-external-link').
-	       ;;
-	       ;; However, there is no guarantee that search cells are
-	       ;; unique, e.g., there might be duplicate custom ID or
-	       ;; two headings with the same title in the file.
-	       ;;
-	       ;; As a consequence, before re-using any reference to
-	       ;; an element or object, we check that it doesn't refer
-	       ;; to a previous element or object.
-	       (new (or (cl-some
-			 (lambda (cell)
-			   (let ((stored (cdr (assoc cell crossrefs))))
-			     (when stored
-			       (let ((old (org-export-format-reference stored)))
-				 (and (not (assoc old cache)) stored)))))
-			 cells)
-			(when (org-element-property :raw-value datum)
-			  ;; Heading with a title
-			  (unpackaged/org-export-new-title-reference datum cache))
-			;; NOTE: This probably breaks some Org Export
-			;; feature, but if it does what I need, fine.
-			(org-export-format-reference
-			 (org-export-new-reference cache))))
-	       (reference-string new))
-	  ;; Cache contains both data already associated to
-	  ;; a reference and in-use internal references, so as to make
-	  ;; unique references.
-	  (dolist (cell cells) (push (cons cell new) cache))
-	  ;; Retain a direct association between reference string and
-	  ;; DATUM since (1) not every object or element can be given
-	  ;; a search cell (2) it permits quick lookup.
-	  (push (cons reference-string datum) cache)
-	  (plist-put info :internal-references cache)
-	  reference-string))))
+        (let* ((crossrefs (plist-get info :crossrefs))
+               (cells (org-export-search-cells datum))
+               ;; Preserve any pre-existing association between
+               ;; a search cell and a reference, i.e., when some
+               ;; previously published document referenced a location
+               ;; within current file (see
+               ;; `org-publish-resolve-external-link').
+               ;;
+               ;; However, there is no guarantee that search cells are
+               ;; unique, e.g., there might be duplicate custom ID or
+               ;; two headings with the same title in the file.
+               ;;
+               ;; As a consequence, before re-using any reference to
+               ;; an element or object, we check that it doesn't refer
+               ;; to a previous element or object.
+               (new (or (cl-some
+                         (lambda (cell)
+                           (let ((stored (cdr (assoc cell crossrefs))))
+                             (when stored
+                               (let ((old (org-export-format-reference stored)))
+                                 (and (not (assoc old cache)) stored)))))
+                         cells)
+                        (when (org-element-property :raw-value datum)
+                          ;; Heading with a title
+                          (unpackaged/org-export-new-title-reference datum cache))
+                        ;; NOTE: This probably breaks some Org Export
+                        ;; feature, but if it does what I need, fine.
+                        (org-export-format-reference
+                         (org-export-new-reference cache))))
+               (reference-string new))
+          ;; Cache contains both data already associated to
+          ;; a reference and in-use internal references, so as to make
+          ;; unique references.
+          (dolist (cell cells) (push (cons cell new) cache))
+          ;; Retain a direct association between reference string and
+          ;; DATUM since (1) not every object or element can be given
+          ;; a search cell (2) it permits quick lookup.
+          (push (cons reference-string datum) cache)
+          (plist-put info :internal-references cache)
+          reference-string))))
 
 (defun unpackaged/org-export-new-title-reference (datum cache)
   "Return new reference for DATUM that is unique in CACHE."
   (cl-macrolet ((inc-suffixf (place)
-			     `(progn
-				(string-match (rx bos
-						  (minimal-match (group (1+ anything)))
-						  (optional "--" (group (1+ digit)))
-						  eos)
-					      ,place)
-				;; HACK: `s1' instead of a gensym.
-				(-let* (((s1 suffix) (list (match-string 1 ,place)
-							   (match-string 2 ,place)))
-					(suffix (if suffix
-						    (string-to-number suffix)
-						  0)))
-				  (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
+                             `(progn
+                                (string-match (rx bos
+                                                  (minimal-match (group (1+ anything)))
+                                                  (optional "--" (group (1+ digit)))
+                                                  eos)
+                                              ,place)
+                                ;; HACK: `s1' instead of a gensym.
+                                (-let* (((s1 suffix) (list (match-string 1 ,place)
+                                                           (match-string 2 ,place)))
+                                        (suffix (if suffix
+                                                    (string-to-number suffix)
+                                                  0)))
+                                  (setf ,place (format "%s--%s" s1 (cl-incf suffix)))))))
     (let* ((title (org-element-property :raw-value datum))
-	   (ref (url-hexify-string (substring-no-properties title)))
-	   (parent (org-element-property :parent datum)))
+           (ref (url-hexify-string (substring-no-properties title)))
+           (parent (org-element-property :parent datum)))
       (while (--any (equal ref (car it))
-		    cache)
-	;; Title not unique: make it so.
-	(if parent
-	    ;; Append ancestor title.
-	    (setf title (concat (org-element-property :raw-value parent)
-				"--" title)
-		  ref (url-hexify-string (substring-no-properties title))
-		  parent (org-element-property :parent parent))
-	  ;; No more ancestors: add and increment a number.
-	  (inc-suffixf ref)))
+                    cache)
+        ;; Title not unique: make it so.
+        (if parent
+            ;; Append ancestor title.
+            (setf title (concat (org-element-property :raw-value parent)
+                                "--" title)
+                  ref (url-hexify-string (substring-no-properties title))
+                  parent (org-element-property :parent parent))
+          ;; No more ancestors: add and increment a number.
+          (inc-suffixf ref)))
       ref)))
 
 (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
@@ -2006,15 +2035,15 @@ For now this is extremely rudimentary and I will improve it as needed.
 ```emacs-lisp
 (setq org-protocol-project-alist
       '(("Worg"
-	 :base-url "https://orgmode.org/worg/"
-	 :working-directory "/home/user/worg/"
-	 :online-suffix ".html"
-	 :working-suffix ".org")
-	("My local Org-notes"
-	 :base-url "http://localhost/org/"
-	 :working-directory "/home/user/org/"
-	 :online-suffix ".php"
-	 :working-suffix ".org")))
+         :base-url "https://orgmode.org/worg/"
+         :working-directory "/home/user/worg/"
+         :online-suffix ".html"
+         :working-suffix ".org")
+        ("My local Org-notes"
+         :base-url "http://localhost/org/"
+         :working-directory "/home/user/org/"
+         :online-suffix ".php"
+         :working-suffix ".org")))
 ```
 
 N.B. this code block does ****not**** get tangled into `ian.el`.
@@ -2093,11 +2122,11 @@ I definitely lifted this from somewhere but failed to document where I got it :\
     (set-frame-parameter
      nil 'alpha
      (if (eql (cond ((numberp alpha) alpha)
-		    ((numberp (cdr alpha)) (cdr alpha))
-		    ;; Also handle undocumented (<active> <inactive>) form.
-		    ((numberp (cadr alpha)) (cadr alpha)))
-	      100)
-	 '95 '(100 . 100)))))
+                    ((numberp (cdr alpha)) (cdr alpha))
+                    ;; Also handle undocumented (<active> <inactive>) form.
+                    ((numberp (cadr alpha)) (cadr alpha)))
+              100)
+         '95 '(100 . 100)))))
 ```
 
 
@@ -2216,14 +2245,14 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 ```emacs-lisp
 (setq ring-bell-function
       (lambda ()
-	(let ((orig-fg (face-foreground 'mode-line)))
-	  ;; change the flash color here
-	  ;; overrides themes :P
-	  ;; guess that's one way to do it
-	  (set-face-foreground 'mode-line "#F2804F")
-	  (run-with-idle-timer 0.1 nil
-			       (lambda (fg) (set-face-foreground 'mode-line fg))
-			       orig-fg))))
+        (let ((orig-fg (face-foreground 'mode-line)))
+          ;; change the flash color here
+          ;; overrides themes :P
+          ;; guess that's one way to do it
+          (set-face-foreground 'mode-line "#F2804F")
+          (run-with-idle-timer 0.1 nil
+                               (lambda (fg) (set-face-foreground 'mode-line fg))
+                               orig-fg))))
 ```
 
 (from Emacs wiki)
@@ -2239,8 +2268,8 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 (scroll-bar-mode -1)
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
-			   '((vertical-scroll-bars . nil)
-			     (horizontal-scroll-bars . nil))))
+                           '((vertical-scroll-bars . nil)
+                             (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 ```
 
@@ -2321,7 +2350,7 @@ For those of us who did away with the caps lock button but write SQL sometimes
   "End swapping windows using mouse events."
   (interactive "e")
   (let ((origin window-swap-origin)
-	(target (posn-window (event-end event))))
+        (target (posn-window (event-end event))))
     (window-swap-states origin target))
   (setq window-swap-origin nil))
 
@@ -2338,14 +2367,14 @@ This defines a command that will export this file to GitHub flavored Markdown an
 (defun render-configfile-for-web ()
   (interactive)
   (when (string=
-	 (file-name-nondirectory (buffer-file-name))
-	 "ian.org")
+         (file-name-nondirectory (buffer-file-name))
+         "ian.org")
 
     (org-html-export-to-html)
     (org-gfm-export-to-markdown)
 
     (if (find-buffer-visiting "~/.emacs.d/README.md")
-	(kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
+        (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
 
     (delete-file "README.md" t)
     (rename-file "ian.md" "README.md")
@@ -2382,7 +2411,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 ```emacs-lisp
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right
-		 (shell-command-to-string "hostname"))))
+                 (shell-command-to-string "hostname"))))
 
    (progn
      (org-babel-tangle-file
@@ -2527,7 +2556,7 @@ if pgrep -U $(id -u) emacsclient > /dev/null; then running=true; fi
 for arg in "$@"; do
     if [ "$arg" = "-nw" ] || [ "$arg" = "-t" ] || [ "$arg" = "--tty" ]
     then
-	nw=true
+        nw=true
     fi
 done
 
@@ -2538,11 +2567,11 @@ fi
 if [ "$#" -gt "0" ]; then
     # if 'em -' open standard input (e.g. pipe)
     if [[ "$1" == "-" ]]; then
-	TMP="$(mktemp /tmp/emacsstdin-XXX)"
-	cat >$TMP
-	args=($args --eval '(let ((b (generate-new-buffer "*stdin*"))) (switch-to-buffer b) (insert-file-contents "'${TMP}'") (delete-file "'${TMP}'"))')
+        TMP="$(mktemp /tmp/emacsstdin-XXX)"
+        cat >$TMP
+        args=($args --eval '(let ((b (generate-new-buffer "*stdin*"))) (switch-to-buffer b) (insert-file-contents "'${TMP}'") (delete-file "'${TMP}'"))')
     else
-	args=($@ $args)
+        args=($@ $args)
     fi
 fi
 
@@ -2583,7 +2612,7 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 
 # Compiling Emacs from Source
 
-Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I likhttps://nypost.com/2022/08/05/amazing-space-telescope-image-was-actually-a-slice-of-chorizo/e
+Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I like
 
 ```shell
 ./autogen.sh

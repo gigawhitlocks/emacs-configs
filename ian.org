@@ -244,7 +244,7 @@ First the underlying implementation:
                              :buffer "*helm choose-theme*")))
       (intern theme-name)))
 #+end_src
-Entrypoint
+*** Entrypoint
 #+begin_src emacs-lisp
   (defun choose-theme ()
     "Choose a theme interactively using Helm"
@@ -262,6 +262,18 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
   (push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
 
   (solaire-global-mode +1)
+#+end_src
+** Spacious Padding
+More eye candy:
+#+begin_quote
+It increases the padding or spacing of frames and windows on demand.
+The idea with this package is to provide the means to easily toggle between terse and spacious views, depending on the user’s needs.
+#+end_quote
+
+Don't know if I'll keep this one but I wanted to try it out
+#+begin_src emacs-lisp
+    (use-package spacious-padding
+      :hook (after-init spacious-padding-mode))
 #+end_src
 
 ** Doom Modeline
