@@ -26,7 +26,7 @@
  '(objed-cursor-color "#ff665c")
  '(org-agenda-files '("~/notes/notes.org" "/home/ian/.emacs.d/ian.org"))
  '(package-selected-packages
-   '(spacious-padding robot-mode treemacs-magit sqlite3 caps-lock gemini-mode elpher browse-at-remote htmlize ox-gfm org-web-tools ox-jira company-org-block org-download evil-org adaptive-wrap sql-indent elixir-mode vyper-mode salt-mode json-mode web-mode rust-mode dap-mode gorepl-mode gotest flycheck-golangci-lint go-mode auto-virtualenv dockerfile-mode rego-mode yaml-mode tree-sitter-langs tree-sitter helm-lsp lsp-ui lsp-treemacs lsp-mode ace-jump-mode helpful wgrep-ack ack pc-bufsw highlight-indent-guides exec-path-from-shell flycheck company-quickhelp company-box company systemd restart-emacs rainbow-delimiters git-gutter prism yasnippet-snippets yasnippet dashboard which-key git-timemachine forge magit helm-ag helm-descbinds undo-tree evil-surround evil-escape evil-collection general helm-projectile emojify doom-modeline solaire-mode ef-themes doom-themes treemacs-projectile treemacs-evil treemacs-all-the-icons treemacs all-the-icons delight diminish use-package))
+   '(kubernetes-evil kubernetes spacious-padding robot-mode treemacs-magit sqlite3 caps-lock gemini-mode elpher browse-at-remote htmlize ox-gfm org-web-tools ox-jira company-org-block org-download evil-org adaptive-wrap sql-indent elixir-mode vyper-mode salt-mode json-mode web-mode rust-mode dap-mode gorepl-mode gotest flycheck-golangci-lint go-mode auto-virtualenv dockerfile-mode rego-mode yaml-mode tree-sitter-langs tree-sitter helm-lsp lsp-ui lsp-treemacs lsp-mode ace-jump-mode helpful wgrep-ack ack pc-bufsw highlight-indent-guides exec-path-from-shell flycheck company-quickhelp company-box company systemd restart-emacs rainbow-delimiters git-gutter prism yasnippet-snippets yasnippet dashboard which-key git-timemachine forge magit helm-ag helm-descbinds undo-tree evil-surround evil-escape evil-collection general helm-projectile emojify doom-modeline solaire-mode ef-themes doom-themes treemacs-projectile treemacs-evil treemacs-all-the-icons treemacs all-the-icons delight diminish use-package))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#242730"))
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])
@@ -59,5 +59,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(fringe ((t :background "#1c1d20")))
  '(lsp-ui-doc-background ((t (:inherit markdown-code-face))))
- '(tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face :slant normal)))))
+ '(tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face :slant normal))))
+ '(window-divider ((t :background "#1c1d20" :foreground "#1c1d20")))
+ '(window-divider-first-pixel ((t :background "#1c1d20" :foreground "#1c1d20")))
+ '(window-divider-last-pixel ((t :background "#1c1d20" :foreground "#1c1d20"))))
