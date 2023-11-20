@@ -694,6 +694,23 @@ Dumb jump provides an interface to grep that does a pretty good job of finding d
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
 #+end_src
+** Kubernetes Mode
+Provides an interactive Kubernetes Mode inspired by ~magit~. Since ~magit~ is one of my favorite tools, I have to try out the Kubernetes mode as well.
+#+begin_src emacs-lisp
+  (use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview))
+  ;; add this config if I experience issues with Emacs locking up
+  ;;:config
+  ;;(setq kubernetes-poll-frequency 3600
+   ;;     kubernetes-redraw-frequency 3600))
+#+end_src
+
+I need the ~evil~ compatiblity mode, too, because I run ~evil~.
+#+begin_src emacs-lisp
+  (use-package kubernetes-evil
+    :after kubernetes)
+#+end_src
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 ** FiraCode Font Installation Script
@@ -1283,7 +1300,6 @@ ugh, Robot test framework files -- I hate Robot and think it's fucking trash, bu
 #+begin_src emacs-lisp
  (use-package robot-mode) 
 #+end_src
-
 
 * Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap-prefix-mode]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
