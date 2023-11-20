@@ -273,7 +273,7 @@ The idea with this package is to provide the means to easily toggle between ters
 Don't know if I'll keep this one but I wanted to try it out
 #+begin_src emacs-lisp
     (use-package spacious-padding
-      :hook (after-init spacious-padding-mode))
+      :hook (after-init . spacious-padding-mode))
 #+end_src
 
 ** Doom Modeline
