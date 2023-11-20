@@ -687,11 +687,6 @@ Writable grep mode allows you to edit the results from running grep on a project
 #+begin_src emacs-lisp
   (use-package ace-jump-mode)
 #+end_src
-** TODO Workaround for emacs-sqlite until 29.1
-I keep getting a warning about this, and it's annoying because I'm not ready to upgrade to 29.1 but I have to add this temporary configuration setting
-#+begin_src emacs-lisp :tangle yes
-  (use-package sqlite3)
-#+end_src
 ** Dumb jump
 Dumb jump provides an interface to grep that does a pretty good job of finding definitions when a smarter backend like LSP is not available. This registers it as a backend for XREF.
 #+begin_src emacs-lisp
