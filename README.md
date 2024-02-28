@@ -307,7 +307,7 @@ Don't know if I'll keep this one but I wanted to try it out
 
 ```emacs-lisp
 (use-package spacious-padding
-  :hook (after-init spacious-padding-mode))
+  :hook (after-init . spacious-padding-mode))
 ```
 
 
@@ -826,15 +826,6 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-## TODO Workaround for emacs-sqlite until 29.1
-
-I keep getting a warning about this, and it's annoying because I'm not ready to upgrade to 29.1 but I have to add this temporary configuration setting
-
-```emacs-lisp
-(use-package sqlite3)
-```
-
-
 ## Dumb jump
 
 Dumb jump provides an interface to grep that does a pretty good job of finding definitions when a smarter backend like LSP is not available. This registers it as a backend for XREF.
@@ -843,6 +834,28 @@ Dumb jump provides an interface to grep that does a pretty good job of finding d
 (use-package dumb-jump)
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+```
+
+
+## Kubernetes Mode
+
+Provides an interactive Kubernetes Mode inspired by `magit`. Since `magit` is one of my favorite tools, I have to try out the Kubernetes mode as well.
+
+```emacs-lisp
+(use-package kubernetes
+:ensure t
+:commands (kubernetes-overview))
+;; add this config if I experience issues with Emacs locking up
+;;:config
+;;(setq kubernetes-poll-frequency 3600
+ ;;     kubernetes-redraw-frequency 3600))
+```
+
+I need the `evil` compatiblity mode, too, because I run `evil`.
+
+```emacs-lisp
+(use-package kubernetes-evil
+  :after kubernetes)
 ```
 
 
@@ -1014,26 +1027,12 @@ I had to edit a few faces with Customize. Some notes:
 
 ## Tree Sitter
 
-Tree-sitter reads the AST to provide better syntax highlighting
+Tree-Sitter is now supported natively
 
-```emacs-lisp
-(use-package tree-sitter
-  :diminish)
 
-(use-package tree-sitter-langs)
+### TODO update config to use -ts-modes etc
 
-(add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-
-(global-tree-sitter-mode)
-
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter
-  :config
-  (tree-sitter-require 'tsx)
-  (add-to-list 'tree-sitter-major-mode-language-alist '(web-mode . tsx)))
-
-```
+<https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter>
 
 
 ## YAML
@@ -1520,10 +1519,21 @@ I don't have any custom configuration for Emacs Lisp yet, but I am going to use 
 
 ## Robot
 
-ugh, Robot test framework files &#x2013; I hate Robot and think it's fucking trash, but sometimes I have to edit it anyway
+ugh, Robot test framework files &#x2013; I find Robot extremely frustrating due to its particularly egregious use of whitespace separators. I always wind up trying to find that spot where I accidentally only inserted one space, instead of two or three.
+
+Oh well.
 
 ```emacs-lisp
 (use-package robot-mode) 
+```
+
+
+## JIRA Markup
+
+Gotta eat
+
+```emacs-lisp
+(use-package jira-markup-mode)
 ```
 
 
@@ -1969,13 +1979,6 @@ made unique when necessary."
 
 
 # Miscellaneous standalone global configuration changes
-
-
-## Allow local variables marked safe to be applied without notice
-
-```emacs-lisp
-(setq enable-local-variables :safe)
-```
 
 
 ## Opening the Remote Repo in the Browser from Emacs
@@ -2616,6 +2619,6 @@ Some notes on the dependencies that I found were needed to build Emacs 28.1 on f
 
 ```shell
 ./autogen.sh
-sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo
-./configure --without-toolkit-scroll-bars --with-imagemagick --with-x --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils
+sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo libtree-sitter-dev
+./configure --with-imagemagick --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils --with-x --with-tree-sitter --without-toolkit-scroll-bars
 ```
