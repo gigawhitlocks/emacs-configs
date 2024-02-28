@@ -1717,10 +1717,6 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
 #+end_src
 
 * Miscellaneous standalone global configuration changes
-** Allow local variables marked safe to be applied without notice
-#+begin_src emacs-lisp
-  (setq enable-local-variables :safe)
-#+end_src
 ** Opening the Remote Repo in the Browser from Emacs
 [[https://github.com/rmuslimov/browse-at-remote][browse-at-remote.el]] solves this
 #+begin_src emacs-lisp
