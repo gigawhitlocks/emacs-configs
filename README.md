@@ -1405,6 +1405,31 @@ Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 ```
 
 
+## Tailwind CSS
+
+Not really a language per-se but there's a little extra tooling for it
+
+```emacs-lisp
+(use-package lsp-tailwindcss)
+```
+
+In order to use, run `M-x lsp-install-server RET tailwindcss` after `use-package` runs
+
+Finally, to use the class sorter, which is what you really want, install with `npm` (ugh):
+
+    npm -i -g rustywind
+
+What kind of name is rustywind? Sounds like a fart, guys. 💨
+
+N.B. For some reason it didn't find the binary after I got `rustywind` installed and I had to run `M-x Customize` and set the path to the binary manually.. I just searched for `rustywind` and changed the value I found from `nil`. Checking this in as part of `.emacs_custom.el` might be enough to keep this working for me basically forever, but this note is for my future self, should I be confused by this on another machine in the future.
+
+Finally, anyway, add a hook to run it on save.. should only affect buffers Tailwind buffers, I think, because it hooks through LSP
+
+```emacs-lisp
+(add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
+```
+
+
 ## JSON
 
 ```emacs-lisp
@@ -1434,7 +1459,7 @@ But for now, disable `indent-tabs-mode` in shell script editing mode because I h
 ```
 
 
-### Zsh
+## Zsh
 
 I also write Zsh scripts and Emacs doesn't detect automatically I think
 
@@ -2615,7 +2640,7 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 
 # Compiling Emacs from Source
 
-Some notes on the dependencies that I found were needed to build Emacs 28.1 on fresh Ubuntu with the configuration flags that I like
+Some notes on the dependencies that I found were needed to build Emacs 29.1 on fresh Ubuntu with the configuration flags that I like
 
 ```shell
 ./autogen.sh

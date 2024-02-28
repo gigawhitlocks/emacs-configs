@@ -23,6 +23,7 @@
  '(jdee-db-active-breakpoint-face-colors (cons "#1c1f24" "#51afef"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#1c1f24" "#7bc275"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#1c1f24" "#484854"))
+ '(lsp-tailwindcss-rustywind-command "/usr/bin/rustywind")
  '(objed-cursor-color "#ff665c")
  '(org-agenda-files '("~/notes/notes.org" "/home/ian/.emacs.d/ian.org"))
  '(package-selected-packages
