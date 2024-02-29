@@ -67,19 +67,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(fringe ((t :background "#1c1d20")))
- '(header-line ((t :box (:line-width 4 :color "grey90" :style nil))))
- '(header-line-highlight ((t :box (:color "black"))))
  '(keycast-key ((t)))
- '(line-number ((t :background "white")))
  '(lsp-ui-doc-background ((t (:inherit markdown-code-face))))
- '(mode-line ((t :box (:line-width 6 :color "grey75" :style nil))))
- '(mode-line-active ((t :box (:line-width 6 :color "grey75" :style nil))))
- '(mode-line-highlight ((t :box (:color "black"))))
- '(mode-line-inactive ((t :box (:line-width 6 :color "grey90" :style nil))))
- '(tab-bar-tab ((t :box (:line-width 4 :color "grey85" :style nil))))
- '(tab-bar-tab-inactive ((t :box (:line-width 4 :color "grey75" :style nil))))
  '(tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face :slant normal))))
- '(window-divider ((t :background "#1c1d20" :foreground "#1c1d20")))
- '(window-divider-first-pixel ((t :background "#1c1d20" :foreground "#1c1d20")))
- '(window-divider-last-pixel ((t :background "#1c1d20" :foreground "#1c1d20"))))
+ )
