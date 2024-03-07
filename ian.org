@@ -711,6 +711,11 @@ I need the ~evil~ compatiblity mode, too, because I run ~evil~.
   (use-package kubernetes-evil
     :after kubernetes)
 #+end_src
+** multiple cursors
+#+begin_src emacs-lisp
+  (use-package evil-mc)
+#+end_src
+
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 ** FiraCode Font Installation Script
