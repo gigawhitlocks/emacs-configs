@@ -27,12 +27,39 @@
  '(objed-cursor-color "#ff665c")
  '(org-agenda-files '("~/notes/notes.org" "/home/ian/.emacs.d/ian.org"))
  '(package-selected-packages
-   '(jira-markup-mode kubernetes-evil kubernetes spacious-padding robot-mode treemacs-magit sqlite3 caps-lock gemini-mode elpher browse-at-remote htmlize ox-gfm org-web-tools ox-jira company-org-block org-download evil-org adaptive-wrap sql-indent elixir-mode vyper-mode salt-mode json-mode web-mode rust-mode gorepl-mode gotest flycheck-golangci-lint go-mode auto-virtualenv dockerfile-mode rego-mode yaml-mode tree-sitter-langs tree-sitter ace-jump-mode helpful wgrep-ack ack pc-bufsw highlight-indent-guides exec-path-from-shell flycheck company-quickhelp company-box company systemd restart-emacs rainbow-delimiters git-gutter prism yasnippet-snippets yasnippet dashboard which-key git-timemachine forge magit helm-ag helm-descbinds undo-tree evil-surround evil-escape evil-collection general helm-projectile emojify doom-modeline solaire-mode ef-themes doom-themes treemacs-projectile treemacs-evil treemacs-all-the-icons treemacs all-the-icons delight diminish use-package))
+   '(evil-mc jira-markup-mode kubernetes-evil kubernetes spacious-padding robot-mode treemacs-magit sqlite3 caps-lock gemini-mode elpher browse-at-remote htmlize ox-gfm org-web-tools ox-jira company-org-block org-download evil-org adaptive-wrap sql-indent elixir-mode vyper-mode salt-mode json-mode web-mode rust-mode gorepl-mode gotest flycheck-golangci-lint go-mode auto-virtualenv dockerfile-mode rego-mode yaml-mode tree-sitter-langs tree-sitter ace-jump-mode helpful wgrep-ack ack pc-bufsw highlight-indent-guides exec-path-from-shell flycheck company-quickhelp company-box company systemd restart-emacs rainbow-delimiters git-gutter prism yasnippet-snippets yasnippet dashboard which-key git-timemachine forge magit helm-ag helm-descbinds undo-tree evil-surround evil-escape evil-collection general helm-projectile emojify doom-modeline solaire-mode ef-themes doom-themes treemacs-projectile treemacs-evil treemacs-all-the-icons treemacs all-the-icons delight diminish use-package))
  '(pdf-view-midnight-colors (cons "#bbc2cf" "#242730"))
  '(rustic-ansi-faces
    ["#242730" "#ff665c" "#7bc275" "#FCCE7B" "#51afef" "#C57BDB" "#5cEfFF" "#bbc2cf"])
  '(safe-local-variable-values
-   '((eval add-hook 'after-save-hook
+   '((eval progn
+	   (defun ians-prettier-format-and-reload nil "Run 'npx prettier --write' on the current file and then reload the buffer."
+		  (shell-command
+		   (concat "npx prettier --parser html --write "
+			   (buffer-file-name)))
+		  (revert-buffer t t t))
+	   (add-hook 'after-save-hook 'ians-prettier-format-and-reload nil 'local))
+     (eval progn
+	   (defun ians-pg_format-and-reload nil "Run 'pg format' on the current file and then reload the buffer."
+		  (shell-command
+		   (concat
+		    (projectile-project-root)
+		    "bin/pg_format -i -U 2 -f 3 "
+		    (buffer-file-name)))
+		  (revert-buffer t t t))
+	   (add-hook 'after-save-hook 'ians-pg_format-and-reload nil 'local))
+     (eval progn
+	   (defun ians-pg_format-and-reload nil "Run 'npx prettier --write' on the current file and then reload the buffer."
+		  (shell-command
+		   (concat
+		    (projectile-project-root)
+		    "bin/pg_format -f 3 "
+		    (buffer-file-name)
+		    " -o "
+		    (buffer-file-name)))
+		  (revert-buffer t t t))
+	   (add-hook 'after-save-hook 'ians-pg_format-and-reload nil 'local))
+     (eval add-hook 'after-save-hook
 	   '(lambda nil
 	      (shell-command
 	       (concat "pandoc -f org -t jira " buffer-file-name " -o "
