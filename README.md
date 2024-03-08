@@ -1313,6 +1313,8 @@ Certain projects use a gopath folder inside the project root and this confuses L
 
 Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
 
+TODO: Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is a better way to do this, that I haven't figured out yet &#x2013; regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
+
 
 ## Rust
 
@@ -1357,6 +1359,7 @@ So yay for `web-mode`!
 ```emacs-lisp
 (use-package web-mode
   :mode (("\\.html$" . web-mode)
+         ("\\.html.tmpl$" . web-mode)
          ("\\.js$"   . web-mode)
          ("\\.jsx$"  . web-mode)
          ("\\.ts$"   . web-mode)
