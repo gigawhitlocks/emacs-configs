@@ -901,16 +901,19 @@ whatever that is
     :ensure t
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . gfm-mode)
-           ("\\.markdown\\'" . gfm-mode)))
-  (add-hook 'markdown-mode-hook 'visual-line-mode)
-  (add-hook 'markdown-mode-hook 'variable-pitch-mode)
+           ("\\.markdown\\'" . gfm-mode))
+
+    ;; show code blocks w/ monospace font
+    (add-hook 'markdown-mode-hook 'visual-line-mode)
+    (add-hook 'markdown-mode-hook 'variable-pitch-mode)
+    (add-hook 'markdown-mode-hook
+              '(lambda ()
+                 (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
+                 (set-face-attribute 'markdown-pre-face nil :inherit 'fixed-pitch)))
 
   ;; this can go here because it affects Markdown's live preview mode
   ;; but I should consider putting it somewhere more general maybe?
   (add-hook 'eww-mode-hook 'visual-line-mode)
-  
-  ;; show code blocks w/ monospace font
-  (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
 #+END_SRC
 
 ** Docker
