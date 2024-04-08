@@ -901,7 +901,7 @@ whatever that is
     :ensure t
     :mode (("README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . gfm-mode)
-           ("\\.markdown\\'" . gfm-mode))
+           ("\\.markdown\\'" . gfm-mode)))
 
     ;; show code blocks w/ monospace font
     (add-hook 'markdown-mode-hook 'visual-line-mode)
