@@ -282,7 +282,7 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
   (use-package doom-modeline
     :config       (doom-modeline-def-modeline 'main
                     '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-                    '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
+                    '(misc-info minor-modes input-method buffer-encoding major-mode process vcs "  "))
     :hook (after-init . doom-modeline-mode))
 #+end_src
 
@@ -407,9 +407,6 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
   (use-package helm
     :delight
     :config
-    (use-package helm-descbinds
-      :config
-      (helm-descbinds-mode))
     (use-package helm-ag)
     (global-set-key (kbd "M-x") #'helm-M-x)
     (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
