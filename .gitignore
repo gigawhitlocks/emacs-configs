@@ -40,3 +40,4 @@ undo/
 /eln-cache/
 /server/
 /multisession/
+/*.sqlite
