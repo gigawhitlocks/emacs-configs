@@ -481,25 +481,16 @@ It can be difficult to to remember and discover all of the available shortcuts i
       (which-key-mode)
       (which-key-setup-minibuffer))
 #+END_SRC
-** Colorize ANSI colors in ~*compilation*~
-If you run a command through ~M-x compile~ by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the ~*compilation*~ buffer.
-#+BEGIN_SRC emacs-lisp
-    (defun ansi ()
-      ;; enable ANSI escape codes in compilation buffer
-      (use-package ansi-color)
-      ;; slightly modified from
-      ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
-      (defun colorize-compilation ()
-        "Colorize from `compilation-filter-start' to `point'."
-        (let ((inhibit-read-only t))
-          (ansi-color-apply-on-region
-           compilation-filter-start (point))))
+** Handle "fancy" output in compilation buffer
+The external package ~fancy-compilation-mode~ handles colorization and "clever" use of ANSI to create progress bars and stupid shit like that, which show up in things like npm output and Docker output when BuildKit is set to NORMAL. You can, of course, set the BuildKit output style to PLAIN, but sometimes you're eg editing a file where NORMAL is hard-coded in the Makefile target you want to run when using ~compilation-mode~ and fighting project defaults isn't what you want to spend your time on.
 
-      (add-hook 'compilation-filter-hook
-                #'colorize-compilation))
+#+begin_src emacs-lisp
+   (use-package fancy-compilation
+    :commands (fancy-compilation-mode))
 
-    (ansi)
-#+END_SRC
+  (with-eval-after-load 'compile
+    (fancy-compilation-mode))
+#+end_src
 ** Scream when compilation is finished
 Sometimes when the compile process takes more than a few seconds I change windows and get distracted. This hook plays a file through ~aplay~ (something else that will break on a non-Linux machine) to notify me that compilation is done. I was looking for something like a kitchen timer but I couldn't find one so right now the vendored sound is the [[https://en.wikipedia.org/wiki/Wilhelm_scream][Wilhelm Scream]].
 #+BEGIN_SRC emacs-lisp
