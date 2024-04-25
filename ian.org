@@ -12,6 +12,11 @@ Here is a screenshot of my environment:
 [[file:Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif]]
 
 Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
+** TODO modernize my configuration
+A lot of the features in this config have been upstreamed since I wrote them. The configuration still works as-is, but at some point I plan to go through and remove external packages that have been replaced with upstream replacements. A good example of this is ~use-package~ which is now upstreamed, and I would like to use that instead of the external package. However, I don't plan to switch to ~elgot~ unless ~lsp-mode~ and ~lsp-ui~ are deprecated, because I am used to their look & feel, and slightly prefer them to elgot.
+
+If you are reading my config and looking for inspiration, this is just something to keep in mind.
+
 * Entrypoint
 First I need to configure Emacs to load this file (~ian.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
 
@@ -161,7 +166,8 @@ Protesilaos Stavrou has a nice theme pack too:
 #+end_src
 
 *** Theme lists
-I have separated the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
+I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
+Unfortunately, Phind didn't do the job perfectly, so some of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
 **** Light themes
