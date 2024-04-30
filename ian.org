@@ -129,9 +129,7 @@ It's installed early because many things have integrations with it, including so
     :defer t
     )
 
-  ;; disable icons at least until they are fixed
-  ;; see commit message for more details 7/11/23
-  (setq treemacs-no-png-images t) 
+  (setq treemacs-no-png-images nil)
 
   (use-package treemacs-evil
     :after (treemacs evil))
@@ -149,15 +147,19 @@ I think they're really nice to look at, especially with ~solaire-mode~.
 
 First install the theme pack:
 #+begin_src emacs-lisp
-    (use-package doom-themes
-      :config
-      ;; Global settings (defaults)
-      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-            doom-themes-enable-italic t
-            ) ; if nil, italics is universally disabled
-      ;; Corrects (and improves) org-mode's native fontification.
-      (doom-themes-org-config)
-  )
+  (use-package doom-themes
+    :config
+    ;; Global settings (defaults)
+    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+          doom-themes-enable-italic t
+          ) ; if nil, italics is universally disabled
+
+    ;; Corrects (and improves) org-mode's native fontification.
+    ;; TODO is this still relevant when also using org-modern? or do
+    ;; they just conflict
+    (doom-themes-org-config)
+    (doom-themes-treemacs-config)
+    )
 #+end_src
 
 Protesilaos Stavrou has a nice theme pack too:
