@@ -1410,124 +1410,134 @@ Yeah, my configuration is a little of Spacemacs, a little of Doom, and a little 
 These keybindings are probably the most opinionated part of my configuration. They're shortcuts I can remember, logically or not.
 
 #+begin_src emacs-lisp
-   ;; define the spacebar as the global leader key, following the
-   ;; Spacemacs pattern, which I've been using since 2014
-   (general-create-definer my-leader-def
-     :prefix "SPC")
+  ;; define the spacebar as the global leader key, following the
+  ;; Spacemacs pattern, which I've been using since 2014
+  (general-create-definer my-leader-def
+    :prefix "SPC")
 
-   ;; define SPC m for minor mode keys, even though I use , sometimes
-   (general-create-definer my-local-leader-def
-     :prefix "SPC m")
+  ;; define SPC m for minor mode keys, even though I use , sometimes
+  (general-create-definer my-local-leader-def
+    :prefix "SPC m")
 
-   ;; global keybindings with LEADER
-   (my-leader-def 'normal 'override
-     "aa"     'ace-jump-mode
-     "ag"     'org-agenda
-     "bb"     'helm-buffers-list
-     "TAB"    #'switch-to-prev-buffer
-     "br"     'revert-buffer
-     "bd"     'evil-delete-buffer
-     "ds"     (defun ian-desktop-save ()
-                (interactive)
-                (desktop-save "~/desktop-saves"))
-     "dr"     (defun ian-desktop-read ()
-                (interactive)
-                (desktop-read "~/desktop-saves"))
-     "cc"     'projectile-compile-project
-  
-     "ec"     'flycheck-clear
-     "el"     'flycheck-list-errors
-     "en"     'flycheck-next-error
-     "ep"     'flycheck-previous-error
-     "Fm"     'make-frame
-     "Ff"     'toggle-frame-fullscreen
-     "ff"     'helm-find-files
-     "fr"     'helm-recentf
-     "fd"     'dired
-     "fed"    'find-initfile
-     "feD"    'find-initfile-other-frame
-     "feR"    'reload-initfile
-     "gb"     'magit-blame
-     "gs"     'magit-status
-     "gg"     'magit
-     "gt"     'git-timemachine
-     "gd"     'magit-diff
-     "go"     'browse-at-remote
-     "gi"     'helm-imenu
-     "h"      'hyperbole
-     "jj"     'bookmark-jump
-     "js"     'bookmark-set
-     "jo"     'org-babel-tangle-jump-to-org
-     "ic"     'insert-char
-     "is"     'yas-insert-snippet
-     "n"      '(:keymap narrow-map)
-     "oo"     'browse-url-at-point
-     "p"      'projectile-command-map
-     "pf"     'helm-projectile-find-file
-     "p!"     'projectile-run-async-shell-command-in-root
-     "si"     'yas-insert-snippet
-     "sn"     'yas-new-snippet
-     "sp"     'helm-projectile-ag
-     "qq"     'save-buffers-kill-terminal
-     "qr"     'restart-emacs
-     "qz"     'delete-frame
-     "ta"     'treemacs-add-project-to-workspace
-     "thi"    (defun ian-theme-information ()
-                "Display the last applied theme."
-                (interactive)
-                (let ((last-theme (car (reverse custom-enabled-themes))))
-                  (if last-theme
-                      (message "Last applied theme: %s" last-theme)
-                    (message "No themes are currently enabled."))))
-     "thr"    'load-random-theme
-     "thl"    (defun ian-load-light-theme ()
-                (interactive)
-                (load-theme
-                 (nth
-                  (random
-                   (length light-theme-list)) light-theme-list)))
-     "thd"    (defun ian-load-dark-theme ()
-                (interactive)
-                (load-theme
-                 (nth
-                  (random
-                   (length
-                    dark-theme-list)) dark-theme-list)))
-     "thh"    'choose-theme
-     "thc"    'load-theme
-     "thn"    'load-next-favorite-theme
-     "tnn"    'display-line-numbers-mode
-     "tnt"    'toggle-line-numbers-rel-abs
-     "tr"     'treemacs-select-window
-     "ts"     'toggle-screaming
-     "tt"     'toggle-transparency
-     "tp"     (defun ian-toggle-prism () (interactive) (prism-mode 'toggle))
-     "tw"     'whitespace-mode
-     "w-"     'split-window-below
-     "w/"     'split-window-right
-     "wb"     'last-window
-     "wj"     'evil-window-down
-     "wk"     'evil-window-up
-     "wh"     'evil-window-left
-     "wl"     'evil-window-right
-     "wd"     'delete-window
-     "wD"     'delete-other-windows
-     "ww"     'ace-window
-     "wo"     'other-window
-     "w="     'balance-windows
-     "W"      '(:keymap evil-window-map)
-     "SPC"    'helm-M-x
-     )
+  ;; global keybindings with LEADER
+  (my-leader-def 'normal 'override
+    "aa"     'ace-jump-mode
+    "ag"     'org-agenda
+    "bb"     'helm-buffers-list
+    "TAB"    #'switch-to-prev-buffer
+    "br"     'revert-buffer
+    "bd"     'evil-delete-buffer
+    "ds"     (defun ian-desktop-save ()
+               (interactive)
+               (desktop-save "~/desktop-saves"))
+    "dr"     (defun ian-desktop-read ()
+               (interactive)
+               (desktop-read "~/desktop-saves"))
+    "cc"     'projectile-compile-project
 
-   ;; global VISUAL mode map
-   (general-vmap
-     ";" 'comment-or-uncomment-region)
+    "ec"     'flycheck-clear
+    "el"     'flycheck-list-errors
+    "en"     'flycheck-next-error
+    "ep"     'flycheck-previous-error
+    "Fm"     'make-frame
+    "Ff"     'toggle-frame-fullscreen
+    "ff"     'helm-find-files
+    "fr"     'helm-recentf
+    "fd"     'dired
+    "fed"    'find-initfile
+    "feD"    'find-initfile-other-frame
+    "feR"    'reload-initfile
+    "gb"     'magit-blame
+    "gs"     'magit-status
+    "gg"     'magit
+    "gt"     'git-timemachine
+    "gd"     'magit-diff
+    "go"     'browse-at-remote
+    "gi"     'helm-imenu
+    "h"      'hyperbole
+    "jj"     'bookmark-jump
+    "js"     'bookmark-set
+    "jo"     'org-babel-tangle-jump-to-org
 
-   ;; top right button on my trackball is equivalent to click (select) +
-   ;; RET (open) on files in Treemacs
-   (general-define-key
-      :keymaps 'treemacs-mode-map
-      "<mouse-8>" 'treemacs-RET-action)
+    "kh"     'helm-info-kagi
+    "ks"     'kagi-fastgpt-shell
+    "kp"     'kagi-fastgpt-prompt
+    "kf"     'kagi-proofread
+    "kr"     'kagi-summarize-region
+    "kb"     'kagi-summarize-buffer
+    "ku"     'kagi-summarize-url
+    "kt"     'kagi-translate
+
+    "ic"     'insert-char
+    "is"     'yas-insert-snippet
+    "n"      '(:keymap narrow-map)
+    "oo"     'browse-url-at-point
+    "p"      'projectile-command-map
+    "pf"     'helm-projectile-find-file
+    "p!"     'projectile-run-async-shell-command-in-root
+    "si"     'yas-insert-snippet
+    "sn"     'yas-new-snippet
+    "sp"     'helm-projectile-ag
+    "qq"     'save-buffers-kill-terminal
+    "qr"     'restart-emacs
+    "qz"     'delete-frame
+    "ta"     'treemacs-add-project-to-workspace
+    "thi"    (defun ian-theme-information ()
+               "Display the last applied theme."
+               (interactive)
+               (let ((last-theme (car (reverse custom-enabled-themes))))
+                 (if last-theme
+                     (message "Last applied theme: %s" last-theme)
+                   (message "No themes are currently enabled."))))
+    "thr"    'load-random-theme
+    "thl"    (defun ian-load-light-theme ()
+               (interactive)
+               (load-theme
+                (nth
+                 (random
+                  (length light-theme-list)) light-theme-list)))
+    "thd"    (defun ian-load-dark-theme ()
+               (interactive)
+               (load-theme
+                (nth
+                 (random
+                  (length
+                   dark-theme-list)) dark-theme-list)))
+    "thh"    'choose-theme
+    "thc"    'load-theme
+    "thn"    'load-next-favorite-theme
+    "tnn"    'display-line-numbers-mode
+    "tnt"    'toggle-line-numbers-rel-abs
+    "tr"     'treemacs-select-window
+    "ts"     'toggle-screaming
+    "tt"     'toggle-transparency
+    "tp"     (defun ian-toggle-prism () (interactive) (prism-mode 'toggle))
+    "tw"     'whitespace-mode
+    "w-"     'split-window-below
+    "w/"     'split-window-right
+    "wb"     'last-window
+    "wj"     'evil-window-down
+    "wk"     'evil-window-up
+    "wh"     'evil-window-left
+    "wl"     'evil-window-right
+    "wd"     'delete-window
+    "wD"     'delete-other-windows
+    "ww"     'ace-window
+    "wo"     'other-window
+    "w="     'balance-windows
+    "W"      '(:keymap evil-window-map)
+    "SPC"    'helm-M-x
+    )
+
+  ;; global VISUAL mode map
+  (general-vmap
+    ";" 'comment-or-uncomment-region)
+
+  ;; top right button on my trackball is equivalent to click (select) +
+  ;; RET (open) on files in Treemacs
+  (general-define-key
+     :keymaps 'treemacs-mode-map
+     "<mouse-8>" 'treemacs-RET-action)
     #+END_SRC
 
 * Org Mode Settings
@@ -2057,6 +2067,38 @@ For those of us who did away with the caps lock button but write SQL sometimes
   (global-set-key (kbd "<C-S-mouse-1>") 'window-swap-start)
   (global-set-key (kbd "<C-S-drag-mouse-1>") 'window-swap-end)
 #+end_src
+
+** Kagi integration
+I love Kagi and even if it costs a few cents per query I would like to have it accessible from Emacs. Uses API key stored in ~~/.secret.el~~ [[* Secrets][as configured below]]
+*** Basic config
+#+begin_src emacs-lisp
+  (use-package kagi
+    :custom
+    (kagi-api-token isw-kagi-token)
+
+    ;; Universal Summarizer settings
+    (kagi-summarizer-engine "cecil")
+    (kagi-summarizer-default-language "EN")
+    (kagi-summarizer-cache t))
+#+end_src
+
+*** TODO The docs mention a package called ~password-store~ that I should look into
+
+*** Org Babel Support
+Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever use it and want to capture the resposnes alongside notes
+#+begin_src emacs-lisp :tangle yes
+  (use-package ob-kagi-fastgpt
+    :ensure nil  ; provided by the kagi package
+    :after org
+    :config
+    (ob-kagi-fastgpt-setup))
+#+end_src
+
+   Then create a source block with 'language' ‘kagi-fastgpt’:
+
+     #+begin_src kagi-fastgpt
+       Can Kagi FastGPT be used in Org mode?
+     #+end_src
 
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
