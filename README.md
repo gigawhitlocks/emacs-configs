@@ -9,6 +9,13 @@ Here is a screenshot of my environment:
 Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
 
 
+## TODO modernize my configuration
+
+A lot of the features in this config have been upstreamed since I wrote them. The configuration still works as-is, but at some point I plan to go through and remove external packages that have been replaced with upstream replacements. A good example of this is `use-package` which is now upstreamed, and I would like to use that instead of the external package. However, I don't plan to switch to `elgot` unless `lsp-mode` and `lsp-ui` are deprecated, because I am used to their look & feel, and slightly prefer them to elgot.
+
+If you are reading my config and looking for inspiration, this is just something to keep in mind.
+
+
 # Entrypoint
 
 First I need to configure Emacs to load this file (`ian.org`) as its first action when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code [tangles](https://orgmode.org/manual/Extracting-source-code.html) to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`ian.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
@@ -102,6 +109,11 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
+## TODO use-package is now included in Emacs
+
+Much of the above section can likely be removed, now that use-package is provided by Emacs (since 29)
+
+
 # Fundamental Package Installation and Configuration
 
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
@@ -134,9 +146,7 @@ It's installed early because many things have integrations with it, including so
   :defer t
   )
 
-;; disable icons at least until they are fixed
-;; see commit message for more details 7/11/23
-(setq treemacs-no-png-images t) 
+(setq treemacs-no-png-images nil)
 
 (use-package treemacs-evil
   :after (treemacs evil))
@@ -156,15 +166,19 @@ I'm mainly using the Doom Emacs theme pack. I think they're really nice to look 
 First install the theme pack:
 
 ```emacs-lisp
-  (use-package doom-themes
-    :config
-    ;; Global settings (defaults)
-    (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-          doom-themes-enable-italic t
-          ) ; if nil, italics is universally disabled
-    ;; Corrects (and improves) org-mode's native fontification.
-    (doom-themes-org-config)
-)
+(use-package doom-themes
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t
+        ) ; if nil, italics is universally disabled
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  ;; TODO is this still relevant when also using org-modern? or do
+  ;; they just conflict
+  (doom-themes-org-config)
+  (doom-themes-treemacs-config)
+  )
 ```
 
 Protesilaos Stavrou has a nice theme pack too:
@@ -176,7 +190,7 @@ Protesilaos Stavrou has a nice theme pack too:
 
 ### Theme lists
 
-I have separated the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
+I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times. Unfortunately, Phind didn't do the job perfectly, so some of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
 
@@ -319,7 +333,7 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 (use-package doom-modeline
   :config       (doom-modeline-def-modeline 'main
                   '(bar matches buffer-info remote-host buffer-position parrot selection-info)
-                  '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs "  "))
+                  '(misc-info minor-modes input-method buffer-encoding major-mode process vcs "  "))
   :hook (after-init . doom-modeline-mode))
 ```
 
@@ -465,9 +479,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 (use-package helm
   :delight
   :config
-  (use-package helm-descbinds
-    :config
-    (helm-descbinds-mode))
   (use-package helm-ag)
   (global-set-key (kbd "M-x") #'helm-M-x)
   (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
@@ -545,26 +556,16 @@ It can be difficult to to remember and discover all of the available shortcuts i
 ```
 
 
-## Colorize ANSI colors in `*compilation*`
+## Handle "fancy" output in compilation buffer
 
-If you run a command through `M-x compile` by default Emacs prints ANSI codes literally, but a lot of tools use these for colors and this makes it so Emacs shows colors in the `*compilation*` buffer.
+The external package `fancy-compilation-mode` handles colorization and "clever" use of ANSI to create progress bars and stupid shit like that, which show up in things like npm output and Docker output when BuildKit is set to NORMAL. You can, of course, set the BuildKit output style to PLAIN, but sometimes you're eg editing a file where NORMAL is hard-coded in the Makefile target you want to run when using `compilation-mode` and fighting project defaults isn't what you want to spend your time on.
 
 ```emacs-lisp
-(defun ansi ()
-  ;; enable ANSI escape codes in compilation buffer
-  (use-package ansi-color)
-  ;; slightly modified from
-  ;; https://endlessparentheses.com/ansi-colors-in-the-compilation-buffer-output.html
-  (defun colorize-compilation ()
-    "Colorize from `compilation-filter-start' to `point'."
-    (let ((inhibit-read-only t))
-      (ansi-color-apply-on-region
-       compilation-filter-start (point))))
+ (use-package fancy-compilation
+  :commands (fancy-compilation-mode))
 
-  (add-hook 'compilation-filter-hook
-            #'colorize-compilation))
-
-(ansi)
+(with-eval-after-load 'compile
+  (fancy-compilation-mode))
 ```
 
 
@@ -645,6 +646,21 @@ Enable yas-mode everywhere
 
 
 ## Smooth scrolling, distraction-free mode, and minimap
+
+
+## Load Secrets
+
+Load in any additional settings that I do not wish to make public, if set. N.B. `~/.secret.el` must end with `(provide '~~/.secret.el)`
+
+```emacs-lisp
+(if (file-exists-p "~/.secret.el")
+    (progn
+      (load-file "~/.secret.el")
+      (require '~/.secret.el)))
+```
+
+
+### TODO The docs mention a package called `password-store` that I should look into instead of doing this
 
 
 # Extra Packages
@@ -859,6 +875,13 @@ I need the `evil` compatiblity mode, too, because I run `evil`.
 ```
 
 
+## multiple cursors
+
+```emacs-lisp
+(use-package evil-mc)
+```
+
+
 # Font
 
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
@@ -1068,15 +1091,18 @@ whatever that is
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . gfm-mode)
          ("\\.markdown\\'" . gfm-mode)))
-(add-hook 'markdown-mode-hook 'visual-line-mode)
-(add-hook 'markdown-mode-hook 'variable-pitch-mode)
+
+  ;; show code blocks w/ monospace font
+  (add-hook 'markdown-mode-hook 'visual-line-mode)
+  (add-hook 'markdown-mode-hook 'variable-pitch-mode)
+  (add-hook 'markdown-mode-hook
+            '(lambda ()
+               (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
+               (set-face-attribute 'markdown-pre-face nil :inherit 'fixed-pitch)))
 
 ;; this can go here because it affects Markdown's live preview mode
 ;; but I should consider putting it somewhere more general maybe?
 (add-hook 'eww-mode-hook 'visual-line-mode)
-
-;; show code blocks w/ monospace font
-(set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
 ```
 
 
@@ -1313,7 +1339,8 @@ Certain projects use a gopath folder inside the project root and this confuses L
 
 Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
 
-TODO: Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is a better way to do this, that I haven't figured out yet &#x2013; regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
+
+### TODO Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is  a better way to do this, that I haven't figured out yet &#x2013; regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
 
 
 ## Rust
@@ -1684,6 +1711,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
              (interactive)
              (desktop-read "~/desktop-saves"))
   "cc"     'projectile-compile-project
+
   "ec"     'flycheck-clear
   "el"     'flycheck-list-errors
   "en"     'flycheck-next-error
@@ -1707,6 +1735,16 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "jj"     'bookmark-jump
   "js"     'bookmark-set
   "jo"     'org-babel-tangle-jump-to-org
+
+  "kh"     'helm-info-kagi
+  "ks"     'kagi-fastgpt-shell
+  "kp"     'kagi-fastgpt-prompt
+  "kf"     'kagi-proofread
+  "kr"     'kagi-summarize-region
+  "kb"     'kagi-summarize-buffer
+  "ku"     'kagi-summarize-url
+  "kt"     'kagi-translate
+
   "ic"     'insert-char
   "is"     'yas-insert-snippet
   "n"      '(:keymap narrow-map)
@@ -1782,13 +1820,15 @@ These keybindings are probably the most opinionated part of my configuration. Th
 
 # Org Mode Settings
 
-Some default evil bindings
+
+## Some default evil bindings
 
 ```emacs-lisp
 (use-package evil-org)
 ```
 
-Image drag-and-drop for org-mode
+
+## Image drag-and-drop for org-mode
 
 ```emacs-lisp
 (use-package org-download)
@@ -1796,23 +1836,29 @@ Image drag-and-drop for org-mode
 
 ![img](My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif)
 
-Autocomplete for Org blocks (like source blocks)
+
+## Autocomplete for Org blocks (like source blocks)
 
 ```emacs-lisp
 (use-package company-org-block) ;; TODO configuration
 ```
 
-JIRA support in Org
+
+## JIRA support in Org
 
 ```emacs-lisp
 (use-package ox-jira)
 ```
 
-Install some tools for archiving web content into Org
+
+## Install some tools for archiving web content into Org
 
 ```emacs-lisp
 (use-package org-web-tools)
 ```
+
+
+## More config I haven't organized
 
 ```emacs-lisp
 (setq org-export-coding-system 'utf-8)
@@ -1846,6 +1892,7 @@ Install some tools for archiving web content into Org
   "e"      'org-edit-src-code
   "t"      'org-babel-tangle
   "o"      'org-export-dispatch
+  "TAB"    'org-toggle-heading
   )
 
 (general-define-key
@@ -2003,6 +2050,34 @@ made unique when necessary."
       ref)))
 
 (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
+```
+
+
+## Pretty theme for Org Mode
+
+```emacs-lisp
+(use-package org-modern)
+```
+
+
+### Some suggested configuration to go along with `org-modern`
+
+```emacs-lisp
+(setq 
+ ;; Edit settings
+ org-auto-align-tags nil
+ org-tags-column 0
+ org-catch-invisible-edits 'show-and-error
+ org-special-ctrl-a/e t
+ org-insert-heading-respect-content t
+
+ ;; Org styling, hide markup etc.
+ org-hide-emphasis-markers t
+ org-pretty-entities t
+ org-ellipsis "…"
+ )
+
+(global-org-modern-mode)
 ```
 
 
@@ -2223,15 +2298,6 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 ```
 
 
-## TODO Clean whitespace on save in all modes
-
-I have to actually go in and configure this because the defaults keep giving me fucking heartburn. It keeps messing with the whitespace in files that are none of its business. Maybe I just need to carefully enable it for certain modes? idk, too much magic, no time to look into it right now.
-
-```emacs-lisp
-;; (add-hook 'before-save-hook 'whitespace-cleanup)
-```
-
-
 ## Autosave
 
 Automatically saves the file when it's been idle for 5 minutes.
@@ -2390,6 +2456,49 @@ For those of us who did away with the caps lock button but write SQL sometimes
 ```
 
 
+## Kagi integration
+
+I love Kagi and even if it costs a few cents per query I would like to have it accessible from Emacs. Uses API key stored in `~/.secret.el~` as configured in the "load secrets" section above
+
+
+### Basic config
+
+```emacs-lisp
+; kagi won't work without a token, but this way the configuration will
+; not break, at least
+(if (not (boundp 'isw-kagi-token))
+    (progn
+      (defvar isw-kagi-token "")
+      (message "no kagi token set")))
+
+(use-package kagi
+  :custom
+  (kagi-api-token isw-kagi-token)
+
+  ;; Universal Summarizer settings
+  (kagi-summarizer-engine "cecil")
+  (kagi-summarizer-default-language "EN")
+  (kagi-summarizer-cache t))
+```
+
+
+### Org Babel Support
+
+Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever use it and want to capture the resposnes alongside notes
+
+```emacs-lisp
+(use-package ob-kagi-fastgpt
+  :ensure nil  ; provided by the kagi package
+  :after org
+  :config
+  (ob-kagi-fastgpt-setup))
+```
+
+Then create a source block with 'language' ‘kagi-fastgpt’:
+
+> Can Kagi FastGPT be used in Org mode?
+
+
 # Render this file for display on the web
 
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
@@ -2454,18 +2563,6 @@ This allows configuration to diverge to meet needs that are unique to a specific
 ```
 
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
-
-
-# Secrets
-
-Load in any additional settings that I do not wish to make public, if set
-
-```emacs-lisp
-(if (file-exists-p "~/.secret.el")
-    (progn
-      (load-file "~/.secret.el")
-      (require '.secret)))
-```
 
 
 # Footer

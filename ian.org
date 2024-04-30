@@ -105,6 +105,8 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 #+END_SRC
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
+** TODO use-package is now included in Emacs
+Much of the above section can likely be removed, now that use-package is provided by Emacs (since 29)
 
 * Fundamental Package Installation and Configuration
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
@@ -561,6 +563,17 @@ Enable yas-mode everywhere
   (yas-global-mode 1)
 #+END_SRC
 ** Smooth scrolling, distraction-free mode, and minimap
+** Load Secrets
+Load in any additional settings that I do not wish to make public, if set.
+N.B. ~~/.secret.el~ must end with ~(provide '~~/.secret.el)~
+#+begin_src emacs-lisp
+  (if (file-exists-p "~/.secret.el")
+      (progn
+        (load-file "~/.secret.el")
+        (require '~/.secret.el)))
+#+end_src
+*** TODO The docs mention a package called ~password-store~ that I should look into instead of doing this
+
 * Extra Packages
 Packages with a smaller effect on the experience.
 ** prism colors by indent level
@@ -2069,9 +2082,16 @@ For those of us who did away with the caps lock button but write SQL sometimes
 #+end_src
 
 ** Kagi integration
-I love Kagi and even if it costs a few cents per query I would like to have it accessible from Emacs. Uses API key stored in ~~/.secret.el~~ [[* Secrets][as configured below]]
+I love Kagi and even if it costs a few cents per query I would like to have it accessible from Emacs. Uses API key stored in ~~/.secret.el~~ as configured in the "load secrets" section above
 *** Basic config
 #+begin_src emacs-lisp
+  ; kagi won't work without a token, but this way the configuration will
+  ; not break, at least
+  (if (not (boundp 'isw-kagi-token))
+      (progn
+        (defvar isw-kagi-token "")
+        (message "no kagi token set")))
+
   (use-package kagi
     :custom
     (kagi-api-token isw-kagi-token)
@@ -2082,7 +2102,6 @@ I love Kagi and even if it costs a few cents per query I would like to have it a
     (kagi-summarizer-cache t))
 #+end_src
 
-*** TODO The docs mention a package called ~password-store~ that I should look into
 
 *** Org Babel Support
 Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever use it and want to capture the resposnes alongside notes
@@ -2096,9 +2115,9 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
 
    Then create a source block with 'language' ‘kagi-fastgpt’:
 
-     #+begin_src kagi-fastgpt
+     #+begin_quote kagi-fastgpt
        Can Kagi FastGPT be used in Org mode?
-     #+end_src
+     #+end_quote
 
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
@@ -2162,15 +2181,6 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. 
 This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
-
-* Secrets
-Load in any additional settings that I do not wish to make public, if set
-#+begin_src emacs-lisp
-  (if (file-exists-p "~/.secret.el")
-      (progn
-        (load-file "~/.secret.el")
-        (require '.secret)))
-#+end_src
 
 * Footer
 ** Start server
