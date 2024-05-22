@@ -41,3 +41,4 @@ undo/
 /server/
 /multisession/
 /*.sqlite
+/fastgpt/

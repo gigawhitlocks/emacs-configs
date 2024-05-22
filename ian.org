@@ -131,7 +131,7 @@ It's installed early because many things have integrations with it, including so
     :defer t
     )
 
-  (setq treemacs-no-png-images nil)
+  (setq treemacs-no-png-images t)
 
   (use-package treemacs-evil
     :after (treemacs evil))
@@ -2119,6 +2119,23 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
        Can Kagi FastGPT be used in Org mode?
      #+end_quote
 
+** Emacs Everywhere
+Sadly this only works in X11 but there's a long Wayland support issue, and it looks like a lot of progress has been made! So hopefully this will get updated to work in Wayland before I upgrade to the next LTS.. whenever I do that, lol.
+#+begin_src emacs-lisp
+  (use-package emacs-everywhere)
+#+end_src
+
+** Casual Dired (a dired porcelain)
+I've always thought ~dired~ was cool, but it's hard to remember all the commands, and the usefulness falls away if you can't remember the buttons. This is the same reason I have ~which-key~ installed for Emacs more generally, and it's part of the brilliance of ~magit~, too.
+~writeable-dired-mode~ is a bright spot, along with all the ~writeable~ modes, but in general, I struggle to use them and fall back to doing stuff in the regular gui or command line most of the time.
+
+However I saw [[https://github.com/kickingvegas/casual-dired/tree/main][this wonderful package called Casual Dired]] come through my RSS feed and had to install it right away, before I forgot, because it appears to be what ~magit~ is to ~git~, but for ~dired~. Brilliant!
+#+begin_src emacs-lisp
+  (use-package casual-dired
+    :bind (:map dired-mode-map ("C-x" . 'casual-dired-tmenu)))
+#+end_src
+
+I'm not sure I love the keybinding, but if I can remember it, that'll be fine. If not, maybe I can make ~which-key~ show it automatically after a pause, or something? Something to look into when I have more time. (When do I ever have more time? 😫)
 * Render this file for display on the web
 This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
 
