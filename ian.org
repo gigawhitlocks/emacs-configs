@@ -602,6 +602,8 @@ I like to highlight the current line so that it is easy to identify where my cur
     :config
     ;; set up rainbow delimiters for Emacs lisp
     (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+    ;; and sql mode too, it's useful there
+    (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
     )
 #+END_SRC
 ** restart-emacs does what it says on the tin
@@ -1351,6 +1353,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
           (list
            'markdown-mode
            'go-mode-hook
+           'sql-mode-hook
            'js2-mode-hook
            'yaml-mode-hook
            'rjsx-mode-hook))
