@@ -160,7 +160,6 @@ First install the theme pack:
     ;; TODO is this still relevant when also using org-modern? or do
     ;; they just conflict
     (doom-themes-org-config)
-    (doom-themes-treemacs-config)
     )
 #+end_src
 
