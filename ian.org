@@ -1581,6 +1581,8 @@ These keybindings are probably the most opinionated part of my configuration. Th
   ;; enable execution of languages from Babel
   (org-babel-do-load-languages 'org-babel-load-languages
                                '(
+                                 (sql . t)
+                                 (python . t)
                                  (shell . t)
                                  )
                                )
