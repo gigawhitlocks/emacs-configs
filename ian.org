@@ -1995,7 +1995,10 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
                                (horizontal-scroll-bars . nil))))
   (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 #+END_SRC
-
+** Enable context menu on right click
+#+begin_src emacs-lisp
+  (context-menu-mode t)
+#+end_src
 ** Enable the mouse in the terminal
 #+BEGIN_SRC emacs-lisp
   (xterm-mouse-mode 1)
