@@ -1794,7 +1794,7 @@ First use this ~.desktop~ file to register a handler for the new protocol scheme
   Keywords=org-protocol;
   Icon=emacs
   Type=Application
-  Exec=/home/ian/bin/org-protocol %u
+  Exec=org-protocol %u
   #Exec=emacsclient -- %u
   Terminal=false
   StartupWMClass=Emacs
