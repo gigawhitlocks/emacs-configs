@@ -1293,6 +1293,10 @@ It might be that this essentially sets up dumb-jump to work anywhere that I've n
    )
 #+end_src
 
+Use rainbow delimeters in SQL
+#+begin_src emacs-lisp :tangle yes
+  (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
+#+end_src
 ** Emacs Lisp
 I don't have any custom configuration for Emacs Lisp yet, but I am going to use this space to collect tools and resources that might become useful in the future, and which I may install.
 *** A collection of development modes and utilities
