@@ -8,6 +8,10 @@ For prose modes like Org and Markdown
   (set-face-attribute 'variable-pitch nil :family "Noto Sans")
 #+end_src
 
+** Theme
+#+begin_src emacs-lisp
+  (load-theme 'doom-opera)
+#+end_src
 
 * Footer
 #+BEGIN_SRC emacs-lisp

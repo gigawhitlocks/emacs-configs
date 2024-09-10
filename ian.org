@@ -12,7 +12,7 @@ Here is a screenshot of my environment:
 [[file:Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif]]
 
 Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
-** TODO modernize my configuration
+** IN PROGRESS modernize my configuration
 A lot of the features in this config have been upstreamed since I wrote them. The configuration still works as-is, but at some point I plan to go through and remove external packages that have been replaced with upstream replacements. A good example of this is ~use-package~ which is now upstreamed, and I would like to use that instead of the external package. However, I don't plan to switch to ~elgot~ unless ~lsp-mode~ and ~lsp-ui~ are deprecated, because I am used to their look & feel, and slightly prefer them to elgot.
 
 If you are reading my config and looking for inspiration, this is just something to keep in mind.
