@@ -85,15 +85,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
                            ("org" . "http://orgmode.org/elpa/")))
   (package-initialize)
 
-  ;; Now install use-package to enable us to use it
-  ;; to manage the rest of our packages
-
-  (unless (package-installed-p 'use-package)
-    (progn
-      (unless package-archive-contents
-        (package-refresh-contents))
-      (package-install 'use-package)))
-
   ;; set ensure to be the default
   (require 'use-package-ensure)
   (setq use-package-always-ensure t)
@@ -105,9 +96,6 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 #+END_SRC
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
-** TODO use-package is now included in Emacs
-Much of the above section can likely be removed, now that use-package is provided by Emacs (since 29)
-
 * Fundamental Package Installation and Configuration
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 ** Icons
