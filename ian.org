@@ -146,8 +146,8 @@ It's installed early because many things have integrations with it, including so
 ** Theme
 I'm mainly using the Doom Emacs theme pack.
 I think they're really nice to look at, especially with ~solaire-mode~.
-
-First install the theme pack:
+*** Theme packs
+**** Doom
 #+begin_src emacs-lisp
   (use-package doom-themes
     :config
@@ -158,19 +158,25 @@ First install the theme pack:
 
     ;; Corrects (and improves) org-mode's native fontification.
     ;; TODO is this still relevant when also using org-modern? or do
-    ;; they just conflict
+    ;; they just conflict?
     (doom-themes-org-config)
     )
 #+end_src
-
+**** ef-themes
 Protesilaos Stavrou has a nice theme pack too:
 #+begin_src emacs-lisp
   (use-package ef-themes)
 #+end_src
+*** Default theme
+Prefer to load a theme per-system, but it's nice to have it documented here.
+Add a line like the following to the appropriate file in ~local/~
+#+begin_src emacs-lisp
+;;  (load-theme 'ef-reverie)
+#+end_src
 
 *** Theme lists
 I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
-Unfortunately, Phind didn't do the job perfectly, so some of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
+Unfortunately, Phind didn't an absolutely shit job, so many of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
 **** Light themes
@@ -221,38 +227,6 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
                              doom-vibrant
                              doom-zenburn))
 #+end_src
-*** Noninteractive theme picker
-For running at startup
-#+begin_src emacs-lisp
-  (defun set-theme-at-specific-times ()
-    "Set light theme at 10AM, dark theme at 4PM"
-    (let ((now (decode-time))
-          (light-theme (nth (random (length light-theme-list)) light-theme-list))
-          (dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
-      (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
-          (load-theme light-theme t)
-        (load-theme dark-theme t))))
-
-  (add-hook 'after-init-hook 'set-theme-at-specific-times)
-  (run-at-time "10:00am" nil #'set-theme-at-specific-times)
-  (run-at-time "4:00pm" nil #'set-theme-at-specific-times)
-#+end_src
-*** Interactive theme picker
-Spawns Helm and allows you to pick, but from the appropriate list for the time of day.
-First the underlying implementation:
-#+begin_src emacs-lisp
-  (defun choose-theme-impl (light-theme-list dark-theme-list)
-    "Choose a theme from the appropriate list based on the current time"
-    (let* ((now (decode-time))
-           (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
-                       light-theme-list
-                     dark-theme-list))
-           (theme-names (mapcar 'symbol-name themes))
-           (theme-name (helm :sources (helm-build-sync-source "Themes"
-                                        :candidates theme-names)
-                             :buffer "*helm choose-theme*")))
-      (intern theme-name)))
-#+end_src
 *** Entrypoint
 #+begin_src emacs-lisp
   (defun choose-theme ()
@@ -261,6 +235,8 @@ First the underlying implementation:
     (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
       (load-theme theme t)))
 #+end_src
+**** TODO change the name of choose-theme
+the name is too generic and it should be prefixed with something to avoid namespace collisions
 ** Solaire Mode
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
 #+begin_src emacs-lisp
@@ -1102,7 +1078,7 @@ Certain projects use a gopath folder inside the project root and this confuses L
 
 Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
 
-*** TODO Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is  a better way to do this, that I haven't figured out yet -- regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
+**** TODO Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is  a better way to do this, that I haven't figured out yet -- regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
 ** Rust
 To install the Rust language server:
 1. Install ~rustup~.
@@ -1170,7 +1146,6 @@ For now though, this is sufficient for me
     
 Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
 
-
 *** Setting highlighting for special template modes
 #+BEGIN_SRC emacs-lisp
   ;; web-mode can provide syntax highlighting for many template
@@ -1207,7 +1182,6 @@ Finally, anyway, add a hook to run it on save.. should only affect buffers Tailw
   (add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
 #+end_src
 
-
 ** JSON
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
@@ -1230,7 +1204,6 @@ Default Keybindings
 #+END_QUOTE
 
 ** Shell
-
 *** TODO I don't know if this still works
 Shell mode is pretty good vanilla, but I prefer to use spaces rather than tabs for indents with languages like Bash because they just tend to format more reliably. Tabs are .. theoretically more flexible, so maybe I can come back to consider this.
 
@@ -2097,7 +2070,6 @@ I love Kagi and even if it costs a few cents per query I would like to have it a
     (kagi-summarizer-default-language "EN")
     (kagi-summarizer-cache t))
 #+end_src
-
 
 *** Org Babel Support
 Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever use it and want to capture the resposnes alongside notes

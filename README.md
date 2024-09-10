@@ -146,7 +146,7 @@ It's installed early because many things have integrations with it, including so
   :defer t
   )
 
-(setq treemacs-no-png-images nil)
+(setq treemacs-no-png-images t)
 
 (use-package treemacs-evil
   :after (treemacs evil))
@@ -163,34 +163,47 @@ It's installed early because many things have integrations with it, including so
 
 I'm mainly using the Doom Emacs theme pack. I think they're really nice to look at, especially with `solaire-mode`.
 
-First install the theme pack:
+
+### Theme packs
+
+-   Doom
+
+    ```emacs-lisp
+    (use-package doom-themes
+      :config
+      ;; Global settings (defaults)
+      (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+            doom-themes-enable-italic t
+            ) ; if nil, italics is universally disabled
+    
+      ;; Corrects (and improves) org-mode's native fontification.
+      ;; TODO is this still relevant when also using org-modern? or do
+      ;; they just conflict?
+      (doom-themes-org-config)
+      )
+    ```
+
+-   ef-themes
+
+    Protesilaos Stavrou has a nice theme pack too:
+    
+    ```emacs-lisp
+    (use-package ef-themes)
+    ```
+
+
+### Default theme
+
+Prefer to load a theme per-system, but it's nice to have it documented here. Add a line like the following to the appropriate file in `local/`
 
 ```emacs-lisp
-(use-package doom-themes
-  :config
-  ;; Global settings (defaults)
-  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-        doom-themes-enable-italic t
-        ) ; if nil, italics is universally disabled
-
-  ;; Corrects (and improves) org-mode's native fontification.
-  ;; TODO is this still relevant when also using org-modern? or do
-  ;; they just conflict
-  (doom-themes-org-config)
-  (doom-themes-treemacs-config)
-  )
-```
-
-Protesilaos Stavrou has a nice theme pack too:
-
-```emacs-lisp
-(use-package ef-themes)
+;;  (load-theme 'ef-reverie)
 ```
 
 
 ### Theme lists
 
-I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times. Unfortunately, Phind didn't do the job perfectly, so some of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
+I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times. Unfortunately, Phind didn't an absolutely shit job, so many of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
 
@@ -246,45 +259,6 @@ I'll curate the lists as I use the new functionality, to remove ones I don't lik
     ```
 
 
-### Noninteractive theme picker
-
-For running at startup
-
-```emacs-lisp
-(defun set-theme-at-specific-times ()
-  "Set light theme at 10AM, dark theme at 4PM"
-  (let ((now (decode-time))
-        (light-theme (nth (random (length light-theme-list)) light-theme-list))
-        (dark-theme (nth (random (length dark-theme-list)) dark-theme-list)))
-    (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
-        (load-theme light-theme t)
-      (load-theme dark-theme t))))
-
-(add-hook 'after-init-hook 'set-theme-at-specific-times)
-(run-at-time "10:00am" nil #'set-theme-at-specific-times)
-(run-at-time "4:00pm" nil #'set-theme-at-specific-times)
-```
-
-
-### Interactive theme picker
-
-Spawns Helm and allows you to pick, but from the appropriate list for the time of day. First the underlying implementation:
-
-```emacs-lisp
-(defun choose-theme-impl (light-theme-list dark-theme-list)
-  "Choose a theme from the appropriate list based on the current time"
-  (let* ((now (decode-time))
-         (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 16))
-                     light-theme-list
-                   dark-theme-list))
-         (theme-names (mapcar 'symbol-name themes))
-         (theme-name (helm :sources (helm-build-sync-source "Themes"
-                                      :candidates theme-names)
-                           :buffer "*helm choose-theme*")))
-    (intern theme-name)))
-```
-
-
 ### Entrypoint
 
 ```emacs-lisp
@@ -294,6 +268,10 @@ Spawns Helm and allows you to pick, but from the appropriate list for the time o
   (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
     (load-theme theme t)))
 ```
+
+-   TODO change the name of choose-theme
+
+    the name is too generic and it should be prefixed with something to avoid namespace collisions
 
 
 ## Solaire Mode
@@ -501,25 +479,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 (setq vc-handled-backends nil)
 ```
 
-The Magit author publishes an additional package called [forge](https://emacsair.me/2018/12/19/forge-0.1/). Forge lets you interact with GitHub and Gitlab from inside of Emacs. There's planned support for Gogs, Gitea, etc.
-
-```emacs-lisp
-(use-package forge
-  :after magit)
-```
-
-Forge has to be configured with something like `.authinfo` or preferably `authinfo.gpg`. Create a access token through the web UI of GitHub and place on the first line in `$HOME/.authinfo` with the following format:
-
-```bash
-host api.github.com login gigawhitlocks^forge password TOKEN
-```
-
-but obviously replace `TOKEN` with the access token. And [use `.authinfo.gpg` and encrypt it](https://www.masteringemacs.org/article/keeping-secrets-in-emacs-gnupg-auth-sources). Don't just use `.authinfo`.
-
-Also, I've only tried this with GitHub. But at least in the case of GitHub, once Forge is set up, it adds some niceties like this to the Magit overview. In this case, I'm looking at the history of a project and Forge automatically adds a link to the PR displayed as part of the commit title in history:
-
-![img](My_Environment/2020-01-15_13-17-16_2020-01-14T13_58_07.gif)
-
 
 ## Install and Configure `git-timemachine`
 
@@ -704,6 +663,8 @@ I like to highlight the current line so that it is easy to identify where my cur
   :config
   ;; set up rainbow delimiters for Emacs lisp
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+  ;; and sql mode too, it's useful there
+  (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
   )
 ```
 
@@ -1339,8 +1300,7 @@ Certain projects use a gopath folder inside the project root and this confuses L
 
 Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
 
-
-### TODO Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is  a better way to do this, that I haven't figured out yet &#x2013; regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
+-   TODO Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is  a better way to do this, that I haven't figured out yet &#x2013; regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
 
 
 ## Rust
@@ -1556,6 +1516,12 @@ It might be that this essentially sets up dumb-jump to work anywhere that I've n
  )
 ```
 
+Use rainbow delimeters in SQL
+
+```emacs-lisp
+(add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
+```
+
 
 ## Emacs Lisp
 
@@ -1610,6 +1576,7 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
         (list
          'markdown-mode
          'go-mode-hook
+         'sql-mode-hook
          'js2-mode-hook
          'yaml-mode-hook
          'rjsx-mode-hook))
@@ -1877,6 +1844,8 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ;; enable execution of languages from Babel
 (org-babel-do-load-languages 'org-babel-load-languages
                              '(
+                               (sql . t)
+                               (python . t)
                                (shell . t)
                                )
                              )
@@ -2081,6 +2050,15 @@ made unique when necessary."
 ```
 
 
+## Disable pretty entities
+
+I find superscripts, subscripts, etc, are less common than verbatim underscores and such so I am changing the default for this setting
+
+```emacs-lisp
+(setq org-pretty-entities nil)
+```
+
+
 # Miscellaneous standalone global configuration changes
 
 
@@ -2107,7 +2085,7 @@ Categories=Other;
 Keywords=org-protocol;
 Icon=emacs
 Type=Application
-Exec=/home/ian/bin/org-protocol %u
+Exec=org-protocol %u
 #Exec=emacsclient -- %u
 Terminal=false
 StartupWMClass=Emacs
@@ -2371,6 +2349,13 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
+## Enable context menu on right click
+
+```emacs-lisp
+(context-menu-mode t)
+```
+
+
 ## Enable the mouse in the terminal
 
 ```emacs-lisp
@@ -2497,6 +2482,29 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
 Then create a source block with 'language' ‘kagi-fastgpt’:
 
 > Can Kagi FastGPT be used in Org mode?
+
+
+## Emacs Everywhere
+
+Sadly this only works in X11 but there's a long Wayland support issue, and it looks like a lot of progress has been made! So hopefully this will get updated to work in Wayland before I upgrade to the next LTS.. whenever I do that, lol.
+
+```emacs-lisp
+(use-package emacs-everywhere)
+```
+
+
+## Casual Dired (a dired porcelain)
+
+I've always thought `dired` was cool, but it's hard to remember all the commands, and the usefulness falls away if you can't remember the buttons. This is the same reason I have `which-key` installed for Emacs more generally, and it's part of the brilliance of `magit`, too. `writeable-dired-mode` is a bright spot, along with all the `writeable` modes, but in general, I struggle to use them and fall back to doing stuff in the regular gui or command line most of the time.
+
+However I saw [this wonderful package called Casual Dired](https://github.com/kickingvegas/casual-dired/tree/main) come through my RSS feed and had to install it right away, before I forgot, because it appears to be what `magit` is to `git`, but for `dired`. Brilliant!
+
+```emacs-lisp
+(use-package casual-dired
+  :bind (:map dired-mode-map ("C-x" . 'casual-dired-tmenu)))
+```
+
+I'm not sure I love the keybinding, but if I can remember it, that'll be fine. If not, maybe I can make `which-key` show it automatically after a pause, or something? Something to look into when I have more time. (When do I ever have more time? 😫)
 
 
 # Render this file for display on the web
