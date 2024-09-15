@@ -1749,7 +1749,7 @@ I find superscripts, subscripts, etc, are less common than verbatim underscores 
 #+END_SRC
 * Miscellaneous standalone global configuration changes
 ** Opening the Remote Repo in the Browser from Emacs
-[[https://github.com/rmuslimov/browse-at-remote][browse-at-remote.el]] solves this
+[[https://github.com/rmuslimov/browse-at-remote]]
 #+begin_src emacs-lisp
   (use-package browse-at-remote)
 #+end_src
