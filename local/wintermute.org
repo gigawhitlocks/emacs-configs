@@ -2,15 +2,15 @@
 
 Stuff that's specific to my personal Thinkpad's (X370 Yoga) Emacs config.
 
-** Variable-width font
+* Variable-width font
 For prose modes like Org and Markdown
 #+begin_src emacs-lisp
   (set-face-attribute 'variable-pitch nil :family "Noto Sans")
 #+end_src
 
-** Theme
+* Theme
 #+begin_src emacs-lisp
-  (load-theme 'doom-opera)
+  (load-theme 'ef-summer t)
 #+end_src
 
 * Footer
