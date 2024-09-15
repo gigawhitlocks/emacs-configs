@@ -12,7 +12,6 @@
  '(helm-minibuffer-history-key "M-p")
  '(hsys-org-enable-smart-keys 'buttons)
  '(lsp-tailwindcss-rustywind-command "/usr/bin/rustywind")
- '(org-agenda-files '("/home/iwhitlock/notes/bau.org"))
  '(package-selected-packages
    '(casual-dired emacs-everywhere embark evil-mc jira-markup-mode kubernetes-evil kubernetes spacious-padding robot-mode treemacs-magit sqlite3 caps-lock gemini-mode elpher browse-at-remote htmlize ox-gfm org-web-tools ox-jira company-org-block org-download evil-org adaptive-wrap sql-indent elixir-mode vyper-mode salt-mode json-mode web-mode rust-mode gorepl-mode gotest flycheck-golangci-lint go-mode auto-virtualenv dockerfile-mode rego-mode yaml-mode tree-sitter-langs tree-sitter ace-jump-mode helpful wgrep-ack ack pc-bufsw highlight-indent-guides exec-path-from-shell flycheck company-quickhelp company-box company systemd restart-emacs rainbow-delimiters git-gutter prism yasnippet-snippets yasnippet dashboard which-key git-timemachine magit helm-ag helm-descbinds undo-tree evil-surround evil-escape evil-collection general helm-projectile emojify doom-modeline solaire-mode ef-themes doom-themes treemacs-projectile treemacs-evil treemacs-all-the-icons treemacs all-the-icons delight diminish use-package))
  '(safe-local-variable-values
