@@ -1712,30 +1712,6 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
   (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
 #+end_src
 
-** Pretty theme for Org Mode
-#+begin_src emacs-lisp
-  (use-package org-modern)
-#+end_src
-
-*** Some suggested configuration to go along with ~org-modern~
-#+begin_src emacs-lisp
-  (setq 
-   ;; Edit settings
-   org-auto-align-tags nil
-   org-tags-column 0
-   org-catch-invisible-edits 'show-and-error
-   org-special-ctrl-a/e t
-   org-insert-heading-respect-content t
-
-   ;; Org styling, hide markup etc.
-   org-hide-emphasis-markers t
-   org-pretty-entities t
-   org-ellipsis "…"
-   )
-
-  (global-org-modern-mode)
-#+end_src
-
 ** Disable pretty entities
 I find superscripts, subscripts, etc, are less common than verbatim underscores and such so I am changing the default for this setting
 #+BEGIN_SRC emacs-lisp
