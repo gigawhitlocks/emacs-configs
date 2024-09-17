@@ -505,7 +505,6 @@ Enable yas-mode everywhere
 #+begin_src emacs-lisp
   (yas-global-mode 1)
 #+END_SRC
-** Smooth scrolling, distraction-free mode, and minimap
 ** Load Secrets
 Load in any additional settings that I do not wish to make public, if set.
 N.B. ~~/.secret.el~ must end with ~(provide '~~/.secret.el)~

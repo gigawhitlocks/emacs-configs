@@ -590,9 +590,6 @@ Enable yas-mode everywhere
 ```
 
 
-## Smooth scrolling, distraction-free mode, and minimap
-
-
 ## Load Secrets
 
 Load in any additional settings that I do not wish to make public, if set. N.B. `~/.secret.el` must end with `(provide '~~/.secret.el)`
