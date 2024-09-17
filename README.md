@@ -9,7 +9,7 @@ Here is a screenshot of my environment:
 Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
 
 
-## TODO modernize my configuration
+## IN PROGRESS modernize my configuration
 
 A lot of the features in this config have been upstreamed since I wrote them. The configuration still works as-is, but at some point I plan to go through and remove external packages that have been replaced with upstream replacements. A good example of this is `use-package` which is now upstreamed, and I would like to use that instead of the external package. However, I don't plan to switch to `elgot` unless `lsp-mode` and `lsp-ui` are deprecated, because I am used to their look & feel, and slightly prefer them to elgot.
 
@@ -65,9 +65,9 @@ The rest of the code that is executed begins with the routines defined by this f
 
 # Package Manager Bootstrap
 
-The first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with `git`, so I use `use-package` to ensure that packages are installed from my configuration file.
+After tangling the source files and loading `init.el`, the first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with `git`, so I use `use-package` to ensure that packages are installed from my configuration file.
 
-Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, installs [`use-package`](https://github.com/jwiegley/use-package) if it is not found, configures `use-package` and installs a few extra packages that acoutrement `use-package` and will be used heavily throughout.
+Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, configures `use-package` and installs a few extra packages that acoutrement `use-package` and will be used heavily throughout. It used to install `use-package` itself, however, it has since been upstreamed and that step has been removed. 🎉
 
 ```emacs-lisp
 ;;; ian.el --- my custom emacs config with no one else considered because fuck you
@@ -189,7 +189,7 @@ Prefer to load a theme per-system, but it's nice to have it documented here. Add
 
 ### Theme lists
 
-I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times. Unfortunately, Phind didn't an absolutely shit job, so many of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
+I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times. Unfortunately, Phind did an absolutely shit job, so many of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
 
 I'll curate the lists as I use the new functionality, to remove ones I don't like.
 
@@ -2050,7 +2050,7 @@ I find superscripts, subscripts, etc, are less common than verbatim underscores 
 
 ## Opening the Remote Repo in the Browser from Emacs
 
-[browse-at-remote.el](https://github.com/rmuslimov/browse-at-remote) solves this
+<https://github.com/rmuslimov/browse-at-remote>
 
 ```emacs-lisp
 (use-package browse-at-remote)
