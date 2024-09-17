@@ -1095,12 +1095,6 @@ Go support requires some dependencies. I will try to list them all here. Stuff I
 $ go get https://github.com/golang/lint
 ```
 
-Nothing to do with Emacs, but `eg` also looks really cool:
-
-```bash
-$ go get golang.org/x/tools/cmd/eg
-```
-
 -   [`golangci-lint`](https://github.com/golangci/golangci-lint) is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. `go-metalinter`, I think, is what it was called. Anyway, it used to crash my computer and *apparently* that was a common experience. Anyway `golangci-lint` must be installed independently, too:
 
 ```bash

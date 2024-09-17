@@ -909,11 +909,6 @@ Stuff I have installed has some overlap because of the in-progress move to LSP, 
 $ go get https://github.com/golang/lint
 #+END_SRC
 
-Nothing to do with Emacs, but ~eg~ also looks really cool:
-#+BEGIN_SRC bash
-$ go get golang.org/x/tools/cmd/eg
-#+END_SRC
-
 - [[https://github.com/golangci/golangci-lint][~golangci-lint~]] is a meta linter that calls a bunch of 3rd party linters (configurable) and replaces the old one that used to freeze my computer. ~go-metalinter~, I think, is what it was called. Anyway, it used to crash my computer and /apparently/ that was a common experience. Anyway ~golangci-lint~ must be installed independently, too:
 
 #+BEGIN_SRC bash
