@@ -437,6 +437,11 @@ The external package ~fancy-compilation-mode~ handles colorization and "clever" 
 
   (with-eval-after-load 'compile
     (fancy-compilation-mode))
+  #+end_src
+
+I don't like how fancy-compilation-mode overrides colors by default, but luckily this can be disabled.
+#+begin_src emacs-lisp
+  (setq fancy-compilation-override-colors nil)
 #+end_src
 ** Scream when compilation is finished
 Sometimes when the compile process takes more than a few seconds I change windows and get distracted. This hook plays a file through ~aplay~ (something else that will break on a non-Linux machine) to notify me that compilation is done. I was looking for something like a kitchen timer but I couldn't find one so right now the vendored sound is the [[https://en.wikipedia.org/wiki/Wilhelm_scream][Wilhelm Scream]].
