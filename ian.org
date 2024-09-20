@@ -1741,6 +1741,7 @@ I find superscripts, subscripts, etc, are less common than verbatim underscores 
 #+BEGIN_SRC emacs-lisp
   (setq org-pretty-entities nil)
 #+END_SRC
+
 * Miscellaneous standalone global configuration changes
 ** Opening the Remote Repo in the Browser from Emacs
 [[https://github.com/rmuslimov/browse-at-remote]]
@@ -2283,6 +2284,7 @@ We can spruce up the HTML representation of this file with a little bit of CSS.
       (nohup emacsclient "${args[@]}" > /dev/null 2>&1 &) > /dev/null
   fi
 #+END_SRC
+
 * Running Emacs properly from the GUI
 
 This ~.desktop~ file calls ~emacs~ when it's not already running, and ~emacsclient~ otherwise.
