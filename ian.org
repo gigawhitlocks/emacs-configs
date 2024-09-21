@@ -305,62 +305,66 @@ The impression that I got was that ~project.el~ is a first-party replacement for
 
 ** Install and Configure Evil Mode
 [[https://github.com/emacs-evil/evil][~evil-mode~]] fundamentally changes Emacs so that while editing all of the modes and keybindings from ~vim~ are present.
-It's controversial but I think modal editing is brilliant and have been using ~vim~ bindings since the mid-aughts. No going back.
+It's controversial but I think modal editing is brilliant and have been using ~vim~ bindings for twenty-odd years now. No going back.
 #+BEGIN_SRC emacs-lisp
-      (defun setup-evil ()
-        "Install and configure evil-mode and related bindings."
-        (use-package evil
-          :init
-          (setq evil-want-keybinding nil)
-          (setq evil-want-integration t)
-          :config
-          (evil-mode 1))
+  (defun setup-evil ()
+    "Install and configure evil-mode and related bindings."
+    (use-package evil
+      :init
+      (setq evil-want-keybinding nil)
+      (setq evil-want-integration t)
+      :config
+      (evil-mode 1))
 
-        (use-package evil-collection
-          :after evil
-          :config
-          ;; don't let evil-collection manage go-mode
-          ;; it is overriding gd
-          (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
-          (evil-collection-init))
+    (use-package evil-collection
+      :after evil
+      :config
+      ;; don't let evil-collection manage go-mode
+      ;; it is overriding gd
+      (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
+      (evil-collection-init))
 
+    ;; the evil-collection overrides the worktree binding :(
+    (general-define-key
+     :states 'normal
+     :keymaps 'magit-status-mode-map
+     "Z" 'magit-worktree)
 
-        ;; the evil-collection overrides the worktree binding :(
-        (general-define-key
-         :states 'normal
-         :keymaps 'magit-status-mode-map
-         "Z" 'magit-worktree)
+    ;; add fd as a remap for esc
+    (use-package evil-escape
+      :delight)
+    (evil-escape-mode 1)
 
-        ;; add fd as a remap for esc
-        (use-package evil-escape
-          :delight)
-        (evil-escape-mode 1)
+    (use-package evil-surround
+      :config
+      (global-evil-surround-mode 1))
+    (use-package evil-snipe)
+    (evil-snipe-override-mode +1)
+    ;; and disable in specific modes (an example below)
+    ;; (push 'python-mode evil-snipe-disabled-modes)
 
-        (use-package evil-surround
-          :config
-          (global-evil-surround-mode 1))
-        (use-package undo-tree
-          :config
-          (global-undo-tree-mode)
-          (evil-set-undo-system 'undo-tree)
-          (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+    (use-package undo-tree
+      :config
+      (global-undo-tree-mode)
+      (evil-set-undo-system 'undo-tree)
+      (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
 
-        ;; add some advice to undo-tree-save-history to suppress messages
-        ;; when it saves its backup files
-        (defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
-          (let ((message-log-max nil)
-                (inhibit-message t))
-            (apply undo-tree-save-history args)))
+    ;; add some advice to undo-tree-save-history to suppress messages
+    ;; when it saves its backup files
+    (defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
+      (let ((message-log-max nil)
+            (inhibit-message t))
+        (apply undo-tree-save-history args)))
 
-        (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
+    (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
 
-        (setq-default evil-escape-key-sequence "fd")
+    (setq-default evil-escape-key-sequence "fd")
 
-        ;; unbind RET since it does the same thing as j and in some
-        ;; modes RET is used for other things, and evil conflicts
-        (with-eval-after-load 'evil-maps
-          (define-key evil-motion-state-map (kbd "RET") nil))
-        )
+    ;; unbind RET since it does the same thing as j and in some
+    ;; modes RET is used for other things, and evil conflicts
+    (with-eval-after-load 'evil-maps
+      (define-key evil-motion-state-map (kbd "RET") nil))
+    )
 #+END_SRC
 
 ** Install and Configure Keybindings Helper
@@ -673,7 +677,6 @@ I need the ~evil~ compatiblity mode, too, because I run ~evil~.
 #+begin_src emacs-lisp
   (use-package evil-mc)
 #+end_src
-
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 ** FiraCode Font Installation Script
