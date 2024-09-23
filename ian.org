@@ -401,6 +401,13 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
     (setq vc-handled-backends nil)
 #+END_SRC
 
+*** Allow magit to interact with git forges, like Github and Gitlab
+#+begin_src emacs-lisp
+  (use-package forge
+    :after magit)
+#+end_src
+
+
 ** Install and Configure ~git-timemachine~
 ~git-timeline~ lets you step through the history of a file.
 
