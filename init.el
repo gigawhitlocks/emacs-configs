@@ -27,7 +27,5 @@
 (require '~/.emacs.d/ian.el)
 
 ;; Load automatic and interactive customizations from this computer
-(shell-command "touch ~/.emacs.d/.emacs-custom.el")
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
-(load custom-file)
+(setq custom-file "/dev/null")
 (provide 'init)
