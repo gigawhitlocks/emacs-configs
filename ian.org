@@ -1251,8 +1251,6 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 
 SQL doesn't -- as far as I'm aware, and I'm not taking the time to look harder at the moment anyway -- have an LSP backend (probably doesn't help that there are multiple dialects of SQL so I'd have to find one for PG or SQLite or whatever I'm using that day) so ~lsp-find-definition~ doesn't work. Below I set ~gd~ in evil-mode back to the default (~evil-goto-definition~) and add dumb jump as a backend to xref so that it can be used for finding SQL function definitions. Works pretty well but I haven't tested to see if the new hook & the new xref-show-definitions-function values will affect non-SQL modes negatively.
 
-It might be that this essentially sets up dumb-jump to work anywhere that I've not mapped ~gd~ to ~lsp-find-function~ and that's fine but I will have to move this code elsewhere so it makes more sense, if that is the case. A task for another day.
-
 #+begin_src emacs-lisp
   (general-define-key
    :states 'normal
