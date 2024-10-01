@@ -856,7 +856,7 @@ https://www.masteringemacs.org/article/combobulate-structured-movement-editing-t
 #+END_SRC
 
 ** Rego
-whatever that is
+[[https://www.openpolicyagent.org/docs/latest/policy-language/][whatever that is]]
 #+begin_src emacs-lisp :tangle yes
   (use-package rego-mode)
 #+end_src
