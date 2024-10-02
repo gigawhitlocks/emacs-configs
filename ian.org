@@ -1286,6 +1286,13 @@ Gotta eat
   (use-package jira-markup-mode)
 #+end_src
 
+** Racket
+Funny the twists of fate that bring us back to where we started. My interest in Emacs stemmed originally from an interest in Racket, and my inability to get vim to format Racket code appropriately.
+I never did wind up learning Racket, but I guess I might now, for entirely different reasons
+#+begin_src emacs-lisp
+ (use-package racket-mode) 
+#+end_src
+
 * Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap-prefix-mode]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
 #+BEGIN_SRC emacs-lisp

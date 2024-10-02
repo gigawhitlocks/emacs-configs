@@ -54,9 +54,7 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 (require '~/.emacs.d/ian.el)
 
 ;; Load automatic and interactive customizations from this computer
-(shell-command "touch ~/.emacs.d/.emacs-custom.el")
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
-(load custom-file)
+(setq custom-file "/dev/null")
 (provide 'init)
 ```
 
@@ -360,7 +358,7 @@ The impression that I got was that `project.el` is a first-party replacement for
 
 ## Install and Configure Evil Mode
 
-[`evil-mode`](https://github.com/emacs-evil/evil) fundamentally changes Emacs so that while editing all of the modes and keybindings from `vim` are present. It's controversial but I think modal editing is brilliant and have been using `vim` bindings since the mid-aughts. No going back.
+[`evil-mode`](https://github.com/emacs-evil/evil) fundamentally changes Emacs so that while editing all of the modes and keybindings from `vim` are present. It's controversial but I think modal editing is brilliant and have been using `vim` bindings for twenty-odd years now. No going back.
 
 ```emacs-lisp
 (defun setup-evil ()
@@ -380,7 +378,6 @@ The impression that I got was that `project.el` is a first-party replacement for
     (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
     (evil-collection-init))
 
-
   ;; the evil-collection overrides the worktree binding :(
   (general-define-key
    :states 'normal
@@ -395,6 +392,11 @@ The impression that I got was that `project.el` is a first-party replacement for
   (use-package evil-surround
     :config
     (global-evil-surround-mode 1))
+  (use-package evil-snipe)
+  (evil-snipe-override-mode +1)
+  ;; and disable in specific modes (an example below)
+  ;; (push 'python-mode evil-snipe-disabled-modes)
+
   (use-package undo-tree
     :config
     (global-undo-tree-mode)
@@ -466,6 +468,14 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
+### Allow magit to interact with git forges, like Github and Gitlab
+
+```emacs-lisp
+(use-package forge
+  :after magit)
+```
+
+
 ## Install and Configure `git-timemachine`
 
 `git-timeline` lets you step through the history of a file.
@@ -511,6 +521,12 @@ The external package `fancy-compilation-mode` handles colorization and "clever" 
 
 (with-eval-after-load 'compile
   (fancy-compilation-mode))
+```
+
+I don't like how fancy-compilation-mode overrides colors by default, but luckily this can be disabled.
+
+```emacs-lisp
+(setq fancy-compilation-override-colors nil)
 ```
 
 
@@ -1020,7 +1036,7 @@ Tree-Sitter is now supported natively
 
 ## Rego
 
-whatever that is
+[whatever that is](https://www.openpolicyagent.org/docs/latest/policy-language/)
 
 ```emacs-lisp
 (use-package rego-mode)
@@ -1483,8 +1499,6 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 
 SQL doesn't &#x2013; as far as I'm aware, and I'm not taking the time to look harder at the moment anyway &#x2013; have an LSP backend (probably doesn't help that there are multiple dialects of SQL so I'd have to find one for PG or SQLite or whatever I'm using that day) so `lsp-find-definition` doesn't work. Below I set `gd` in evil-mode back to the default (`evil-goto-definition`) and add dumb jump as a backend to xref so that it can be used for finding SQL function definitions. Works pretty well but I haven't tested to see if the new hook & the new xref-show-definitions-function values will affect non-SQL modes negatively.
 
-It might be that this essentially sets up dumb-jump to work anywhere that I've not mapped `gd` to `lsp-find-function` and that's fine but I will have to move this code elsewhere so it makes more sense, if that is the case. A task for another day.
-
 ```emacs-lisp
 (general-define-key
  :states 'normal
@@ -1532,6 +1546,15 @@ Gotta eat
 
 ```emacs-lisp
 (use-package jira-markup-mode)
+```
+
+
+## Racket
+
+Funny the twists of fate that bring us back to where we started. My interest in Emacs stemmed originally from an interest in Racket, and my inability to get vim to format Racket code appropriately. I never did wind up learning Racket, but I guess I might now, for entirely different reasons
+
+```emacs-lisp
+(use-package racket-mode) 
 ```
 
 
@@ -1996,34 +2019,6 @@ made unique when necessary."
       ref)))
 
 (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
-```
-
-
-## Pretty theme for Org Mode
-
-```emacs-lisp
-(use-package org-modern)
-```
-
-
-### Some suggested configuration to go along with `org-modern`
-
-```emacs-lisp
-(setq 
- ;; Edit settings
- org-auto-align-tags nil
- org-tags-column 0
- org-catch-invisible-edits 'show-and-error
- org-special-ctrl-a/e t
- org-insert-heading-respect-content t
-
- ;; Org styling, hide markup etc.
- org-hide-emphasis-markers t
- org-pretty-entities t
- org-ellipsis "…"
- )
-
-(global-org-modern-mode)
 ```
 
 
