@@ -2059,10 +2059,9 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
 #+end_src
 
    Then create a source block with 'language' ‘kagi-fastgpt’:
-
-     #+begin_quote kagi-fastgpt
+     #+begin_example  kagi-fastgpt
        Can Kagi FastGPT be used in Org mode?
-     #+end_quote
+     #+end_example
 
 ** Emacs Everywhere
 Sadly this only works in X11 but there's a long Wayland support issue, and it looks like a lot of progress has been made! So hopefully this will get updated to work in Wayland before I upgrade to the next LTS.. whenever I do that, lol.
