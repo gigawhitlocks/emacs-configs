@@ -13,6 +13,11 @@ For prose modes like Org and Markdown
   (load-theme 'ef-summer t)
 #+end_src
 
+* Customize
+Interactive customizations are applied on per-host basis
+#+begin_src emacs-lisp 
+  (setq custom-file "~/.emacs-custom.el")
+#+end_src
 * Footer
 #+BEGIN_SRC emacs-lisp
   (provide 'local)

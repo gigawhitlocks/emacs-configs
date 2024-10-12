@@ -53,7 +53,6 @@ Since I want most of the configuration here in `ian.org`, `init.el` just holds t
 
 (require '~/.emacs.d/ian.el)
 
-;; Load automatic and interactive customizations from this computer
 (setq custom-file "/dev/null")
 (provide 'init)
 ```
@@ -781,6 +780,7 @@ Writable grep mode allows you to edit the results from running grep on a project
 
 ```emacs-lisp
 (use-package ack)
+(use-package ag)
 (use-package wgrep-ack)
 ```
 

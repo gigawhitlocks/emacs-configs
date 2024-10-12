@@ -53,7 +53,6 @@ Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds t
 
   (require '~/.emacs.d/ian.el)
 
-  ;; Load automatic and interactive customizations from this computer
   (setq custom-file "/dev/null")
   (provide 'init)
 #+END_SRC
