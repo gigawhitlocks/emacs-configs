@@ -641,6 +641,7 @@ Bound by default to ~C-<TAB>~ and ~C-S-<TAB>~, I have decided that these are san
 Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
 #+BEGIN_SRC emacs-lisp
   (use-package ack)
+  (use-package ag)
   (use-package wgrep-ack)
 #+END_SRC
 ** Better help buffers
