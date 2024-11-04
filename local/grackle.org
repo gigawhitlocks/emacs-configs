@@ -1,0 +1,19 @@
+#+TITLE: Configuration for MY DESKTOP
+
+I didn't bother to build Emacs from source on this machine because it's Arch, by the way, and it comes with 29.4 (at time of writing) but I might do that later if I discover this has build flags I don't like, lol. Because I'm that kind of person now I guess.
+
+Anyway I also just installed stuff from the repos to make this work, first the fonts are needed and my install script doesn't work because it's only for Ubuntu
+
+#+begin_example bash
+  sudo pacman -S woff2-fira-code
+#+end_example
+
+and I discovered that there is no ~hostname~ command in Arch by default, I guess? So I just created one real quick
+#+begin_example bash :tangle /sudo::/usr/local/bin/hostname :chmod 0755 :shebang /bin/bash
+  cat /etc/hostname
+#+end_example
+
+* Footer
+#+BEGIN_SRC emacs-lisp
+  (provide 'local)
+#+END_SRC
