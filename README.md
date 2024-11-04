@@ -1696,8 +1696,9 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "gt"     'git-timemachine
   "gd"     'magit-diff
   "go"     'browse-at-remote
+  "gptm"   'gptel-menu
+  "gptc"   'gptel
   "gi"     'helm-imenu
-  "h"      'hyperbole
   "jj"     'bookmark-jump
   "js"     'bookmark-set
   "jo"     'org-babel-tangle-jump-to-org
@@ -2454,11 +2455,14 @@ Can Kagi FastGPT be used in Org mode?
 ```emacs-lisp
 (use-package gptel)
 
-(gptel-make-ollama "Ollama"
-  :host "localhost:11434" 
-  :stream t
-  :models '((mistral:latest)
-            (llama3.2:latest))
+(setq
+ gptel-model 'llama3.2:latest
+ gptel-backend (gptel-make-ollama "Ollama"
+                 :host "localhost:11434" 
+                 :stream t
+                 :models '((mistral:latest)
+                           (llama3.2:latest))))
+
 (gptel-make-kagi "Kagi"
   :key (password-store-get "kagi-token"))
 ```
