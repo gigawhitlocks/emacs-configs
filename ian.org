@@ -1211,6 +1211,13 @@ I also write Zsh scripts and Emacs doesn't detect automatically I think
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 #+end_src
+
+** Fish
+Trying out Fish and sometimes need to edit its language
+#+begin_src emacs-lisp :tangle yes
+  (use-package fish-mode)
+#+end_src
+
 ** Salt
 #+begin_src emacs-lisp
   (use-package salt-mode)
