@@ -26,6 +26,5 @@
 
 (require '~/.emacs.d/ian.el)
 
-;; Load automatic and interactive customizations from this computer
 (setq custom-file "/dev/null")
 (provide 'init)

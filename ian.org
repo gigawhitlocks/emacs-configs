@@ -2052,6 +2052,18 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
        Can Kagi FastGPT be used in Org mode?
      #+end_example
 
+** LLM integration
+#+begin_src emacs-lisp
+  (use-package gptel)
+
+  (gptel-make-ollama "Ollama"             ;Any name of your choosing
+    :host "localhost:11434"               ;Where it's running
+    :stream t                             ;Stream responses
+    :models '(mistral:latest))          ;List of models
+
+  (gptel-make-kagi "Kagi"             ;Any name
+    :key (password-store-get "kagi-token"))
+#+end_src
 ** Emacs Everywhere
 Sadly this only works in X11 but there's a long Wayland support issue, and it looks like a lot of progress has been made! So hopefully this will get updated to work in Wayland before I upgrade to the next LTS.. whenever I do that, lol.
 #+begin_src emacs-lisp
