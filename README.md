@@ -510,6 +510,13 @@ It can be difficult to to remember and discover all of the available shortcuts i
 ```
 
 
+## Set up `pass` for secrets handling
+
+```emacs-lisp
+(use-package pass)
+```
+
+
 ## Handle "fancy" output in compilation buffer
 
 The external package `fancy-compilation-mode` handles colorization and "clever" use of ANSI to create progress bars and stupid shit like that, which show up in things like npm output and Docker output when BuildKit is set to NORMAL. You can, of course, set the BuildKit output style to PLAIN, but sometimes you're eg editing a file where NORMAL is hard-coded in the Makefile target you want to run when using `compilation-mode` and fighting project defaults isn't what you want to spend your time on.
@@ -603,21 +610,6 @@ Enable yas-mode everywhere
 ```emacs-lisp
 (yas-global-mode 1)
 ```
-
-
-## Load Secrets
-
-Load in any additional settings that I do not wish to make public, if set. N.B. `~/.secret.el` must end with `(provide '~~/.secret.el)`
-
-```emacs-lisp
-(if (file-exists-p "~/.secret.el")
-    (progn
-      (load-file "~/.secret.el")
-      (require '~/.secret.el)))
-```
-
-
-### TODO The docs mention a package called `password-store` that I should look into instead of doing this
 
 
 # Extra Packages
@@ -839,6 +831,13 @@ I need the `evil` compatiblity mode, too, because I run `evil`.
 
 ```emacs-lisp
 (use-package evil-mc)
+```
+
+
+## elfeed
+
+```emacs-lisp
+(use-package elfeed)
 ```
 
 
@@ -2421,19 +2420,11 @@ I love Kagi and even if it costs a few cents per query I would like to have it a
 ### Basic config
 
 ```emacs-lisp
-; kagi won't work without a token, but this way the configuration will
-; not break, at least
-(if (not (boundp 'isw-kagi-token))
-    (progn
-      (defvar isw-kagi-token "")
-      (message "no kagi token set")))
-
 (use-package kagi
   :custom
-  (kagi-api-token isw-kagi-token)
+  (kagi-api-token  (password-store-get "kagi-token"))
 
   ;; Universal Summarizer settings
-  (kagi-summarizer-engine "cecil")
   (kagi-summarizer-default-language "EN")
   (kagi-summarizer-cache t))
 ```
@@ -2453,7 +2444,24 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
 
 Then create a source block with 'language' ‘kagi-fastgpt’:
 
-> Can Kagi FastGPT be used in Org mode?
+```
+Can Kagi FastGPT be used in Org mode?
+```
+
+
+## LLM integration
+
+```emacs-lisp
+(use-package gptel)
+
+(gptel-make-ollama "Ollama"
+  :host "localhost:11434" 
+  :stream t
+  :models '((mistral:latest)
+            (llama3.2:latest))
+(gptel-make-kagi "Kagi"
+  :key (password-store-get "kagi-token"))
+```
 
 
 ## Emacs Everywhere
