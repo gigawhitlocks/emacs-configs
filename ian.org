@@ -406,7 +406,6 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
     :after magit)
 #+end_src
 
-
 ** Install and Configure ~git-timemachine~
 ~git-timeline~ lets you step through the history of a file.
 
@@ -436,6 +435,10 @@ It can be difficult to to remember and discover all of the available shortcuts i
       (which-key-mode)
       (which-key-setup-minibuffer))
 #+END_SRC
+** Set up ~pass~ for secrets handling
+#+begin_src emacs-lisp
+  (use-package pass)
+#+end_src
 ** Handle "fancy" output in compilation buffer
 The external package ~fancy-compilation-mode~ handles colorization and "clever" use of ANSI to create progress bars and stupid shit like that, which show up in things like npm output and Docker output when BuildKit is set to NORMAL. You can, of course, set the BuildKit output style to PLAIN, but sometimes you're eg editing a file where NORMAL is hard-coded in the Makefile target you want to run when using ~compilation-mode~ and fighting project defaults isn't what you want to spend your time on.
 
@@ -518,16 +521,6 @@ Enable yas-mode everywhere
 #+begin_src emacs-lisp
   (yas-global-mode 1)
 #+END_SRC
-** Load Secrets
-Load in any additional settings that I do not wish to make public, if set.
-N.B. ~~/.secret.el~ must end with ~(provide '~~/.secret.el)~
-#+begin_src emacs-lisp
-  (if (file-exists-p "~/.secret.el")
-      (progn
-        (load-file "~/.secret.el")
-        (require '~/.secret.el)))
-#+end_src
-*** TODO The docs mention a package called ~password-store~ that I should look into instead of doing this
 
 * Extra Packages
 Packages with a smaller effect on the experience.
@@ -2031,19 +2024,11 @@ For those of us who did away with the caps lock button but write SQL sometimes
 I love Kagi and even if it costs a few cents per query I would like to have it accessible from Emacs. Uses API key stored in ~~/.secret.el~~ as configured in the "load secrets" section above
 *** Basic config
 #+begin_src emacs-lisp
-  ; kagi won't work without a token, but this way the configuration will
-  ; not break, at least
-  (if (not (boundp 'isw-kagi-token))
-      (progn
-        (defvar isw-kagi-token "")
-        (message "no kagi token set")))
-
   (use-package kagi
     :custom
-    (kagi-api-token isw-kagi-token)
+    (kagi-api-token  (password-store-get "kagi-token"))
 
     ;; Universal Summarizer settings
-    (kagi-summarizer-engine "cecil")
     (kagi-summarizer-default-language "EN")
     (kagi-summarizer-cache t))
 #+end_src
