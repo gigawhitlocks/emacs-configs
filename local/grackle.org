@@ -10,23 +10,32 @@ Nothing custom yet on this machine :)
 #+END_SRC
 
 * System Journal
+** <2024-11-05> configured GPG to use the tty to ask for a password
+#+begin_src fundamental :tangle ~/.gnupg/gpg-agent.conf
+  pinentry-program /usr/bin/pinentry-curses
+#+end_src
+
+this causes Emacs to not properly prompt for password and so it fails to unlock the password-store if it is not already unlocked.
+This answer should be simple to adapt to allow GPG to ask for a password in the GUI when available and fall back to pinentry-curses when not: https://superuser.com/a/1761740
+Super, super annoying that this is not a default. Stuff like this is why GPG has abysmal adoption.
+
 **  <2024-11-03 Sun> emacs-wayland
 Switched to the ~emacs-wayland~ package in Arch for.. better support in Wayland, wouldn't you know it.
 
 **  <2024-11-03 Sun> Installing Ollama
 
 Installed Ollama manually
-#+begin_src bash
+#+begin_example bash
   curl -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz
   curl -L https://ollama.com/download/ollama-linux-amd64-rocm.tgz -o ollama-linux-amd64-rocm.tgz
-#+end_src
+#+end_example
 
 but modified the instructions on the website to install to ~/usr/local~ instead of ~/usr~ because .. why would you install directly to ~/usr~??? honestly that alone should make me question this entire endeavor but alas I persevere
 
-#+begin_src bash
+#+begin_example bash
   sudo tar -C /usr/local -xzf ollama-linux-amd64.tgz
   sudo tar -C /usr/local -xzf ollama-linux-amd64-rocm.tgz
-#+end_src
+#+end_example
 The unit file tangles to its final destination ✨
 #+begin_src systemd :tangle /sudo::/etc/systemd/system/ollama.service
   [Unit]
