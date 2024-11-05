@@ -10,6 +10,9 @@ Nothing custom yet on this machine :)
 #+END_SRC
 
 * System Journal
+:PROPERTIES:
+:header-args: :tangle no
+:END:
 ** <2024-11-05> configured GPG to use the tty to ask for a password
 #+begin_src fundamental :tangle ~/.gnupg/gpg-agent.conf
   pinentry-program /usr/bin/pinentry-curses
