@@ -1,80 +1,18 @@
 #+TITLE: Configuration for MY DESKTOP
-Here I plan to keep my Emacs configuration as well as a journal of any custom changes I make to this system that I may want to remember later, at least until I think of a better place to put those thoughts. This is a pretty good place for them for now to be honest.
-
 * Emacs Configuration
-Nothing custom yet on this machine :)
-
-** Footer
-#+BEGIN_SRC emacs-lisp
-  (provide 'local)
-#+END_SRC
-
-* System Journal
-:PROPERTIES:
-:header-args: :tangle no
-:END:
-** <2024-11-05> configured GPG to use the tty to ask for a password
-#+begin_src fundamental :tangle ~/.gnupg/gpg-agent.conf
-  pinentry-program /usr/local/bin/pinentry-auto
-#+end_src
-
-#+begin_src sh :tangle /sudo::/usr/local/bin/pinentry-auto :tangle-mode o755
-  #!/usr/bin/sh
-  bin=/usr/bin
-  pe=$bin/pinentry-qt
-  if test "XDG_SESSION_TYPE" = "tty"; then
-      pe=$bin/pinentry-tty
-  fi
-
-  exec $pe "$@"
-#+end_src
-
-**  <2024-11-03 Sun> emacs-wayland
-Switched to the ~emacs-wayland~ package in Arch for.. better support in Wayland, wouldn't you know it.
-
-**  <2024-11-03 Sun> Installing Ollama
-
-Installed Ollama manually
-#+begin_example bash
-  curl -L https://ollama.com/download/ollama-linux-amd64.tgz -o ollama-linux-amd64.tgz
-  curl -L https://ollama.com/download/ollama-linux-amd64-rocm.tgz -o ollama-linux-amd64-rocm.tgz
-#+end_example
-
-but modified the instructions on the website to install to ~/usr/local~ instead of ~/usr~ because .. why would you install directly to ~/usr~??? honestly that alone should make me question this entire endeavor but alas I persevere
-
-#+begin_example bash
-  sudo tar -C /usr/local -xzf ollama-linux-amd64.tgz
-  sudo tar -C /usr/local -xzf ollama-linux-amd64-rocm.tgz
-#+end_example
-The unit file tangles to its final destination ✨
-#+begin_src systemd :tangle /sudo::/etc/systemd/system/ollama.service
-  [Unit]
-  Description=Ollama Service
-  After=network-online.target
-
-  [Service]
-  ExecStart=/usr/local/bin/ollama serve
-  User=ollama
-  Group=ollama
-  Restart=always
-  RestartSec=3
-  Environment="HSA_OVERRIDE_GFX_VERSION=10.3.0"
-  Environment="PATH=$PATH"
-
-  [Install]
-  WantedBy=default.target
-#+end_src
-
-** Install Notes <2024-10-14 Mon>
 I didn't bother to build Emacs from source on this machine because it's Arch, by the way, and it comes with 29.4 (at time of writing) but I might do that later if I discover this has build flags I don't like, lol. Because I'm that kind of person now I guess.
 
-Anyway I also just installed stuff from the repos to make this work, first the fonts are needed and my install script doesn't work because it's only for Ubuntu
+I did need to install this package, though, so I'm noting it here for future reference:
 
 #+begin_example bash
   sudo pacman -S woff2-fira-code
 #+end_example
 
-and I discovered that there is no ~hostname~ command in Arch by default, I guess? So I just created one real quick
-#+begin_example bash :tangle /sudo::/usr/local/bin/hostname :chmod 0755 :shebang /bin/bash
-  cat /etc/hostname
-#+end_example
+I also later discovered that I really needed the ~emacs-wayland~ package to work nicely in Arch and avoid strange bugs.
+
+No custom Emacs Lisp yet on this machine
+
+** Footer
+#+BEGIN_SRC emacs-lisp
+  (provide 'local)
+#+END_SRC
