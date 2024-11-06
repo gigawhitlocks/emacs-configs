@@ -15,12 +15,19 @@ Nothing custom yet on this machine :)
 :END:
 ** <2024-11-05> configured GPG to use the tty to ask for a password
 #+begin_src fundamental :tangle ~/.gnupg/gpg-agent.conf
-  pinentry-program /usr/bin/pinentry-curses
+  pinentry-program /usr/local/bin/pinentry-auto
 #+end_src
 
-this causes Emacs to not properly prompt for password and so it fails to unlock the password-store if it is not already unlocked.
-This answer should be simple to adapt to allow GPG to ask for a password in the GUI when available and fall back to pinentry-curses when not: https://superuser.com/a/1761740
-Super, super annoying that this is not a default. Stuff like this is why GPG has abysmal adoption.
+#+begin_src sh :tangle /sudo::/usr/local/bin/pinentry-auto :tangle-mode o755
+  #!/usr/bin/sh
+  bin=/usr/bin
+  pe=$bin/pinentry-qt
+  if test "XDG_SESSION_TYPE" = "tty"; then
+      pe=$bin/pinentry-tty
+  fi
+
+  exec $pe "$@"
+#+end_src
 
 **  <2024-11-03 Sun> emacs-wayland
 Switched to the ~emacs-wayland~ package in Arch for.. better support in Wayland, wouldn't you know it.
