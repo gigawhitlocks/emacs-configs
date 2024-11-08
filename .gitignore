@@ -42,3 +42,4 @@ undo/
 /multisession/
 /*.sqlite
 /fastgpt/
+.emacs-custom.el
