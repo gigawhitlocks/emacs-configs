@@ -26,5 +26,5 @@
 
 (require '~/.emacs.d/ian.el)
 
-(setq custom-file "/dev/null")
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
 (provide 'init)
