@@ -3,9 +3,9 @@
 #+OPTIONS: toc:nil html-style:nil num:nil author:nil timestamp:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
-#+PROPERTY: header-args:emacs-lisp :tangle ./ian.el
+#+PROPERTY: header-args:emacs-lisp :tangle ./init.el
 * Prologue
-This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the source repository and document, [[][available on Github], are interactive when opened in Emacs.
+This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the source repository and document, [[https://github.com/gigawhitlocks/emacs-configs][available on Github]], are interactive when opened in Emacs.
 
 It follows the concept of "[[https://en.wikipedia.org/wiki/Literate_programming][literate programming]]" and both defines my Emacs configuration (as well as a few other, related things) and includes my notes about why I made those changes, and what I was doing at the time, as well as whatever other commentary I felt like including at the time (related or otherwise).
 
@@ -18,13 +18,11 @@ A good example of this is my use of ~lsp-mode~  despite ~elgot~ being upstream n
 If you are reading my config and looking for inspiration, this is just something to keep in mind.
 
 * Entrypoint
-First I need to configure Emacs to load this file (~ian.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~ian.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
+First I need to configure Emacs to load this file (~readme.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~readme.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
 
-Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds the bare minimum code so that the bulk of the configuration can be checked in once, inside this file, rather than twice like the contents of ~init.el~. I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
+I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
 
-**NOTE** The filename ~ian.org~ is hardcoded in this entrypoint routine in the place of the main configuration file. This is because, despite the public nature of my config, it is not intended to be used in whole by anyone but me. This allows me certain shortcuts, like hostname-specific configuration, and convention-over-configuration in ways I find intuitive without overly detailed documentation. It is _my_ config, after all, so my main config file is ~ian.org~.
-
-#+BEGIN_SRC emacs-lisp :tangle ~/.emacs.d/init.el
+#+BEGIN_SRC emacs-lisp
   ;;; init --- the Emacs entrypoint
   ;;; Commentary:
   ;;;
@@ -50,8 +48,6 @@ Since I want most of the configuration here in ~ian.org~, ~init.el~ just holds t
 
   ;; load up all literate org-mode files in this directory
   (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
-
-  (require '~/.emacs.d/ian.el)
 
   (setq custom-file "~/.emacs.d/.emacs-custom.el")
   (provide 'init)
@@ -1742,6 +1738,11 @@ I find superscripts, subscripts, etc, are less common than verbatim underscores 
 #+END_SRC
 
 * Miscellaneous standalone global configuration changes
+** Start server
+#+BEGIN_SRC emacs-lisp
+  (server-start)
+#+END_SRC
+
 ** Opening the Remote Repo in the Browser from Emacs
 [[https://github.com/rmuslimov/browse-at-remote]]
 #+begin_src emacs-lisp
@@ -1801,7 +1802,7 @@ For now this is extremely rudimentary and I will improve it as needed.
          :working-suffix ".org")))
 #+end_src
 
-N.B. this code block does **not** get tangled into ~ian.el~.
+N.B. this code block does **not** get tangled into ~init.el~.
 
 **** TODO automate the cloning of unknown repos and addition to this list
 I want to be able to press the button on new repos that I haven't cloned yet, and have them dumped to a sane location and then added to the list and opened.
@@ -2092,41 +2093,6 @@ However I saw [[https://github.com/kickingvegas/casual-dired/tree/main][this won
 #+end_src
 
 I'm not sure I love the keybinding, but if I can remember it, that'll be fine. If not, maybe I can make ~which-key~ show it automatically after a pause, or something? Something to look into when I have more time. (When do I ever have more time? 😫)
-* Render this file for display on the web
-This defines a command that will export this file to GitHub flavored Markdown and copy that to README.md so that this file is always the one that appears on the GitHub repository landing page, but in the correct format and everything.
-
-#+BEGIN_SRC emacs-lisp
-  (defun render-configfile-for-web ()
-    (interactive)
-    (when (string=
-           (file-name-nondirectory (buffer-file-name))
-           "ian.org")
-
-      (org-html-export-to-html)
-      (org-gfm-export-to-markdown)
-
-      (if (find-buffer-visiting "~/.emacs.d/README.md")
-          (kill-buffer-ask (find-buffer-visiting "~/.emacs.d/README.md")))
-
-      (delete-file "README.md" t)
-      (rename-file "ian.md" "README.md")
-      )
-    )
-#+END_SRC
-
-** Update README.md git hook
-:properties:
-:header-args: :tangle .git/hooks/pre-commit :shebang #!/bin/bash
-:end:
-Before commit, generate the README.md file from the updated configuration.
-*** TODO Figure out why this produces "args out of bounds" error
-#+begin_src bash
-#  emacsclient -e '(progn (find-file "~/.emacs.d/ian.org") (render-configfile-for-web))'
-#  git add README.md ian.html
-#+end_src
-
-I think the command being passed to ~emacsclient~ here might be a bit brittle and this approach assumes Emacs is already running, which will be annoying (I'll have to disable this hook) if I'm ever using ~git~ on the command line for this repo but given that this repo is.. what it is.. this seems to be working well enough.
-
 * Hostname-based tweaks
 
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
@@ -2154,102 +2120,6 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. 
 This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
-
-* Footer
-** Start server
-#+BEGIN_SRC emacs-lisp
-  (server-start)
-#+END_SRC
-
-** End of file
-Everything after this point in the config file must not be emacs-lisp
-#+begin_src emacs-lisp
-  (provide '~/.emacs.d/ian.el)
-  ;;; ian.el ends here
-#+END_SRC
-
-* Styles for HTML export
-We can spruce up the HTML representation of this file with a little bit of CSS.
-
-#+BEGIN_SRC css :tangle ./styles.css
-  body {
-      background-image: url("EmacsIcon.svg");
-      background-size: 100%;
-      background-repeat: no-repeat;
-      background-position: right top;
-      background-size: 500px 500px;
-      background-color: #F2F2F2;
-  }
-
-  #content {
-      font-family: Sans;
-      font-size: 1.2em;
-      width: 90%;
-      max-width: 950px;
-      margin-left: auto;
-      margin-right: auto;
-
-      padding: 25px;
-      background-color: rgba(255, 255, 255, .5);
-  }
-
-  .validation {
-      display: none;
-  }
-
-  a {
-      color: #EF0FFF;
-  }
-
-  a:visited {
-      color: #076678;
-  }
-
-  a:hover {
-      color: #FFBC42;
-  }
-
-  a:active {
-      color: #F74343;
-  }
-
-  div.org-src-container {
-      background-color: #FFFFE0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-  }
-
-  pre.src {
-      width: 100%;
-      height: 100%;
-      overflow: scroll;
-      margin-left: 20px;
-
-      -ms-overflow-style: none;  /* Internet Explorer 10+ */
-      scrollbar-width: none;  /* Firefox */
-  }
-
-  pre.src::-webkit-scrollbar {
-      display: none;
-  }
-
-  img {
-      max-width: 100%;
-  }
-
-  pre.example {
-      padding: 10px;
-      width: 100%;
-      overflow-x: scroll;
-      -ms-overflow-style: none;  /* Internet Explorer 10+ */
-      scrollbar-width: none;  /* Firefox */
-  }
-
-  pre.example::-webkit-scrollbar {
-      display: none;
-  }
-  #+END_SRC
 
 * Launching Emacsclient
 [[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]]
