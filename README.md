@@ -1,10 +1,14 @@
 # Prologue
 
-This is my Emacs configuration. It follows the concept of "[literate programming](https://en.wikipedia.org/wiki/Literate_programming)" and both defines my Emacs configuration (as well as a few other, related things) and includes my notes about why I made those changes, and what I was doing at the time, as well as whatever other commentary I felt like including at the time (related or otherwise).
+This is my Emacs configuration. It is written in [Org Mode](https://orgmode.org/) format, which means that I can display a static representation here, but the source repository and document, [available on Github](https://github.com/gigawhitlocks/emacs-configs), are interactive when opened in Emacs.
+
+It follows the concept of "[literate programming](https://en.wikipedia.org/wiki/Literate_programming)" and both defines my Emacs configuration (as well as a few other, related things) and includes my notes about why I made those changes, and what I was doing at the time, as well as whatever other commentary I felt like including at the time (related or otherwise).
 
 At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
 
-****NOTE**** A lot of the features in this config have been upstreamed since I incorporated the functionality here. The configuration still works as-is, but at some point I plan to go through and remove external packages that have been replaced with upstream replacements. A good example of this is my use of `lsp-mode` even though `elgot` is now upstreamed. However, I don't plan to switch to `elgot`, at least for now, as I am used to `lsp-mode` and haven't had a compelling reason to change. This is true for a few things.
+****NOTE**** A lot of the features in this config have been upstreamed since I incorporated the functionality here. The configuration still works as-is, but I'm not always using the shiniest and newest packages.
+
+A good example of this is my use of `lsp-mode` despite `elgot` being upstream now. I don't plan to switch to `elgot`, at least for now, as I am used to `lsp-mode` and haven't had a compelling reason to change, but if you are choosing your first Emacs LSP client, I would recommend you investigate `elgot` first, because it is upstream. This is true for a few things.
 
 If you are reading my config and looking for inspiration, this is just something to keep in mind.
 
