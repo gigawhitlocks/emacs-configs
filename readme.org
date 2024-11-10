@@ -1,11 +1,11 @@
+#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook 'org-gfm-export-to-markdown nil 'local) -*-
 #+TITLE: Emacs 💕
-#+MENU: main
 #+TAGS[]: emacs
+#+MENU: main
 #+DATE: <2019-04-24 Wed>
-#+OPTIONS: toc:nil html-style:nil num:nil author:nil timestamp:nil
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
-#+PROPERTY: header-args:emacs-lisp :tangle ./init.el
+#+OPTIONS: toc:nil num:nil author:nil timestamp:nil
+#+PROPERTY: header-args:emacs-lisp :tangle init.el
+
 * Prologue
 This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the [[https://github.com/gigawhitlocks/emacs-configs][source repository]] and document ([[https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org][plain text view]]), are interactive when opened in Emacs.
 
@@ -14,6 +14,7 @@ It follows the concept of "[[https://en.wikipedia.org/wiki/Literate_programming]
 At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
 
 **NOTE** A lot of the features in this config have been upstreamed since I incorporated the functionality here. The configuration still works as-is, but I'm not always using the shiniest and newest packages.
+
 
 A good example of this is my use of ~lsp-mode~  despite ~elgot~ being upstream now. I don't plan to switch to ~elgot~, at least for now, as I am used to ~lsp-mode~ and haven't had a compelling reason to change, but if you are choosing your first Emacs LSP client, I would recommend you investigate ~elgot~ first, because it is upstream. This is true for a few things.
 
