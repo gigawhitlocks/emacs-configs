@@ -3,9 +3,9 @@
 #+OPTIONS: toc:nil html-style:nil num:nil author:nil timestamp:nil
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="styles.css" />
-#+PROPERTY: header-args:emacs-lisp :tangle yes
+#+PROPERTY: header-args:emacs-lisp :tangle ./ian.el
 * Prologue
-This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the source repository and document, [[https://github.com/gigawhitlocks/emacs-configs][available on Github]], are interactive when opened in Emacs.
+This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the source repository and document, [[][available on Github], are interactive when opened in Emacs.
 
 It follows the concept of "[[https://en.wikipedia.org/wiki/Literate_programming][literate programming]]" and both defines my Emacs configuration (as well as a few other, related things) and includes my notes about why I made those changes, and what I was doing at the time, as well as whatever other commentary I felt like including at the time (related or otherwise).
 
@@ -676,7 +676,7 @@ I need the ~evil~ compatiblity mode, too, because I run ~evil~.
   (use-package evil-mc)
 #+end_src
 ** elfeed
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package elfeed)
 #+end_src
 * Font
@@ -854,7 +854,7 @@ https://www.masteringemacs.org/article/combobulate-structured-movement-editing-t
 
 ** Rego
 [[https://www.openpolicyagent.org/docs/latest/policy-language/][whatever that is]]
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package rego-mode)
 #+end_src
 
@@ -1214,7 +1214,7 @@ I also write Zsh scripts and Emacs doesn't detect automatically I think
 
 ** Fish
 Trying out Fish and sometimes need to edit its language
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package fish-mode)
 #+end_src
 
@@ -1264,7 +1264,7 @@ SQL doesn't -- as far as I'm aware, and I'm not taking the time to look harder a
 #+end_src
 
 Use rainbow delimeters in SQL
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
 #+end_src
 ** Emacs Lisp
@@ -1329,17 +1329,17 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
   (defun find-initfile ()
     "Open main config file."
     (interactive)
-    (find-file "~/.emacs.d/ian.org"))
+    (find-file "~/.emacs.d/readme.org"))
 
   (defun find-initfile-other-frame ()
     "Open main config file in a new frame."
     (interactive)
-    (find-file-other-frame "~/.emacs.d/ian.org"))
+    (find-file-other-frame "~/.emacs.d/readme.org"))
 
   (defun reload-initfile ()
     "Reload the main config file."
     (interactive)
-    (org-babel-tangle "~/.emacs.d/ian.org")
+    (org-babel-tangle "~/.emacs.d/readme.org")
     (byte-compile-file "~/.emacs.d/ian.el"))
 
   (defun close-client-frame ()
@@ -2012,7 +2012,7 @@ For those of us who did away with the caps lock button but write SQL sometimes
 #+end_src
 
 ** Allow swapping windows with ctrl + shift + left-click-drag
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (defvar window-swap-origin nil)
 
   (defun window-swap-start (event)
@@ -2047,7 +2047,7 @@ I love Kagi and even if it costs a few cents per query I would like to have it a
 
 *** Org Babel Support
 Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever use it and want to capture the resposnes alongside notes
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp
   (use-package ob-kagi-fastgpt
     :ensure nil  ; provided by the kagi package
     :after org
