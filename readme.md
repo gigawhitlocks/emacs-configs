@@ -2,8 +2,11 @@
 
 This is my Emacs configuration. It is written in [Org
 Mode](https://orgmode.org/) format, which means that I can display a
-static representation here, but the source repository and document,
-\[\[\]\[available on Github\], are interactive when opened in Emacs.
+static representation here, but the [source
+repository](https://github.com/gigawhitlocks/emacs-configs) and document
+([plain text
+view](https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org)),
+are interactive when opened in Emacs.
 
 It follows the concept of "[literate
 programming](https://en.wikipedia.org/wiki/Literate_programming)" and
