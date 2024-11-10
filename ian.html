@@ -5,46 +5,32 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Have I Ever Mentioned How Much I Love Emacs?</title>
+<title>Emacs</title>
 <meta name="generator" content="Org Mode" />
 <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
 <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
 <body>
 <div id="content" class="content">
-<h1 class="title">Have I Ever Mentioned How Much I Love Emacs?</h1>
-<div id="outline-container-Ian%27s%20Emacs%20Config" class="outline-2">
-<h2 id="Ian%27s%20Emacs%20Config">Ian's Emacs Config</h2>
-<div class="outline-text-2" id="text-Ian%27s%20Emacs%20Config">
+<h1 class="title">Emacs</h1>
+<div id="outline-container-Prologue" class="outline-2">
+<h2 id="Prologue">Prologue</h2>
+<div class="outline-text-2" id="text-Prologue">
 <p>
-This is my Emacs configuration.
-If you read this file, you may find things you can copy-paste into your Emacs config.
+This is my Emacs configuration. It follows the concept of "<a href="https://en.wikipedia.org/wiki/Literate_programming">literate programming</a>" and both defines my Emacs configuration (as well as a few other, related things) and includes my notes about why I made those changes, and what I was doing at the time, as well as whatever other commentary I felt like including at the time (related or otherwise).
 </p>
 
 <p>
-Here is a screenshot of my environment:
+At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
 </p>
 
-<div id="org83fb0df" class="figure">
-<p><img src="Ian's_Emacs_Config/2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" alt="2022-06-16_22-33-48_emacs-themeswitch-demo-nativecomp.gif" />
-</p>
-</div>
-
 <p>
-Some of the other screenshots throughout may not look exactly like this. That is because they are old screenshots.
-</p>
-</div>
-<div id="outline-container-modernize%20my%20configuration" class="outline-3">
-<h3 id="modernize%20my%20configuration"><span class="done IN_PROGRESS">IN PROGRESS</span> modernize my configuration</h3>
-<div class="outline-text-3" id="text-modernize%20my%20configuration">
-<p>
-A lot of the features in this config have been upstreamed since I wrote them. The configuration still works as-is, but at some point I plan to go through and remove external packages that have been replaced with upstream replacements. A good example of this is <code>use-package</code> which is now upstreamed, and I would like to use that instead of the external package. However, I don't plan to switch to <code>elgot</code> unless <code>lsp-mode</code> and <code>lsp-ui</code> are deprecated, because I am used to their look &amp; feel, and slightly prefer them to elgot.
+<b><b>NOTE</b></b> A lot of the features in this config have been upstreamed since I incorporated the functionality here. The configuration still works as-is, but at some point I plan to go through and remove external packages that have been replaced with upstream replacements. A good example of this is my use of <code>lsp-mode</code> even though <code>elgot</code> is now upstreamed. However, I don't plan to switch to <code>elgot</code>, at least for now, as I am used to <code>lsp-mode</code> and haven't had a compelling reason to change. This is true for a few things.
 </p>
 
 <p>
 If you are reading my config and looking for inspiration, this is just something to keep in mind.
 </p>
-</div>
 </div>
 </div>
 
@@ -92,7 +78,7 @@ Since I want most of the configuration here in <code>ian.org</code>, <code>init.
 
 <span style="color: #707183;">(</span><span style="color: #a020f0;">require</span> '<span style="color: #008b8b;">~/.emacs.d/ian.el</span><span style="color: #707183;">)</span>
 
-<span style="color: #707183;">(</span><span style="color: #a020f0;">setq</span> custom-file <span style="color: #8b2252;">"/dev/null"</span><span style="color: #707183;">)</span>
+<span style="color: #707183;">(</span><span style="color: #a020f0;">setq</span> custom-file <span style="color: #8b2252;">"~/.emacs.d/.emacs-custom.el"</span><span style="color: #707183;">)</span>
 <span style="color: #707183;">(</span><span style="color: #a020f0;">provide</span> '<span style="color: #008b8b;">init</span><span style="color: #707183;">)</span>
 </pre>
 </div>
@@ -476,7 +462,7 @@ It's great, it gets installed early, can't live without it. 💘 <code>projectil
 </p>
 
 
-<div id="orgc3e77d2" class="figure">
+<div id="orgb705514" class="figure">
 <p><img src="My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" alt="2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif" />
 </p>
 </div>
@@ -619,7 +605,7 @@ It's mostly used below in the <a href="#Global%20Keybindings">global keybindings
 <a href="https://github.com/magit/magit">Magit</a> is an incredible integrated <code>git</code> UI for Emacs.
 </p>
 
-<div id="org88e551d" class="figure">
+<div id="org416c909" class="figure">
 <p><img src="My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" alt="2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif" />
 </p>
 </div>
@@ -653,7 +639,7 @@ It's mostly used below in the <a href="#Global%20Keybindings">global keybindings
 </p>
 
 
-<div id="org932276e" class="figure">
+<div id="org6d11923" class="figure">
 <p><img src="My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif" alt="2020-01-11_23-23-47_2020-01-11T23:15:54.gif" />
 </p>
 </div>
@@ -680,7 +666,7 @@ It's mostly used below in the <a href="#Global%20Keybindings">global keybindings
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so <a href="https://github.com/justbur/emacs-which-key"><code>which-key</code></a> pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 </p>
 
-<div id="orgb502b14" class="figure">
+<div id="orgd78191e" class="figure">
 <p><img src="My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" alt="2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif" />
 </p>
 </div>
@@ -773,7 +759,7 @@ Actually, looking at the project page, the icons don't seem to be working for me
 </p>
 
 
-<div id="org9846d48" class="figure">
+<div id="org4e8c9bc" class="figure">
 <p><img src="My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" alt="2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png" />
 </p>
 </div>
@@ -806,7 +792,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 <a href="https://www.emacswiki.org/emacs/Yasnippet">Here are the YASnippet docs.</a>
 </p>
 
-<div id="org9e68e29" class="figure">
+<div id="orgfe123ac" class="figure">
 <p><img src="My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" alt="2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif" />
 </p>
 </div>
@@ -1957,6 +1943,20 @@ I also write Zsh scripts and Emacs doesn't detect automatically I think
 </div>
 </div>
 </div>
+
+<div id="outline-container-Fish" class="outline-3">
+<h3 id="Fish">Fish</h3>
+<div class="outline-text-3" id="text-Fish">
+<p>
+Trying out Fish and sometimes need to edit its language
+</p>
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #707183;">(</span><span style="color: #a020f0;">use-package</span> <span style="color: #008b8b;">fish-mode</span><span style="color: #707183;">)</span>
+</pre>
+</div>
+</div>
+</div>
+
 <div id="outline-container-Salt" class="outline-3">
 <h3 id="Salt">Salt</h3>
 <div class="outline-text-3" id="text-Salt">
@@ -2373,7 +2373,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
 </pre>
 </div>
 
-<div id="org1fc24a0" class="figure">
+<div id="org26b0a0a" class="figure">
 <p><img src="My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" alt="2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif" />
 </p>
 </div>
@@ -2833,7 +2833,7 @@ Probably from Spacemacs. Thanks, Spacemacs.
 </p>
 
 
-<div id="org6d8f434" class="figure">
+<div id="orga4da2bc" class="figure">
 <p><img src="My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif" alt="2020-05-18_21-46-59_2020-05-18T21:46:03.gif" />
 </p>
 </div>
@@ -3193,7 +3193,7 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
 <p>
 Then create a source block with 'language' ‘kagi-fastgpt’:
 </p>
-<pre class="example" id="orgacd5c28">
+<pre class="example" id="org0c829b9">
 Can Kagi FastGPT be used in Org mode?
 </pre>
 </div>
