@@ -722,8 +722,6 @@
 
 (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
 
-(use-package jira-markup-mode)
-
 (use-package racket-mode)
 
 (use-package adaptive-wrap

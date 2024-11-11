@@ -1234,13 +1234,6 @@ https://github.com/p3r7/awesome-elisp
 [[https://github.com/p3r7/awesome-elisp#lispy]]
 [[https://github.com/abo-abo/lispy]]
 
-** JIRA Markup
-Gotta eat (I need this for work)
-
-#+begin_src emacs-lisp
-  (use-package jira-markup-mode)
-#+end_src
-
 ** Racket
 Funny the twists of fate that bring us back to where we started. My interest in Emacs stemmed originally from an interest in Racket, and my inability to get vim to format Racket code appropriately.
 I never did wind up learning Racket, but I guess I might now, for entirely different reasons
