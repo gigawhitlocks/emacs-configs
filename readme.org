@@ -1,4 +1,4 @@
-#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook 'org-gfm-export-to-markdown nil 'local) -*-
+#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook '(lambda () (org-gfm-export-to-markdown t)) nil 'local) -*-
 #+TITLE: Emacs 💕
 #+TAGS[]: emacs
 #+MENU: main
