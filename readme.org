@@ -1165,7 +1165,7 @@ Finally, anyway, add a hook to run it on save.. should only affect buffers Tailw
 #+END_SRC
 
 
-#+BEGIN_QUOTE
+#+BEGIN_EXAMPLE
 Default Keybindings
     C-c C-f: format the region/buffer with json-reformat (https://github.com/gongo/json-reformat)
     C-c C-p: display a path to the object at point with json-snatcher (https://github.com/Sterlingg/json-snatcher)
@@ -1174,7 +1174,7 @@ Default Keybindings
     C-c C-k: Replace the sexp at point with null
     C-c C-i: Increment the number at point
     C-c C-d: Decrement the number at point
-#+END_QUOTE
+#+END_EXAMPLE
 
 ** Fish
 #+begin_src emacs-lisp
