@@ -15,7 +15,6 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 
 **NOTE** A lot of the features in this config have been upstreamed since I incorporated the functionality here. The configuration still works as-is, but I'm not always using the shiniest and newest packages.
 
-
 A good example of this is my use of ~lsp-mode~  despite ~elgot~ being upstream now. I don't plan to switch to ~elgot~, at least for now, as I am used to ~lsp-mode~ and haven't had a compelling reason to change, but if you are choosing your first Emacs LSP client, I would recommend you investigate ~elgot~ first, because it is upstream. This is true for a few things.
 
 If you are reading my config and looking for inspiration, this is just something to keep in mind.
@@ -285,9 +284,6 @@ Emacs comes with ~recentf-mode~ which helps me remember what I was doing after I
 - find files within the project, again without having to do anything extra
 It's great, it gets installed early, can't live without it. 💘 ~projectile~
 
-#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2021-19.gif @ 2020-05-18 21:21:10
-[[file:My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif]]
-
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :delight)
@@ -389,8 +385,6 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
 #+END_SRC
 ** Install and Configure Magit
 [[https://github.com/magit/magit][Magit]] is an incredible integrated ~git~ UI for Emacs.
-#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2021-25.gif @ 2020-05-18 21:26:19
-[[file:My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif]]
 
 #+BEGIN_SRC emacs-lisp
     (use-package magit)
@@ -408,9 +402,6 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
 ** Install and Configure ~git-timemachine~
 ~git-timeline~ lets you step through the history of a file.
 
-#+DOWNLOADED: file:///home/ian/emacs-gifs/2020-01-11T23:15:54.gif @ 2020-01-11 23:23:47
-[[file:My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif]]
-
 #+BEGIN_SRC emacs-lisp
   (use-package git-timemachine)
 
@@ -425,8 +416,6 @@ It's mostly used below in the [[*Global Keybindings][global keybindings]] sectio
 #+END_SRC
 ** Install and Configure ~which-key~
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [[https://github.com/justbur/emacs-which-key][~which-key~]] pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
-#+DOWNLOADED: file:///home/ian/go/src/github.com/gigawhitlocks/business.silly.weather/Peek%202020-05-18%2021-37.gif @ 2020-05-18 21:37:19
-[[file:My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif]]
 #+BEGIN_SRC emacs-lisp
     (use-package which-key
       :delight
@@ -481,9 +470,6 @@ Following Spacemacs's style, I use the [[https://github.com/emacs-dashboard/emac
 
 Actually, looking at the project page, the icons don't seem to be working for me. Maybe I need to enable them. I'll investigate later.
 
-#+DOWNLOADED: file:///home/ian/Pictures/Screenshot%20from%202020-05-18%2021-30-43.png @ 2020-05-18 21:31:13
-[[file:My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png]]
-
 #+BEGIN_SRC emacs-lisp
   ;; first disable the default startup screen
   (setq inhibit-startup-screen t)
@@ -504,10 +490,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
 ** Install templating tool and default snippets
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more.
 [[https://www.emacswiki.org/emacs/Yasnippet][Here are the YASnippet docs.]]
-#+DOWNLOADED: file:///home/ian/Videos/Peek%202020-05-18%2021-39.gif @ 2020-05-18 21:40:09
-[[file:My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif]]
-
-OK that example maybe isn't the best, but if you have ~yas-insert-snippet~ bound to something and you're inserting something more complex it's.. probably worthwhile. I should use it more. You can also write your own snippets. I should figure that out.
 
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
@@ -1526,8 +1508,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 #+BEGIN_SRC emacs-lisp
   (use-package org-download)
 #+END_SRC
-#+DOWNLOADED: file:///home/ian/Videos/Peek%202019-12-25%2000-29.gif @ 2019-12-25 00:33:07
-[[file:My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif]]
 
 ** Autocomplete for Org blocks (like source blocks)
 #+begin_src emacs-lisp
@@ -1852,9 +1832,6 @@ There are a few occasions where the Org fixed-width fonts don't get reapplied co
 ** Transparency toggle
 I definitely lifted this from somewhere but failed to document where I got it :\
 Probably from Spacemacs. Thanks, Spacemacs.
-
-#+DOWNLOADED: file:///home/ian/emacs-gifs/2020-05-18T21:46:03.gif @ 2020-05-18 21:46:59
-[[file:My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif]]
 
 #+BEGIN_SRC emacs-lisp
       (defun toggle-transparency ()

@@ -332,8 +332,6 @@ Emacs comes with `recentf-mode` which helps me remember what I was doing after I
 
 It's great, it gets installed early, can't live without it. 💘 `projectile`
 
-![img](My_Environment/2020-05-18_21-21-10_Peek%25202020-05-18%252021-19.gif)
-
 ```emacs-lisp
 (use-package projectile
   :delight)
@@ -450,8 +448,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 
 [Magit](https://github.com/magit/magit) is an incredible integrated `git` UI for Emacs.
 
-![img](My_Environment/2020-05-18_21-26-19_Peek%25202020-05-18%252021-25.gif)
-
 ```emacs-lisp
 (use-package magit)
 ;; disable the default emacs vc because git is all I use,
@@ -472,8 +468,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 
 `git-timeline` lets you step through the history of a file.
 
-![img](My_Environment/2020-01-11_23-23-47_2020-01-11T23:15:54.gif)
-
 ```emacs-lisp
 (use-package git-timemachine)
 
@@ -491,8 +485,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ## Install and Configure `which-key`
 
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [`which-key`](https://github.com/justbur/emacs-which-key) pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
-
-![img](My_Environment/2020-05-18_21-37-19_Peek%25202020-05-18%252021-37.gif)
 
 ```emacs-lisp
 (use-package which-key
@@ -563,8 +555,6 @@ Following Spacemacs's style, I use the [`emacs-dashboard`](https://github.com/em
 
 Actually, looking at the project page, the icons don't seem to be working for me. Maybe I need to enable them. I'll investigate later.
 
-![img](My_Environment/2020-05-18_21-31-13_Screenshot%2520from%25202020-05-18%252021-30-43.png)
-
 ```emacs-lisp
 ;; first disable the default startup screen
 (setq inhibit-startup-screen t)
@@ -586,10 +576,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
 ## Install templating tool and default snippets
 
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more. [Here are the YASnippet docs.](https://www.emacswiki.org/emacs/Yasnippet)
-
-![img](My_Environment/2020-05-18_21-40-09_Peek%25202020-05-18%252021-39.gif)
-
-OK that example maybe isn't the best, but if you have `yas-insert-snippet` bound to something and you're inserting something more complex it's.. probably worthwhile. I should use it more. You can also write your own snippets. I should figure that out.
 
 ```emacs-lisp
 (use-package yasnippet
@@ -1803,8 +1789,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 (use-package org-download)
 ```
 
-![img](My_Environment/2019-12-25_00-33-07_Peek%25202019-12-25%252000-29.gif)
-
 
 ## Autocomplete for Org blocks (like source blocks)
 
@@ -2177,8 +2161,6 @@ There are a few occasions where the Org fixed-width fonts don't get reapplied co
 ## Transparency toggle
 
 I definitely lifted this from somewhere but failed to document where I got it :\\ Probably from Spacemacs. Thanks, Spacemacs.
-
-![img](My_Environment/2020-05-18_21-46-59_2020-05-18T21:46:03.gif)
 
 ```emacs-lisp
 (defun toggle-transparency ()
