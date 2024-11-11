@@ -884,7 +884,7 @@ So the convention for use is:
 3) ~M-x pyvenv-workon~
 
 ** Go
-Go is my primary language so it's my most dynamic and complicated configuration.
+Go is my primary language so it's my most dynamic and complicated configuration, however it degrades gracefully so if not everything is installed, the rest of it still works.
 *** Dependencies
 Go support requires some dependencies. I will try to list them all here.
 Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
@@ -1176,14 +1176,7 @@ Default Keybindings
     C-c C-d: Decrement the number at point
 #+END_QUOTE
 
-** Zsh
-I also write Zsh scripts and Emacs doesn't detect automatically I think
-#+begin_src emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-#+end_src
-
 ** Fish
-Trying out Fish and sometimes need to edit its language
 #+begin_src emacs-lisp
   (use-package fish-mode)
 #+end_src
@@ -1202,10 +1195,6 @@ Trying out Fish and sometimes need to edit its language
    :keymaps 'sh-mode-map
    ",c" (general-simulate-key "C-x h C-M-x")
    )
-#+end_src
-** Vyper
-#+begin_src emacs-lisp
-  (use-package vyper-mode)
 #+end_src
 ** Elixir
 #+begin_src emacs-lisp
@@ -1245,16 +1234,8 @@ https://github.com/p3r7/awesome-elisp
 [[https://github.com/p3r7/awesome-elisp#lispy]]
 [[https://github.com/abo-abo/lispy]]
 
-** Robot
-ugh, Robot test framework files -- I find Robot extremely frustrating due to its particularly egregious use of whitespace separators. I always wind up trying to find that spot where I accidentally only inserted one space, instead of two or three.
-
-Oh well.
-#+begin_src emacs-lisp
- (use-package robot-mode) 
-#+end_src
-
 ** JIRA Markup
-Gotta eat
+Gotta eat (I need this for work)
 
 #+begin_src emacs-lisp
   (use-package jira-markup-mode)

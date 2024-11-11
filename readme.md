@@ -1072,7 +1072,7 @@ So the convention for use is:
 
 ## Go
 
-Go is my primary language so it's my most dynamic and complicated configuration.
+Go is my primary language so it's my most dynamic and complicated configuration, however it degrades gracefully so if not everything is installed, the rest of it still works.
 
 
 ### Dependencies
@@ -1404,18 +1404,7 @@ Finally, anyway, add a hook to run it on save.. should only affect buffers Tailw
 > Default Keybindings C-c C-f: format the region/buffer with json-reformat (<https://github.com/gongo/json-reformat>) C-c C-p: display a path to the object at point with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c P: copy a path to the object at point to the kill ring with json-snatcher (<https://github.com/Sterlingg/json-snatcher>) C-c C-t: Toggle between true and false at point C-c C-k: Replace the sexp at point with null C-c C-i: Increment the number at point C-c C-d: Decrement the number at point
 
 
-## Zsh
-
-I also write Zsh scripts and Emacs doesn't detect automatically I think
-
-```emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-```
-
-
 ## Fish
-
-Trying out Fish and sometimes need to edit its language
 
 ```emacs-lisp
 (use-package fish-mode)
@@ -1437,13 +1426,6 @@ Trying out Fish and sometimes need to edit its language
  :keymaps 'sh-mode-map
  ",c" (general-simulate-key "C-x h C-M-x")
  )
-```
-
-
-## Vyper
-
-```emacs-lisp
-(use-package vyper-mode)
 ```
 
 
@@ -1500,20 +1482,9 @@ I don't have any custom configuration for Emacs Lisp yet, but I am going to use 
 <https://github.com/p3r7/awesome-elisp#lispy> <https://github.com/abo-abo/lispy>
 
 
-## Robot
-
-ugh, Robot test framework files &#x2013; I find Robot extremely frustrating due to its particularly egregious use of whitespace separators. I always wind up trying to find that spot where I accidentally only inserted one space, instead of two or three.
-
-Oh well.
-
-```emacs-lisp
-(use-package robot-mode) 
-```
-
-
 ## JIRA Markup
 
-Gotta eat
+Gotta eat (I need this for work)
 
 ```emacs-lisp
 (use-package jira-markup-mode)

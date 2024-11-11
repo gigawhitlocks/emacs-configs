@@ -689,12 +689,6 @@
 
 (add-hook 'json-mode-hook 'highlight-indent-guides-mode)
 
-(add-hook 'sh-mode-hook
-          (lambda ()
-            (defvar-local indent-tabs-mode nil)))
-
-(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
-
 (use-package fish-mode)
 
 (use-package salt-mode)
@@ -709,8 +703,6 @@
  :keymaps 'sh-mode-map
  ",c" (general-simulate-key "C-x h C-M-x")
  )
-
-(use-package vyper-mode)
 
 (use-package elixir-mode
   :hook
@@ -729,8 +721,6 @@
  )
 
 (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
-
-(use-package robot-mode)
 
 (use-package jira-markup-mode)
 
