@@ -1274,9 +1274,6 @@ made unique when necessary."
 
 (use-package emacs-everywhere)
 
-(use-package casual-dired
-  :bind (:map dired-mode-map ("C-x" . 'casual-dired-tmenu)))
-
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right
                  (shell-command-to-string "hostname"))))

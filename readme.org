@@ -2025,17 +2025,6 @@ Sadly this only works in X11 but there's a long Wayland support issue, and it lo
   (use-package emacs-everywhere)
 #+end_src
 
-** Casual Dired (a dired porcelain)
-I've always thought ~dired~ was cool, but it's hard to remember all the commands, and the usefulness falls away if you can't remember the buttons. This is the same reason I have ~which-key~ installed for Emacs more generally, and it's part of the brilliance of ~magit~, too.
-~writeable-dired-mode~ is a bright spot, along with all the ~writeable~ modes, but in general, I struggle to use them and fall back to doing stuff in the regular gui or command line most of the time.
-
-However I saw [[https://github.com/kickingvegas/casual-dired/tree/main][this wonderful package called Casual Dired]] come through my RSS feed and had to install it right away, before I forgot, because it appears to be what ~magit~ is to ~git~, but for ~dired~. Brilliant!
-#+begin_src emacs-lisp
-  (use-package casual-dired
-    :bind (:map dired-mode-map ("C-x" . 'casual-dired-tmenu)))
-#+end_src
-
-I'm not sure I love the keybinding, but if I can remember it, that'll be fine. If not, maybe I can make ~which-key~ show it automatically after a pause, or something? Something to look into when I have more time. (When do I ever have more time? 😫)
 * Hostname-based tweaks
 
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
