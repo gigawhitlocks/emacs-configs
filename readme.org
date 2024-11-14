@@ -13,12 +13,6 @@ It follows the concept of "[[https://en.wikipedia.org/wiki/Literate_programming]
 
 At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
 
-**NOTE** A lot of the features in this config have been upstreamed since I incorporated the functionality here. The configuration still works as-is, but I'm not always using the shiniest and newest packages.
-
-A good example of this is my use of ~lsp-mode~  despite ~elgot~ being upstream now. I don't plan to switch to ~elgot~, at least for now, as I am used to ~lsp-mode~ and haven't had a compelling reason to change, but if you are choosing your first Emacs LSP client, I would recommend you investigate ~elgot~ first, because it is upstream. This is true for a few things.
-
-If you are reading my config and looking for inspiration, this is just something to keep in mind.
-
 * Entrypoint
 First I need to configure Emacs to load this file (~readme.org~) as its first action when it starts up. By default, Emacs runs ~init.el~ at the beginning of execution. The following piece of code [[https://orgmode.org/manual/Extracting-source-code.html][tangles]] to ~init.el~, and ~init.el~ containing the following must be checked in, because this snippet tangles /this/ file (~readme.org~), so **it is this piece of code that starts the whole process of loading all of this configuration**.
 
@@ -321,6 +315,13 @@ It's controversial but I think modal editing is brilliant and have been using ~v
      :states 'normal
      :keymaps 'magit-status-mode-map
      "Z" 'magit-worktree)
+
+    ;; I think I unbound or overrode this but I can't figure out where
+    (general-define-key
+     :states 'normal
+     :keymaps 'prog-mode-map
+     "gd" 'evil-goto-definition
+     )
 
     ;; add fd as a remap for esc
     (use-package evil-escape
@@ -753,72 +754,7 @@ FiraCode offers ligatures for programming symbols, which is cool.
 #+end_src
 
 * Language Configuration
-This section contains all of the IDE-like features in my configuration, centered around LSP (lsp-mode) and  DAP, at least for today.
-** Language Server Protocol (LSP)
-LSP provides a generic interface for text editors to talk to various language servers on the backend. A few languages utilize LSP so it gets configured before the language-specific section.
-
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-mode
-    :init
-    ;; use flycheck
-    (setq lsp-prefer-flymake nil)
-    (setq lsp-headerline-breadcrumb-enable nil))
-
-  ;; treemacs integration
-  (use-package lsp-treemacs)
-
-  ;; the UI
-  (use-package lsp-ui)
-
-  ;; add a longer delay to the help mouseover
-  (setq lsp-ui-doc-delay 1)
-
-  ;; linking breaks treemacs
-  ;; also it's annoying
-  (setq lsp-enable-links nil)
-
-  ;; helm integration
-  (use-package helm-lsp)
-
-  (setq lsp-eldoc-enable-hover t)
-  (setq lsp-ui-doc-enable t)
-  (setq lsp-ui-doc-include-signature t)
-  (setq lsp-ui-doc-position 'at-point)
-  (setq lsp-ui-doc-use-childframe t)
-  (setq lsp-ui-doc-use-webkit nil)
-  (setq lsp-lens-enable nil)
-
-  (general-define-key
-   :states 'normal
-   :keymaps 'prog-mode-map
-   ",d"     'lsp-describe-thing-at-point
-   ",gg"    'lsp-find-definition
-   ",gt"    'lsp-find-type-definition
-   ",i"     'lsp-find-implementation
-   ",n"     'lsp-rename
-   ",r"     'lsp-ui-peek-find-references
-   ",R"     'lsp-find-references
-   ",x"     'lsp-execute-code-action
-   ",lsp"   'lsp-workspace-restart
-   "gd"     'lsp-find-definition
-   )
-#+END_SRC
-
-*** Fix background color of lsp-ui-doc in various themes
-By default, for some reason, lsp-ui-doc chooses an ugly background color that looks bad and doesn't match the background surrounding most of the text.
-
-I had to edit a few faces with Customize. Some notes:
-
-1. By default, the background color is interrupted by a mismatch with ~markdown-code-face~ which doesn't match ~lsp-ui-doc-background~
-
-2. Thus, ~lsp-ui-doc-background~ is set via ~M-x customize-face~ to inherit from (match) ~markdown-code-face~ and saved in ~.emacs-custom.el~
-
-** Tree Sitter
-
-Tree-Sitter is now supported natively
-*** TODO update config to use -ts-modes etc
-https://www.masteringemacs.org/article/combobulate-structured-movement-editing-treesitter
-
+This section contains all of the IDE-like features in my configuration.
 ** YAML
 #+BEGIN_SRC emacs-lisp
   (use-package yaml-mode)
@@ -832,7 +768,6 @@ https://www.masteringemacs.org/article/combobulate-structured-movement-editing-t
    "zO"     'origami-open-all-nodes
    "zc"     'origami-close-node-recursively)
 #+END_SRC
-
 ** Rego
 [[https://www.openpolicyagent.org/docs/latest/policy-language/][whatever that is]]
 #+begin_src emacs-lisp
@@ -909,21 +844,10 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 
 *** Initial Setup
 #+BEGIN_SRC emacs-lisp
-  (defun set-gopls-lib-dirs ()
-    "Add $GOPATH/pkg/mod to the 'library path'."
-    ;; stops lsp from continually asking if Go projects should be imported
-    (setq lsp-clients-go-library-directories
-          (list
-           "/usr"
-           (concat (getenv "GOPATH") "/pkg/mod"))))
-
   (use-package go-mode
-    :hook ((go-mode . lsp-deferred)
-           (go-mode . set-gopls-lib-dirs)
-           (go-mode . yas-minor-mode))
+    :hook ((go-mode . yas-minor-mode))
     :config
     ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-    ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
     (evil-add-command-properties #'godef-jump :jump t))
 
   ;; enable golangci-lint to work with flycheck
@@ -953,58 +877,15 @@ Once that's done ~gorepl-mode~ is ready to be installed:
   (use-package gorepl-mode)
 #+END_SRC
 
-*** Interactive debugger
-I got jealous of a coworker with an IDE who apparently has an interactive debugger, so I got ~dap-mode~ working 🙂
-**** Installation and Configuration
-Install ~dap-mode~ and ~dap-go~. ~dap-mode~ is probably useful for other languages so at some point I will want to refactor it out and install it alongside LSP, but keep ~dap-go~ here. Probably. But this works for now, and who knows, maybe debugging Go is really all I care about.
-
-#+begin_src emacs-lisp
-  (use-package dap-mode)
-  (require 'dap-dlv-go)
-  (dap-mode 0)
-  (dap-ui-mode 0)
-  (dap-ui-controls-mode 0)
-  (tooltip-mode 1)
-  (setq dap-ui-variable-length 100)
-#+end_src
-
-***** On first install
-Theoretically you should be able to run this
-: M-x dap-go-setup
-
-But it is subject to rate-limiting so I just checked in the results of calling this under ~.extension~. It's all MIT-licensed so this is fine.
-
-**** Use
-***** When debugging a new executable for the first time
-Run this command
-: M-x dap-debug-edit-template
-and save the ~(dap-register-debug-template )~ call that is generated.. somewhere alongside the code hopefully.
-I'll come up with some convention for storing these.
-Maybe dir-locals (~SPC p E~)
-***** Each time when ready to start debugging
-Start debugging by running:
-: M-x dap-debug
-Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
-
 *** Mode-Specific Keybindings
 #+BEGIN_SRC emacs-lisp
   (general-define-key
    :states  'normal
    :keymaps 'go-mode-map
    ",a"     'go-import-add
-   ",d"     'lsp-describe-thing-at-point
-   "gd"    'lsp-find-definition
-   ",gt"    'lsp-find-type-definition
-   ",i"     'lsp-find-implementation
-   ",n"     'lsp-rename
-   ",r"     'lsp-ui-peek-find-references
-   ",R"     'lsp-find-references
    ",tp"    'go-test-current-project
    ",tt"    'go-test-current-test
    ",tf"    'go-test-current-file
-   ",x"     'lsp-execute-code-action
-   ",lsp"   'lsp-workspace-restart
-   "gd"     'lsp-find-definition
 
    ;; using the ,c namespace for repl and debug stuff to follow the C-c
    ;; convention found in other places in Emacs
@@ -1021,37 +902,11 @@ Click in the margins to set breakpoints with ~dap-ui-mode~ enabled (🙌)
 
 *** Hooks
 #+BEGIN_SRC emacs-lisp
-  ;; disable "Organize Imports" warning that never goes away
-  (add-hook 'go-mode-hook
-            (lambda ()
-              ;; Go likes origami-mode
-              ;; (origami-mode)
-              ;; lsp ui sideline code actions are annoying in Go
-              (setq-local lsp-ui-sideline-show-code-actions nil)))
-
   ;; sets the visual tab width to 2 spaces per tab in Go buffers
   (add-hook 'go-mode-hook (lambda ()
                             (set (make-local-variable 'tab-width) 2)))
-
-
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-  (setq lsp-file-watch-threshold 5000)
-#+END_SRC
-*** Exclude a certain folder from LSP projects
-Certain projects use a gopath folder inside the project root and this confuses LSP/gopls.
-#+BEGIN_SRC emacs-lisp
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
 #+END_SRC
 
-Incidentally, that regex up there is a fucking nightmare and Emacs Lisp should be ashamed. That or maybe there's some secret way to do it so there isn't backslash hell. But holy crap that is a horrible line of code. I think we can all agree with that.
-
-**** TODO Joe Ardent over at the Recurse Center called out a better way to build regexes with s-expressions that looked nice, so there is  a better way to do this, that I haven't figured out yet -- regexp-builder maybe? I'll look it up next time I need a regexp in Emacs Lisp
 ** Rust
 To install the Rust language server:
 1. Install ~rustup~.
@@ -1059,28 +914,7 @@ To install the Rust language server:
 
 #+BEGIN_SRC emacs-lisp
   (use-package rust-mode
-    :mode (("\\.rs$" . rust-mode))
-    :hook ((rust-mode . lsp-deferred)))
-
-
-  (general-define-key
-   :states  'normal
-   :keymaps 'rust-mode-map
-   ",d"     'lsp-describe-thing-at-point
-   ",gg"    'lsp-find-definition
-   ",gt"    'lsp-find-type-definition
-   ",i"     'lsp-find-implementation
-   ",n"     'lsp-rename
-   ",r"     'lsp-find-references
-   ",x"     'lsp-execute-code-action
-   ",lsp"   'lsp-workspace-restart
-   "gd"     'lsp-find-definition
-   )
-
-  (defun lsp-rust-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t))
-
-  (add-hook 'rust-mode-hook #'lsp-rust-install-save-hooks)
+    :mode (("\\.rs$" . rust-mode)))
 #+END_SRC
 ** Web
 
@@ -1098,9 +932,6 @@ So yay for ~web-mode~!
              ("\\.tsx$"  . web-mode)
              ("\\.css$"  . web-mode)
              ("\\.svelte$" . web-mode))
-      :hook
-      ((web-mode . lsp-deferred))
-
       :config
       (setq web-mode-enable-css-colorization t)
       (setq web-mode-enable-auto-pairing t)
@@ -1134,26 +965,6 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
           ;; add more projects here..
   ;;        ))
 #+END_SRC
-
-** Tailwind CSS
-Not really a language per-se but there's a little extra tooling for it
-#+BEGIN_SRC emacs-lisp
-  (use-package lsp-tailwindcss)
-#+END_SRC
-
-In order to use, run ~M-x lsp-install-server RET tailwindcss~ after ~use-package~ runs
-
-Finally, to use the class sorter, which is what you really want, install with ~npm~ (ugh):
-: npm -i -g rustywind
-
-What kind of name is rustywind? Sounds like a fart, guys. 💨
-
-N.B. For some reason it didn't find the binary after I got ~rustywind~ installed and I had to run ~M-x Customize~ and set the path to the binary manually.. I just searched for ~rustywind~ and changed the value I found from ~nil~. Checking this in as part of ~.emacs_custom.el~ might be enough to keep this working for me basically forever, but this note is for my future self, should I be confused by this on another machine in the future.
-
-Finally, anyway, add a hook to run it on save.. should only affect buffers Tailwind buffers, I think, because it hooks through LSP
-#+begin_src emacs-lisp
-  (add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
-#+end_src
 
 ** JSON
 #+BEGIN_SRC emacs-lisp
@@ -1198,10 +1009,8 @@ Default Keybindings
 #+end_src
 ** Elixir
 #+begin_src emacs-lisp
-  (use-package elixir-mode
-    :hook
-    ((elixir-mode . lsp-deferred))
-    )
+  (use-package elixir-mode)
+
   ;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
   (add-hook 'elixir-mode-hook
             (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
@@ -1215,11 +1024,6 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 SQL doesn't -- as far as I'm aware, and I'm not taking the time to look harder at the moment anyway -- have an LSP backend (probably doesn't help that there are multiple dialects of SQL so I'd have to find one for PG or SQLite or whatever I'm using that day) so ~lsp-find-definition~ doesn't work. Below I set ~gd~ in evil-mode back to the default (~evil-goto-definition~) and add dumb jump as a backend to xref so that it can be used for finding SQL function definitions. Works pretty well but I haven't tested to see if the new hook & the new xref-show-definitions-function values will affect non-SQL modes negatively.
 
 #+begin_src emacs-lisp
-  (general-define-key
-   :states 'normal
-   :keymaps 'sql-mode-map
-   "gd" 'evil-goto-definition
-   )
 #+end_src
 
 Use rainbow delimeters in SQL

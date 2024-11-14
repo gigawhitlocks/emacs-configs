@@ -198,6 +198,13 @@
    :keymaps 'magit-status-mode-map
    "Z" 'magit-worktree)
 
+  ;; I think I unbound or overrode this but I can't figure out where
+  (general-define-key
+   :states 'normal
+   :keymaps 'prog-mode-map
+   "gd" 'evil-goto-definition
+   )
+
   ;; add fd as a remap for esc
   (use-package evil-escape
     :delight)
@@ -448,51 +455,6 @@
 
  (global-ligature-mode 't))
 
-(use-package lsp-mode
-  :init
-  ;; use flycheck
-  (setq lsp-prefer-flymake nil)
-  (setq lsp-headerline-breadcrumb-enable nil))
-
-;; treemacs integration
-(use-package lsp-treemacs)
-
-;; the UI
-(use-package lsp-ui)
-
-;; add a longer delay to the help mouseover
-(setq lsp-ui-doc-delay 1)
-
-;; linking breaks treemacs
-;; also it's annoying
-(setq lsp-enable-links nil)
-
-;; helm integration
-(use-package helm-lsp)
-
-(setq lsp-eldoc-enable-hover t)
-(setq lsp-ui-doc-enable t)
-(setq lsp-ui-doc-include-signature t)
-(setq lsp-ui-doc-position 'at-point)
-(setq lsp-ui-doc-use-childframe t)
-(setq lsp-ui-doc-use-webkit nil)
-(setq lsp-lens-enable nil)
-
-(general-define-key
- :states 'normal
- :keymaps 'prog-mode-map
- ",d"     'lsp-describe-thing-at-point
- ",gg"    'lsp-find-definition
- ",gt"    'lsp-find-type-definition
- ",i"     'lsp-find-implementation
- ",n"     'lsp-rename
- ",r"     'lsp-ui-peek-find-references
- ",R"     'lsp-find-references
- ",x"     'lsp-execute-code-action
- ",lsp"   'lsp-workspace-restart
- "gd"     'lsp-find-definition
- )
-
 (use-package yaml-mode)
 (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 ;;(add-hook 'yaml-mode-hook 'origami-mode)
@@ -532,21 +494,10 @@
 (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
 (setenv "WORKON_HOME" "~/.virtualenvs")
 
-(defun set-gopls-lib-dirs ()
-  "Add $GOPATH/pkg/mod to the 'library path'."
-  ;; stops lsp from continually asking if Go projects should be imported
-  (setq lsp-clients-go-library-directories
-        (list
-         "/usr"
-         (concat (getenv "GOPATH") "/pkg/mod"))))
-
 (use-package go-mode
-  :hook ((go-mode . lsp-deferred)
-         (go-mode . set-gopls-lib-dirs)
-         (go-mode . yas-minor-mode))
+  :hook ((go-mode . yas-minor-mode))
   :config
   ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
-  ;; I don't believe I need to do this anymore, as I use lsp instead of godef now
   (evil-add-command-properties #'godef-jump :jump t))
 
 ;; enable golangci-lint to work with flycheck
@@ -560,31 +511,13 @@
 
 (use-package gorepl-mode)
 
-(use-package dap-mode)
-(require 'dap-dlv-go)
-(dap-mode 0)
-(dap-ui-mode 0)
-(dap-ui-controls-mode 0)
-(tooltip-mode 1)
-(setq dap-ui-variable-length 100)
-
 (general-define-key
  :states  'normal
  :keymaps 'go-mode-map
  ",a"     'go-import-add
- ",d"     'lsp-describe-thing-at-point
- "gd"    'lsp-find-definition
- ",gt"    'lsp-find-type-definition
- ",i"     'lsp-find-implementation
- ",n"     'lsp-rename
- ",r"     'lsp-ui-peek-find-references
- ",R"     'lsp-find-references
  ",tp"    'go-test-current-project
  ",tt"    'go-test-current-test
  ",tf"    'go-test-current-file
- ",x"     'lsp-execute-code-action
- ",lsp"   'lsp-workspace-restart
- "gd"     'lsp-find-definition
 
  ;; using the ,c namespace for repl and debug stuff to follow the C-c
  ;; convention found in other places in Emacs
@@ -598,53 +531,12 @@
 (autoload 'go-mode "go-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
-;; disable "Organize Imports" warning that never goes away
-(add-hook 'go-mode-hook
-          (lambda ()
-            ;; Go likes origami-mode
-            ;; (origami-mode)
-            ;; lsp ui sideline code actions are annoying in Go
-            (setq-local lsp-ui-sideline-show-code-actions nil)))
-
 ;; sets the visual tab width to 2 spaces per tab in Go buffers
 (add-hook 'go-mode-hook (lambda ()
                           (set (make-local-variable 'tab-width) 2)))
 
-
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-
-(setq lsp-file-watch-threshold 5000)
-
-(with-eval-after-load 'lsp-mode
-  (add-to-list 'lsp-file-watch-ignored-directories "[/\\\\]\\.GOPATH\\'"))
-
 (use-package rust-mode
-  :mode (("\\.rs$" . rust-mode))
-  :hook ((rust-mode . lsp-deferred)))
-
-
-(general-define-key
- :states  'normal
- :keymaps 'rust-mode-map
- ",d"     'lsp-describe-thing-at-point
- ",gg"    'lsp-find-definition
- ",gt"    'lsp-find-type-definition
- ",i"     'lsp-find-implementation
- ",n"     'lsp-rename
- ",r"     'lsp-find-references
- ",x"     'lsp-execute-code-action
- ",lsp"   'lsp-workspace-restart
- "gd"     'lsp-find-definition
- )
-
-(defun lsp-rust-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t))
-
-(add-hook 'rust-mode-hook #'lsp-rust-install-save-hooks)
+  :mode (("\\.rs$" . rust-mode)))
 
 (use-package web-mode
   :mode (("\\.html$" . web-mode)
@@ -655,9 +547,6 @@
          ("\\.tsx$"  . web-mode)
          ("\\.css$"  . web-mode)
          ("\\.svelte$" . web-mode))
-  :hook
-  ((web-mode . lsp-deferred))
-
   :config
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-enable-auto-pairing t)
@@ -678,10 +567,6 @@
 ;;        ("go" . ".*example_project_dir/.*\\.html\\'")
         ;; add more projects here..
 ;;        ))
-
-(use-package lsp-tailwindcss)
-
-(add-hook 'before-save-hook 'lsp-tailwindcss-rustywind-before-save)
 
 (use-package json-mode
   :mode (("\\.json$" . json-mode ))
@@ -704,21 +589,15 @@
  ",c" (general-simulate-key "C-x h C-M-x")
  )
 
-(use-package elixir-mode
-  :hook
-  ((elixir-mode . lsp-deferred))
-  )
+(use-package elixir-mode)
+
 ;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
 (add-hook 'elixir-mode-hook
           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
 (use-package sql-indent)
 
-(general-define-key
- :states 'normal
- :keymaps 'sql-mode-map
- "gd" 'evil-goto-definition
- )
+
 
 (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
 
