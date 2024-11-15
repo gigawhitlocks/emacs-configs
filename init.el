@@ -382,6 +382,10 @@
 (add-hook 'flycheck-error-list-mode-hook
           'visual-line-mode)
 
+(use-package eldoc-box)
+(setq eldoc-echo-area-use-multiline-p nil
+      eldoc-idle-delay 1.5)
+
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-initialize))
