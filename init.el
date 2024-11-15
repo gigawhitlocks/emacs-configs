@@ -70,17 +70,6 @@
 (use-package treemacs-magit
 :after (treemacs magit))
 
-;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
-
- (defun my-eglot-organize-imports () (interactive)
-         (eglot-code-actions nil nil "source.organizeImports" t))
-
- (defun install-my-eglot-organize-imports () 
-  (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
-  (add-hook 'before-save-hook 'eglot-format-buffer))
-
-(add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
-
 (use-package doom-themes
   :config
   ;; Global settings (defaults)
@@ -516,6 +505,16 @@
 ;; enable golangci-lint to work with flycheck
 (use-package flycheck-golangci-lint
   :hook (go-mode . flycheck-golangci-lint-setup))
+
+;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
+(defun my-eglot-organize-imports () (interactive)
+       (eglot-code-actions nil nil "source.organizeImports" t))
+
+(defun install-my-eglot-organize-imports () 
+  (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
+  (add-hook 'before-save-hook 'eglot-format-buffer nil t))
+
+(add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
 
 (use-package gotest)
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)

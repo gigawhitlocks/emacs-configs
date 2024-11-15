@@ -1,11 +1,10 @@
-#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook '(lambda () (org-gfm-export-to-markdown t)) nil 'local) -*-
+#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook '(lambda () (org-gfm-export-to-markdown nil nil nil))) -*-
 #+TITLE: Emacs 💕
 #+TAGS[]: emacs
 #+MENU: main
 #+DATE: <2019-04-24 Wed>
 #+OPTIONS: toc:nil num:nil author:nil timestamp:nil
 #+PROPERTY: header-args:emacs-lisp :tangle init.el
-
 * Prologue
 This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the [[https://github.com/gigawhitlocks/emacs-configs][source repository]] and document ([[https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org][plain text view]]), are interactive when opened in Emacs.
 
@@ -866,7 +865,7 @@ Since Go has auto formatting and imports management as a first-party feature I l
 
   (defun install-my-eglot-organize-imports () 
     (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
-    (add-hook 'before-save-hook 'eglot-format-buffer))
+    (add-hook 'before-save-hook 'eglot-format-buffer nil t))
 
   (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
 #+end_src
