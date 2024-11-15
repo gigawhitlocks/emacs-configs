@@ -284,9 +284,6 @@ It's great, it gets installed early, can't live without it. 💘 ~projectile~
   (projectile-mode +1)
 #+END_SRC
 
-*** TODO I've read about something called project.el
-The impression that I got was that ~project.el~ is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate ~project.el~.
-
 ** Install and Configure Evil Mode
 [[https://github.com/emacs-evil/evil][~evil-mode~]] fundamentally changes Emacs so that while editing all of the modes and keybindings from ~vim~ are present.
 It's controversial but I think modal editing is brilliant and have been using ~vim~ bindings for twenty-odd years now. No going back.
@@ -581,6 +578,13 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
   (add-hook 'flycheck-error-list-mode-hook
             'visual-line-mode)
 #+END_SRC
+** Configure Eldoc
+#+begin_src emacs-lisp
+  (use-package eldoc-box)
+  (setq eldoc-echo-area-use-multiline-p nil
+        eldoc-idle-delay 1.5)
+
+#+end_src
 ** Install ~exec-path-from-shell~ to manage the PATH
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
 #+BEGIN_SRC emacs-lisp

@@ -335,11 +335,6 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 ```
 
 
-### TODO I've read about something called project.el
-
-The impression that I got was that `project.el` is a first-party replacement for Projectile in newer versions of Emacs. I don't know if this is true or not. I should investigate `project.el`.
-
-
 ## Install and Configure Evil Mode
 
 [`evil-mode`](https://github.com/emacs-evil/evil) fundamentally changes Emacs so that while editing all of the modes and keybindings from `vim` are present. It's controversial but I think modal editing is brilliant and have been using `vim` bindings for twenty-odd years now. No going back.
@@ -702,6 +697,16 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 
 (add-hook 'flycheck-error-list-mode-hook
           'visual-line-mode)
+```
+
+
+## Configure Eldoc
+
+```emacs-lisp
+(use-package eldoc-box)
+(setq eldoc-echo-area-use-multiline-p nil
+      eldoc-idle-delay 1.5)
+
 ```
 
 
