@@ -70,6 +70,17 @@
 (use-package treemacs-magit
 :after (treemacs magit))
 
+;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
+
+ (defun my-eglot-organize-imports () (interactive)
+         (eglot-code-actions nil nil "source.organizeImports" t))
+
+ (defun install-my-eglot-organize-imports () 
+  (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
+  (add-hook 'before-save-hook 'eglot-format-buffer))
+
+(add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
+
 (use-package doom-themes
   :config
   ;; Global settings (defaults)
@@ -495,10 +506,12 @@
 (setenv "WORKON_HOME" "~/.virtualenvs")
 
 (use-package go-mode
-  :hook ((go-mode . yas-minor-mode))
+  :hook ((go-mode . yas-minor-mode)
+         (go-mode . eglot-ensure))
   :config
   ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
   (evil-add-command-properties #'godef-jump :jump t))
+
 
 ;; enable golangci-lint to work with flycheck
 (use-package flycheck-golangci-lint

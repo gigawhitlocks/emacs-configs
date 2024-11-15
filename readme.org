@@ -119,7 +119,6 @@ It's installed early because many things have integrations with it, including so
   (use-package treemacs-magit
   :after (treemacs magit))
 #+end_src
-
 ** Theme
 I'm mainly using the Doom Emacs theme pack.
 I think they're really nice to look at, especially with ~solaire-mode~.
@@ -845,15 +844,32 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 *** Initial Setup
 #+BEGIN_SRC emacs-lisp
   (use-package go-mode
-    :hook ((go-mode . yas-minor-mode))
+    :hook ((go-mode . yas-minor-mode)
+           (go-mode . eglot-ensure))
     :config
     ;; fixes ctrl-o after goto-definition by telling evil that godef-jump jumps
     (evil-add-command-properties #'godef-jump :jump t))
+
 
   ;; enable golangci-lint to work with flycheck
   (use-package flycheck-golangci-lint
     :hook (go-mode . flycheck-golangci-lint-setup))
     #+END_SRC
+    
+*** Eglot Config
+Since Go has auto formatting and imports management as a first-party feature I like to enable that as an automatic step before save in Emacs so that I do not have to remember to remove unwantetd imports, or to add new ones, or to format my code, literally ever. I am totally pampered by this state of affairs and Go is my bae for having all of these features.
+
+#+begin_src emacs-lisp
+  ;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
+  (defun my-eglot-organize-imports () (interactive)
+         (eglot-code-actions nil nil "source.organizeImports" t))
+
+  (defun install-my-eglot-organize-imports () 
+    (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
+    (add-hook 'before-save-hook 'eglot-format-buffer))
+
+  (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
+#+end_src
 *** Package and Configuration for Executing Tests
 #+BEGIN_SRC emacs-lisp
   (use-package gotest)
