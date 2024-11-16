@@ -15,7 +15,9 @@ I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/bab
 
 ```emacs-lisp
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
-(setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
+(setq dotfiles-dir
+      (file-name-directory
+       (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
                  "lisp" (expand-file-name
