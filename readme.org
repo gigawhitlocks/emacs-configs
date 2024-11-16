@@ -131,39 +131,54 @@ Add a line like the following to the appropriate file in ~local/~
 #+end_src
 
 *** Theme lists
-I used phind.com to separate the Doom themes into light and dark, so I can have a randomly chosen light theme in the late morning and early afternoon, and switch back to a dark theme at other times.
-Unfortunately, Phind did an absolutely shit job, so many of these are in the wrong category. I might fix it at some point, I don't know; it doesn't really matter.
-
-I'll curate the lists as I use the new functionality, to remove ones I don't like.
 **** Light themes
 #+begin_src emacs-lisp
   (defvar light-theme-list '(doom-one-light
                              doom-acario-light
-                             doom-fairy-floss
+                             doom-ayu-light
+                             doom-bluloco-light
+                             doom-earl-grey
+                             doom-feather-light
                              doom-flatwhite
-                             doom-opera-light
                              doom-gruvbox-light
-                             doom-horizon))
+                             doom-homage-white
+                             doom-material
+                             doom-opera-light
+                             doom-gruvbox-light))
  #+end_src
 
 **** Dark themes
  #+begin_src emacs-lisp
-   (defvar dark-theme-list '(doom-Iosvkem
+   (defvar dark-theme-list '(doom-1337
+                             doom-acario-light
+                             doom-ayu-dark
+                             doom-ayu-mirage
+                             doom-badger
+                             doom-bluloco-dark
+                             doom-Iosvkem
                              doom-challenger-deep
                              doom-city-lights
                              doom-dark+
                              doom-dracula
                              doom-ephemeral
                              doom-fairy-floss
+                             doom-feather-dark
                              doom-gruvbox
                              doom-henna
+                             doom-homage-black
                              doom-horizon
+                             doom-ir-black
+                             doom-lantern
                              doom-laserwave
-                             doom-material
+                             doom-manegarm
                              doom-miramare
+                             doom-material-dark
+                             doom-meltbus
                              doom-molokai
                              doom-monokai-classic
+                             doom-monokai-machine
                              doom-monokai-pro
+                             doom-monokai-ristretto
                              doom-moonlight
                              doom-nord
                              doom-nova
