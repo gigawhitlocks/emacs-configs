@@ -14,14 +14,6 @@ First I need to configure Emacs to load this file (`readme.org`) as its first ac
 I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
 
 ```emacs-lisp
-;;; init --- the Emacs entrypoint
-;;; Commentary:
-;;;
-;;; Just load my customizations and execute -- org-mode bootstrap from
-;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
-;;;
-;;; Code:
-;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
 (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
@@ -54,17 +46,6 @@ After tangling the source files and loading `init.el`, the first thing that must
 Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, configures `use-package` and installs a few extra packages that acoutrement `use-package` and will be used heavily throughout. It used to install `use-package` itself, however, it has since been upstreamed and that step has been removed. 🎉
 
 ```emacs-lisp
-;;; ian.el --- my custom emacs config with no one else considered because fuck you
-;;;            naw but really I just don't have the time for that
-;;;
-;;; Commentary:
-;;;
-;;; After throwing away an old Emacs config, built when I had no idea what I was doing
-;;; and abandoning the "wisdom of the crowds"-configured Spacemacs for better control
-;;; here we are for better or worse
-;;;
-;;; Code:
-
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")

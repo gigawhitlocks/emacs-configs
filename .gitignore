@@ -43,3 +43,4 @@ undo/
 /*.sqlite
 /fastgpt/
 .emacs-custom.el
+/projects
