@@ -1,11 +1,3 @@
-;;; init --- the Emacs entrypoint
-;;; Commentary:
-;;;
-;;; Just load my customizations and execute -- org-mode bootstrap from
-;;; https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init
-;;;
-;;; Code:
-;; Load up Org Mode and (now included) Org Babel for elisp embedded in Org Mode files
 (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
@@ -26,17 +18,6 @@
 
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
 (provide 'init)
-
-;;; ian.el --- my custom emacs config with no one else considered because fuck you
-;;;            naw but really I just don't have the time for that
-;;;
-;;; Commentary:
-;;;
-;;; After throwing away an old Emacs config, built when I had no idea what I was doing
-;;; and abandoning the "wisdom of the crowds"-configured Spacemacs for better control
-;;; here we are for better or worse
-;;;
-;;; Code:
 
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -89,28 +70,47 @@
 
 (defvar light-theme-list '(doom-one-light
                            doom-acario-light
-                           doom-fairy-floss
+                           doom-ayu-light
+                           doom-bluloco-light
+                           doom-earl-grey
+                           doom-feather-light
                            doom-flatwhite
-                           doom-opera-light
                            doom-gruvbox-light
-                           doom-horizon))
+                           doom-homage-white
+                           doom-material
+                           doom-opera-light
+                           doom-gruvbox-light))
 
-(defvar dark-theme-list '(doom-Iosvkem
+(defvar dark-theme-list '(doom-1337
+                          doom-acario-light
+                          doom-ayu-dark
+                          doom-ayu-mirage
+                          doom-badger
+                          doom-bluloco-dark
+                          doom-Iosvkem
                           doom-challenger-deep
                           doom-city-lights
                           doom-dark+
                           doom-dracula
                           doom-ephemeral
                           doom-fairy-floss
+                          doom-feather-dark
                           doom-gruvbox
                           doom-henna
+                          doom-homage-black
                           doom-horizon
+                          doom-ir-black
+                          doom-lantern
                           doom-laserwave
-                          doom-material
+                          doom-manegarm
                           doom-miramare
+                          doom-material-dark
+                          doom-meltbus
                           doom-molokai
                           doom-monokai-classic
+                          doom-monokai-machine
                           doom-monokai-pro
+                          doom-monokai-ristretto
                           doom-moonlight
                           doom-nord
                           doom-nova
@@ -828,26 +828,21 @@
 
 (use-package org-download)
 
-(use-package company-org-block) ;; TODO configuration
+(use-package company-org-block)
 
 (use-package ox-jira)
 
 (use-package org-web-tools)
 
-(setq org-export-coding-system 'utf-8)
 
-;; Fontify the whole line for headings (with a background color).
+
 (setq org-fontify-whole-heading-line t)
 
-;; disable the weird default editing window layout in org-mode
-;; instead, just replace the current window with the editing one..
 (setq org-src-window-setup 'current-window)
 
-;; indent and wrap long lines in Org
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
 
-;; enable execution of languages from Babel
 (org-babel-do-load-languages 'org-babel-load-languages
                              '(
                                (sql . t)
@@ -875,28 +870,22 @@
  :keymaps 'org-mode-map
  "TAB"    'evil-toggle-fold)
 
-;; github-flavored markdown
 (use-package ox-gfm)
 
-;; htmlize prints the current buffer or file, as it would appear in
-;; Emacs, but in HTML! It's super cool and TODO I need to move this
-;; use-package statement somewhere I can talk about htmlize outside of
-;; a comment
 (use-package htmlize)
 
-;; enable markdown export
 (eval-after-load "org"
   (progn
     '(require 'ox-md nil t)
     '(require 'ox-gfm nil t)))
 
+(setq org-export-coding-system 'utf-8)
 ;; todo states
 (setq org-todo-keywords
       '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
         (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
         (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
 
-;; todo faces
 (setq org-todo-keyword-faces
       '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
         ("WAITING" . org-warning)))
@@ -904,7 +893,6 @@
 ;; enable org-protocol
 (require 'org-protocol)
 
-;; enter follows links.. how was this not a default?
 (setq org-return-follows-link  t)
 
 (add-hook 'org-mode-hook 'variable-pitch-mode)

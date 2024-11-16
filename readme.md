@@ -1261,10 +1261,6 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 
 SQL doesn't &#x2013; as far as I'm aware, and I'm not taking the time to look harder at the moment anyway &#x2013; have an LSP backend (probably doesn't help that there are multiple dialects of SQL so I'd have to find one for PG or SQLite or whatever I'm using that day) so `lsp-find-definition` doesn't work. Below I set `gd` in evil-mode back to the default (`evil-goto-definition`) and add dumb jump as a backend to xref so that it can be used for finding SQL function definitions. Works pretty well but I haven't tested to see if the new hook & the new xref-show-definitions-function values will affect non-SQL modes negatively.
 
-```emacs-lisp
-
-```
-
 Use rainbow delimeters in SQL
 
 ```emacs-lisp
@@ -1544,7 +1540,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ## Autocomplete for Org blocks (like source blocks)
 
 ```emacs-lisp
-(use-package company-org-block) ;; TODO configuration
+(use-package company-org-block)
 ```
 
 
@@ -1562,23 +1558,33 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-## More config I haven't organized
+## Fontify the whole line for headings (with a background color)
 
 ```emacs-lisp
-(setq org-export-coding-system 'utf-8)
-
-;; Fontify the whole line for headings (with a background color).
 (setq org-fontify-whole-heading-line t)
+```
 
-;; disable the weird default editing window layout in org-mode
-;; instead, just replace the current window with the editing one..
+
+## disable the default editing window layout
+
+instead, just replace the current window with the editing one..
+
+```emacs-lisp
 (setq org-src-window-setup 'current-window)
+```
 
-;; indent and wrap long lines in Org
+
+## indent and wrap long lines
+
+```emacs-lisp
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
+```
 
-;; enable execution of languages from Babel
+
+## Enable execution of languages from Babel
+
+```emacs-lisp
 (org-babel-do-load-languages 'org-babel-load-languages
                              '(
                                (sql . t)
@@ -1586,7 +1592,12 @@ These keybindings are probably the most opinionated part of my configuration. Th
                                (shell . t)
                                )
                              )
+```
 
+
+## set Org-specific keybindings
+
+```emacs-lisp
 (my-local-leader-def
   :states  'normal
   :keymaps 'org-mode-map
@@ -1605,37 +1616,72 @@ These keybindings are probably the most opinionated part of my configuration. Th
  :states  'normal
  :keymaps 'org-mode-map
  "TAB"    'evil-toggle-fold)
+```
 
-;; github-flavored markdown
+
+## Export Settings
+
+
+### GitHub-flavored markdown
+
+```emacs-lisp
 (use-package ox-gfm)
+```
 
-;; htmlize prints the current buffer or file, as it would appear in
-;; Emacs, but in HTML! It's super cool and TODO I need to move this
-;; use-package statement somewhere I can talk about htmlize outside of
-;; a comment
+
+### HTMLize
+
+htmlize prints the current buffer or file, as it would appear in Emacs, but in HTML! It's super cool and a comment
+
+```emacs-lisp
 (use-package htmlize)
+```
 
-;; enable markdown export
+
+### enable markdown export
+
+```emacs-lisp
 (eval-after-load "org"
   (progn
     '(require 'ox-md nil t)
     '(require 'ox-gfm nil t)))
+```
 
+
+### explicitly set utf-8 output (apparently)
+
+```emacs-lisp
+(setq org-export-coding-system 'utf-8)
 ;; todo states
 (setq org-todo-keywords
       '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
         (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
         (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
+```
 
-;; todo faces
+
+## `TODO` Faces
+
+```emacs-lisp
 (setq org-todo-keyword-faces
       '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
         ("WAITING" . org-warning)))
+```
 
+
+## Org-Protocol
+
+Org-Protocol is super cool! It enables things like bookmarklets to bookmark things to Org files!
+
+```emacs-lisp
 ;; enable org-protocol
 (require 'org-protocol)
+```
 
-;; enter follows links.. how was this not a default?
+
+## enter follows links.. how was this not a default?
+
+```emacs-lisp
 (setq org-return-follows-link  t)
 ```
 
