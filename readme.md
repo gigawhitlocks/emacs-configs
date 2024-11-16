@@ -1859,6 +1859,15 @@ I'm storing it here as an `example` for when I'm ready &#x2013; I happened upon 
 ```
 
 
+## Define how org-edit-src behaves
+
+Do `M-x describe-variable RET org-src-window-setup` to see the options
+
+```emacs-lisp
+(setq org-src-window-setup 'current-window)
+```
+
+
 # Miscellaneous standalone global configuration changes
 
 
