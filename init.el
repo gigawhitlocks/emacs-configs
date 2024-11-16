@@ -1,5 +1,9 @@
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
-(setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
+(load custom-file)
+
+(setq dotfiles-dir
+      (file-name-directory
+       (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
                  "lisp" (expand-file-name
@@ -111,6 +115,7 @@
                           doom-monokai-ristretto
                           doom-moonlight
                           doom-nord
+                          doom-nord-aurora
                           doom-nova
                           doom-oceanic-next
                           doom-old-hope

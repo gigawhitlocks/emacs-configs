@@ -9,12 +9,26 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 
 # Entrypoint
 
-First I need to configure Emacs to load this file (`readme.org`) as its first action when it starts up. By default, Emacs runs `init.el` at the beginning of execution. The following piece of code [tangles](https://orgmode.org/manual/Extracting-source-code.html) to `init.el`, and `init.el` containing the following must be checked in, because this snippet tangles *this* file (`readme.org`), so ****it is this piece of code that starts the whole process of loading all of this configuration****.
+The source code in this file is extracted to `init.el` by calling `M-x org-babel-tangle`.
+
+
+## Customize
+
+Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
+
+This variable is set before everything in the config because `readme.org` references it at the top of the file.
+
+```emacs-lisp
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
+(load custom-file)
+```
+
+
+## Extract Org Files and Load Them
 
 I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
 
 ```emacs-lisp
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
 (setq dotfiles-dir
       (file-name-directory
        (or (buffer-file-name) load-file-name)))
@@ -35,8 +49,6 @@ I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/bab
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
 ```
-
-The rest of the code that is executed begins with the routines defined by this file.
 
 
 # Package Manager Bootstrap
@@ -206,6 +218,7 @@ Prefer to load a theme per-system, but it's nice to have it documented here. Add
                               doom-monokai-ristretto
                               doom-moonlight
                               doom-nord
+                              doom-nord-aurora
                               doom-nova
                               doom-oceanic-next
                               doom-old-hope
@@ -1008,7 +1021,7 @@ Go is my primary language so it's my most dynamic and complicated configuration,
 
 Go support requires some dependencies. I will try to list them all here. Stuff I have installed has some overlap because of the in-progress move to LSP, but I'll prune it later.
 
--   First, `go` itself must be installed, install however, and avalailable on the `PATH`.
+-   First, `go` itself must be installed, install however, and available on the `PATH`.
 
 -   `gopls`, the language server for LSP mentioned above <https://github.com/golang/tools/blob/master/gopls/doc/user.md>. I have been just running this off of `master` so I can experience all the latest ~~bugs~~ features, so clone the gopls project (TODO find the url for it and put a link here) and `go install` it. After you're done `gopls` should also be on the `PATH`. [Directions for configuring `gopls` through this file are found here.](https://github.com/golang/tools/blob/master/gopls/doc/emacs.md#gopls-configuration)
 
@@ -1253,15 +1266,17 @@ Default Keybindings
 
 ## SQL
 
+
+### Indent SQL
+
 SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL by default. This package fixes that.
 
 ```emacs-lisp
 (use-package sql-indent)
 ```
 
-SQL doesn't &#x2013; as far as I'm aware, and I'm not taking the time to look harder at the moment anyway &#x2013; have an LSP backend (probably doesn't help that there are multiple dialects of SQL so I'd have to find one for PG or SQLite or whatever I'm using that day) so `lsp-find-definition` doesn't work. Below I set `gd` in evil-mode back to the default (`evil-goto-definition`) and add dumb jump as a backend to xref so that it can be used for finding SQL function definitions. Works pretty well but I haven't tested to see if the new hook & the new xref-show-definitions-function values will affect non-SQL modes negatively.
 
-Use rainbow delimeters in SQL
+### Use rainbow delimeters in SQL
 
 ```emacs-lisp
 (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
@@ -1645,7 +1660,12 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 
 ```emacs-lisp
 (setq org-export-coding-system 'utf-8)
-;; todo states
+```
+
+
+### custom todo states
+
+```emacs-lisp
 (setq org-todo-keywords
       '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
         (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
