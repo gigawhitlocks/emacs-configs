@@ -2282,6 +2282,15 @@ Sadly this only works in X11 but there's a long Wayland support issue, and it lo
 ```
 
 
+## Confirm before exit
+
+<span class="timestamp-wrapper"><span class="timestamp">&lt;2024-11-16 Sat&gt;</span></span>: Don't know why I didn't do this sooner! With my muscle memory for `:wq` I close by mistake Emacs *constantly* &#x2013; especially since I've been using `vim` bindings now for multiple decades and I use `emacsclient` heavily, so a lot of the time I actually do wish to call `evil-exit`&#x2026; just not on that last frame!
+
+```emacs-lisp
+(setq confirm-kill-emacs 'yes-or-no-p)
+```
+
+
 # Hostname-based tweaks
 
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
