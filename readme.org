@@ -581,9 +581,9 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 ** Configure Eldoc
 #+begin_src emacs-lisp
   (use-package eldoc-box)
-  (setq eldoc-echo-area-use-multiline-p nil
-        eldoc-idle-delay 1.5)
+  (setq eldoc-idle-delay 1.5)
 
+  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
 #+end_src
 ** Install ~exec-path-from-shell~ to manage the PATH
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.

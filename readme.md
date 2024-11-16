@@ -704,9 +704,9 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 
 ```emacs-lisp
 (use-package eldoc-box)
-(setq eldoc-echo-area-use-multiline-p nil
-      eldoc-idle-delay 1.5)
+(setq eldoc-idle-delay 1.5)
 
+(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
 ```
 
 
