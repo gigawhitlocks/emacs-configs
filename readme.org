@@ -1761,28 +1761,6 @@ I prefer that Customize display the names of variables that I can change in this
   (setq custom-unlispify-tag-names nil)
 #+END_SRC
 
-** Smart formatting for many languages
-#+begin_src emacs-lisp
-  ;; auto-format different source code files extremely intelligently
-  ;; https://github.com/radian-software/apheleia
-  ;; (use-package apheleia
-  ;;   :config
-  ;;   (apheleia-global-mode +1))
-#+end_src
-
-** Add support for browsing Gemini-space
-Gemini is a new (circa 2019) Gopher-ish hypertext protocol. Browsing in Emacs is nice.
-
-Install a browser, elpher..
-#+begin_src emacs-lisp
-  (use-package elpher)
-#+end_src
-
-And a mode
-#+begin_src emacs-lisp
-  (use-package gemini-mode)
-#+end_src
-
 ** Don't require a final newline
 Very occasionally this causes problems and it's not something that I actually care about. To be honest I do not know why Emacs has a default behavior where it adds a newline to the end of the file on save.
 #+begin_src emacs-lisp
