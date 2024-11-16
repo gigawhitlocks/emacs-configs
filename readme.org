@@ -1879,6 +1879,23 @@ Sadly this only works in X11 but there's a long Wayland support issue, and it lo
 #+begin_src emacs-lisp 
   (setq confirm-kill-emacs 'yes-or-no-p)
 #+end_src
+** Start a New Blog Post
+I used Kagi FastGPT to generate about half of this. It taught me about ~read-string~ and ~replace-regexp-in-string~ and wrote the little regexp for me. I tweaked the output to put the blog in the right place and open the new file once it's created.
+I guess it was nice to have some of it generated.
+#+begin_src emacs-lisp
+  (defun silly-business/new-blog-post ()
+    "Create a new silly.business blog post."
+    (interactive)
+    (let* ((post-title (read-string "Enter the title of the new post: "))
+           (post-slug (replace-regexp-in-string "\\s-+" "-" post-title))
+           (timestamp (format-time-string "%Y-%m-%d-%H:%M")))
+      (shell-command (concat "cd ~/silly.business && hugo new blog/"
+                             timestamp (format "-%s.org" post-slug)))
+      (find-file (format "~/silly.business/content/blog/%s.org"
+                         (concat timestamp "-" post-slug)))
+                 ))
+#+end_src
+
 * Hostname-based tweaks
 
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
