@@ -2143,8 +2143,8 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M-x` for everything.
 
 ```emacs-lisp
-(when (fboundp 'menu-bar-mode) (menu-bar-mode 1))
-(when (fboundp 'tool-bar-mode) (tool-bar-mode 1))
+(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (scroll-bar-mode -1)
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame

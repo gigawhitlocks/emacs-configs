@@ -877,7 +877,7 @@
     '(require 'ox-gfm nil t)))
 
 (setq org-export-coding-system 'utf-8)
-;; todo states
+
 (setq org-todo-keywords
       '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
         (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
@@ -1093,16 +1093,6 @@ made unique when necessary."
 (xterm-mouse-mode 1)
 
 (setq custom-unlispify-tag-names nil)
-
-;; auto-format different source code files extremely intelligently
-;; https://github.com/radian-software/apheleia
-;; (use-package apheleia
-;;   :config
-;;   (apheleia-global-mode +1))
-
-(use-package elpher)
-
-(use-package gemini-mode)
 
 (setq require-final-newline nil)
 

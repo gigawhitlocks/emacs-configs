@@ -10,7 +10,12 @@ I did need to install this package, though, so I'm noting it here for future ref
 
 I also later discovered that I really needed the ~emacs-wayland~ package to work nicely in Arch and avoid strange bugs.
 
-No custom Emacs Lisp yet on this machine
+
+* Theme
+
+#+begin_src emacs-lisp 
+  (load-theme 'doom-nord-light)
+#+end_src
 
 ** Footer
 #+BEGIN_SRC emacs-lisp
