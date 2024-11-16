@@ -1544,13 +1544,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-## JIRA support in Org
-
-```emacs-lisp
-(use-package ox-jira)
-```
-
-
 ## Install some tools for archiving web content into Org
 
 ```emacs-lisp

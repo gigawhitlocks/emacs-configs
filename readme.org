@@ -1293,11 +1293,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
   (use-package company-org-block)
 #+end_src
 
-** JIRA support in Org
-#+begin_src emacs-lisp
-  (use-package ox-jira)
-#+end_src
-
 ** Install some tools for archiving web content into Org
 #+begin_src emacs-lisp
   (use-package org-web-tools)
