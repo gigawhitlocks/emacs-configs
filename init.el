@@ -1,3 +1,4 @@
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
 (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
@@ -15,9 +16,6 @@
 
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
-
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
-(provide 'init)
 
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
@@ -614,8 +612,6 @@
 
 (use-package sql-indent)
 
-
-
 (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
 
 (use-package racket-mode)
@@ -830,15 +826,11 @@
 
 (use-package company-org-block)
 
-(use-package ox-jira)
-
 (use-package org-web-tools)
-
-
 
 (setq org-fontify-whole-heading-line t)
 
-(setq org-src-window-setup 'current-window)
+
 
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)

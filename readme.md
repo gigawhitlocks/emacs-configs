@@ -14,6 +14,7 @@ First I need to configure Emacs to load this file (`readme.org`) as its first ac
 I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
 
 ```emacs-lisp
+(setq custom-file "~/.emacs.d/.emacs-custom.el")
 (setq dotfiles-dir (file-name-directory (or (buffer-file-name) load-file-name)))
 
 (let* ((org-dir (expand-file-name
@@ -31,9 +32,6 @@ I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/bab
 
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
-
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
-(provide 'init)
 ```
 
 The rest of the code that is executed begins with the routines defined by this file.
@@ -1563,7 +1561,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
 instead, just replace the current window with the editing one..
 
 ```emacs-lisp
-(setq org-src-window-setup 'current-window)
+
 ```
 
 
