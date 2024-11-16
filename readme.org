@@ -1553,7 +1553,7 @@ I'm storing it here  as an ~example~  for when I'm  ready -- I  happened upon th
 ** Define how org-edit-src behaves
 Do ~M-x describe-variable RET org-src-window-setup~ to see the options
 #+begin_src emacs-lisp
-  (setq org-src-window-setup 'current-window)
+  (setq org-src-window-setup 'other-frame)
 #+end_src
 * Miscellaneous standalone global configuration changes
 ** Start server
@@ -1570,7 +1570,7 @@ Do ~M-x describe-variable RET org-src-window-setup~ to see the options
 https://orgmode.org/worg/org-contrib/org-protocol.html
 
 First use this ~.desktop~ file to register a handler for the new protocol scheme:
-#+begin_src conf :tangle ~/.local/share/applications/org-protocol.desktop
+#+begin_src desktop :tangle ~/.local/share/applications/org-protocol.desktop
   [Desktop Entry]
   Name=org-protocol
   Comment=Intercept calls from emacsclient to trigger custom actions

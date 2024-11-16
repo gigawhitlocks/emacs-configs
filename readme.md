@@ -1864,7 +1864,7 @@ I'm storing it here as an `example` for when I'm ready &#x2013; I happened upon 
 Do `M-x describe-variable RET org-src-window-setup` to see the options
 
 ```emacs-lisp
-(setq org-src-window-setup 'current-window)
+(setq org-src-window-setup 'other-frame)
 ```
 
 
@@ -1893,7 +1893,7 @@ Do `M-x describe-variable RET org-src-window-setup` to see the options
 
 First use this `.desktop` file to register a handler for the new protocol scheme:
 
-```conf
+```desktop
 [Desktop Entry]
 Name=org-protocol
 Comment=Intercept calls from emacsclient to trigger custom actions
