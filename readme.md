@@ -1827,6 +1827,38 @@ I find superscripts, subscripts, etc, are less common than verbatim underscores 
 ```
 
 
+## Using eglot with Org
+
+`eglot` and Babel seems to still be a work in progress as of <span class="timestamp-wrapper"><span class="timestamp">&lt;2024-11-16 Sat&gt;</span></span>.
+
+The code snippet below, from [this comment](https://github.com/joaotavora/eglot/issues/523#issuecomment-1746342643) on the thread about adding support for Org Babel, seems like it could be a temporary solution as support seems to be slow in coming, but I haven't tried it out yet.
+
+I'm storing it here as an `example` for when I'm ready &#x2013; I happened upon this while searching for something else and don't want to lose it, but I'm not ready for it right this moment either.
+
+```
+(require 'eglot)
+
+(defun sloth/org-babel-edit-prep (info)
+  (setq buffer-file-name (or (alist-get :file (caddr info))
+                             "org-src-babel-tmp"))
+  (eglot-ensure))
+
+(advice-add 'org-edit-src-code
+            :before (defun sloth/org-edit-src-code/before (&rest args)
+                      (when-let* ((element (org-element-at-point))
+                                  (type (org-element-type element))
+                                  (lang (org-element-property :language element))
+                                  (mode (org-src-get-lang-mode lang))
+                                  ((eglot--lookup-mode mode))
+                                  (edit-pre (intern
+                                             (format "org-babel-edit-prep:%s" lang))))
+                        (if (fboundp edit-pre)
+                            (advice-add edit-pre :after #'sloth/org-babel-edit-prep)
+                          (fset edit-pre #'sloth/org-babel-edit-prep)))))
+
+```
+
+
 # Miscellaneous standalone global configuration changes
 
 
@@ -2111,8 +2143,8 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M-x` for everything.
 
 ```emacs-lisp
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+(when (fboundp 'menu-bar-mode) (menu-bar-mode 1))
+(when (fboundp 'tool-bar-mode) (tool-bar-mode 1))
 (scroll-bar-mode -1)
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
