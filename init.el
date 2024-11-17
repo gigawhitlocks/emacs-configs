@@ -791,13 +791,16 @@
                  dark-theme-list)) dark-theme-list)))
   "thh"    'choose-theme
   "thc"    'load-theme
+  "tm"     'toggle-menu-bar-mode-from-frame
   "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
   "tr"     'treemacs-select-window
-  "ts"     'toggle-screaming
+  "ts"     'toggle-scroll-bar
   "tt"     'toggle-transparency
-  "tp"     (defun ian-toggle-prism () (interactive) (prism-mode 'toggle))
+  "tp"     (defun ian-toggle-prism ()
+             (interactive)
+             (prism-mode 'toggle))
   "tw"     'whitespace-mode
   "w-"     'split-window-below
   "w/"     'split-window-right
@@ -822,8 +825,8 @@
 ;; top right button on my trackball is equivalent to click (select) +
 ;; RET (open) on files in Treemacs
 (general-define-key
-   :keymaps 'treemacs-mode-map
-   "<mouse-8>" 'treemacs-RET-action)
+ :keymaps 'treemacs-mode-map
+ "<mouse-8>" 'treemacs-RET-action)
 
 (use-package evil-org)
 
@@ -995,6 +998,8 @@ made unique when necessary."
 
 (setq org-pretty-entities nil)
 
+(setq org-src-window-setup 'other-frame)
+
 (server-start)
 
 (use-package browse-at-remote)
@@ -1144,6 +1149,20 @@ made unique when necessary."
   :key (password-store-get "kagi-token"))
 
 (use-package emacs-everywhere)
+
+(setq confirm-kill-emacs 'yes-or-no-p)
+
+(defun silly-business/new-blog-post ()
+  "Create a new silly.business blog post."
+  (interactive)
+  (let* ((post-title (read-string "Enter the title of the new post: "))
+         (post-slug (replace-regexp-in-string "\\s-+" "-" post-title))
+         (timestamp (format-time-string "%Y-%m-%d-%H:%M")))
+    (shell-command (concat "cd ~/silly.business && hugo new blog/"
+                           timestamp (format "-%s.org" post-slug)))
+    (find-file (format "~/silly.business/content/blog/%s.org"
+                       (concat timestamp "-" post-slug)))
+               ))
 
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right

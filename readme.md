@@ -1499,13 +1499,16 @@ These keybindings are probably the most opinionated part of my configuration. Th
                  dark-theme-list)) dark-theme-list)))
   "thh"    'choose-theme
   "thc"    'load-theme
+  "tm"     'toggle-menu-bar-mode-from-frame
   "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
   "tr"     'treemacs-select-window
-  "ts"     'toggle-screaming
+  "ts"     'toggle-scroll-bar
   "tt"     'toggle-transparency
-  "tp"     (defun ian-toggle-prism () (interactive) (prism-mode 'toggle))
+  "tp"     (defun ian-toggle-prism ()
+             (interactive)
+             (prism-mode 'toggle))
   "tw"     'whitespace-mode
   "w-"     'split-window-below
   "w/"     'split-window-right
@@ -1530,8 +1533,8 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ;; top right button on my trackball is equivalent to click (select) +
 ;; RET (open) on files in Treemacs
 (general-define-key
-   :keymaps 'treemacs-mode-map
-   "<mouse-8>" 'treemacs-RET-action)
+ :keymaps 'treemacs-mode-map
+ "<mouse-8>" 'treemacs-RET-action)
 ```
 
 
@@ -2300,7 +2303,7 @@ Sadly this only works in X11 but there's a long Wayland support issue, and it lo
 ```
 
 
-## Start a New Blog Post
+## Start a new blog post
 
 I used Kagi FastGPT to generate about half of this. It taught me about `read-string` and `replace-regexp-in-string` and wrote the little regexp for me. I tweaked the output to put the blog in the right place and open the new file once it's created. I guess it was nice to have some of it generated.
 
@@ -2394,7 +2397,7 @@ This `.desktop` file calls `emacs` when it's not already running, and `emacsclie
 
 Tangling this file will install the .desktop file to the correct location (`~/.local/share/applications/Emacsclient.desktop`).
 
-```conf
+```toml
 [Desktop Entry]
 Name=Emacs
 GenericName=Text Editor
