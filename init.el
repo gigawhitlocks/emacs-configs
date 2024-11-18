@@ -653,12 +653,6 @@
   (interactive)
   (find-file-other-frame "~/.emacs.d/readme.org"))
 
-(defun reload-initfile ()
-  "Reload the main config file."
-  (interactive)
-  (org-babel-tangle "~/.emacs.d/readme.org")
-  (byte-compile-file "~/.emacs.d/ian.el"))
-
 (defun close-client-frame ()
   "Exit emacsclient."
   (interactive)
@@ -731,7 +725,6 @@
   "fd"     'dired
   "fed"    'find-initfile
   "feD"    'find-initfile-other-frame
-  "feR"    'reload-initfile
   "gb"     'magit-blame
   "gs"     'magit-status
   "gg"     'magit
