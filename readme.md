@@ -718,6 +718,22 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
 ```
 
+I found Eldoc-box looked ugly (huge border perhaps inherited from some old state?) on a specific machine and [the solution found here, slightly adapted](https://github.com/casouri/eldoc-box/issues/100) works for me but I don't totally understand why I need it. That said, I *do*.
+
+```emacs-lisp
+(defun my/eldoc-box-post-frame-hook (frame)
+  (modify-frame-parameters
+   ;; the hook sends the parent frame this is not what we want we force the child frame
+   eldoc-box--frame
+   `(
+     (internal-border-width . ,1)
+     )
+   )
+  )
+
+(add-hook 'eldoc-box-frame-hook #'my/eldoc-box-post-frame-hook)
+```
+
 
 ## Install `exec-path-from-shell` to manage the PATH
 
@@ -1122,6 +1138,8 @@ Once that's done `gorepl-mode` is ready to be installed:
  ",cg"     'gorepl-run-load-current-file
  ",cx"     'gorepl-eval-region
  ",cl"     'gorepl-eval-line
+
+ ",x"      'eglot-code-actions
   )
 
 (autoload 'go-mode "go-mode" nil t)

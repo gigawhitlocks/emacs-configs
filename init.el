@@ -390,6 +390,18 @@
 
 (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
 
+(defun my/eldoc-box-post-frame-hook (frame)
+  (modify-frame-parameters
+   ;; the hook sends the parent frame this is not what we want we force the child frame
+   eldoc-box--frame
+   `(
+     (internal-border-width . ,1)
+     )
+   )
+  )
+
+(add-hook 'eldoc-box-frame-hook #'my/eldoc-box-post-frame-hook)
+
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-initialize))
@@ -546,6 +558,8 @@
  ",cg"     'gorepl-run-load-current-file
  ",cx"     'gorepl-eval-region
  ",cl"     'gorepl-eval-line
+
+ ",x"      'eglot-code-actions
   )
 
 (autoload 'go-mode "go-mode" nil t)

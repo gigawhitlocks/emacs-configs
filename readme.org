@@ -589,6 +589,22 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
 
   (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
 #+end_src
+
+I found Eldoc-box looked ugly (huge border perhaps inherited from some old state?) on a specific machine and [[https://github.com/casouri/eldoc-box/issues/100][the solution found here, slightly adapted]] works for me but I don't totally understand why I need it. That said, I /do/.
+#+begin_src emacs-lisp 
+  (defun my/eldoc-box-post-frame-hook (frame)
+    (modify-frame-parameters
+     ;; the hook sends the parent frame this is not what we want we force the child frame
+     eldoc-box--frame
+     `(
+       (internal-border-width . ,1)
+       )
+     )
+    )
+
+  (add-hook 'eldoc-box-frame-hook #'my/eldoc-box-post-frame-hook)
+#+end_src
+
 ** Install ~exec-path-from-shell~ to manage the PATH
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
 #+BEGIN_SRC emacs-lisp
@@ -917,6 +933,8 @@ Once that's done ~gorepl-mode~ is ready to be installed:
    ",cg"     'gorepl-run-load-current-file
    ",cx"     'gorepl-eval-region
    ",cl"     'gorepl-eval-line
+
+   ",x"      'eglot-code-actions
     )
 
   (autoload 'go-mode "go-mode" nil t)
@@ -940,7 +958,6 @@ To install the Rust language server:
     :mode (("\\.rs$" . rust-mode)))
 #+END_SRC
 ** Web
-
 After some amount of searching and fumbling about I have discovered [[http://web-mode.org/][~web-mode~]] which appears to be the one-stop-shop solution for all of your HTML and browser-related needs. It handles a whole slew of web-related languages and templating formats and plays nicely with LSP. It's also the only package that I could find that supported ~.tsx~ files at all.
 
 So yay for ~web-mode~!
