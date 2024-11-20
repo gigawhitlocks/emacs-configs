@@ -950,6 +950,7 @@ Once that's done ~gorepl-mode~ is ready to be installed:
    ",cl"     'gorepl-eval-line
 
    ",x"      'eglot-code-actions
+   ",n"      'go-rename
     )
 
   (autoload 'go-mode "go-mode" nil t)

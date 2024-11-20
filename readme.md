@@ -20,6 +20,7 @@ This variable is set before everything in the config because `readme.org` refere
 
 ```emacs-lisp
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
+(load custom-file)
 ```
 
 
@@ -44,9 +45,6 @@ I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/bab
                           (or load-path nil))))
   ;; load up Org-mode and Org-babel
   (require 'ob-tangle))
-
-;; load Customize file
-(load custom-file)
 
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
@@ -1157,6 +1155,7 @@ Once that's done `gorepl-mode` is ready to be installed:
  ",cl"     'gorepl-eval-line
 
  ",x"      'eglot-code-actions
+ ",n"      'go-rename
   )
 
 (autoload 'go-mode "go-mode" nil t)
