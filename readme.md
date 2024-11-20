@@ -20,7 +20,6 @@ This variable is set before everything in the config because `readme.org` refere
 
 ```emacs-lisp
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
-(load custom-file)
 ```
 
 
@@ -45,6 +44,9 @@ I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/bab
                           (or load-path nil))))
   ;; load up Org-mode and Org-babel
   (require 'ob-tangle))
+
+;; load Customize file
+(load custom-file)
 
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
@@ -1088,6 +1090,21 @@ Since Go has auto formatting and imports management as a first-party feature I l
 (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
 ```
 
+The Go Emacs docs suggest using this snippet which I think might help with some freezing I've been seeing when stepping into previously unseen library code
+
+```emacs-lisp
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
+
+(add-hook 'project-find-functions #'project-find-go-module)
+```
+
+Preliminary testing suggests it might do the trick
+
 
 ### Package and Configuration for Executing Tests
 
@@ -1942,7 +1959,20 @@ For now this is extremely rudimentary and I will improve it as needed.
 
 1.  The first time, add a button in the browser by creating a bookmarklet containing the following target:
 
-    javascript:location.href='org-protocol://open-source://'+encodeURIComponent(location.href)
+```
+Source Code
+;; Defined in /usr/local/share/emacs/29.1/lisp/org/org-protocol.el.gz
+(defun org-protocol-open-source (fname)
+  "Process an org-protocol://open-source?url= style URL with FNAME.
+
+Change a filename by mapping URLs to local filenames as set
+in `org-protocol-project-alist'.
+
+The location for a browser's bookmark should look like this:
+
+  javascript:location.href = \\='org-protocol://open-source?\\=' +
+        new URLSearchParams({url: location.href})
+```
 
 1.  Add an entry to `org-protocol-project-alist`, defined in the local machine's hostname-specific config found in `local/`. An example can be found on the Worg page above, but here it is again for easy reference:
 
@@ -1965,6 +1995,25 @@ N.B. this code block does ****not**** get tangled into `init.el`.
 -   TODO automate the cloning of unknown repos and addition to this list
 
     I want to be able to press the button on new repos that I haven't cloned yet, and have them dumped to a sane location and then added to the list and opened.
+
+-   TODO test a new bookmarklet with the quoted syntax from the Org-Protocol docs
+
+    also, I stumbled on this in the docs and it looks interesting and relevant:
+    
+    ```
+    ;;   5.) Optionally add custom sub-protocols and handlers:
+    ;;
+    ;;       (setq org-protocol-protocol-alist
+    ;;             '(("my-protocol"
+    ;;                :protocol "my-protocol"
+    ;;                :function my-protocol-handler-function)))
+    ;;
+    ;;       A "sub-protocol" will be found in URLs like this:
+    ;;
+    ;;           org-protocol://sub-protocol://data
+    ;;
+    ;; If it works, you can now setup other applications for using this feature.
+    ```
 
 
 ## TRAMP settings

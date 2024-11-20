@@ -1,5 +1,4 @@
 (setq custom-file "~/.emacs.d/.emacs-custom.el")
-(load custom-file)
 
 (setq dotfiles-dir
       (file-name-directory
@@ -17,6 +16,9 @@
                           (or load-path nil))))
   ;; load up Org-mode and Org-babel
   (require 'ob-tangle))
+
+;; load Customize file
+(load custom-file)
 
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
