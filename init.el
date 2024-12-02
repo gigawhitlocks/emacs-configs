@@ -149,9 +149,6 @@
 
 (solaire-global-mode +1)
 
-(use-package spacious-padding
-  :hook (after-init . spacious-padding-mode))
-
 (use-package doom-modeline
   :config       (doom-modeline-def-modeline 'main
                   '(bar matches buffer-info remote-host buffer-position parrot selection-info)

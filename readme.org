@@ -227,18 +227,6 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 
   (solaire-global-mode +1)
 #+end_src
-** Spacious Padding
-More eye candy:
-#+begin_quote
-It increases the padding or spacing of frames and windows on demand.
-The idea with this package is to provide the means to easily toggle between terse and spacious views, depending on the user’s needs.
-#+end_quote
-
-Don't know if I'll keep this one but I wanted to try it out
-#+begin_src emacs-lisp
-    (use-package spacious-padding
-      :hook (after-init . spacious-padding-mode))
-#+end_src
 
 ** Doom Modeline
 The Doom Emacs project also provides a fancy modeline to go along with their themes.
@@ -385,7 +373,6 @@ It's mostly used below in the [[Global Keybindings][global keybindings]] section
 #+END_SRC
 ** Install and Configure Magit
 [[https://github.com/magit/magit][Magit]] is an incredible integrated ~git~ UI for Emacs.
-
 #+BEGIN_SRC emacs-lisp
     (use-package magit)
     ;; disable the default emacs vc because git is all I use,
