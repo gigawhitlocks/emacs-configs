@@ -538,6 +538,15 @@
 
 (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
 
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
+
+(add-hook 'project-find-functions #'project-find-go-module)
+
 (use-package gotest)
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
@@ -562,6 +571,7 @@
  ",cl"     'gorepl-eval-line
 
  ",x"      'eglot-code-actions
+ ",n"      'go-rename
   )
 
 (autoload 'go-mode "go-mode" nil t)
