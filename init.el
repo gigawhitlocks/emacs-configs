@@ -1,5 +1,3 @@
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
-
 (setq dotfiles-dir
       (file-name-directory
        (or (buffer-file-name) load-file-name)))
@@ -16,9 +14,6 @@
                           (or load-path nil))))
   ;; load up Org-mode and Org-babel
   (require 'ob-tangle))
-
-;; load Customize file
-(load custom-file)
 
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
@@ -642,7 +637,7 @@
 
 (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
 
-(use-package racket-mode)
+;; (use-package racket-mode)
 
 (use-package adaptive-wrap
   :config
@@ -1191,3 +1186,6 @@ made unique when necessary."
 
      (load (concat "~/.emacs.d/local/" hostname ".el"))
      (require 'local)))
+
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)

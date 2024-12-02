@@ -44,3 +44,6 @@ undo/
 /fastgpt/
 .emacs-custom.el
 /projects
+*~
+custom.el
+/flycheck_init.el

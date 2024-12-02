@@ -12,18 +12,6 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 The source code in this file is extracted to `init.el` by calling `M-x org-babel-tangle`.
 
 
-## Customize
-
-Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
-
-This variable is set before everything in the config because `readme.org` references it at the top of the file.
-
-```emacs-lisp
-(setq custom-file "~/.emacs.d/.emacs-custom.el")
-(load custom-file)
-```
-
-
 ## Extract Org Files and Load Them
 
 I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
@@ -265,20 +253,6 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 (push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
 
 (solaire-global-mode +1)
-```
-
-
-## Spacious Padding
-
-More eye candy:
-
-> It increases the padding or spacing of frames and windows on demand. The idea with this package is to provide the means to easily toggle between terse and spacious views, depending on the user’s needs.
-
-Don't know if I'll keep this one but I wanted to try it out
-
-```emacs-lisp
-(use-package spacious-padding
-  :hook (after-init . spacious-padding-mode))
 ```
 
 
@@ -1337,7 +1311,7 @@ I don't have any custom configuration for Emacs Lisp yet, but I am going to use 
 Funny the twists of fate that bring us back to where we started. My interest in Emacs stemmed originally from an interest in Racket, and my inability to get vim to format Racket code appropriately. I never did wind up learning Racket, but I guess I might now, for entirely different reasons
 
 ```emacs-lisp
-(use-package racket-mode) 
+;; (use-package racket-mode) 
 ```
 
 
@@ -2406,6 +2380,16 @@ This allows configuration to diverge to meet needs that are unique to a specific
 ```
 
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
+
+
+## Customize
+
+Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
+
+```emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+```
 
 
 # Launching Emacsclient
