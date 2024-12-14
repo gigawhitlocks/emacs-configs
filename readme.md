@@ -9,7 +9,7 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 
 # Entrypoint
 
-The source code in this file is extracted to `init.el` by calling `M-x org-babel-tangle`.
+The source code below is extracted to `init.el` by calling `M-x org-babel-tangle`. The rest of this file is extracted to `readme.el` by this entrypoint in `init.el`. This allows me to only maintain `readme.org` as it will be re-extracted at startup every time. If this whole file is tangled to `init.el` by `init.el`, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 
 
 ## Extract Org Files and Load Them

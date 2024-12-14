@@ -4,7 +4,7 @@
 #+MENU: main
 #+DATE: <2019-04-24 Wed>
 #+OPTIONS: toc:nil num:nil author:nil timestamp:nil
-#+PROPERTY: header-args:emacs-lisp :tangle init.el
+#+PROPERTY: header-args:emacs-lisp :tangle readme.el
 * Prologue
 This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the [[https://github.com/gigawhitlocks/emacs-configs][source repository]] and document ([[https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org][plain text view]]), are interactive when opened in Emacs.
 
@@ -13,12 +13,12 @@ It follows the concept of "[[https://en.wikipedia.org/wiki/Literate_programming]
 At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
 
 * Entrypoint
-The source code in this file is extracted to ~init.el~ by calling ~M-x org-babel-tangle~.
+The source code below is extracted to ~init.el~ by calling ~M-x org-babel-tangle~. The rest of this file is extracted to ~readme.el~ by this entrypoint in ~init.el~. This allows me to only maintain ~readme.org~ as it will be re-extracted at startup every time. If this whole file is tangled to ~init.el~ by ~init.el~, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 
 ** Extract Org Files and Load Them
 I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
 
-#+BEGIN_SRC emacs-lisp
+#+BEGIN_SRC emacs-lisp :tangle init.el
   (setq dotfiles-dir
         (file-name-directory
          (or (buffer-file-name) load-file-name)))
