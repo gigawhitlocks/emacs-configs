@@ -226,21 +226,6 @@ Prefer to load a theme per-system, but it's nice to have it documented here. Add
     ```
 
 
-### Entrypoint
-
-```emacs-lisp
-(defun choose-theme ()
-  "Choose a theme interactively using Helm"
-  (interactive)
-  (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
-    (load-theme theme t)))
-```
-
--   TODO change the name of choose-theme
-
-    the name is too generic and it should be prefixed with something to avoid namespace collisions
-
-
 ## Solaire Mode
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
@@ -312,7 +297,6 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 ```emacs-lisp
 (use-package projectile
   :delight)
-(use-package helm-projectile)
 (use-package treemacs-projectile)
 (projectile-mode +1)
 ```
@@ -403,23 +387,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
   (setup-evil)
   :config
   (general-evil-setup))
-```
-
-
-## Install and Configure Helm for Command and Control
-
-[Helm](https://github.com/emacs-helm/helm) is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press `M-x` (with the way I have it configured, anyway).
-
-```emacs-lisp
-(use-package helm
-  :delight
-  :config
-  (use-package helm-ag)
-  (global-set-key (kbd "M-x") #'helm-M-x)
-  (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-  (setq helm-always-two-windows nil)
-  (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-  (helm-mode 1))
 ```
 
 
@@ -1418,7 +1385,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 (my-leader-def 'normal 'override
   "aa"     'ace-jump-mode
   "ag"     'org-agenda
-  "bb"     'helm-buffers-list
   "TAB"    #'switch-to-prev-buffer
   "br"     'revert-buffer
   "bd"     'evil-delete-buffer
@@ -1436,8 +1402,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "ep"     'flycheck-previous-error
   "Fm"     'make-frame
   "Ff"     'toggle-frame-fullscreen
-  "ff"     'helm-find-files
-  "fr"     'helm-recentf
   "fd"     'dired
   "fed"    'find-initfile
   "feD"    'find-initfile-other-frame
@@ -1449,12 +1413,10 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "go"     'browse-at-remote
   "gptm"   'gptel-menu
   "gptc"   'gptel
-  "gi"     'helm-imenu
   "jj"     'bookmark-jump
   "js"     'bookmark-set
   "jo"     'org-babel-tangle-jump-to-org
 
-  "kh"     'helm-info-kagi
   "ks"     'kagi-fastgpt-shell
   "kp"     'kagi-fastgpt-prompt
   "kf"     'kagi-proofread
@@ -1468,11 +1430,9 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "n"      '(:keymap narrow-map)
   "oo"     'browse-url-at-point
   "p"      'projectile-command-map
-  "pf"     'helm-projectile-find-file
   "p!"     'projectile-run-async-shell-command-in-root
   "si"     'yas-insert-snippet
   "sn"     'yas-new-snippet
-  "sp"     'helm-projectile-ag
   "qq"     'save-buffers-kill-terminal
   "qr"     'restart-emacs
   "qz"     'delete-frame
@@ -1524,7 +1484,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "wo"     'other-window
   "w="     'balance-windows
   "W"      '(:keymap evil-window-map)
-  "SPC"    'helm-M-x
   )
 
 ;; global VISUAL mode map
