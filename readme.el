@@ -269,23 +269,6 @@
 
 (setq fancy-compilation-override-colors nil)
 
-(defvar isw-should-play-chime nil)
-(setq isw-should-play-chime nil)
-(defun isw-play-chime (buffer msg)
-  (if (eq isw-should-play-chime t)
-      (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav")))
-(add-to-list 'compilation-finish-functions 'isw-play-chime)
-
-(defun toggle-screaming ()
-  (interactive)
-  (if (eq isw-should-play-chime t)
-      (progn
-        (setq isw-should-play-chime nil)
-        (message "Screaming disabled."))
-    (progn
-      (setq isw-should-play-chime t)
-      (message "Screaming enabled."))))
-
 ;; first disable the default startup screen
 (setq inhibit-startup-screen t)
 (use-package dashboard
