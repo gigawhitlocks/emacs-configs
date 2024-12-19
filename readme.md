@@ -467,34 +467,6 @@ I don't like how fancy-compilation-mode overrides colors by default, but luckily
 ```
 
 
-## Scream when compilation is finished
-
-Sometimes when the compile process takes more than a few seconds I change windows and get distracted. This hook plays a file through `aplay` (something else that will break on a non-Linux machine) to notify me that compilation is done. I was looking for something like a kitchen timer but I couldn't find one so right now the vendored sound is the [Wilhelm Scream](https://en.wikipedia.org/wiki/Wilhelm_scream).
-
-```emacs-lisp
-(defvar isw-should-play-chime nil)
-(setq isw-should-play-chime nil)
-(defun isw-play-chime (buffer msg)
-  (if (eq isw-should-play-chime t)
-      (start-process-shell-command "chime" "*Messages*" "aplay /home/ian/.emacs.d/vendor/chime.wav")))
-(add-to-list 'compilation-finish-functions 'isw-play-chime)
-```
-
-A function for toggling the screaming on and off. I love scream-when-finished but sometimes I'm listening to music or something and it gets a little ridiculous.
-
-```emacs-lisp
-(defun toggle-screaming ()
-  (interactive)
-  (if (eq isw-should-play-chime t)
-      (progn
-        (setq isw-should-play-chime nil)
-        (message "Screaming disabled."))
-    (progn
-      (setq isw-should-play-chime t)
-      (message "Screaming enabled."))))
-```
-
-
 ## Configure the Startup Splashscreen
 
 Following Spacemacs's style, I use the [`emacs-dashboard`](https://github.com/emacs-dashboard/emacs-dashboard) project and [`all-the-icons`](https://github.com/domtronn/all-the-icons.el) to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
