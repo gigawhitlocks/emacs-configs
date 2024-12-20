@@ -3,7 +3,7 @@
 #+TAGS[]: emacs
 #+MENU: main
 #+DATE: <2019-04-24 Wed>
-#+OPTIONS: toc:nil num:nil author:nil timestamp:nil
+#+OPTIONS: toc:nIl num:nil author:nil timestamp:nil
 #+PROPERTY: header-args:emacs-lisp :tangle readme.el
 * Prologue
 This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the [[https://github.com/gigawhitlocks/emacs-configs][source repository]] and document ([[https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org][plain text view]]), are interactive when opened in Emacs.
@@ -15,7 +15,7 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 * Entrypoint
 The source code below is extracted to ~init.el~ by calling ~M-x org-babel-tangle~. The rest of this file is extracted to ~readme.el~ by this entrypoint in ~init.el~. This allows me to only maintain ~readme.org~ as it will be re-extracted at startup every time. If this whole file is tangled to ~init.el~ by ~init.el~, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 
-** Extract Org Files and Load Them
+* Extract Org Files and Load Them
 I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
 
 #+BEGIN_SRC emacs-lisp :tangle init.el
@@ -78,7 +78,6 @@ Along the way nerd-icons also gets installed. On first run or after clearing out
 This installs the actual fonts and only needs to be called once. Maybe I'll automate it someday.
 ** Treemacs
 Treemacs provides a file browser on the left hand side of Emacs that I have grown to really like. It's great for exploring unfamiliar projects and modules.
-
 It's installed early because many things have integrations with it, including some themes.
 
 #+begin_src emacs-lisp
@@ -196,16 +195,96 @@ Add a line like the following to the appropriate file in ~local/~
                              doom-vibrant
                              doom-zenburn))
 #+end_src
-*** Entrypoint
+
+** Enhancing Navigation and Completion
+The next few packages work closely together to enhance some of the core functionality of Emacs related to navigation, buffer management, and running commands.
+*** Consult
+Consult adds search and navigation commands that build upon the built-in completing-read
 #+begin_src emacs-lisp
-  (defun choose-theme ()
-    "Choose a theme interactively using Helm"
-    (interactive)
-    (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
-      (load-theme theme t)))
+    (use-package consult)
 #+end_src
-**** TODO change the name of choose-theme
-the name is too generic and it should be prefixed with something to avoid namespace collisions
+*** Marginalia
+Marginalia enhances the same native Emacs search interface with extra information about whatever is being displayed. It's used by both Vertico and Consult to display extra information about the actions they offer.
+#+begin_src emacs-lisp
+  ;; Enable rich annotations using the Marginalia package
+  (use-package marginalia
+    ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+    ;; available in the *Completions* buffer, add it to the
+    ;; `completion-list-mode-map'.
+    :bind (:map minibuffer-local-map
+           ("M-A" . marginalia-cycle))
+
+    ;; The :init section is always executed.
+    :init
+
+    ;; Marginalia must be activated in the :init section of use-package such that
+    ;; the mode gets enabled right away. Note that this forces loading the
+    ;; package.
+    (marginalia-mode))
+#+end_src
+*** Orderless
+Orderless allows pattern matching to be "better." With the default configuration, which is what I have below, the main obvious difference from vanilla Emacs is that now matching works anywhere in the target string and not just the beginning. That's a big win. This is applied everywhere Emacs does matching
+#+begin_src emacs-lisp
+    (use-package orderless
+      :ensure t
+      :custom
+      (completion-styles '(orderless basic))
+      (completion-category-overrides '((file (styles basic partial-completion)))))
+#+end_src
+*** Embark
+Embark allows you to call commands on whatever the cursor is on (thing "at-point") and shows stuff that is relevant to the context. It has some integrations with consult that seem very powerful and I don't fully understand them yet, but I'm adding them in here so I can figure them out.
+Lots of searching and matching goodness for working across many files and buffers, I think.
+#+begin_src emacs-lisp
+    (use-package embark)
+    (use-package embark-consult)
+#+end_src
+*** Vertico
+Finally, Vertico makes ~M-x~ more featureful, and allows me to display command history when it is invoked. I map ~M-x~ to ~SPC SPC~ due to my historical use of Spacemacs, and Vertico keeps Emacs feeling like home for someone used to Helm.
+
+Below is, actually, the default config. I didn't write any of this. It's kind of wild.
+#+begin_src emacs-lisp
+  ;; Enable vertico
+  (use-package vertico
+    :custom
+    ;; (vertico-scroll-margin 0) ;; Different scroll margin
+     (vertico-count 20) ;; Show more candidates
+    ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+    ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+    :init
+    (vertico-mode))
+
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (use-package savehist
+    :init
+    (savehist-mode))
+
+  ;; A few more useful configurations...
+  (use-package emacs
+    :custom
+    ;; Support opening new minibuffers from inside existing minibuffers.
+    (enable-recursive-minibuffers t)
+    ;; Hide commands in M-x which do not work in the current mode.  Vertico
+    ;; commands are hidden in normal buffers. This setting is useful beyond
+    ;; Vertico.
+    (read-extended-command-predicate #'command-completion-default-include-p)
+    :init
+    ;; Add prompt indicator to `completing-read-multiple'.
+    ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+    (defun crm-indicator (args)
+      (cons (format "[CRM%s] %s"
+                    (replace-regexp-in-string
+                     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                     crm-separator)
+                    (car args))
+            (cdr args)))
+    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+    ;; Do not allow the cursor in the minibuffer prompt
+    (setq minibuffer-prompt-properties
+          '(read-only t cursor-intangible t face minibuffer-prompt))
+    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+#+end_src
+
 ** Solaire Mode
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
 #+begin_src emacs-lisp
@@ -261,7 +340,6 @@ It's great, it gets installed early, can't live without it. 💘 ~projectile~
 #+BEGIN_SRC emacs-lisp
   (use-package projectile
     :delight)
-  (use-package helm-projectile)
   (use-package treemacs-projectile)
   (projectile-mode +1)
 #+END_SRC
@@ -347,19 +425,6 @@ It's mostly used below in the [[Global Keybindings][global keybindings]] section
       (setup-evil)
       :config
       (general-evil-setup))
-#+END_SRC
-** Install and Configure Helm for Command and Control
-[[https://github.com/emacs-helm/helm][Helm]] is a full-featured command and control package that fundamentally alters a number of core Emacs functions, including what appears when you press ~M-x~ (with the way I have it configured, anyway).
-#+BEGIN_SRC emacs-lisp
-  (use-package helm
-    :delight
-    :config
-    (use-package helm-ag)
-    (global-set-key (kbd "M-x") #'helm-M-x)
-    (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-    (setq helm-always-two-windows nil)
-    (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-    (helm-mode 1))
 #+END_SRC
 ** Install and Configure Magit
 [[https://github.com/magit/magit][Magit]] is an incredible integrated ~git~ UI for Emacs.
@@ -1147,9 +1212,11 @@ These keybindings are probably the most opinionated part of my configuration. Th
   (my-leader-def 'normal 'override
     "aa"     'ace-jump-mode
     "ag"     'org-agenda
-    "bb"     'helm-buffers-list
     "TAB"    #'switch-to-prev-buffer
-    "br"     'revert-buffer
+    "bb"     'consult-buffer-other-window
+    "bl"     'ibuffer
+    "br"     'consult-buffer
+    "bR"     'revert-buffer
     "bd"     'evil-delete-buffer
     "ds"     (defun ian-desktop-save ()
                (interactive)
@@ -1164,9 +1231,8 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "en"     'flycheck-next-error
     "ep"     'flycheck-previous-error
     "Fm"     'make-frame
+    "ff"     'find-file
     "Ff"     'toggle-frame-fullscreen
-    "ff"     'helm-find-files
-    "fr"     'helm-recentf
     "fd"     'dired
     "fed"    'find-initfile
     "feD"    'find-initfile-other-frame
@@ -1175,15 +1241,14 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "gg"     'magit
     "gt"     'git-timemachine
     "gd"     'magit-diff
+    "gi"     'consult-imenu
     "go"     'browse-at-remote
     "gptm"   'gptel-menu
     "gptc"   'gptel
-    "gi"     'helm-imenu
     "jj"     'bookmark-jump
     "js"     'bookmark-set
     "jo"     'org-babel-tangle-jump-to-org
 
-    "kh"     'helm-info-kagi
     "ks"     'kagi-fastgpt-shell
     "kp"     'kagi-fastgpt-prompt
     "kf"     'kagi-proofread
@@ -1197,11 +1262,9 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "n"      '(:keymap narrow-map)
     "oo"     'browse-url-at-point
     "p"      'projectile-command-map
-    "pf"     'helm-projectile-find-file
     "p!"     'projectile-run-async-shell-command-in-root
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
-    "sp"     'helm-projectile-ag
     "qq"     'save-buffers-kill-terminal
     "qr"     'restart-emacs
     "qz"     'delete-frame
@@ -1253,7 +1316,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "wo"     'other-window
     "w="     'balance-windows
     "W"      '(:keymap evil-window-map)
-    "SPC"    'helm-M-x
+    "SPC"    'execute-extended-command
     )
 
   ;; global VISUAL mode map

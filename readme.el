@@ -110,11 +110,73 @@
                           doom-vibrant
                           doom-zenburn))
 
-(defun choose-theme ()
-  "Choose a theme interactively using Helm"
-  (interactive)
-  (let ((theme (choose-theme-impl light-theme-list dark-theme-list)))
-    (load-theme theme t)))
+(use-package consult)
+
+;; Enable rich annotations using the Marginalia package
+(use-package marginalia
+  ;; Bind `marginalia-cycle' locally in the minibuffer.  To make the binding
+  ;; available in the *Completions* buffer, add it to the
+  ;; `completion-list-mode-map'.
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init section is always executed.
+  :init
+
+  ;; Marginalia must be activated in the :init section of use-package such that
+  ;; the mode gets enabled right away. Note that this forces loading the
+  ;; package.
+  (marginalia-mode))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package embark)
+(use-package embark-consult)
+
+;; Enable vertico
+(use-package vertico
+  :custom
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+   (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  :init
+  (vertico-mode))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+;; A few more useful configurations...
+(use-package emacs
+  :custom
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (enable-recursive-minibuffers t)
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
 
 (use-package solaire-mode)
 
@@ -148,7 +210,6 @@
 
 (use-package projectile
   :delight)
-(use-package helm-projectile)
 (use-package treemacs-projectile)
 (projectile-mode +1)
 
@@ -223,16 +284,6 @@
   (setup-evil)
   :config
   (general-evil-setup))
-
-(use-package helm
-  :delight
-  :config
-  (use-package helm-ag)
-  (global-set-key (kbd "M-x") #'helm-M-x)
-  (define-key helm-find-files-map "\t" 'helm-execute-persistent-action)
-  (setq helm-always-two-windows nil)
-  (setq helm-default-display-buffer-functions '(display-buffer-in-side-window))
-  (helm-mode 1))
 
 (use-package magit)
 ;; disable the default emacs vc because git is all I use,
@@ -683,9 +734,11 @@
 (my-leader-def 'normal 'override
   "aa"     'ace-jump-mode
   "ag"     'org-agenda
-  "bb"     'helm-buffers-list
   "TAB"    #'switch-to-prev-buffer
-  "br"     'revert-buffer
+  "bb"     'consult-buffer-other-window
+  "bl"     'ibuffer
+  "br"     'consult-buffer
+  "bR"     'revert-buffer
   "bd"     'evil-delete-buffer
   "ds"     (defun ian-desktop-save ()
              (interactive)
@@ -700,9 +753,8 @@
   "en"     'flycheck-next-error
   "ep"     'flycheck-previous-error
   "Fm"     'make-frame
+  "ff"     'find-file
   "Ff"     'toggle-frame-fullscreen
-  "ff"     'helm-find-files
-  "fr"     'helm-recentf
   "fd"     'dired
   "fed"    'find-initfile
   "feD"    'find-initfile-other-frame
@@ -711,15 +763,14 @@
   "gg"     'magit
   "gt"     'git-timemachine
   "gd"     'magit-diff
+  "gi"     'consult-imenu
   "go"     'browse-at-remote
   "gptm"   'gptel-menu
   "gptc"   'gptel
-  "gi"     'helm-imenu
   "jj"     'bookmark-jump
   "js"     'bookmark-set
   "jo"     'org-babel-tangle-jump-to-org
 
-  "kh"     'helm-info-kagi
   "ks"     'kagi-fastgpt-shell
   "kp"     'kagi-fastgpt-prompt
   "kf"     'kagi-proofread
@@ -733,11 +784,9 @@
   "n"      '(:keymap narrow-map)
   "oo"     'browse-url-at-point
   "p"      'projectile-command-map
-  "pf"     'helm-projectile-find-file
   "p!"     'projectile-run-async-shell-command-in-root
   "si"     'yas-insert-snippet
   "sn"     'yas-new-snippet
-  "sp"     'helm-projectile-ag
   "qq"     'save-buffers-kill-terminal
   "qr"     'restart-emacs
   "qz"     'delete-frame
@@ -789,7 +838,7 @@
   "wo"     'other-window
   "w="     'balance-windows
   "W"      '(:keymap evil-window-map)
-  "SPC"    'helm-M-x
+  "SPC"    'execute-extended-command
   )
 
 ;; global VISUAL mode map
