@@ -249,7 +249,7 @@ Marginalia enhances the same native Emacs search interface with extra informatio
   ;; available in the *Completions* buffer, add it to the
   ;; `completion-list-mode-map'.
   :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
+              ("M-A" . marginalia-cycle))
 
   ;; The :init section is always executed.
   :init
@@ -258,6 +258,11 @@ Marginalia enhances the same native Emacs search interface with extra informatio
   ;; the mode gets enabled right away. Note that this forces loading the
   ;; package.
   (marginalia-mode))
+
+;; enhance marginalia with icons
+(use-package nerd-icons-completion
+  :config
+  (nerd-icons-completion-mode))
 ```
 
 
