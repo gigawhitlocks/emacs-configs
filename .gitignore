@@ -47,3 +47,4 @@ undo/
 *~
 custom.el
 /flycheck_init.el
+/history
