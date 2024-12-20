@@ -120,7 +120,7 @@
     - [Manual Steps:](#Manual%20Steps%3A)
   - [TRAMP settings](#TRAMP%20settings)
   - [Disable most warnings](#Disable%20most%20warnings)
-  - [Theme Switching Helper](#Theme%20Switching%20Helper)
+  - [Theme Switching Helpers](#Theme%20Switching%20Helpers)
   - [Line Numbers in Programming Buffers](#Line%20Numbers%20in%20Programming%20Buffers)
   - [Transparency toggle](#Transparency%20toggle)
   - [Switch to last buffer](#Switch%20to%20last%20buffer)
@@ -792,11 +792,8 @@ I don't like how fancy-compilation-mode overrides colors by default, but luckily
 ```
 
 
-<<<<<<< HEAD
-=======
 <a id="Configure%20the%20Startup%20Splashscreen"></a>
 
->>>>>>> consult
 ## Configure the Startup Splashscreen
 
 Following Spacemacs's style, I use the [`emacs-dashboard`](https://github.com/emacs-dashboard/emacs-dashboard) project and [`all-the-icons`](https://github.com/domtronn/all-the-icons.el) to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
@@ -1871,22 +1868,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
                (if last-theme
                    (message "Last applied theme: %s" last-theme)
                  (message "No themes are currently enabled."))))
-  "thr"    'load-random-theme
-  "thl"    (defun ian-load-light-theme ()
-             (interactive)
-             (load-theme
-              (nth
-               (random
-                (length light-theme-list)) light-theme-list)))
-  "thd"    (defun ian-load-dark-theme ()
-             (interactive)
-             (load-theme
-              (nth
-               (random
-                (length
-                 dark-theme-list)) dark-theme-list)))
-  "thh"    'choose-theme
-  "thc"    'load-theme
+  "thc"    'consult-theme
   "tm"     'toggle-menu-bar-mode-from-frame
   "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
@@ -2456,20 +2438,9 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 ```
 
 
-<a id="Theme%20Switching%20Helper"></a>
+<a id="Theme%20Switching%20Helpers"></a>
 
-## Theme Switching Helper
-
-Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just `M-x load-theme`.
-
-Thanks to <https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-emacs-themes/>.
-
-```emacs-lisp
-(defun load-theme--disable-old-theme (theme &rest args)
-  "Disable current theme before loading new one."
-  (mapcar #'disable-theme custom-enabled-themes))
-(advice-add 'load-theme :before #'load-theme--disable-old-theme)
-```
+## Theme Switching Helpers
 
 Save the current theme to a global variable so it can be referenced later
 

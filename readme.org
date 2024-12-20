@@ -1276,22 +1276,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
                  (if last-theme
                      (message "Last applied theme: %s" last-theme)
                    (message "No themes are currently enabled."))))
-    "thr"    'load-random-theme
-    "thl"    (defun ian-load-light-theme ()
-               (interactive)
-               (load-theme
-                (nth
-                 (random
-                  (length light-theme-list)) light-theme-list)))
-    "thd"    (defun ian-load-dark-theme ()
-               (interactive)
-               (load-theme
-                (nth
-                 (random
-                  (length
-                   dark-theme-list)) dark-theme-list)))
-    "thh"    'choose-theme
-    "thc"    'load-theme
+    "thc"    'consult-theme
     "tm"     'toggle-menu-bar-mode-from-frame
     "thn"    'load-next-favorite-theme
     "tnn"    'display-line-numbers-mode
@@ -1710,18 +1695,8 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 #+begin_src emacs-lisp
 (setq warning-minimum-level :emergency)
 #+end_src
-** Theme Switching Helper
-Automatically calls disable-theme on the current theme before loading a new theme! Allows easy theme switching with just ~M-x load-theme~.
-
-Thanks to [[https://www.simplify.ba/articles/2016/02/13/loading-and-unloading-emacs-themes/]].
-#+BEGIN_SRC emacs-lisp
-  (defun load-theme--disable-old-theme (theme &rest args)
-    "Disable current theme before loading new one."
-    (mapcar #'disable-theme custom-enabled-themes))
-  (advice-add 'load-theme :before #'load-theme--disable-old-theme)
-#+end_src
-
-Save the current theme to a global variable so it can be referenced later
+** Theme Switching Helpers
+Save the current theme to a global variable so it can be referenced later 
 #+begin_src emacs-lisp
   (defun load-theme--save-new-theme (theme &rest args)
     (setq ian-current-theme theme))

@@ -798,22 +798,7 @@
                (if last-theme
                    (message "Last applied theme: %s" last-theme)
                  (message "No themes are currently enabled."))))
-  "thr"    'load-random-theme
-  "thl"    (defun ian-load-light-theme ()
-             (interactive)
-             (load-theme
-              (nth
-               (random
-                (length light-theme-list)) light-theme-list)))
-  "thd"    (defun ian-load-dark-theme ()
-             (interactive)
-             (load-theme
-              (nth
-               (random
-                (length
-                 dark-theme-list)) dark-theme-list)))
-  "thh"    'choose-theme
-  "thc"    'load-theme
+  "thc"    'consult-theme
   "tm"     'toggle-menu-bar-mode-from-frame
   "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
@@ -1030,11 +1015,6 @@ made unique when necessary."
 (setq tramp-default-method "ssh")
 
 (setq warning-minimum-level :emergency)
-
-(defun load-theme--disable-old-theme (theme &rest args)
-  "Disable current theme before loading new one."
-  (mapcar #'disable-theme custom-enabled-themes))
-(advice-add 'load-theme :before #'load-theme--disable-old-theme)
 
 (defun load-theme--save-new-theme (theme &rest args)
   (setq ian-current-theme theme))
