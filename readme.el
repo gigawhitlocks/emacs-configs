@@ -756,6 +756,7 @@
   "ff"     'find-file
   "Ff"     'toggle-frame-fullscreen
   "fd"     'dired
+  "fr"     'consult-recent-file
   "fed"    'find-initfile
   "feD"    'find-initfile-other-frame
   "gb"     'magit-blame

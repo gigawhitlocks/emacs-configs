@@ -1,162 +1,3 @@
-- [Prologue](#Prologue)
-- [Entrypoint](#Entrypoint)
-- [Extract Org Files and Load Them](#Extract%20Org%20Files%20and%20Load%20Them)
-- [Package Manager Bootstrap](#Package%20Manager%20Bootstrap)
-- [Fundamental Package Installation and Configuration](#Fundamental%20Package%20Installation%20and%20Configuration)
-  - [Icons](#Icons)
-  - [Treemacs](#Treemacs)
-  - [Theme](#Theme)
-    - [Theme packs](#Theme%20packs)
-    - [Default theme](#Default%20theme)
-    - [Theme lists](#Theme%20lists)
-  - [Enhancing Navigation and Completion](#Enhancing%20Navigation%20and%20Completion)
-    - [Consult](#Consult)
-    - [Marginalia](#Marginalia)
-    - [Orderless](#Orderless)
-    - [Embark](#Embark)
-    - [Vertico](#Vertico)
-  - [Solaire Mode](#Solaire%20Mode)
-  - [Doom Modeline](#Doom%20Modeline)
-  - [Emoji 🙏](#Emoji%20%F0%9F%99%8F)
-  - [Configure Recent File Tracking](#Configure%20Recent%20File%20Tracking)
-  - [Install and Configure Projectile](#Install%20and%20Configure%20Projectile)
-  - [Install and Configure Evil Mode](#Install%20and%20Configure%20Evil%20Mode)
-  - [Install and Configure Keybindings Helper](#Install%20and%20Configure%20Keybindings%20Helper)
-  - [Install and Configure Magit](#Install%20and%20Configure%20Magit)
-    - [Allow magit to interact with git forges, like Github and Gitlab](#Allow%20magit%20to%20interact%20with%20git%20forges%2C%20like%20Github%20and%20Gitlab)
-  - [Install and Configure `git-timemachine`](#Install%20and%20Configure%20~git-timemachine~)
-  - [Install and Configure `which-key`](#Install%20and%20Configure%20~which-key~)
-  - [Set up `pass` for secrets handling](#Set%20up%20~pass~%20for%20secrets%20handling)
-  - [Handle "fancy" output in compilation buffer](#Handle%20%22fancy%22%20output%20in%20compilation%20buffer)
-  - [Configure the Startup Splashscreen](#Configure%20the%20Startup%20Splashscreen)
-  - [Install templating tool and default snippets](#Install%20templating%20tool%20and%20default%20snippets)
-- [Extra Packages](#Extra%20Packages)
-  - [prism colors by indent level](#prism%20colors%20by%20indent%20level)
-  - [git-gutter shows unstaged changes in the gutter](#git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter)
-  - [Highlight the current line](#Highlight%20the%20current%20line)
-  - [Rainbow delimiters make it easier to identify matching parentheses](#Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses)
-  - [restart-emacs does what it says on the tin](#restart-emacs%20does%20what%20it%20says%20on%20the%20tin)
-  - [s is a string manipulation utility](#s%20is%20a%20string%20manipulation%20utility)
-  - [a systemd file mode](#a%20systemd%20file%20mode)
-  - [Install and Configure Company for Auto-Completion](#Install%20and%20Configure%20Company%20for%20Auto-Completion)
-  - [Install and Configure Flycheck for Linting](#Install%20and%20Configure%20Flycheck%20for%20Linting)
-  - [Configure Eldoc](#Configure%20Eldoc)
-  - [Install `exec-path-from-shell` to manage the PATH](#Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH)
-  - [ace-window provides an ace-jump experience for switching windows](#ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows)
-  - [Install a mode for drawing indentation guides](#Install%20a%20mode%20for%20drawing%20indentation%20guides)
-  - [Quick buffer switcher](#Quick%20buffer%20switcher)
-  - [Writeable grep mode with ack](#Writeable%20grep%20mode%20with%20ack)
-  - [Better help buffers](#Better%20help%20buffers)
-  - [Quickly jump around buffers](#Quickly%20jump%20around%20buffers)
-  - [Dumb jump](#Dumb%20jump)
-  - [Kubernetes Mode](#Kubernetes%20Mode)
-  - [multiple cursors](#multiple%20cursors)
-  - [elfeed](#elfeed)
-- [Font](#Font)
-  - [FiraCode Font Installation Script](#FiraCode%20Font%20Installation%20Script)
-  - [Enable FiraCode Font](#Enable%20FiraCode%20Font)
-  - [Configure FiraCode special features](#Configure%20FiraCode%20special%20features)
-- [Language Configuration](#Language%20Configuration)
-  - [YAML](#YAML)
-  - [Rego](#Rego)
-  - [Markdown](#Markdown)
-  - [Docker](#Docker)
-  - [Python](#Python)
-  - [Go](#Go)
-    - [Dependencies](#Dependencies)
-    - [Initial Setup](#Initial%20Setup)
-    - [Eglot Config](#Eglot%20Config)
-    - [Package and Configuration for Executing Tests](#Package%20and%20Configuration%20for%20Executing%20Tests)
-    - [REPL](#REPL)
-    - [Mode-Specific Keybindings](#Mode-Specific%20Keybindings)
-    - [Hooks](#Hooks)
-  - [Rust](#Rust)
-  - [Web](#Web)
-    - [enable jsx mode for all .js and .jsx files](#enable%20jsx%20mode%20for%20all%20.js%20and%20.jsx%20files)
-    - [Setting highlighting for special template modes](#Setting%20highlighting%20for%20special%20template%20modes)
-  - [JSON](#JSON)
-  - [Fish](#Fish)
-  - [Salt](#Salt)
-  - [Elixir](#Elixir)
-  - [SQL](#SQL)
-    - [Indent SQL](#Indent%20SQL)
-    - [Use rainbow delimeters in SQL](#Use%20rainbow%20delimeters%20in%20SQL)
-  - [Emacs Lisp](#Emacs%20Lisp)
-    - [A collection of development modes and utilities](#A%20collection%20of%20development%20modes%20and%20utilities)
-    - [editing s-exps](#editing%20s-exps)
-  - [Racket](#Racket)
-- [Adaptive Wrap and Visual Line Mode](#Adaptive%20Wrap%20and%20Visual%20Line%20Mode)
-- [Global Keybindings](#Global%20Keybindings)
-  - [Helper Functions](#Helper%20Functions)
-  - [Main Global Keymap](#Main%20Global%20Keymap)
-- [Org Mode Settings](#Org%20Mode%20Settings)
-  - [Some default evil bindings](#Some%20default%20evil%20bindings)
-  - [Image drag-and-drop for org-mode](#Image%20drag-and-drop%20for%20org-mode)
-  - [Autocomplete for Org blocks (like source blocks)](#Autocomplete%20for%20Org%20blocks%20%28like%20source%20blocks%29)
-  - [Install some tools for archiving web content into Org](#Install%20some%20tools%20for%20archiving%20web%20content%20into%20Org)
-  - [Fontify the whole line for headings (with a background color)](#Fontify%20the%20whole%20line%20for%20headings%20%28with%20a%20background%20color%29)
-  - [disable the default editing window layout](#disable%20the%20default%20editing%20window%20layout)
-  - [indent and wrap long lines](#indent%20and%20wrap%20long%20lines)
-  - [Enable execution of languages from Babel](#Enable%20execution%20of%20languages%20from%20Babel)
-  - [set Org-specific keybindings](#set%20Org-specific%20keybindings)
-  - [Export Settings](#Export%20Settings)
-    - [GitHub-flavored markdown](#GitHub-flavored%20markdown)
-    - [HTMLize](#HTMLize)
-    - [enable markdown export](#enable%20markdown%20export)
-    - [explicitly set utf-8 output (apparently)](#explicitly%20set%20utf-8%20output%20%28apparently%29)
-    - [custom todo states](#custom%20todo%20states)
-  - [`TODO` Faces](#~TODO~%20Faces)
-  - [Org-Protocol](#Org-Protocol)
-  - [enter follows links.. how was this not a default?](#enter%20follows%20links..%20how%20was%20this%20not%20a%20default%3F)
-  - [Use a variable-pitch font in Org-Mode](#Use%20a%20variable-pitch%20font%20in%20Org-Mode)
-  - [Useful anchors in HTML export](#Useful%20anchors%20in%20HTML%20export)
-  - [Disable pretty entities](#Disable%20pretty%20entities)
-  - [Using eglot with Org](#Using%20eglot%20with%20Org)
-  - [Define how org-edit-src behaves](#Define%20how%20org-edit-src%20behaves)
-- [Miscellaneous standalone global configuration changes](#Miscellaneous%20standalone%20global%20configuration%20changes)
-  - [Start server](#Start%20server)
-  - [Opening the Remote Repo in the Browser from Emacs](#Opening%20the%20Remote%20Repo%20in%20the%20Browser%20from%20Emacs)
-  - [Opening Sources in Emacs from the Browser](#Opening%20Sources%20in%20Emacs%20from%20the%20Browser)
-    - [Manual Steps:](#Manual%20Steps%3A)
-  - [TRAMP settings](#TRAMP%20settings)
-  - [Disable most warnings](#Disable%20most%20warnings)
-  - [Theme Switching Helpers](#Theme%20Switching%20Helpers)
-  - [Line Numbers in Programming Buffers](#Line%20Numbers%20in%20Programming%20Buffers)
-  - [Transparency toggle](#Transparency%20toggle)
-  - [Switch to last buffer](#Switch%20to%20last%20buffer)
-  - [Fix Home/End keys](#Fix%20Home%2FEnd%20keys)
-  - [Customize the frame (OS window) title](#Customize%20the%20frame%20%28OS%20window%29%20title)
-  - [Tweak align-regexp](#Tweak%20align-regexp)
-  - [Configure automatic backup/recovery files](#Configure%20automatic%20backup%2Frecovery%20files)
-  - [Autosave](#Autosave)
-  - [Default window size](#Default%20window%20size)
-  - [Unclutter global modeline](#Unclutter%20global%20modeline)
-  - [Less annoying bell](#Less%20annoying%20bell)
-  - [Remove toolbar, scrollbars, and menu](#Remove%20toolbar%2C%20scrollbars%2C%20and%20menu)
-  - [Enable context menu on right click](#Enable%20context%20menu%20on%20right%20click)
-  - [Enable the mouse in the terminal](#Enable%20the%20mouse%20in%20the%20terminal)
-  - [Disable "nice" names in Customize](#Disable%20%22nice%22%20names%20in%20Customize)
-  - [Don't require a final newline](#Don%27t%20require%20a%20final%20newline)
-  - [Caps lock mode](#Caps%20lock%20mode)
-  - [Allow swapping windows with ctrl + shift + left-click-drag](#Allow%20swapping%20windows%20with%20ctrl%20%2B%20shift%20%2B%20left-click-drag)
-  - [Kagi integration](#Kagi%20integration)
-    - [Basic config](#Basic%20config)
-    - [Org Babel Support](#Org%20Babel%20Support)
-  - [LLM integration](#LLM%20integration)
-  - [Emacs Everywhere](#Emacs%20Everywhere)
-  - [Confirm before exit](#Confirm%20before%20exit)
-  - [Start a new blog post](#Start%20a%20new%20blog%20post)
-- [Hostname-based tweaks](#Hostname-based%20tweaks)
-  - [Customize](#Customize)
-- [Launching Emacsclient](#Launching%20Emacsclient)
-- [Running Emacs properly from the GUI](#Running%20Emacs%20properly%20from%20the%20GUI)
-  - [Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit](#Figure%20out%20how%20to%20run%20Emacs%20as%20a%20daemon%20so%20that%20closing%20the%20last%20frame%20doesn%27t%20exit)
-- [Compiling Emacs from Source](#Compiling%20Emacs%20from%20Source)
-
-
-
-<a id="Prologue"></a>
-
 # Prologue
 
 This is my Emacs configuration. It is written in [Org Mode](https://orgmode.org/) format, which means that I can display a static representation here, but the [source repository](https://github.com/gigawhitlocks/emacs-configs) and document ([plain text view](https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org)), are interactive when opened in Emacs.
@@ -166,14 +7,10 @@ It follows the concept of "[literate programming](https://en.wikipedia.org/wiki/
 At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
 
 
-<a id="Entrypoint"></a>
-
 # Entrypoint
 
 The source code below is extracted to `init.el` by calling `M-x org-babel-tangle`. The rest of this file is extracted to `readme.el` by this entrypoint in `init.el`. This allows me to only maintain `readme.org` as it will be re-extracted at startup every time. If this whole file is tangled to `init.el` by `init.el`, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 
-
-<a id="Extract%20Org%20Files%20and%20Load%20Them"></a>
 
 # Extract Org Files and Load Them
 
@@ -202,8 +39,6 @@ I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/bab
 ```
 
 
-<a id="Package%20Manager%20Bootstrap"></a>
-
 # Package Manager Bootstrap
 
 After tangling the source files and loading `init.el`, the first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with `git`, so I use `use-package` to ensure that packages are installed from my configuration file.
@@ -230,14 +65,10 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
 
 
-<a id="Fundamental%20Package%20Installation%20and%20Configuration"></a>
-
 # Fundamental Package Installation and Configuration
 
 First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 
-
-<a id="Icons"></a>
 
 ## Icons
 
@@ -254,8 +85,6 @@ Along the way nerd-icons also gets installed. On first run or after clearing out
 
 This installs the actual fonts and only needs to be called once. Maybe I'll automate it someday.
 
-
-<a id="Treemacs"></a>
 
 ## Treemacs
 
@@ -279,14 +108,10 @@ Treemacs provides a file browser on the left hand side of Emacs that I have grow
 ```
 
 
-<a id="Theme"></a>
-
 ## Theme
 
 I'm mainly using the Doom Emacs theme pack. I think they're really nice to look at, especially with `solaire-mode`.
 
-
-<a id="Theme%20packs"></a>
 
 ### Theme packs
 
@@ -316,8 +141,6 @@ I'm mainly using the Doom Emacs theme pack. I think they're really nice to look 
     ```
 
 
-<a id="Default%20theme"></a>
-
 ### Default theme
 
 Prefer to load a theme per-system, but it's nice to have it documented here. Add a line like the following to the appropriate file in `local/`
@@ -326,8 +149,6 @@ Prefer to load a theme per-system, but it's nice to have it documented here. Add
 ;;  (load-theme 'ef-reverie)
 ```
 
-
-<a id="Theme%20lists"></a>
 
 ### Theme lists
 
@@ -403,14 +224,10 @@ Prefer to load a theme per-system, but it's nice to have it documented here. Add
     ```
 
 
-<a id="Enhancing%20Navigation%20and%20Completion"></a>
-
 ## Enhancing Navigation and Completion
 
 The next few packages work closely together to enhance some of the core functionality of Emacs related to navigation, buffer management, and running commands.
 
-
-<a id="Consult"></a>
 
 ### Consult
 
@@ -420,8 +237,6 @@ Consult adds search and navigation commands that build upon the built-in complet
 (use-package consult)
 ```
 
-
-<a id="Marginalia"></a>
 
 ### Marginalia
 
@@ -446,11 +261,9 @@ Marginalia enhances the same native Emacs search interface with extra informatio
 ```
 
 
-<a id="Orderless"></a>
-
 ### Orderless
 
-Orderless allows pattern matching to be "better." With the default configuration, which is what I have below, the main obvious difference from vanilla Emacs is that now matching works anywhere in the target string and not just the beginning. That's a big win. This is applied everywhere Emacs does matching
+Orderless allows pattern matching to be "better." With the default configuration, which is what I have below, the main obvious difference from vanilla Emacs is that now matching works anywhere in the target string and not just the beginning. That's a big win. This is applied everywhere Emacs does matching.
 
 ```emacs-lisp
 (use-package orderless
@@ -461,8 +274,6 @@ Orderless allows pattern matching to be "better." With the default configuration
 ```
 
 
-<a id="Embark"></a>
-
 ### Embark
 
 Embark allows you to call commands on whatever the cursor is on (thing "at-point") and shows stuff that is relevant to the context. It has some integrations with consult that seem very powerful and I don't fully understand them yet, but I'm adding them in here so I can figure them out. Lots of searching and matching goodness for working across many files and buffers, I think.
@@ -472,8 +283,6 @@ Embark allows you to call commands on whatever the cursor is on (thing "at-point
 (use-package embark-consult)
 ```
 
-
-<a id="Vertico"></a>
 
 ### Vertico
 
@@ -525,8 +334,6 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
 ```
 
 
-<a id="Solaire%20Mode"></a>
-
 ## Solaire Mode
 
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
@@ -542,8 +349,6 @@ Also some visual candy that makes "real" buffers more visible by changing the ba
 ```
 
 
-<a id="Doom%20Modeline"></a>
-
 ## Doom Modeline
 
 The Doom Emacs project also provides a fancy modeline to go along with their themes.
@@ -556,8 +361,6 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
   :hook (after-init . doom-modeline-mode))
 ```
 
-
-<a id="Emoji%20%F0%9F%99%8F"></a>
 
 ## Emoji 🙏
 
@@ -572,8 +375,6 @@ Provided by [emojify](https://github.com/iqbalansari/emacs-emojify). Run `emojif
   (add-hook 'after-init-hook #'global-emojify-mode))
 ```
 
-
-<a id="Configure%20Recent%20File%20Tracking"></a>
 
 ## Configure Recent File Tracking
 
@@ -590,8 +391,6 @@ Emacs comes with `recentf-mode` which helps me remember what I was doing after I
              "elpa/*")
 ```
 
-
-<a id="Install%20and%20Configure%20Projectile"></a>
 
 ## Install and Configure Projectile
 
@@ -610,8 +409,6 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 (projectile-mode +1)
 ```
 
-
-<a id="Install%20and%20Configure%20Evil%20Mode"></a>
 
 ## Install and Configure Evil Mode
 
@@ -686,8 +483,6 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 ```
 
 
-<a id="Install%20and%20Configure%20Keybindings%20Helper"></a>
-
 ## Install and Configure Keybindings Helper
 
 [General](https://github.com/noctuid/general.el) provides more consistent and convenient keybindings, especially with `evil-mode`.
@@ -703,8 +498,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
-<a id="Install%20and%20Configure%20Magit"></a>
-
 ## Install and Configure Magit
 
 [Magit](https://github.com/magit/magit) is an incredible integrated `git` UI for Emacs.
@@ -717,8 +510,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
-<a id="Allow%20magit%20to%20interact%20with%20git%20forges%2C%20like%20Github%20and%20Gitlab"></a>
-
 ### Allow magit to interact with git forges, like Github and Gitlab
 
 ```emacs-lisp
@@ -726,8 +517,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
   :after magit)
 ```
 
-
-<a id="Install%20and%20Configure%20~git-timemachine~"></a>
 
 ## Install and Configure `git-timemachine`
 
@@ -747,8 +536,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
-<a id="Install%20and%20Configure%20~which-key~"></a>
-
 ## Install and Configure `which-key`
 
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [`which-key`](https://github.com/justbur/emacs-which-key) pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
@@ -762,16 +549,12 @@ It can be difficult to to remember and discover all of the available shortcuts i
 ```
 
 
-<a id="Set%20up%20~pass~%20for%20secrets%20handling"></a>
-
 ## Set up `pass` for secrets handling
 
 ```emacs-lisp
 (use-package pass)
 ```
 
-
-<a id="Handle%20%22fancy%22%20output%20in%20compilation%20buffer"></a>
 
 ## Handle "fancy" output in compilation buffer
 
@@ -791,8 +574,6 @@ I don't like how fancy-compilation-mode overrides colors by default, but luckily
 (setq fancy-compilation-override-colors nil)
 ```
 
-
-<a id="Configure%20the%20Startup%20Splashscreen"></a>
 
 ## Configure the Startup Splashscreen
 
@@ -818,8 +599,6 @@ Actually, looking at the project page, the icons don't seem to be working for me
 ```
 
 
-<a id="Install%20templating%20tool%20and%20default%20snippets"></a>
-
 ## Install templating tool and default snippets
 
 YASnippet is really cool and allow fast insertion of boilerplate using templates. I've been meaning to use this more. [Here are the YASnippet docs.](https://www.emacswiki.org/emacs/Yasnippet)
@@ -838,14 +617,10 @@ Enable yas-mode everywhere
 ```
 
 
-<a id="Extra%20Packages"></a>
-
 # Extra Packages
 
 Packages with a smaller effect on the experience.
 
-
-<a id="prism%20colors%20by%20indent%20level"></a>
 
 ## prism colors by indent level
 
@@ -855,8 +630,6 @@ It takes over the color theme and I don't know if I want it on all the time but 
 (use-package prism)
 ```
 
-
-<a id="git-gutter%20shows%20unstaged%20changes%20in%20the%20gutter"></a>
 
 ## git-gutter shows unstaged changes in the gutter
 
@@ -868,8 +641,6 @@ It takes over the color theme and I don't know if I want it on all the time but 
 ```
 
 
-<a id="Highlight%20the%20current%20line"></a>
-
 ## Highlight the current line
 
 I like to highlight the current line so that it is easy to identify where my cursor is.
@@ -879,8 +650,6 @@ I like to highlight the current line so that it is easy to identify where my cur
 (setq global-hl-line-sticky-flag t)
 ```
 
-
-<a id="Rainbow%20delimiters%20make%20it%20easier%20to%20identify%20matching%20parentheses"></a>
 
 ## Rainbow delimiters make it easier to identify matching parentheses
 
@@ -895,16 +664,12 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-<a id="restart-emacs%20does%20what%20it%20says%20on%20the%20tin"></a>
-
 ## restart-emacs does what it says on the tin
 
 ```emacs-lisp
 (use-package restart-emacs)
 ```
 
-
-<a id="s%20is%20a%20string%20manipulation%20utility"></a>
 
 ## s is a string manipulation utility
 
@@ -915,8 +680,6 @@ I use this for a trim() function far down below. I think it gets pulled in as a 
 ```
 
 
-<a id="a%20systemd%20file%20mode"></a>
-
 ## a systemd file mode
 
 Just provides syntax highlighting in `.unit` files.
@@ -925,8 +688,6 @@ Just provides syntax highlighting in `.unit` files.
 (use-package systemd)
 ```
 
-
-<a id="Install%20and%20Configure%20Company%20for%20Auto-Completion"></a>
 
 ## Install and Configure Company for Auto-Completion
 
@@ -953,8 +714,6 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 ```
 
 
-<a id="Install%20and%20Configure%20Flycheck%20for%20Linting"></a>
-
 ## Install and Configure Flycheck for Linting
 
 [Flycheck](https://www.flycheck.org/en/latest/) is an on-the-fly checker that hooks into most language backends.
@@ -970,8 +729,6 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
           'visual-line-mode)
 ```
 
-
-<a id="Configure%20Eldoc"></a>
 
 ## Configure Eldoc
 
@@ -999,8 +756,6 @@ I found Eldoc-box looked ugly (huge border perhaps inherited from some old state
 ```
 
 
-<a id="Install%20~exec-path-from-shell~%20to%20manage%20the%20PATH"></a>
-
 ## Install `exec-path-from-shell` to manage the PATH
 
 [exec-path-from-shell](https://github.com/purcell/exec-path-from-shell) mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
@@ -1012,16 +767,12 @@ I found Eldoc-box looked ugly (huge border perhaps inherited from some old state
 ```
 
 
-<a id="ace-window%20provides%20an%20ace-jump%20experience%20for%20switching%20windows"></a>
-
 ## ace-window provides an ace-jump experience for switching windows
 
 ```emacs-lisp
 (use-package ace-window)
 ```
 
-
-<a id="Install%20a%20mode%20for%20drawing%20indentation%20guides"></a>
 
 ## Install a mode for drawing indentation guides
 
@@ -1031,8 +782,6 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 (use-package highlight-indent-guides)
 ```
 
-
-<a id="Quick%20buffer%20switcher"></a>
 
 ## Quick buffer switcher
 
@@ -1048,8 +797,6 @@ Bound by default to `C-<TAB>` and `C-S-<TAB>`, I have decided that these are san
 ```
 
 
-<a id="Writeable%20grep%20mode%20with%20ack"></a>
-
 ## Writeable grep mode with ack
 
 Writable grep mode allows you to edit the results from running grep on a project and easily save changes back to all of the original files
@@ -1061,8 +808,6 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="Better%20help%20buffers"></a>
-
 ## Better help buffers
 
 ```emacs-lisp
@@ -1073,16 +818,12 @@ Writable grep mode allows you to edit the results from running grep on a project
 ```
 
 
-<a id="Quickly%20jump%20around%20buffers"></a>
-
 ## Quickly jump around buffers
 
 ```emacs-lisp
 (use-package ace-jump-mode)
 ```
 
-
-<a id="Dumb%20jump"></a>
 
 ## Dumb jump
 
@@ -1094,8 +835,6 @@ Dumb jump provides an interface to grep that does a pretty good job of finding d
 (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
 ```
 
-
-<a id="Kubernetes%20Mode"></a>
 
 ## Kubernetes Mode
 
@@ -1119,16 +858,12 @@ I need the `evil` compatiblity mode, too, because I run `evil`.
 ```
 
 
-<a id="multiple%20cursors"></a>
-
 ## multiple cursors
 
 ```emacs-lisp
 (use-package evil-mc)
 ```
 
-
-<a id="elfeed"></a>
 
 ## elfeed
 
@@ -1137,14 +872,10 @@ I need the `evil` compatiblity mode, too, because I run `evil`.
 ```
 
 
-<a id="Font"></a>
-
 # Font
 
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font
 
-
-<a id="FiraCode%20Font%20Installation%20Script"></a>
 
 ## FiraCode Font Installation Script
 
@@ -1189,8 +920,6 @@ fc-cache -f
 This installation script was sourced from <https://github.com/tonsky/FiraCode/wiki/Linux-instructions#installing-with-a-package-manager>
 
 
-<a id="Enable%20FiraCode%20Font"></a>
-
 ## Enable FiraCode Font
 
 Calling the script from above will install the font
@@ -1207,8 +936,6 @@ Enable it
 (set-frame-font "Fira Code-10" nil t)
 ```
 
-
-<a id="Configure%20FiraCode%20special%20features"></a>
 
 ## Configure FiraCode special features
 
@@ -1243,14 +970,10 @@ FiraCode offers ligatures for programming symbols, which is cool.
 ```
 
 
-<a id="Language%20Configuration"></a>
-
 # Language Configuration
 
 This section contains all of the IDE-like features in my configuration.
 
-
-<a id="YAML"></a>
 
 ## YAML
 
@@ -1268,8 +991,6 @@ This section contains all of the IDE-like features in my configuration.
 ```
 
 
-<a id="Rego"></a>
-
 ## Rego
 
 [whatever that is](https://www.openpolicyagent.org/docs/latest/policy-language/)
@@ -1278,8 +999,6 @@ This section contains all of the IDE-like features in my configuration.
 (use-package rego-mode)
 ```
 
-
-<a id="Markdown"></a>
 
 ## Markdown
 
@@ -1304,8 +1023,6 @@ This section contains all of the IDE-like features in my configuration.
 ```
 
 
-<a id="Docker"></a>
-
 ## Docker
 
 ```emacs-lisp
@@ -1314,8 +1031,6 @@ This section contains all of the IDE-like features in my configuration.
 (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 ```
 
-
-<a id="Python"></a>
 
 ## Python
 
@@ -1334,14 +1049,10 @@ So the convention for use is:
 3.  `M-x pyvenv-workon`
 
 
-<a id="Go"></a>
-
 ## Go
 
 Go is my primary language so it's my most dynamic and complicated configuration, however it degrades gracefully so if not everything is installed, the rest of it still works.
 
-
-<a id="Dependencies"></a>
 
 ### Dependencies
 
@@ -1365,8 +1076,6 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 ```
 
 
-<a id="Initial%20Setup"></a>
-
 ### Initial Setup
 
 ```emacs-lisp
@@ -1383,8 +1092,6 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
   :hook (go-mode . flycheck-golangci-lint-setup))
 ```
 
-
-<a id="Eglot%20Config"></a>
 
 ### Eglot Config
 
@@ -1418,8 +1125,6 @@ The Go Emacs docs suggest using this snippet which I think might help with some 
 Preliminary testing suggests it might do the trick
 
 
-<a id="Package%20and%20Configuration%20for%20Executing%20Tests"></a>
-
 ### Package and Configuration for Executing Tests
 
 ```emacs-lisp
@@ -1429,8 +1134,6 @@ Preliminary testing suggests it might do the trick
 (add-hook 'go-test-mode-hook 'visual-line-mode)
 ```
 
-
-<a id="REPL"></a>
 
 ### REPL
 
@@ -1452,8 +1155,6 @@ Once that's done `gorepl-mode` is ready to be installed:
 (use-package gorepl-mode)
 ```
 
-
-<a id="Mode-Specific%20Keybindings"></a>
 
 ### Mode-Specific Keybindings
 
@@ -1483,8 +1184,6 @@ Once that's done `gorepl-mode` is ready to be installed:
 ```
 
 
-<a id="Hooks"></a>
-
 ### Hooks
 
 ```emacs-lisp
@@ -1493,8 +1192,6 @@ Once that's done `gorepl-mode` is ready to be installed:
                           (set (make-local-variable 'tab-width) 2)))
 ```
 
-
-<a id="Rust"></a>
 
 ## Rust
 
@@ -1508,8 +1205,6 @@ To install the Rust language server:
   :mode (("\\.rs$" . rust-mode)))
 ```
 
-
-<a id="Web"></a>
 
 ## Web
 
@@ -1534,8 +1229,6 @@ So yay for `web-mode`!
 ```
 
 
-<a id="enable%20jsx%20mode%20for%20all%20.js%20and%20.jsx%20files"></a>
-
 ### enable jsx mode for all .js and .jsx files
 
 If working on projects that do not use JSX, might need to move this to a project-specific config somewhere.
@@ -1549,8 +1242,6 @@ For now though, this is sufficient for me
 
 Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 
-
-<a id="Setting%20highlighting%20for%20special%20template%20modes"></a>
 
 ### Setting highlighting for special template modes
 
@@ -1569,8 +1260,6 @@ Thanks to <https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/>
 ;;        ))
 ```
 
-
-<a id="JSON"></a>
 
 ## JSON
 
@@ -1594,16 +1283,12 @@ Default Keybindings
 ```
 
 
-<a id="Fish"></a>
-
 ## Fish
 
 ```emacs-lisp
 (use-package fish-mode)
 ```
 
-
-<a id="Salt"></a>
 
 ## Salt
 
@@ -1623,8 +1308,6 @@ Default Keybindings
 ```
 
 
-<a id="Elixir"></a>
-
 ## Elixir
 
 ```emacs-lisp
@@ -1636,12 +1319,8 @@ Default Keybindings
 ```
 
 
-<a id="SQL"></a>
-
 ## SQL
 
-
-<a id="Indent%20SQL"></a>
 
 ### Indent SQL
 
@@ -1652,8 +1331,6 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 ```
 
 
-<a id="Use%20rainbow%20delimeters%20in%20SQL"></a>
-
 ### Use rainbow delimeters in SQL
 
 ```emacs-lisp
@@ -1661,28 +1338,20 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 ```
 
 
-<a id="Emacs%20Lisp"></a>
-
 ## Emacs Lisp
 
 I don't have any custom configuration for Emacs Lisp yet, but I am going to use this space to collect tools and resources that might become useful in the future, and which I may install.
 
-
-<a id="A%20collection%20of%20development%20modes%20and%20utilities"></a>
 
 ### A collection of development modes and utilities
 
 <https://github.com/p3r7/awesome-elisp>
 
 
-<a id="editing%20s-exps"></a>
-
 ### editing s-exps
 
 <https://github.com/p3r7/awesome-elisp#lispy> <https://github.com/abo-abo/lispy>
 
-
-<a id="Racket"></a>
 
 ## Racket
 
@@ -1692,8 +1361,6 @@ Funny the twists of fate that bring us back to where we started. My interest in 
 ;; (use-package racket-mode) 
 ```
 
-
-<a id="Adaptive%20Wrap%20and%20Visual%20Line%20Mode"></a>
 
 # Adaptive Wrap and Visual Line Mode
 
@@ -1724,12 +1391,8 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="Global%20Keybindings"></a>
-
 # Global Keybindings
 
-
-<a id="Helper%20Functions"></a>
 
 ## Helper Functions
 
@@ -1782,8 +1445,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
-<a id="Main%20Global%20Keymap"></a>
-
 ## Main Global Keymap
 
 These are all under SPACE, following the Spacemacs pattern. Yeah, my configuration is a little of Spacemacs, a little of Doom, and a little of whatever I feel inspired by.
@@ -1826,6 +1487,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "ff"     'find-file
   "Ff"     'toggle-frame-fullscreen
   "fd"     'dired
+  "fr"     'consult-recent-file
   "fed"    'find-initfile
   "feD"    'find-initfile-other-frame
   "gb"     'magit-blame
@@ -1908,12 +1570,8 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-<a id="Org%20Mode%20Settings"></a>
-
 # Org Mode Settings
 
-
-<a id="Some%20default%20evil%20bindings"></a>
 
 ## Some default evil bindings
 
@@ -1922,16 +1580,12 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-<a id="Image%20drag-and-drop%20for%20org-mode"></a>
-
 ## Image drag-and-drop for org-mode
 
 ```emacs-lisp
 (use-package org-download)
 ```
 
-
-<a id="Autocomplete%20for%20Org%20blocks%20%28like%20source%20blocks%29"></a>
 
 ## Autocomplete for Org blocks (like source blocks)
 
@@ -1940,8 +1594,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-<a id="Install%20some%20tools%20for%20archiving%20web%20content%20into%20Org"></a>
-
 ## Install some tools for archiving web content into Org
 
 ```emacs-lisp
@@ -1949,16 +1601,12 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-<a id="Fontify%20the%20whole%20line%20for%20headings%20%28with%20a%20background%20color%29"></a>
-
 ## Fontify the whole line for headings (with a background color)
 
 ```emacs-lisp
 (setq org-fontify-whole-heading-line t)
 ```
 
-
-<a id="disable%20the%20default%20editing%20window%20layout"></a>
 
 ## disable the default editing window layout
 
@@ -1969,8 +1617,6 @@ instead, just replace the current window with the editing one..
 ```
 
 
-<a id="indent%20and%20wrap%20long%20lines"></a>
-
 ## indent and wrap long lines
 
 ```emacs-lisp
@@ -1978,8 +1624,6 @@ instead, just replace the current window with the editing one..
 (add-hook 'org-mode-hook 'visual-line-mode)
 ```
 
-
-<a id="Enable%20execution%20of%20languages%20from%20Babel"></a>
 
 ## Enable execution of languages from Babel
 
@@ -1993,8 +1637,6 @@ instead, just replace the current window with the editing one..
                              )
 ```
 
-
-<a id="set%20Org-specific%20keybindings"></a>
 
 ## set Org-specific keybindings
 
@@ -2020,12 +1662,8 @@ instead, just replace the current window with the editing one..
 ```
 
 
-<a id="Export%20Settings"></a>
-
 ## Export Settings
 
-
-<a id="GitHub-flavored%20markdown"></a>
 
 ### GitHub-flavored markdown
 
@@ -2033,8 +1671,6 @@ instead, just replace the current window with the editing one..
 (use-package ox-gfm)
 ```
 
-
-<a id="HTMLize"></a>
 
 ### HTMLize
 
@@ -2044,8 +1680,6 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 (use-package htmlize)
 ```
 
-
-<a id="enable%20markdown%20export"></a>
 
 ### enable markdown export
 
@@ -2057,16 +1691,12 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 ```
 
 
-<a id="explicitly%20set%20utf-8%20output%20%28apparently%29"></a>
-
 ### explicitly set utf-8 output (apparently)
 
 ```emacs-lisp
 (setq org-export-coding-system 'utf-8)
 ```
 
-
-<a id="custom%20todo%20states"></a>
 
 ### custom todo states
 
@@ -2078,8 +1708,6 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 ```
 
 
-<a id="~TODO~%20Faces"></a>
-
 ## `TODO` Faces
 
 ```emacs-lisp
@@ -2088,8 +1716,6 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
         ("WAITING" . org-warning)))
 ```
 
-
-<a id="Org-Protocol"></a>
 
 ## Org-Protocol
 
@@ -2101,16 +1727,12 @@ Org-Protocol is super cool! It enables things like bookmarklets to bookmark thin
 ```
 
 
-<a id="enter%20follows%20links..%20how%20was%20this%20not%20a%20default%3F"></a>
-
 ## enter follows links.. how was this not a default?
 
 ```emacs-lisp
 (setq org-return-follows-link  t)
 ```
 
-
-<a id="Use%20a%20variable-pitch%20font%20in%20Org-Mode"></a>
 
 ## Use a variable-pitch font in Org-Mode
 
@@ -2131,8 +1753,6 @@ Inside of code blocks I want a fixed-pitch font
 (add-hook 'org-mode-hook 'ian-org-fixed-pitch)
 ```
 
-
-<a id="Useful%20anchors%20in%20HTML%20export"></a>
 
 ## Useful anchors in HTML export
 
@@ -2233,8 +1853,6 @@ made unique when necessary."
 ```
 
 
-<a id="Disable%20pretty%20entities"></a>
-
 ## Disable pretty entities
 
 I find superscripts, subscripts, etc, are less common than verbatim underscores and such so I am changing the default for this setting
@@ -2243,8 +1861,6 @@ I find superscripts, subscripts, etc, are less common than verbatim underscores 
 (setq org-pretty-entities nil)
 ```
 
-
-<a id="Using%20eglot%20with%20Org"></a>
 
 ## Using eglot with Org
 
@@ -2278,8 +1894,6 @@ I'm storing it here as an `example` for when I'm ready &#x2013; I happened upon 
 ```
 
 
-<a id="Define%20how%20org-edit-src%20behaves"></a>
-
 ## Define how org-edit-src behaves
 
 Do `M-x describe-variable RET org-src-window-setup` to see the options
@@ -2289,12 +1903,8 @@ Do `M-x describe-variable RET org-src-window-setup` to see the options
 ```
 
 
-<a id="Miscellaneous%20standalone%20global%20configuration%20changes"></a>
-
 # Miscellaneous standalone global configuration changes
 
-
-<a id="Start%20server"></a>
 
 ## Start server
 
@@ -2302,8 +1912,6 @@ Do `M-x describe-variable RET org-src-window-setup` to see the options
 (server-start)
 ```
 
-
-<a id="Opening%20the%20Remote%20Repo%20in%20the%20Browser%20from%20Emacs"></a>
 
 ## Opening the Remote Repo in the Browser from Emacs
 
@@ -2313,8 +1921,6 @@ Do `M-x describe-variable RET org-src-window-setup` to see the options
 (use-package browse-at-remote)
 ```
 
-
-<a id="Opening%20Sources%20in%20Emacs%20from%20the%20Browser"></a>
 
 ## Opening Sources in Emacs from the Browser
 
@@ -2352,8 +1958,6 @@ emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://
 
 For now this is extremely rudimentary and I will improve it as needed.
 
-
-<a id="Manual%20Steps%3A"></a>
 
 ### Manual Steps:
 
@@ -2416,8 +2020,6 @@ N.B. this code block does ****not**** get tangled into `init.el`.
     ```
 
 
-<a id="TRAMP%20settings"></a>
-
 ## TRAMP settings
 
 Only one setting at the moment: use `ssh` instead of `scp` when accessing files with `ssh:` schemes
@@ -2427,8 +2029,6 @@ Only one setting at the moment: use `ssh` instead of `scp` when accessing files 
 ```
 
 
-<a id="Disable%20most%20warnings"></a>
-
 ## Disable most warnings
 
 Honestly I'm not good enough at Emacs to make sense of most of them anyway
@@ -2437,8 +2037,6 @@ Honestly I'm not good enough at Emacs to make sense of most of them anyway
 (setq warning-minimum-level :emergency)
 ```
 
-
-<a id="Theme%20Switching%20Helpers"></a>
 
 ## Theme Switching Helpers
 
@@ -2459,8 +2057,6 @@ There are a few occasions where the Org fixed-width fonts don't get reapplied co
 ```
 
 
-<a id="Line%20Numbers%20in%20Programming%20Buffers"></a>
-
 ## Line Numbers in Programming Buffers
 
 ```emacs-lisp
@@ -2468,8 +2064,6 @@ There are a few occasions where the Org fixed-width fonts don't get reapplied co
 (setq display-line-numbers-type 'relative)
 ```
 
-
-<a id="Transparency%20toggle"></a>
 
 ## Transparency toggle
 
@@ -2490,8 +2084,6 @@ I definitely lifted this from somewhere but failed to document where I got it :\
 ```
 
 
-<a id="Switch%20to%20last%20buffer"></a>
-
 ## Switch to last buffer
 
 This one lifted from <https://emacsredux.com/blog/2013/04/28/switch-to-previous-buffer/>
@@ -2508,8 +2100,6 @@ TODO: Make this behave like alt-tab in Windows, but for buffers. I think `hycont
 ```
 
 
-<a id="Fix%20Home%2FEnd%20keys"></a>
-
 ## Fix Home/End keys
 
 Emacs has weird behavior by default for Home and End and this change makes the behavior "normal" again.
@@ -2520,8 +2110,6 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 ```
 
 
-<a id="Customize%20the%20frame%20%28OS%20window%29%20title"></a>
-
 ## Customize the frame (OS window) title
 
 Taken from StackOverflow, at least for now, which does 90% of what I want and can serve as a future reference of how to customize this aspect of Emacs. This displays the file name and major mode in the OS title bar. Will have to find the documentation that defines the format string passed to `frame-title-format` at some point.
@@ -2530,8 +2118,6 @@ Taken from StackOverflow, at least for now, which does 90% of what I want and ca
 (setq-default frame-title-format '("%f [%m]"))
 ```
 
-
-<a id="Tweak%20align-regexp"></a>
 
 ## Tweak align-regexp
 
@@ -2548,8 +2134,6 @@ Lifted from StackOverflow:
 ```
 
 
-<a id="Configure%20automatic%20backup%2Frecovery%20files"></a>
-
 ## Configure automatic backup/recovery files
 
 I don't like how Emacs puts temp files in the same directory as the file, as this litters the current working directory and makes git branches dirty. These are some tweaks to store those files in `/tmp`.
@@ -2561,8 +2145,6 @@ I don't like how Emacs puts temp files in the same directory as the file, as thi
 (setq delete-old-versions t)
 ```
 
-
-<a id="Autosave"></a>
 
 ## Autosave
 
@@ -2577,8 +2159,6 @@ Automatically saves the file when it's been idle for 5 minutes.
 ```
 
 
-<a id="Default%20window%20size"></a>
-
 ## Default window size
 
 Just a bigger size that I prefer..
@@ -2588,8 +2168,6 @@ Just a bigger size that I prefer..
 (add-to-list 'default-frame-alist '(height . 60))
 ```
 
-
-<a id="Unclutter%20global%20modeline"></a>
 
 ## Unclutter global modeline
 
@@ -2604,8 +2182,6 @@ Some global minor modes put themselves in the modeline and it gets noisy, so rem
 (diminish 'yas-minor-mode-major-mode)
 ```
 
-
-<a id="Less%20annoying%20bell"></a>
 
 ## Less annoying bell
 
@@ -2627,8 +2203,6 @@ Flashes the modeline foreground instead of whatever the horrible default behavio
 (from Emacs wiki)
 
 
-<a id="Remove%20toolbar%2C%20scrollbars%2C%20and%20menu"></a>
-
 ## Remove toolbar, scrollbars, and menu
 
 Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M-x` for everything.
@@ -2645,8 +2219,6 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="Enable%20context%20menu%20on%20right%20click"></a>
-
 ## Enable context menu on right click
 
 ```emacs-lisp
@@ -2654,16 +2226,12 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
-<a id="Enable%20the%20mouse%20in%20the%20terminal"></a>
-
 ## Enable the mouse in the terminal
 
 ```emacs-lisp
 (xterm-mouse-mode 1)
 ```
 
-
-<a id="Disable%20%22nice%22%20names%20in%20Customize"></a>
 
 ## Disable "nice" names in Customize
 
@@ -2674,8 +2242,6 @@ I prefer that Customize display the names of variables that I can change in this
 ```
 
 
-<a id="Don%27t%20require%20a%20final%20newline"></a>
-
 ## Don't require a final newline
 
 Very occasionally this causes problems and it's not something that I actually care about. To be honest I do not know why Emacs has a default behavior where it adds a newline to the end of the file on save.
@@ -2685,8 +2251,6 @@ Very occasionally this causes problems and it's not something that I actually ca
 ```
 
 
-<a id="Caps%20lock%20mode"></a>
-
 ## Caps lock mode
 
 For those of us who did away with the caps lock button but write SQL sometimes
@@ -2695,8 +2259,6 @@ For those of us who did away with the caps lock button but write SQL sometimes
 (use-package caps-lock)
 ```
 
-
-<a id="Allow%20swapping%20windows%20with%20ctrl%20%2B%20shift%20%2B%20left-click-drag"></a>
 
 ## Allow swapping windows with ctrl + shift + left-click-drag
 
@@ -2721,14 +2283,10 @@ For those of us who did away with the caps lock button but write SQL sometimes
 ```
 
 
-<a id="Kagi%20integration"></a>
-
 ## Kagi integration
 
 I love Kagi and even if it costs a few cents per query I would like to have it accessible from Emacs. Uses API key stored in `~/.secret.el~` as configured in the "load secrets" section above
 
-
-<a id="Basic%20config"></a>
 
 ### Basic config
 
@@ -2742,8 +2300,6 @@ I love Kagi and even if it costs a few cents per query I would like to have it a
   (kagi-summarizer-cache t))
 ```
 
-
-<a id="Org%20Babel%20Support"></a>
 
 ### Org Babel Support
 
@@ -2764,8 +2320,6 @@ Can Kagi FastGPT be used in Org mode?
 ```
 
 
-<a id="LLM%20integration"></a>
-
 ## LLM integration
 
 ```emacs-lisp
@@ -2784,8 +2338,6 @@ Can Kagi FastGPT be used in Org mode?
 ```
 
 
-<a id="Emacs%20Everywhere"></a>
-
 ## Emacs Everywhere
 
 Sadly this only works in X11 but there's a long Wayland support issue, and it looks like a lot of progress has been made! So hopefully this will get updated to work in Wayland before I upgrade to the next LTS.. whenever I do that, lol.
@@ -2795,8 +2347,6 @@ Sadly this only works in X11 but there's a long Wayland support issue, and it lo
 ```
 
 
-<a id="Confirm%20before%20exit"></a>
-
 ## Confirm before exit
 
 <span class="timestamp-wrapper"><span class="timestamp">&lt;2024-11-16 Sat&gt;</span></span>: Don't know why I didn't do this sooner! With my muscle memory for `:wq` I close by mistake Emacs *constantly* &#x2013; especially since I've been using `vim` bindings now for multiple decades and I use `emacsclient` heavily, so a lot of the time I actually do wish to call `evil-exit`&#x2026; just not on that last frame!
@@ -2805,8 +2355,6 @@ Sadly this only works in X11 but there's a long Wayland support issue, and it lo
 (setq confirm-kill-emacs 'yes-or-no-p)
 ```
 
-
-<a id="Start%20a%20new%20blog%20post"></a>
 
 ## Start a new blog post
 
@@ -2826,8 +2374,6 @@ I used Kagi FastGPT to generate about half of this. It taught me about `read-str
                ))
 ```
 
-
-<a id="Hostname-based%20tweaks"></a>
 
 # Hostname-based tweaks
 
@@ -2856,8 +2402,6 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
 
 
-<a id="Customize"></a>
-
 ## Customize
 
 Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
@@ -2867,8 +2411,6 @@ Emacs provides a menu-based customization interface that makes configuration fil
 (load custom-file)
 ```
 
-
-<a id="Launching%20Emacsclient"></a>
 
 # Launching Emacsclient
 
@@ -2912,8 +2454,6 @@ fi
 ```
 
 
-<a id="Running%20Emacs%20properly%20from%20the%20GUI"></a>
-
 # Running Emacs properly from the GUI
 
 This `.desktop` file calls `emacs` when it's not already running, and `emacsclient` otherwise. Slow on first launch, then fast for every new frame thereafter.
@@ -2935,14 +2475,10 @@ StartupWMClass=Emacs
 ```
 
 
-<a id="Figure%20out%20how%20to%20run%20Emacs%20as%20a%20daemon%20so%20that%20closing%20the%20last%20frame%20doesn%27t%20exit"></a>
-
 ## TODO Figure out how to run Emacs as a daemon so that closing the last frame doesn't exit
 
 Launching in headless mode introduces some font problems (fonts don't load when changing themes) that I haven't been able to debug.
 
-
-<a id="Compiling%20Emacs%20from%20Source"></a>
 
 # Compiling Emacs from Source
 

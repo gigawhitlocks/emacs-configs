@@ -3,7 +3,7 @@
 #+TAGS[]: emacs
 #+MENU: main
 #+DATE: <2019-04-24 Wed>
-#+OPTIONS: toc:nIl num:nil author:nil timestamp:nil
+#+OPTIONS: toc:nil num:nil author:nil timestamp:nil
 #+PROPERTY: header-args:emacs-lisp :tangle readme.el
 * Prologue
 This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the [[https://github.com/gigawhitlocks/emacs-configs][source repository]] and document ([[https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org][plain text view]]), are interactive when opened in Emacs.
@@ -223,7 +223,7 @@ Marginalia enhances the same native Emacs search interface with extra informatio
     (marginalia-mode))
 #+end_src
 *** Orderless
-Orderless allows pattern matching to be "better." With the default configuration, which is what I have below, the main obvious difference from vanilla Emacs is that now matching works anywhere in the target string and not just the beginning. That's a big win. This is applied everywhere Emacs does matching
+Orderless allows pattern matching to be "better." With the default configuration, which is what I have below, the main obvious difference from vanilla Emacs is that now matching works anywhere in the target string and not just the beginning. That's a big win. This is applied everywhere Emacs does matching.
 #+begin_src emacs-lisp
     (use-package orderless
       :ensure t
@@ -1234,6 +1234,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "ff"     'find-file
     "Ff"     'toggle-frame-fullscreen
     "fd"     'dired
+    "fr"     'consult-recent-file
     "fed"    'find-initfile
     "feD"    'find-initfile-other-frame
     "gb"     'magit-blame
