@@ -121,81 +121,11 @@ Protesilaos Stavrou has a nice theme pack too:
   (use-package ef-themes)
 #+end_src
 *** Default theme
-Prefer to load a theme per-system, but it's nice to have it documented here.
+I prefer to load a theme per-system, but it's nice to have it documented here.
 Add a line like the following to the appropriate file in ~local/~
 #+begin_src emacs-lisp
 ;;  (load-theme 'ef-reverie)
 #+end_src
-*** Theme lists
-**** Light themes
-#+begin_src emacs-lisp
-  (defvar light-theme-list '(doom-one-light
-                             doom-acario-light
-                             doom-ayu-light
-                             doom-bluloco-light
-                             doom-earl-grey
-                             doom-feather-light
-                             doom-flatwhite
-                             doom-gruvbox-light
-                             doom-homage-white
-                             doom-material
-                             doom-opera-light
-                             doom-gruvbox-light))
- #+end_src
-
-**** Dark themes
- #+begin_src emacs-lisp
-   (defvar dark-theme-list '(doom-1337
-                             doom-acario-light
-                             doom-ayu-dark
-                             doom-ayu-mirage
-                             doom-badger
-                             doom-bluloco-dark
-                             doom-Iosvkem
-                             doom-challenger-deep
-                             doom-city-lights
-                             doom-dark+
-                             doom-dracula
-                             doom-ephemeral
-                             doom-fairy-floss
-                             doom-feather-dark
-                             doom-gruvbox
-                             doom-henna
-                             doom-homage-black
-                             doom-horizon
-                             doom-ir-black
-                             doom-lantern
-                             doom-laserwave
-                             doom-manegarm
-                             doom-miramare
-                             doom-material-dark
-                             doom-meltbus
-                             doom-molokai
-                             doom-monokai-classic
-                             doom-monokai-machine
-                             doom-monokai-pro
-                             doom-monokai-ristretto
-                             doom-moonlight
-                             doom-nord
-                             doom-nord-aurora
-                             doom-nova
-                             doom-oceanic-next
-                             doom-old-hope
-                             doom-one
-                             doom-opera
-                             doom-outrun-electric
-                             doom-palenight
-                             doom-peacock
-                             doom-plain
-                             doom-rouge
-                             doom-snazzy
-                             doom-solarized-dark
-                             doom-spacegrey
-                             doom-tomorrow-night
-                             doom-vibrant
-                             doom-zenburn))
-#+end_src
-
 ** Enhancing Navigation and Completion
 The next few packages work closely together to enhance some of the core functionality of Emacs related to navigation, buffer management, and running commands.
 *** Consult

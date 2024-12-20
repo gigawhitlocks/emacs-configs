@@ -143,85 +143,11 @@ I'm mainly using the Doom Emacs theme pack. I think they're really nice to look 
 
 ### Default theme
 
-Prefer to load a theme per-system, but it's nice to have it documented here. Add a line like the following to the appropriate file in `local/`
+I prefer to load a theme per-system, but it's nice to have it documented here. Add a line like the following to the appropriate file in `local/`
 
 ```emacs-lisp
 ;;  (load-theme 'ef-reverie)
 ```
-
-
-### Theme lists
-
--   Light themes
-
-    ```emacs-lisp
-    (defvar light-theme-list '(doom-one-light
-                               doom-acario-light
-                               doom-ayu-light
-                               doom-bluloco-light
-                               doom-earl-grey
-                               doom-feather-light
-                               doom-flatwhite
-                               doom-gruvbox-light
-                               doom-homage-white
-                               doom-material
-                               doom-opera-light
-                               doom-gruvbox-light))
-    ```
-
--   Dark themes
-
-    ```emacs-lisp
-    (defvar dark-theme-list '(doom-1337
-                              doom-acario-light
-                              doom-ayu-dark
-                              doom-ayu-mirage
-                              doom-badger
-                              doom-bluloco-dark
-                              doom-Iosvkem
-                              doom-challenger-deep
-                              doom-city-lights
-                              doom-dark+
-                              doom-dracula
-                              doom-ephemeral
-                              doom-fairy-floss
-                              doom-feather-dark
-                              doom-gruvbox
-                              doom-henna
-                              doom-homage-black
-                              doom-horizon
-                              doom-ir-black
-                              doom-lantern
-                              doom-laserwave
-                              doom-manegarm
-                              doom-miramare
-                              doom-material-dark
-                              doom-meltbus
-                              doom-molokai
-                              doom-monokai-classic
-                              doom-monokai-machine
-                              doom-monokai-pro
-                              doom-monokai-ristretto
-                              doom-moonlight
-                              doom-nord
-                              doom-nord-aurora
-                              doom-nova
-                              doom-oceanic-next
-                              doom-old-hope
-                              doom-one
-                              doom-opera
-                              doom-outrun-electric
-                              doom-palenight
-                              doom-peacock
-                              doom-plain
-                              doom-rouge
-                              doom-snazzy
-                              doom-solarized-dark
-                              doom-spacegrey
-                              doom-tomorrow-night
-                              doom-vibrant
-                              doom-zenburn))
-    ```
 
 
 ## Enhancing Navigation and Completion
