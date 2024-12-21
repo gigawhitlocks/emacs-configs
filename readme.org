@@ -347,9 +347,13 @@ It's controversial but I think modal editing is brilliant and have been using ~v
 
     (general-define-key
      :states 'normal
+     "RET" 'embark-act
+     )
+
+    (general-define-key
+     :states 'normal
      :keymaps 'prog-mode-map
      "gd" 'evil-goto-definition
-     "RET" 'embark-act
      )
 
     ;; add fd as a remap for esc
@@ -1169,6 +1173,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "fed"    'find-initfile
     "feD"    'find-initfile-other-frame
     "gb"     'magit-blame
+    "gl"     'consult-line
     "gs"     'magit-status
     "gg"     'magit
     "gt"     'git-timemachine
@@ -1195,6 +1200,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "oo"     'browse-url-at-point
     "p"      'projectile-command-map
     "p!"     'projectile-run-async-shell-command-in-root
+    "ps"     'consult-git-grep
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
     "qq"     'save-buffers-kill-terminal

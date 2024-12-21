@@ -211,9 +211,13 @@
 
   (general-define-key
    :states 'normal
+   "RET" 'embark-act
+   )
+
+  (general-define-key
+   :states 'normal
    :keymaps 'prog-mode-map
    "gd" 'evil-goto-definition
-   "RET" 'embark-act
    )
 
   ;; add fd as a remap for esc
@@ -698,6 +702,7 @@
   "fed"    'find-initfile
   "feD"    'find-initfile-other-frame
   "gb"     'magit-blame
+  "gl"     'consult-line
   "gs"     'magit-status
   "gg"     'magit
   "gt"     'git-timemachine
@@ -724,6 +729,7 @@
   "oo"     'browse-url-at-point
   "p"      'projectile-command-map
   "p!"     'projectile-run-async-shell-command-in-root
+  "ps"     'consult-git-grep
   "si"     'yas-insert-snippet
   "sn"     'yas-new-snippet
   "qq"     'save-buffers-kill-terminal
