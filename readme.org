@@ -192,32 +192,69 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
   (use-package savehist
     :init
     (savehist-mode))
+#+end_src
 
-  ;; A few more useful configurations...
-  (use-package emacs
-    :custom
-    ;; Support opening new minibuffers from inside existing minibuffers.
-    (enable-recursive-minibuffers t)
-    ;; Hide commands in M-x which do not work in the current mode.  Vertico
-    ;; commands are hidden in normal buffers. This setting is useful beyond
-    ;; Vertico.
-    (read-extended-command-predicate #'command-completion-default-include-p)
+*** corfu.el - Completion
+#+begin_src emacs-lisp
+  (use-package corfu
+    ;; Optional customizations
+    ;; :custom
+    ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+    ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+    ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+    ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+    ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+    ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+
+    ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+    ;; :hook ((prog-mode . corfu-mode)
+    ;;        (shell-mode . corfu-mode)
+    ;;        (eshell-mode . corfu-mode))
+    :bind
+    ;; Configure SPC for separator insertion
+    (:map corfu-map ("SPC" . corfu-insert-separator))
+
+    ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+    ;; be used globally (M-/).  See also the customization variable
+    ;; `global-corfu-modes' to exclude certain modes.
     :init
-    ;; Add prompt indicator to `completing-read-multiple'.
-    ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-    (defun crm-indicator (args)
-      (cons (format "[CRM%s] %s"
-                    (replace-regexp-in-string
-                     "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                     crm-separator)
-                    (car args))
-            (cdr args)))
-    (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+    (global-corfu-mode))
+#+end_src
 
-    ;; Do not allow the cursor in the minibuffer prompt
-    (setq minibuffer-prompt-properties
-          '(read-only t cursor-intangible t face minibuffer-prompt))
-    (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+*** Global Configuration
+Below is some final, global configuration related to Vertico and Corfu & configure how completion and the minibuffer work.
+#+begin_src emacs-lisp
+  ;; A few more useful configurations...
+  ;; Support opening new minibuffers from inside existing minibuffers.
+  (setq enable-recursive-minibuffers t)
+
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. 
+  (setq read-extended-command-predicate #'command-completion-default-include-p)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete)
+
+  ;; Emacs 30 and newer: Disable Ispell completion function.
+  ;; Try `cape-dict' as an alternative.
+  ;; (text-mode-ispell-word-completion nil)
+
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
 
 ** Solaire Mode
@@ -503,27 +540,7 @@ Just provides syntax highlighting in ~.unit~ files.
 #+BEGIN_SRC emacs-lisp
   (use-package systemd)
 #+END_SRC
-** Install and Configure Company for Auto-Completion
-Great tab-complete and auto-complete with [[https://github.com/company-mode/company-mode][Company Mode]].
-#+BEGIN_SRC emacs-lisp
-  ;; auto-completion
-  (use-package company
-    :delight
-    :config
-    ;; enable it everywhere
-    (add-hook 'after-init-hook 'global-company-mode)
 
-    ;; tab complete!
-    (global-set-key "\t" 'company-complete-common))
-
-  ;; icons
-  (use-package company-box
-    :hook (company-mode . company-box-mode))
-
-  ;; extra documentation when idling
-  (use-package company-quickhelp)
-  (company-quickhelp-mode)
-    #+END_SRC
 ** Install and Configure Flycheck for Linting
 [[https://www.flycheck.org/en/latest/][Flycheck]] is an on-the-fly checker that hooks into most language backends.
 #+BEGIN_SRC emacs-lisp
@@ -536,29 +553,6 @@ Great tab-complete and auto-complete with [[https://github.com/company-mode/comp
   (add-hook 'flycheck-error-list-mode-hook
             'visual-line-mode)
 #+END_SRC
-** Configure Eldoc
-#+begin_src emacs-lisp
-  (use-package eldoc-box)
-  (setq eldoc-idle-delay 1.5)
-
-  (add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
-#+end_src
-
-I found Eldoc-box looked ugly (huge border perhaps inherited from some old state?) on a specific machine and [[https://github.com/casouri/eldoc-box/issues/100][the solution found here, slightly adapted]] works for me but I don't totally understand why I need it. That said, I /do/.
-#+begin_src emacs-lisp 
-  (defun my/eldoc-box-post-frame-hook (frame)
-    (modify-frame-parameters
-     ;; the hook sends the parent frame this is not what we want we force the child frame
-     eldoc-box--frame
-     `(
-       (internal-border-width . ,1)
-       )
-     )
-    )
-
-  (add-hook 'eldoc-box-frame-hook #'my/eldoc-box-post-frame-hook)
-#+end_src
-
 ** Install ~exec-path-from-shell~ to manage the PATH
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
 #+BEGIN_SRC emacs-lisp
@@ -1261,11 +1255,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 #+BEGIN_SRC emacs-lisp
   (use-package org-download)
 #+END_SRC
-
-** Autocomplete for Org blocks (like source blocks)
-#+begin_src emacs-lisp
-  (use-package company-org-block)
-#+end_src
 
 ** Install some tools for archiving web content into Org
 #+begin_src emacs-lisp

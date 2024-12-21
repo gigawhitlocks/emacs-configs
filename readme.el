@@ -94,31 +94,61 @@
   :init
   (savehist-mode))
 
-;; A few more useful configurations...
-(use-package emacs
-  :custom
-  ;; Support opening new minibuffers from inside existing minibuffers.
-  (enable-recursive-minibuffers t)
-  ;; Hide commands in M-x which do not work in the current mode.  Vertico
-  ;; commands are hidden in normal buffers. This setting is useful beyond
-  ;; Vertico.
-  (read-extended-command-predicate #'command-completion-default-include-p)
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  (defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+(use-package corfu
+  ;; Optional customizations
+  ;; :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
 
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+  :bind
+  ;; Configure SPC for separator insertion
+  (:map corfu-map ("SPC" . corfu-insert-separator))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
+  :init
+  (global-corfu-mode))
+
+;; A few more useful configurations...
+;; Support opening new minibuffers from inside existing minibuffers.
+(setq enable-recursive-minibuffers t)
+
+;; Hide commands in M-x which do not work in the current mode.  Vertico
+;; commands are hidden in normal buffers. 
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
+;; Enable indentation+completion using the TAB key.
+;; `completion-at-point' is often bound to M-TAB.
+(setq tab-always-indent 'complete)
+
+;; Emacs 30 and newer: Disable Ispell completion function.
+;; Try `cape-dict' as an alternative.
+;; (text-mode-ispell-word-completion nil)
+
+;; Add prompt indicator to `completing-read-multiple'.
+;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+(defun crm-indicator (args)
+  (cons (format "[CRM%s] %s"
+                (replace-regexp-in-string
+                 "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                 crm-separator)
+                (car args))
+        (cdr args)))
+(advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+;; Do not allow the cursor in the minibuffer prompt
+(setq minibuffer-prompt-properties
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 (use-package solaire-mode)
 
@@ -308,24 +338,6 @@
 
 (use-package systemd)
 
-;; auto-completion
-(use-package company
-  :delight
-  :config
-  ;; enable it everywhere
-  (add-hook 'after-init-hook 'global-company-mode)
-
-  ;; tab complete!
-  (global-set-key "\t" 'company-complete-common))
-
-;; icons
-(use-package company-box
-  :hook (company-mode . company-box-mode))
-
-;; extra documentation when idling
-(use-package company-quickhelp)
-(company-quickhelp-mode)
-
 ;; linter
 (use-package flycheck
   :delight
@@ -334,23 +346,6 @@
 
 (add-hook 'flycheck-error-list-mode-hook
           'visual-line-mode)
-
-(use-package eldoc-box)
-(setq eldoc-idle-delay 1.5)
-
-(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
-
-(defun my/eldoc-box-post-frame-hook (frame)
-  (modify-frame-parameters
-   ;; the hook sends the parent frame this is not what we want we force the child frame
-   eldoc-box--frame
-   `(
-     (internal-border-width . ,1)
-     )
-   )
-  )
-
-(add-hook 'eldoc-box-frame-hook #'my/eldoc-box-post-frame-hook)
 
 (use-package exec-path-from-shell
   :config
@@ -782,8 +777,6 @@
 (use-package evil-org)
 
 (use-package org-download)
-
-(use-package company-org-block)
 
 (use-package org-web-tools)
 
