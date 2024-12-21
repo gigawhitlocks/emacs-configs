@@ -85,7 +85,7 @@ It's installed early because many things have integrations with it, including so
     :defer t
     )
 
-  (setq treemacs-no-png-images t)
+  (setq treemacs-no-png-images nil)
 
   (use-package treemacs-evil
     :after (treemacs evil))
@@ -128,12 +128,12 @@ Add a line like the following to the appropriate file in ~local/~
 #+end_src
 ** Enhancing Navigation and Completion
 The next few packages work closely together to enhance some of the core functionality of Emacs related to navigation, buffer management, and running commands.
-*** Consult
+*** Consult (commands to list, search, and preview files and buffers in the minibuffer)
 Consult adds search and navigation commands that build upon the built-in completing-read
 #+begin_src emacs-lisp
     (use-package consult)
 #+end_src
-*** Marginalia
+*** Marginalia (more metadata in completions and the minibuffer)
 Marginalia enhances the same native Emacs search interface with extra information about whatever is being displayed. It's used by both Vertico and Consult to display extra information about the actions they offer.
 #+begin_src emacs-lisp
   ;; Enable rich annotations using the Marginalia package
@@ -157,7 +157,7 @@ Marginalia enhances the same native Emacs search interface with extra informatio
     :config
     (nerd-icons-completion-mode))
 #+end_src
-*** Orderless
+*** Orderless (better interactive matching)
 Orderless allows pattern matching to be "better." With the default configuration, which is what I have below, the main obvious difference from vanilla Emacs is that now matching works anywhere in the target string and not just the beginning. That's a big win. This is applied everywhere Emacs does matching.
 #+begin_src emacs-lisp
     (use-package orderless
@@ -166,14 +166,14 @@ Orderless allows pattern matching to be "better." With the default configuration
       (completion-styles '(orderless basic))
       (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
-*** Embark
+*** Embark (contextual actions)
 Embark allows you to call commands on whatever the cursor is on (thing "at-point") and shows stuff that is relevant to the context. It has some integrations with consult that seem very powerful and I don't fully understand them yet, but I'm adding them in here so I can figure them out.
 Lots of searching and matching goodness for working across many files and buffers, I think.
 #+begin_src emacs-lisp
     (use-package embark)
     (use-package embark-consult)
 #+end_src
-*** Vertico
+*** Vertico (minibuffer behavior)
 Finally, Vertico makes ~M-x~ more featureful, and allows me to display command history when it is invoked. I map ~M-x~ to ~SPC SPC~ due to my historical use of Spacemacs, and Vertico keeps Emacs feeling like home for someone used to Helm.
 
 Below is, actually, the default config. I didn't write any of this. It's kind of wild.
@@ -338,16 +338,17 @@ It's controversial but I think modal editing is brilliant and have been using ~v
       (evil-collection-init))
 
     ;; the evil-collection overrides the worktree binding :(
+    ;; in magit
     (general-define-key
      :states 'normal
      :keymaps 'magit-status-mode-map
      "Z" 'magit-worktree)
 
-    ;; I think I unbound or overrode this but I can't figure out where
     (general-define-key
      :states 'normal
      :keymaps 'prog-mode-map
-     "gd" 'evil-goto-definition
+     "gd" 'evil-goto-definition ;; I think I unbound or overrode this but I can't figure out where
+     "RET" 'embark-act
      )
 
     ;; add fd as a remap for esc
@@ -1142,9 +1143,9 @@ These keybindings are probably the most opinionated part of my configuration. Th
     "aa"     'ace-jump-mode
     "ag"     'org-agenda
     "TAB"    #'switch-to-prev-buffer
-    "bb"     'consult-buffer-other-window
+    "bb"     'consult-buffer
     "bl"     'ibuffer
-    "br"     'consult-buffer
+    "bs"     'consult-buffer-other-window
     "bR"     'revert-buffer
     "bd"     'evil-delete-buffer
     "ds"     (defun ian-desktop-save ()
@@ -1628,12 +1629,6 @@ Save the current theme to a global variable so it can be referenced later
   (advice-add 'load-theme :before #'load-theme--save-new-theme)
 #+END_SRC
 
-There are a few occasions where the Org fixed-width fonts don't get reapplied correctly. This solves most of them, and eventually I may iterate on it, if the edge cases bother me enough.
-#+begin_src emacs-lisp
-  (defun ian-restart-org-advice (&rest _args)
-    (org-mode-restart))
-  (advice-add 'load-theme :after #'ian-restart-org-advice)
-#+END_SRC
 ** Line Numbers in Programming Buffers
 #+BEGIN_SRC emacs-lisp
   (add-hook 'prog-mode-hook 'display-line-numbers-mode)

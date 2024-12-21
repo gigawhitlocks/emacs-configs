@@ -19,7 +19,7 @@
   :defer t
   )
 
-(setq treemacs-no-png-images t)
+(setq treemacs-no-png-images nil)
 
 (use-package treemacs-evil
   :after (treemacs evil))
@@ -203,16 +203,17 @@
     (evil-collection-init))
 
   ;; the evil-collection overrides the worktree binding :(
+  ;; in magit
   (general-define-key
    :states 'normal
    :keymaps 'magit-status-mode-map
    "Z" 'magit-worktree)
 
-  ;; I think I unbound or overrode this but I can't figure out where
   (general-define-key
    :states 'normal
    :keymaps 'prog-mode-map
-   "gd" 'evil-goto-definition
+   "gd" 'evil-goto-definition ;; I think I unbound or overrode this but I can't figure out where
+   "RET" 'embark-act
    )
 
   ;; add fd as a remap for esc
@@ -672,9 +673,9 @@
   "aa"     'ace-jump-mode
   "ag"     'org-agenda
   "TAB"    #'switch-to-prev-buffer
-  "bb"     'consult-buffer-other-window
+  "bb"     'consult-buffer
   "bl"     'ibuffer
-  "br"     'consult-buffer
+  "bs"     'consult-buffer-other-window
   "bR"     'revert-buffer
   "bd"     'evil-delete-buffer
   "ds"     (defun ian-desktop-save ()
@@ -955,10 +956,6 @@ made unique when necessary."
 (defun load-theme--save-new-theme (theme &rest args)
   (setq ian-current-theme theme))
 (advice-add 'load-theme :before #'load-theme--save-new-theme)
-
-(defun ian-restart-org-advice (&rest _args)
-  (org-mode-restart))
-(advice-add 'load-theme :after #'ian-restart-org-advice)
 
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (setq display-line-numbers-type 'relative)

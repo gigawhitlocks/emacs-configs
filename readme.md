@@ -95,7 +95,7 @@ Treemacs provides a file browser on the left hand side of Emacs that I have grow
   :defer t
   )
 
-(setq treemacs-no-png-images t)
+(setq treemacs-no-png-images nil)
 
 (use-package treemacs-evil
   :after (treemacs evil))
@@ -155,7 +155,7 @@ I prefer to load a theme per-system, but it's nice to have it documented here. A
 The next few packages work closely together to enhance some of the core functionality of Emacs related to navigation, buffer management, and running commands.
 
 
-### Consult
+### Consult (commands to list, search, and preview files and buffers in the minibuffer)
 
 Consult adds search and navigation commands that build upon the built-in completing-read
 
@@ -164,7 +164,7 @@ Consult adds search and navigation commands that build upon the built-in complet
 ```
 
 
-### Marginalia
+### Marginalia (more metadata in completions and the minibuffer)
 
 Marginalia enhances the same native Emacs search interface with extra information about whatever is being displayed. It's used by both Vertico and Consult to display extra information about the actions they offer.
 
@@ -192,7 +192,7 @@ Marginalia enhances the same native Emacs search interface with extra informatio
 ```
 
 
-### Orderless
+### Orderless (better interactive matching)
 
 Orderless allows pattern matching to be "better." With the default configuration, which is what I have below, the main obvious difference from vanilla Emacs is that now matching works anywhere in the target string and not just the beginning. That's a big win. This is applied everywhere Emacs does matching.
 
@@ -205,7 +205,7 @@ Orderless allows pattern matching to be "better." With the default configuration
 ```
 
 
-### Embark
+### Embark (contextual actions)
 
 Embark allows you to call commands on whatever the cursor is on (thing "at-point") and shows stuff that is relevant to the context. It has some integrations with consult that seem very powerful and I don't fully understand them yet, but I'm adding them in here so I can figure them out. Lots of searching and matching goodness for working across many files and buffers, I think.
 
@@ -215,7 +215,7 @@ Embark allows you to call commands on whatever the cursor is on (thing "at-point
 ```
 
 
-### Vertico
+### Vertico (minibuffer behavior)
 
 Finally, Vertico makes `M-x` more featureful, and allows me to display command history when it is invoked. I map `M-x` to `SPC SPC` due to my historical use of Spacemacs, and Vertico keeps Emacs feeling like home for someone used to Helm.
 
@@ -236,32 +236,74 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
 (use-package savehist
   :init
   (savehist-mode))
+```
 
-;; A few more useful configurations...
-(use-package emacs
-  :custom
-  ;; Support opening new minibuffers from inside existing minibuffers.
-  (enable-recursive-minibuffers t)
-  ;; Hide commands in M-x which do not work in the current mode.  Vertico
-  ;; commands are hidden in normal buffers. This setting is useful beyond
-  ;; Vertico.
-  (read-extended-command-predicate #'command-completion-default-include-p)
+
+### corfu.el - Completion
+
+```emacs-lisp
+(use-package corfu
+  ;; Optional customizations
+  ;; :custom
+  ;; (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  ;; (corfu-quit-at-boundary nil)   ;; Never quit at completion boundary
+  ;; (corfu-quit-no-match nil)      ;; Never quit, even if there is no match
+  ;; (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect 'prompt)      ;; Preselect the prompt
+  ;; (corfu-on-exact-match nil)     ;; Configure handling of exact matches
+
+  ;; Enable Corfu only for certain modes. See also `global-corfu-modes'.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+  :bind
+  ;; Configure SPC for separator insertion
+  (:map corfu-map ("SPC" . corfu-insert-separator))
+
+  ;; Recommended: Enable Corfu globally.  This is recommended since Dabbrev can
+  ;; be used globally (M-/).  See also the customization variable
+  ;; `global-corfu-modes' to exclude certain modes.
   :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  (defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  (global-corfu-mode))
+```
 
-  ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode))
+
+### Global Configuration
+
+Below is some final, global configuration related to Vertico and Corfu & configure how completion and the minibuffer work.
+
+```emacs-lisp
+;; A few more useful configurations...
+;; Support opening new minibuffers from inside existing minibuffers.
+(setq enable-recursive-minibuffers t)
+
+;; Hide commands in M-x which do not work in the current mode.  Vertico
+;; commands are hidden in normal buffers. 
+(setq read-extended-command-predicate #'command-completion-default-include-p)
+
+;; Enable indentation+completion using the TAB key.
+;; `completion-at-point' is often bound to M-TAB.
+(setq tab-always-indent 'complete)
+
+;; Emacs 30 and newer: Disable Ispell completion function.
+;; Try `cape-dict' as an alternative.
+;; (text-mode-ispell-word-completion nil)
+
+;; Add prompt indicator to `completing-read-multiple'.
+;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+(defun crm-indicator (args)
+  (cons (format "[CRM%s] %s"
+                (replace-regexp-in-string
+                 "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                 crm-separator)
+                (car args))
+        (cdr args)))
+(advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+;; Do not allow the cursor in the minibuffer prompt
+(setq minibuffer-prompt-properties
+      '(read-only t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 ```
 
 
@@ -364,16 +406,17 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
     (evil-collection-init))
 
   ;; the evil-collection overrides the worktree binding :(
+  ;; in magit
   (general-define-key
    :states 'normal
    :keymaps 'magit-status-mode-map
    "Z" 'magit-worktree)
 
-  ;; I think I unbound or overrode this but I can't figure out where
   (general-define-key
    :states 'normal
    :keymaps 'prog-mode-map
-   "gd" 'evil-goto-definition
+   "gd" 'evil-goto-definition ;; I think I unbound or overrode this but I can't figure out where
+   "RET" 'embark-act
    )
 
   ;; add fd as a remap for esc
@@ -620,31 +663,6 @@ Just provides syntax highlighting in `.unit` files.
 ```
 
 
-## Install and Configure Company for Auto-Completion
-
-Great tab-complete and auto-complete with [Company Mode](https://github.com/company-mode/company-mode).
-
-```emacs-lisp
-;; auto-completion
-(use-package company
-  :delight
-  :config
-  ;; enable it everywhere
-  (add-hook 'after-init-hook 'global-company-mode)
-
-  ;; tab complete!
-  (global-set-key "\t" 'company-complete-common))
-
-;; icons
-(use-package company-box
-  :hook (company-mode . company-box-mode))
-
-;; extra documentation when idling
-(use-package company-quickhelp)
-(company-quickhelp-mode)
-```
-
-
 ## Install and Configure Flycheck for Linting
 
 [Flycheck](https://www.flycheck.org/en/latest/) is an on-the-fly checker that hooks into most language backends.
@@ -658,32 +676,6 @@ Great tab-complete and auto-complete with [Company Mode](https://github.com/comp
 
 (add-hook 'flycheck-error-list-mode-hook
           'visual-line-mode)
-```
-
-
-## Configure Eldoc
-
-```emacs-lisp
-(use-package eldoc-box)
-(setq eldoc-idle-delay 1.5)
-
-(add-hook 'eglot-managed-mode-hook #'eldoc-box-hover-at-point-mode t)
-```
-
-I found Eldoc-box looked ugly (huge border perhaps inherited from some old state?) on a specific machine and [the solution found here, slightly adapted](https://github.com/casouri/eldoc-box/issues/100) works for me but I don't totally understand why I need it. That said, I *do*.
-
-```emacs-lisp
-(defun my/eldoc-box-post-frame-hook (frame)
-  (modify-frame-parameters
-   ;; the hook sends the parent frame this is not what we want we force the child frame
-   eldoc-box--frame
-   `(
-     (internal-border-width . ,1)
-     )
-   )
-  )
-
-(add-hook 'eldoc-box-frame-hook #'my/eldoc-box-post-frame-hook)
 ```
 
 
@@ -1397,9 +1389,9 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "aa"     'ace-jump-mode
   "ag"     'org-agenda
   "TAB"    #'switch-to-prev-buffer
-  "bb"     'consult-buffer-other-window
+  "bb"     'consult-buffer
   "bl"     'ibuffer
-  "br"     'consult-buffer
+  "bs"     'consult-buffer-other-window
   "bR"     'revert-buffer
   "bd"     'evil-delete-buffer
   "ds"     (defun ian-desktop-save ()
@@ -1515,13 +1507,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 
 ```emacs-lisp
 (use-package org-download)
-```
-
-
-## Autocomplete for Org blocks (like source blocks)
-
-```emacs-lisp
-(use-package company-org-block)
 ```
 
 
@@ -1977,14 +1962,6 @@ Save the current theme to a global variable so it can be referenced later
 (defun load-theme--save-new-theme (theme &rest args)
   (setq ian-current-theme theme))
 (advice-add 'load-theme :before #'load-theme--save-new-theme)
-```
-
-There are a few occasions where the Org fixed-width fonts don't get reapplied correctly. This solves most of them, and eventually I may iterate on it, if the edge cases bother me enough.
-
-```emacs-lisp
-(defun ian-restart-org-advice (&rest _args)
-  (org-mode-restart))
-(advice-add 'load-theme :after #'ian-restart-org-advice)
 ```
 
 
