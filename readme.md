@@ -12,7 +12,7 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 The source code below is extracted to `init.el` by calling `M-x org-babel-tangle`. The rest of this file is extracted to `readme.el` by this entrypoint in `init.el`. This allows me to only maintain `readme.org` as it will be re-extracted at startup every time. If this whole file is tangled to `init.el` by `init.el`, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 
 
-# Extract Org Files and Load Them
+# Extract Org Files and Load Theme
 
 I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
 
@@ -227,7 +227,7 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
   :custom
   ;; (vertico-scroll-margin 0) ;; Different scroll margin
    (vertico-count 20) ;; Show more candidates
-  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+   (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
   ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
   :init
   (vertico-mode))
@@ -239,7 +239,9 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
 ```
 
 
-### corfu.el - Completion
+### Tab Completion
+
+Corfu handles tab completion outside of the minibuffer, and allows multiple terms separated by spaces, using the rules from completing-read &#x2013; in this case, what I've defined in the Orderless section above.
 
 ```emacs-lisp
 (use-package corfu
