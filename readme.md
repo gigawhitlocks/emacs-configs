@@ -415,7 +415,7 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
   (general-define-key
    :states 'normal
    :keymaps 'prog-mode-map
-   "gd" 'evil-goto-definition ;; I think I unbound or overrode this but I can't figure out where
+   "gd" 'evil-goto-definition
    "RET" 'embark-act
    )
 
