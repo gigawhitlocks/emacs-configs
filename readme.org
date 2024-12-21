@@ -1,4 +1,4 @@
-#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook '(lambda () (org-gfm-export-to-markdown nil nil nil) (org-babel-tangle)) nil t) -*-
+#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook '(lambda () (org-gfm-export-to-markdown t nil nil) (org-babel-tangle)) nil t) -*-
 #+TITLE: Emacs 💕
 #+TAGS[]: emacs
 #+MENU: main
@@ -126,7 +126,7 @@ Add a line like the following to the appropriate file in ~local/~
 #+begin_src emacs-lisp
 ;;  (load-theme 'ef-reverie)
 #+end_src
-** Enhancing Navigation and Completion
+** Navigation and Completion, and the Minibuffer
 The next few packages work closely together to enhance some of the core functionality of Emacs related to navigation, buffer management, and running commands.
 *** Consult (commands to list, search, and preview files and buffers in the minibuffer)
 Consult adds search and navigation commands that build upon the built-in completing-read
@@ -183,8 +183,8 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
     :custom
     ;; (vertico-scroll-margin 0) ;; Different scroll margin
      (vertico-count 20) ;; Show more candidates
-     (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-    ;; (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+    ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+     (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
     :init
     (vertico-mode))
 
@@ -1869,7 +1869,6 @@ I guess it was nice to have some of it generated.
 #+end_src
 
 * Hostname-based tweaks
-
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
 
 1. looks for Org files in  ~/home/$USER/.emacs.d/local/~ with a name that is the same as the hostname of the machine.
@@ -1944,12 +1943,10 @@ Emacs provides a menu-based customization interface that makes configuration fil
 #+END_SRC
 
 * Running Emacs properly from the GUI
-
 This ~.desktop~ file calls ~emacs~ when it's not already running, and ~emacsclient~ otherwise.
 Slow on first launch, then fast for every new frame thereafter.
 
 Tangling this file will install the .desktop file to the correct location (~~/.local/share/applications/Emacsclient.desktop~).
-
 #+begin_src toml :tangle ~/.local/share/applications/Emacsclient.desktop
   [Desktop Entry]
   Name=Emacs
