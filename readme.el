@@ -1,3 +1,6 @@
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
+
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("melpa" . "https://melpa.org/packages/")
@@ -1108,7 +1111,7 @@ made unique when necessary."
 
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right
-                 (shell-command-to-string "hostname"))))
+                 (shell-command-to-string "cat /etc/hostname"))))
 
    (progn
      (org-babel-tangle-file
@@ -1117,6 +1120,3 @@ made unique when necessary."
 
      (load (concat "~/.emacs.d/local/" hostname ".el"))
      (require 'local)))
-
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)

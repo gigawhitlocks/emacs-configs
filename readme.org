@@ -15,9 +15,6 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 * Entrypoint
 The source code below is extracted to ~init.el~ by calling ~M-x org-babel-tangle~. The rest of this file is extracted to ~readme.el~ by this entrypoint in ~init.el~. This allows me to only maintain ~readme.org~ as it will be re-extracted at startup every time. If this whole file is tangled to ~init.el~ by ~init.el~, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 
-* Extract Org Files and Load Theme
-I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init][example from orgmode.org]] to load the Org files and tangle them, then ~require~ the output of this file from the call to tangle, run ~main~, and I'm done.
-
 #+BEGIN_SRC emacs-lisp :tangle init.el
   (setq dotfiles-dir
         (file-name-directory
@@ -38,6 +35,14 @@ I'm using an [[https://orgmode.org/worg/org-contrib/babel/intro.html#literate-em
 
   ;; load up all literate org-mode files in this directory
   (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
+#+END_SRC
+
+* Customize
+Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is /this/ file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice -- for instance to trust local variables set in the header of a file like this one -- and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in ~.gitignore~.
+
+#+BEGIN_SRC emacs-lisp
+  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+  (load custom-file)
 #+END_SRC
 
 * Package Manager Bootstrap
@@ -1886,7 +1891,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 #+begin_src emacs-lisp
   (let ;; find the hostname and assign it to a variable
        ((hostname (string-trim-right
-                   (shell-command-to-string "hostname"))))
+                   (shell-command-to-string "cat /etc/hostname"))))
 
      (progn
        (org-babel-tangle-file
@@ -1900,14 +1905,6 @@ This allows configuration to diverge to meet needs that are unique to a specific
 There must be an Org file in ~local/~ named ~$(hostname).org~ or init actually breaks. 
 This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine.
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
-
-** Customize
-Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is /this/ file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice -- for instance to trust local variables set in the header of a file like this one -- and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in ~.gitignore~.
-
-#+BEGIN_SRC emacs-lisp
-  (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-  (load custom-file)
-#+END_SRC
 
 * Launching Emacsclient
 [[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]]
