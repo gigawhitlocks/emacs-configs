@@ -3,7 +3,7 @@
 #+TAGS[]: emacs
 #+MENU: main
 #+DATE: <2019-04-24 Wed>
-#+OPTIONS: toc:nil num:nil author:nil timestamp:nil
+#+OPTIONS: toc:nil num:nil author:nil timestamp:nil \n:nil
 #+PROPERTY: header-args:emacs-lisp :tangle readme.el
 * Prologue
 This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mode]] format, which means that I can display a static representation here, but the [[https://github.com/gigawhitlocks/emacs-configs][source repository]] and document ([[https://raw.githubusercontent.com/gigawhitlocks/emacs-configs/refs/heads/master/readme.org][plain text view]]), are interactive when opened in Emacs.

@@ -11,11 +11,6 @@ At least, that's the goal. In reality, it's a messy living document that I use t
 
 The source code below is extracted to `init.el` by calling `M-x org-babel-tangle`. The rest of this file is extracted to `readme.el` by this entrypoint in `init.el`. This allows me to only maintain `readme.org` as it will be re-extracted at startup every time. If this whole file is tangled to `init.el` by `init.el`, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 
-
-# Extract Org Files and Load Theme
-
-I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/babel/intro.html#literate-emacs-init) to load the Org files and tangle them, then `require` the output of this file from the call to tangle, run `main`, and I'm done.
-
 ```emacs-lisp
 (setq dotfiles-dir
       (file-name-directory
@@ -36,6 +31,16 @@ I'm using an [example from orgmode.org](https://orgmode.org/worg/org-contrib/bab
 
 ;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
+```
+
+
+# Customize
+
+Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
+
+```emacs-lisp
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file)
 ```
 
 
@@ -150,7 +155,7 @@ I prefer to load a theme per-system, but it's nice to have it documented here. A
 ```
 
 
-## Enhancing Navigation and Completion
+## Navigation and Completion, and the Minibuffer
 
 The next few packages work closely together to enhance some of the core functionality of Emacs related to navigation, buffer management, and running commands.
 
@@ -416,9 +421,13 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
   (general-define-key
    :states 'normal
+   "RET" 'embark-act
+   )
+
+  (general-define-key
+   :states 'normal
    :keymaps 'prog-mode-map
    "gd" 'evil-goto-definition
-   "RET" 'embark-act
    )
 
   ;; add fd as a remap for esc
@@ -1416,6 +1425,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "fed"    'find-initfile
   "feD"    'find-initfile-other-frame
   "gb"     'magit-blame
+  "gl"     'consult-line
   "gs"     'magit-status
   "gg"     'magit
   "gt"     'git-timemachine
@@ -1442,6 +1452,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "oo"     'browse-url-at-point
   "p"      'projectile-command-map
   "p!"     'projectile-run-async-shell-command-in-root
+  "ps"     'consult-git-grep
   "si"     'yas-insert-snippet
   "sn"     'yas-new-snippet
   "qq"     'save-buffers-kill-terminal
@@ -2298,7 +2309,7 @@ This allows configuration to diverge to meet needs that are unique to a specific
 ```emacs-lisp
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right
-                 (shell-command-to-string "hostname"))))
+                 (shell-command-to-string "cat /etc/hostname"))))
 
    (progn
      (org-babel-tangle-file
@@ -2310,16 +2321,6 @@ This allows configuration to diverge to meet needs that are unique to a specific
 ```
 
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
-
-
-## Customize
-
-Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
-
-```emacs-lisp
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file)
-```
 
 
 # Launching Emacsclient
