@@ -654,21 +654,6 @@
         (display-line-numbers-mode -1)
         (display-line-numbers-mode))))
 
-(defun random-theme (light-theme-list dark-theme-list)
-  "Choose a random theme from the appropriate list based on the current time"
-  (let* ((now (decode-time))
-         (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
-                     light-theme-list
-                   dark-theme-list)))
-    (nth (random (length themes)) themes)))
-
-(defun load-next-favorite-theme ()
-  "Switch to a random theme appropriate for the current time."
-  (interactive)
-  (let ((theme (random-theme light-theme-list dark-theme-list)))
-    (load-theme theme t)
-    (message "Switched to theme: %s" theme)))
-
 ;; define the spacebar as the global leader key, following the
 ;; Spacemacs pattern, which I've been using since 2014
 (general-create-definer my-leader-def
@@ -751,7 +736,6 @@
                  (message "No themes are currently enabled."))))
   "thc"    'consult-theme
   "tm"     'toggle-menu-bar-mode-from-frame
-  "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
   "tr"     'treemacs-select-window
