@@ -203,7 +203,7 @@
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
 (use-package solaire-mode
-:demand t
+  :demand t
   :config
   ;; treemacs got redefined as a normal window at some point
   (push '(treemacs-window-background-face . solaire-default-face) solaire-mode-remap-alist)
@@ -234,12 +234,12 @@
              "elpa/*")
 
 (use-package projectile
-:demand t
+  :demand t
   :delight
   :config
   (use-package treemacs-projectile)
   (projectile-mode +1)
-)
+  )
 
 (use-package general
   :demand t
@@ -381,6 +381,7 @@
   :delight
   :config
   (yas-global-mode 1)
+  :init
   (use-package yasnippet-snippets))
 
 (use-package prism)
@@ -425,9 +426,8 @@
 (use-package highlight-indent-guides)
 
 (use-package pc-bufsw
-:init
-(pc-bufsw)
-)
+  :init
+  (pc-bufsw))
 
 (use-package ack)
 (use-package ag)
@@ -1140,8 +1140,11 @@ made unique when necessary."
 
   (gptel-make-kagi "Kagi"
     :key (password-store-get "kagi-token")))
+<<<<<<< HEAD
 
 ;;  (use-package emacs-everywhere)
+=======
+>>>>>>> master
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 
