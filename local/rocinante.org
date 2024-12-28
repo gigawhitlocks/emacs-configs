@@ -1,0 +1,29 @@
+#+TITLE: Configuration for My Laptop
+* Emacs Configuration
+I didn't bother to build Emacs from source on this machine because it's Arch, by the way, and it comes with 29.4 (at time of writing) but I might do that later if I discover this has build flags I don't like, lol. Because I'm that kind of person now I guess.
+
+I did need to install this package, though, so I'm noting it here for future reference:
+
+#+begin_example bash
+  sudo pacman -S woff2-fira-code
+#+end_example
+
+I also later discovered that I really needed the ~emacs-wayland~ package to work nicely in Arch and avoid strange bugs.
+
+* Font
+10pt font is a little small on this display :)
+#+begin_src emacs-lisp 
+  (add-to-list 'default-frame-alist '(font . "Fira Code-12"))
+  (set-frame-font "Fira Code-12" nil t)
+  #+end_src
+
+* Theme
+
+  #+begin_src emacs-lisp
+  (load-theme 'doom-nord-light)
+#+end_src
+
+** Footer
+#+BEGIN_SRC emacs-lisp
+  (provide 'local)
+#+END_SRC
