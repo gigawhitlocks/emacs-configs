@@ -135,17 +135,16 @@
 (use-package vertico
   :custom
   ;; (vertico-scroll-margin 0) ;; Different scroll margin
-   (vertico-count 20) ;; Show more candidates
+  (vertico-count 20) ;; Show more candidates
   ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-   (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
   :init
-  (vertico-mode))
+  (vertico-mode)
+  :init
 
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-;; (use-package savehist
-;; :demand t
-;;   :init
-;;   (savehist-mode))
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (savehist-mode)
+  )
 
 (use-package corfu
   ;; Optional customizations
