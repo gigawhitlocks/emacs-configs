@@ -40,6 +40,9 @@ Emacs provides a menu-based customization interface that makes configuration fil
 
 ```emacs-lisp
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(unless (file-exists-p custom-file)
+  (with-temp-buffer
+    (write-file custom-file)))
 (load custom-file)
 ```
 
@@ -51,20 +54,64 @@ After tangling the source files and loading `init.el`, the first thing that must
 Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, configures `use-package` and installs a few extra packages that acoutrement `use-package` and will be used heavily throughout. It used to install `use-package` itself, however, it has since been upstreamed and that step has been removed. 🎉
 
 ```emacs-lisp
-(require 'package)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")))
-(package-initialize)
+(defvar elpaca-installer-version 0.8)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil :depth 1
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                  ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                  ,@(when-let* ((depth (plist-get order :depth)))
+                                                      (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                  ,(plist-get order :repo) ,repo))))
+                  ((zerop (call-process "git" nil buffer t "checkout"
+                                        (or (plist-get order :ref) "--"))))
+                  (emacs (concat invocation-directory invocation-name))
+                  ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                  ((require 'elpaca))
+                  ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
-;; set ensure to be the default
-(require 'use-package-ensure)
+;; Install use-package support
+(elpaca elpaca-use-package
+        ;; Enable use-package :ensure support for Elpaca.
+        (elpaca-use-package-mode))
+
+;;Turns off elpaca-use-package-mode current declaration
+;;Note this will cause evaluate the declaration immediately. It is not deferred.
+;;Useful for configuring built-in emacs features.
+(use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
 (setq use-package-always-ensure t)
 
-;; these go in bootstrap because packages installed
-;; with use-package use :diminish and :delight
+;; these go in bootstrap because we're configuring use-package
 (use-package diminish)
 (use-package delight)
+
+;; transient needs to be manually updated early to solve a dependency issue with Magit
+;; todo remove after Emacs 30 is released, I think
+(use-package transient
+  :ensure (:wait t))
 ```
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
@@ -98,6 +145,8 @@ Treemacs provides a file browser on the left hand side of Emacs that I have grow
 ```emacs-lisp
 (use-package treemacs
   :defer t
+  :ensure (:wait t)
+  :demand t
   )
 
 (setq treemacs-no-png-images nil)
@@ -231,16 +280,16 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
 (use-package vertico
   :custom
   ;; (vertico-scroll-margin 0) ;; Different scroll margin
-   (vertico-count 20) ;; Show more candidates
+  (vertico-count 20) ;; Show more candidates
   ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-   (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
   :init
-  (vertico-mode))
+  (vertico-mode)
+  :init
 
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (savehist-mode)
+  )
 ```
 
 
@@ -319,13 +368,14 @@ Below is some final, global configuration related to Vertico and Corfu & configu
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. **compilation** or magit buffers
 
 ```emacs-lisp
-(use-package solaire-mode)
-
-;; treemacs got redefined as a normal window at some point
-(push '(treemacs-window-background-face . solaire-default-face) solaire-mode-remap-alist)
-(push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
-
-(solaire-global-mode +1)
+(use-package solaire-mode
+  :demand t
+  :config
+  ;; treemacs got redefined as a normal window at some point
+  (push '(treemacs-window-background-face . solaire-default-face) solaire-mode-remap-alist)
+  (push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
+  (solaire-global-mode +1)
+  )
 ```
 
 
@@ -384,86 +434,11 @@ It's great, it gets installed early, can't live without it. 💘 `projectile`
 
 ```emacs-lisp
 (use-package projectile
-  :delight)
-(use-package treemacs-projectile)
-(projectile-mode +1)
-```
-
-
-## Install and Configure Evil Mode
-
-[`evil-mode`](https://github.com/emacs-evil/evil) fundamentally changes Emacs so that while editing all of the modes and keybindings from `vim` are present. It's controversial but I think modal editing is brilliant and have been using `vim` bindings for twenty-odd years now. No going back.
-
-```emacs-lisp
-(defun setup-evil ()
-  "Install and configure evil-mode and related bindings."
-  (use-package evil
-    :init
-    (setq evil-want-keybinding nil)
-    (setq evil-want-integration t)
-    :config
-    (evil-mode 1))
-
-  (use-package evil-collection
-    :after evil
-    :config
-    ;; don't let evil-collection manage go-mode
-    ;; it is overriding gd
-    (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
-    (evil-collection-init))
-
-  ;; the evil-collection overrides the worktree binding :(
-  ;; in magit
-  (general-define-key
-   :states 'normal
-   :keymaps 'magit-status-mode-map
-   "Z" 'magit-worktree)
-
-  (general-define-key
-   :states 'normal
-   "RET" 'embark-act
-   )
-
-  (general-define-key
-   :states 'normal
-   :keymaps 'prog-mode-map
-   "gd" 'evil-goto-definition
-   )
-
-  ;; add fd as a remap for esc
-  (use-package evil-escape
-    :delight)
-  (evil-escape-mode 1)
-
-  (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1))
-  (use-package evil-snipe)
-  (evil-snipe-override-mode +1)
-  ;; and disable in specific modes (an example below)
-  ;; (push 'python-mode evil-snipe-disabled-modes)
-
-  (use-package undo-tree
-    :config
-    (global-undo-tree-mode)
-    (evil-set-undo-system 'undo-tree)
-    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
-
-  ;; add some advice to undo-tree-save-history to suppress messages
-  ;; when it saves its backup files
-  (defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
-    (let ((message-log-max nil)
-          (inhibit-message t))
-      (apply undo-tree-save-history args)))
-
-  (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
-
-  (setq-default evil-escape-key-sequence "fd")
-
-  ;; unbind RET since it does the same thing as j and in some
-  ;; modes RET is used for other things, and evil conflicts
-  (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd "RET") nil))
+  :demand t
+  :delight
+  :config
+  (use-package treemacs-projectile)
+  (projectile-mode +1)
   )
 ```
 
@@ -476,10 +451,91 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 
 ```emacs-lisp
 (use-package general
-  :init
-  (setup-evil)
+  :demand t
+  :ensure (:wait t)
   :config
   (general-evil-setup))
+```
+
+
+## Install and Configure Evil Mode
+
+[`evil-mode`](https://github.com/emacs-evil/evil) fundamentally changes Emacs so that while editing all of the modes and keybindings from `vim` are present. It's controversial but I think modal editing is brilliant and have been using `vim` bindings for twenty-odd years now. No going back.
+
+```emacs-lisp
+(use-package evil
+  :demand t
+  :ensure (:wait t)
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  ;; don't let evil-collection manage go-mode
+  ;; it is overriding gd
+  (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
+  (evil-collection-init))
+
+;; the evil-collection overrides the worktree binding :(
+;; in magit
+(general-define-key
+ :states 'normal
+ :keymaps 'magit-status-mode-map
+ "Z" 'magit-worktree)
+
+(general-define-key
+ :states 'normal
+ "RET" 'embark-act
+ )
+
+(general-define-key
+ :states 'normal
+ :keymaps 'prog-mode-map
+ "gd" 'evil-goto-definition
+ )
+
+;; add fd as a remap for esc
+(use-package evil-escape
+  :ensure (:wait t)
+  :delight)
+(evil-escape-mode 1)
+
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+(use-package evil-snipe
+
+  :config
+  (evil-snipe-override-mode +1)
+  )
+;; and disable in specific modes (an example below)
+;; (push 'python-mode evil-snipe-disabled-modes)
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  (evil-set-undo-system 'undo-tree)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+
+;; add some advice to undo-tree-save-history to suppress messages
+;; when it saves its backup files
+(defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
+  (let ((message-log-max nil)
+        (inhibit-message t))
+    (apply undo-tree-save-history args)))
+
+(advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
+
+(setq-default evil-escape-key-sequence "fd")
+
+;; unbind RET since it does the same thing as j and in some
+;; modes RET is used for other things, and evil conflicts
+(with-eval-after-load 'evil-maps
+  (define-key evil-motion-state-map (kbd "RET") nil))
 ```
 
 
@@ -488,7 +544,10 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 [Magit](https://github.com/magit/magit) is an incredible integrated `git` UI for Emacs.
 
 ```emacs-lisp
-(use-package magit)
+(use-package magit
+  :after (transient)
+  :ensure (:wait t)
+  )
 ;; disable the default emacs vc because git is all I use,
 ;; for I am a simple man
 (setq vc-handled-backends nil)
@@ -499,7 +558,7 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 
 ```emacs-lisp
 (use-package forge
-  :after magit)
+  :after magit transient)
 ```
 
 
@@ -546,11 +605,12 @@ It can be difficult to to remember and discover all of the available shortcuts i
 The external package `fancy-compilation-mode` handles colorization and "clever" use of ANSI to create progress bars and stupid shit like that, which show up in things like npm output and Docker output when BuildKit is set to NORMAL. You can, of course, set the BuildKit output style to PLAIN, but sometimes you're eg editing a file where NORMAL is hard-coded in the Makefile target you want to run when using `compilation-mode` and fighting project defaults isn't what you want to spend your time on.
 
 ```emacs-lisp
- (use-package fancy-compilation
-  :commands (fancy-compilation-mode))
+(use-package fancy-compilation
+  :commands (fancy-compilation-mode)
 
-(with-eval-after-load 'compile
-  (fancy-compilation-mode))
+  :config
+  (with-eval-after-load 'compile
+    (fancy-compilation-mode)))
 ```
 
 I don't like how fancy-compilation-mode overrides colors by default, but luckily this can be disabled.
@@ -590,15 +650,13 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 
 ```emacs-lisp
 (use-package yasnippet
+  :demand t
+  :after (transient)
   :delight
   :config
+  (yas-global-mode 1)
+  :init
   (use-package yasnippet-snippets))
-```
-
-Enable yas-mode everywhere
-
-```emacs-lisp
-(yas-global-mode 1)
 ```
 
 
@@ -726,8 +784,9 @@ This mode adds subtle coloration to indentation whitespace for whitespace-delimi
 Bound by default to `C-<TAB>` and `C-S-<TAB>`, I have decided that these are sane defaults. Just install this and turn it on.
 
 ```emacs-lisp
-(use-package pc-bufsw)
-(pc-bufsw)
+(use-package pc-bufsw
+  :init
+  (pc-bufsw))
 ```
 
 
@@ -1361,21 +1420,6 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
       (progn
         (display-line-numbers-mode -1)
         (display-line-numbers-mode))))
-
-(defun random-theme (light-theme-list dark-theme-list)
-  "Choose a random theme from the appropriate list based on the current time"
-  (let* ((now (decode-time))
-         (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
-                     light-theme-list
-                   dark-theme-list)))
-    (nth (random (length themes)) themes)))
-
-(defun load-next-favorite-theme ()
-  "Switch to a random theme appropriate for the current time."
-  (interactive)
-  (let ((theme (random-theme light-theme-list dark-theme-list)))
-    (load-theme theme t)
-    (message "Switched to theme: %s" theme)))
 ```
 
 
@@ -1468,7 +1512,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
                  (message "No themes are currently enabled."))))
   "thc"    'consult-theme
   "tm"     'toggle-menu-bar-mode-from-frame
-  "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
   "tr"     'treemacs-select-window
@@ -2244,27 +2287,19 @@ Can Kagi FastGPT be used in Org mode?
 ## LLM integration
 
 ```emacs-lisp
-(use-package gptel)
+(use-package gptel
 
-(setq
- gptel-model 'llama3.2:latest
- gptel-backend (gptel-make-ollama "Ollama"
-                 :host "localhost:11434" 
-                 :stream t
-                 :models '((mistral:latest)
-                           (llama3.2:latest))))
+  :config
+  (setq
+   gptel-model 'llama3.2:latest
+   gptel-backend (gptel-make-ollama "Ollama"
+                   :host "localhost:11434" 
+                   :stream t
+                   :models '((mistral:latest)
+                             (llama3.2:latest))))
 
-(gptel-make-kagi "Kagi"
-  :key (password-store-get "kagi-token"))
-```
-
-
-## Emacs Everywhere
-
-Sadly this only works in X11 but there's a long Wayland support issue, and it looks like a lot of progress has been made! So hopefully this will get updated to work in Wayland before I upgrade to the next LTS.. whenever I do that, lol.
-
-```emacs-lisp
-(use-package emacs-everywhere)
+  (gptel-make-kagi "Kagi"
+    :key (password-store-get "kagi-token")))
 ```
 
 
