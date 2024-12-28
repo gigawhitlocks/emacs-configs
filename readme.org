@@ -98,16 +98,20 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
           ;; Enable use-package :ensure support for Elpaca.
           (elpaca-use-package-mode))
 
-;;Turns off elpaca-use-package-mode current declaration
-;;Note this will cause evaluate the declaration immediately. It is not deferred.
-;;Useful for configuring built-in emacs features.
-(use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
+  ;;Turns off elpaca-use-package-mode current declaration
+  ;;Note this will cause evaluate the declaration immediately. It is not deferred.
+  ;;Useful for configuring built-in emacs features.
+  (use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
   (setq use-package-always-ensure t)
 
-  ;; these go in bootstrap because packages installed
-  ;; with use-package use :diminish and :delight
+  ;; these go in bootstrap because we're configuring use-package
   (use-package diminish)
   (use-package delight)
+
+  ;; transient needs to be manually updated early to solve a dependency issue with Magit
+  ;; todo remove after Emacs 30 is released, I think
+  (use-package transient
+    :ensure (:wait t))
 #+END_SRC
 
 Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
@@ -466,11 +470,8 @@ It's controversial but I think modal editing is brilliant and have been using ~v
 ** Install and Configure Magit
 [[https://github.com/magit/magit][Magit]] is an incredible integrated ~git~ UI for Emacs.
 #+BEGIN_SRC emacs-lisp
-  (use-package transient
-  :demand t
-  :ensure (:wait t))
   (use-package magit
-    :after transient
+    :after (transient)
     :ensure (:wait t)
     )
   ;; disable the default emacs vc because git is all I use,
@@ -557,6 +558,7 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 #+BEGIN_SRC emacs-lisp
   (use-package yasnippet
     :demand t
+    :after (transient)
     :delight
     :config
     (yas-global-mode 1)
