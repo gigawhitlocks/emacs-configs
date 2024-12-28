@@ -4,25 +4,71 @@
     (write-file custom-file)))
 (load custom-file)
 
-(require 'package)
-(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("org" . "http://orgmode.org/elpa/")))
-(package-initialize)
+(defvar elpaca-installer-version 0.8)
+(defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
+(defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
+(defvar elpaca-repos-directory (expand-file-name "repos/" elpaca-directory))
+(defvar elpaca-order '(elpaca :repo "https://github.com/progfolio/elpaca.git"
+                              :ref nil :depth 1
+                              :files (:defaults "elpaca-test.el" (:exclude "extensions"))
+                              :build (:not elpaca--activate-package)))
+(let* ((repo  (expand-file-name "elpaca/" elpaca-repos-directory))
+       (build (expand-file-name "elpaca/" elpaca-builds-directory))
+       (order (cdr elpaca-order))
+       (default-directory repo))
+  (add-to-list 'load-path (if (file-exists-p build) build repo))
+  (unless (file-exists-p repo)
+    (make-directory repo t)
+    (when (< emacs-major-version 28) (require 'subr-x))
+    (condition-case-unless-debug err
+        (if-let* ((buffer (pop-to-buffer-same-window "*elpaca-bootstrap*"))
+                  ((zerop (apply #'call-process `("git" nil ,buffer t "clone"
+                                                  ,@(when-let* ((depth (plist-get order :depth)))
+                                                      (list (format "--depth=%d" depth) "--no-single-branch"))
+                                                  ,(plist-get order :repo) ,repo))))
+                  ((zerop (call-process "git" nil buffer t "checkout"
+                                        (or (plist-get order :ref) "--"))))
+                  (emacs (concat invocation-directory invocation-name))
+                  ((zerop (call-process emacs nil buffer nil "-Q" "-L" "." "--batch"
+                                        "--eval" "(byte-recompile-directory \".\" 0 'force)")))
+                  ((require 'elpaca))
+                  ((elpaca-generate-autoloads "elpaca" repo)))
+            (progn (message "%s" (buffer-string)) (kill-buffer buffer))
+          (error "%s" (with-current-buffer buffer (buffer-string))))
+      ((error) (warn "%s" err) (delete-directory repo 'recursive))))
+  (unless (require 'elpaca-autoloads nil t)
+    (require 'elpaca)
+    (elpaca-generate-autoloads "elpaca" repo)
+    (load "./elpaca-autoloads")))
+(add-hook 'after-init-hook #'elpaca-process-queues)
+(elpaca `(,@elpaca-order))
 
-;; set ensure to be the default
-(require 'use-package-ensure)
+;; Install use-package support
+(elpaca elpaca-use-package
+        ;; Enable use-package :ensure support for Elpaca.
+        (elpaca-use-package-mode))
+
+;;Turns off elpaca-use-package-mode current declaration
+;;Note this will cause evaluate the declaration immediately. It is not deferred.
+;;Useful for configuring built-in emacs features.
+(use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
 (setq use-package-always-ensure t)
 
-;; these go in bootstrap because packages installed
-;; with use-package use :diminish and :delight
+;; these go in bootstrap because we're configuring use-package
 (use-package diminish)
 (use-package delight)
+
+;; transient needs to be manually updated early to solve a dependency issue with Magit
+;; todo remove after Emacs 30 is released, I think
+(use-package transient
+  :ensure (:wait t))
 
 (use-package all-the-icons)
 
 (use-package treemacs
   :defer t
+  :ensure (:wait t)
+  :demand t
   )
 
 (setq treemacs-no-png-images nil)
@@ -89,16 +135,16 @@
 (use-package vertico
   :custom
   ;; (vertico-scroll-margin 0) ;; Different scroll margin
-   (vertico-count 20) ;; Show more candidates
+  (vertico-count 20) ;; Show more candidates
   ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
-   (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
+  (vertico-cycle t) ;; Enable cycling for `vertico-next/previous'
   :init
-  (vertico-mode))
+  (vertico-mode)
+  :init
 
-;; Persist history over Emacs restarts. Vertico sorts by history position.
-(use-package savehist
-  :init
-  (savehist-mode))
+  ;; Persist history over Emacs restarts. Vertico sorts by history position.
+  (savehist-mode)
+  )
 
 (use-package corfu
   ;; Optional customizations
@@ -156,13 +202,14 @@
       '(read-only t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
-(use-package solaire-mode)
-
-;; treemacs got redefined as a normal window at some point
-(push '(treemacs-window-background-face . solaire-default-face) solaire-mode-remap-alist)
-(push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
-
-(solaire-global-mode +1)
+(use-package solaire-mode
+  :demand t
+  :config
+  ;; treemacs got redefined as a normal window at some point
+  (push '(treemacs-window-background-face . solaire-default-face) solaire-mode-remap-alist)
+  (push '(treemacs-hl-line-face . solaire-hl-line-face) solaire-mode-remap-alist)
+  (solaire-global-mode +1)
+  )
 
 (use-package doom-modeline
   :config       (doom-modeline-def-modeline 'main
@@ -187,94 +234,103 @@
              "elpa/*")
 
 (use-package projectile
-  :delight)
-(use-package treemacs-projectile)
-(projectile-mode +1)
-
-(defun setup-evil ()
-  "Install and configure evil-mode and related bindings."
-  (use-package evil
-    :init
-    (setq evil-want-keybinding nil)
-    (setq evil-want-integration t)
-    :config
-    (evil-mode 1))
-
-  (use-package evil-collection
-    :after evil
-    :config
-    ;; don't let evil-collection manage go-mode
-    ;; it is overriding gd
-    (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
-    (evil-collection-init))
-
-  ;; the evil-collection overrides the worktree binding :(
-  ;; in magit
-  (general-define-key
-   :states 'normal
-   :keymaps 'magit-status-mode-map
-   "Z" 'magit-worktree)
-
-  (general-define-key
-   :states 'normal
-   "RET" 'embark-act
-   )
-
-  (general-define-key
-   :states 'normal
-   :keymaps 'prog-mode-map
-   "gd" 'evil-goto-definition
-   )
-
-  ;; add fd as a remap for esc
-  (use-package evil-escape
-    :delight)
-  (evil-escape-mode 1)
-
-  (use-package evil-surround
-    :config
-    (global-evil-surround-mode 1))
-  (use-package evil-snipe)
-  (evil-snipe-override-mode +1)
-  ;; and disable in specific modes (an example below)
-  ;; (push 'python-mode evil-snipe-disabled-modes)
-
-  (use-package undo-tree
-    :config
-    (global-undo-tree-mode)
-    (evil-set-undo-system 'undo-tree)
-    (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
-
-  ;; add some advice to undo-tree-save-history to suppress messages
-  ;; when it saves its backup files
-  (defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
-    (let ((message-log-max nil)
-          (inhibit-message t))
-      (apply undo-tree-save-history args)))
-
-  (advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
-
-  (setq-default evil-escape-key-sequence "fd")
-
-  ;; unbind RET since it does the same thing as j and in some
-  ;; modes RET is used for other things, and evil conflicts
-  (with-eval-after-load 'evil-maps
-    (define-key evil-motion-state-map (kbd "RET") nil))
+  :demand t
+  :delight
+  :config
+  (use-package treemacs-projectile)
+  (projectile-mode +1)
   )
 
 (use-package general
-  :init
-  (setup-evil)
+  :demand t
+  :ensure (:wait t)
   :config
   (general-evil-setup))
 
-(use-package magit)
+(use-package evil
+  :demand t
+  :ensure (:wait t)
+  :init
+  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t)
+  :config
+  (evil-mode 1))
+
+(use-package evil-collection
+  :after evil
+  :config
+  ;; don't let evil-collection manage go-mode
+  ;; it is overriding gd
+  (setq evil-collection-mode-list (delq 'go-mode evil-collection-mode-list))
+  (evil-collection-init))
+
+;; the evil-collection overrides the worktree binding :(
+;; in magit
+(general-define-key
+ :states 'normal
+ :keymaps 'magit-status-mode-map
+ "Z" 'magit-worktree)
+
+(general-define-key
+ :states 'normal
+ "RET" 'embark-act
+ )
+
+(general-define-key
+ :states 'normal
+ :keymaps 'prog-mode-map
+ "gd" 'evil-goto-definition
+ )
+
+;; add fd as a remap for esc
+(use-package evil-escape
+  :ensure (:wait t)
+  :delight)
+(evil-escape-mode 1)
+
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode 1))
+(use-package evil-snipe
+
+  :config
+  (evil-snipe-override-mode +1)
+  )
+;; and disable in specific modes (an example below)
+;; (push 'python-mode evil-snipe-disabled-modes)
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  (evil-set-undo-system 'undo-tree)
+  (setq undo-tree-history-directory-alist '(("." . "~/.emacs.d/undo"))))
+
+;; add some advice to undo-tree-save-history to suppress messages
+;; when it saves its backup files
+(defun quiet-undo-tree-save-history (undo-tree-save-history &rest args)
+  (let ((message-log-max nil)
+        (inhibit-message t))
+    (apply undo-tree-save-history args)))
+
+(advice-add 'undo-tree-save-history :around 'quiet-undo-tree-save-history)
+
+(setq-default evil-escape-key-sequence "fd")
+
+;; unbind RET since it does the same thing as j and in some
+;; modes RET is used for other things, and evil conflicts
+(with-eval-after-load 'evil-maps
+  (define-key evil-motion-state-map (kbd "RET") nil))
+
+(use-package magit
+  :after (transient)
+  :ensure (:wait t)
+  )
 ;; disable the default emacs vc because git is all I use,
 ;; for I am a simple man
 (setq vc-handled-backends nil)
 
 (use-package forge
-  :after magit)
+  :after magit transient)
 
 (use-package git-timemachine)
 
@@ -296,10 +352,11 @@
 (use-package pass)
 
 (use-package fancy-compilation
-  :commands (fancy-compilation-mode))
+  :commands (fancy-compilation-mode)
 
-(with-eval-after-load 'compile
-  (fancy-compilation-mode))
+  :config
+  (with-eval-after-load 'compile
+    (fancy-compilation-mode)))
 
 (setq fancy-compilation-override-colors nil)
 
@@ -319,11 +376,13 @@
 (setq dashboard-set-footer nil)
 
 (use-package yasnippet
+  :demand t
+  :after (transient)
   :delight
   :config
+  (yas-global-mode 1)
+  :init
   (use-package yasnippet-snippets))
-
-(yas-global-mode 1)
 
 (use-package prism)
 
@@ -366,8 +425,9 @@
 
 (use-package highlight-indent-guides)
 
-(use-package pc-bufsw)
-(pc-bufsw)
+(use-package pc-bufsw
+  :init
+  (pc-bufsw))
 
 (use-package ack)
 (use-package ag)
@@ -654,21 +714,6 @@
         (display-line-numbers-mode -1)
         (display-line-numbers-mode))))
 
-(defun random-theme (light-theme-list dark-theme-list)
-  "Choose a random theme from the appropriate list based on the current time"
-  (let* ((now (decode-time))
-         (themes (if (and (>= (nth 2 now) 10) (< (nth 2 now) 15))
-                     light-theme-list
-                   dark-theme-list)))
-    (nth (random (length themes)) themes)))
-
-(defun load-next-favorite-theme ()
-  "Switch to a random theme appropriate for the current time."
-  (interactive)
-  (let ((theme (random-theme light-theme-list dark-theme-list)))
-    (load-theme theme t)
-    (message "Switched to theme: %s" theme)))
-
 ;; define the spacebar as the global leader key, following the
 ;; Spacemacs pattern, which I've been using since 2014
 (general-create-definer my-leader-def
@@ -751,7 +796,6 @@
                  (message "No themes are currently enabled."))))
   "thc"    'consult-theme
   "tm"     'toggle-menu-bar-mode-from-frame
-  "thn"    'load-next-favorite-theme
   "tnn"    'display-line-numbers-mode
   "tnt"    'toggle-line-numbers-rel-abs
   "tr"     'treemacs-select-window
@@ -1083,20 +1127,19 @@ made unique when necessary."
   :config
   (ob-kagi-fastgpt-setup))
 
-(use-package gptel)
+(use-package gptel
 
-(setq
- gptel-model 'llama3.2:latest
- gptel-backend (gptel-make-ollama "Ollama"
-                 :host "localhost:11434" 
-                 :stream t
-                 :models '((mistral:latest)
-                           (llama3.2:latest))))
+  :config
+  (setq
+   gptel-model 'llama3.2:latest
+   gptel-backend (gptel-make-ollama "Ollama"
+                   :host "localhost:11434" 
+                   :stream t
+                   :models '((mistral:latest)
+                             (llama3.2:latest))))
 
-(gptel-make-kagi "Kagi"
-  :key (password-store-get "kagi-token"))
-
-(use-package emacs-everywhere)
+  (gptel-make-kagi "Kagi"
+    :key (password-store-get "kagi-token")))
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 
