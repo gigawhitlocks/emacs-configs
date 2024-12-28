@@ -51,7 +51,10 @@ Emacs provides a menu-based customization interface that makes configuration fil
 
 After tangling the source files and loading `init.el`, the first thing that must be done is to prepare to manage third party packages, because my config is built on top of the work of many third party packages. I like to install and manage all of the packages I use as part of my configuration so that it can be duplicated across computers (more or less) and managed with `git`, so I use `use-package` to ensure that packages are installed from my configuration file.
 
-Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the package manager, configures `use-package` and installs a few extra packages that acoutrement `use-package` and will be used heavily throughout. It used to install `use-package` itself, however, it has since been upstreamed and that step has been removed. 🎉
+Bootstrap sets up Elpaca and configures `use-package` to use it.
+
+
+## Install Elpaca
 
 ```emacs-lisp
 (defvar elpaca-installer-version 0.8)
@@ -92,7 +95,12 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
     (load "./elpaca-autoloads")))
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
+```
 
+
+## Configure Elpaca to use `use-package` and configure `use-package`
+
+```emacs-lisp
 ;; Install use-package support
 (elpaca elpaca-use-package
         ;; Enable use-package :ensure support for Elpaca.
@@ -107,19 +115,26 @@ Bootstrap sets up the ELPA, Melpa, and Org Mode repositories, sets up the packag
 ;; these go in bootstrap because we're configuring use-package
 (use-package diminish)
 (use-package delight)
+```
 
+
+# Fundamental Package Installation and Configuration
+
+First I need to install packages with a large effect and on which other packages are likely to depend. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
+
+
+## Upgrade Transient to MELPA version
+
+Before I can get really started I need one hack: `magit` and some other packages want a newer version of `transient` than provided in my current Emacs version. MELPA has an updated version but `use-package` doesn't pull it by default when it's pulled in as a dependency, so explicitly install that before getting into the rest of the packages:
+
+```emacs-lisp
 ;; transient needs to be manually updated early to solve a dependency issue with Magit
 ;; todo remove after Emacs 30 is released, I think
 (use-package transient
   :ensure (:wait t))
 ```
 
-Once this is done I need to install and configure any third party packages that are used in many modes throughout Emacs. Some of these modes fundamentally change the Emacs experience and need to be present before everything can be configured.
-
-
-# Fundamental Package Installation and Configuration
-
-First I need to install packages with a large effect and on which other packages are likely to depend. These are packages essential to my workflow. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
+I think I can delete this section about `transient` when I updated to Emacs 30
 
 
 ## Icons
