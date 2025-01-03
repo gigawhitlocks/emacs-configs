@@ -1905,7 +1905,7 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
       :key (password-store-get "kagi-token")))
 #+end_src
 ** Confirm before exit
-<2024-11-16 Sat>: Don't know why I didn't do this sooner! With my muscle memory for ~:wq~ I close by mistake Emacs /constantly/ -- especially since I've been using ~vim~ bindings now for multiple decades and I use ~emacsclient~ heavily, so a lot of the time I actually do wish to call ~evil-exit~... just not on that last frame!
+<2024-11-16 Sat>: Don't know why I didn't do this sooner! With my muscle memory for ~:wq~ I close Emacs by mistake /constantly/ -- especially since I've been using ~vim~ bindings now for multiple decades and I use ~emacsclient~ heavily, so a lot of the time I actually do wish to call ~evil-exit~... just not on that last frame!
 
 #+begin_src emacs-lisp 
   (setq confirm-kill-emacs 'yes-or-no-p)
