@@ -672,6 +672,8 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
   (yas-global-mode 1)
   :init
   (use-package yasnippet-snippets))
+
+(use-package consult-yasnippet)
 ```
 
 
@@ -1506,7 +1508,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "kt"     'kagi-translate
 
   "ic"     'insert-char
-  "is"     'yas-insert-snippet
+  "is"     'consult-yasnippet
   "n"      '(:keymap narrow-map)
   "oo"     'browse-url-at-point
   "p"      'projectile-command-map
@@ -1544,15 +1546,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
   "wh"     'evil-window-left
   "wl"     'evil-window-right
   "wd"     'delete-window
-  "wD"     'delete-other-windows
-  "ww"     'ace-window
-  "wo"     'other-window
-  "w="     'balance-windows
-  "W"      '(:keymap evil-window-map)
-  "SPC"    'execute-extended-command
-  )
-
-;; global VISUAL mode map
+  "wD"   VISUAL mode map
 (general-vmap
   ";" 'comment-or-uncomment-region)
 
