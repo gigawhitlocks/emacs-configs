@@ -815,7 +815,15 @@
   "wh"     'evil-window-left
   "wl"     'evil-window-right
   "wd"     'delete-window
-  "wD"   VISUAL mode map
+  "wD"     'delete-other-windows
+  "ww"     'ace-window
+  "wo"     'other-window
+  "w="     'balance-windows
+  "W"      '(:keymap evil-window-map)
+  "SPC"    'execute-extended-command
+  )
+
+;; global VISUAL mode map
 (general-vmap
   ";" 'comment-or-uncomment-region)
 
