@@ -382,9 +382,8 @@
   :config
   (yas-global-mode 1)
   :init
-  (use-package yasnippet-snippets))
-
-(use-package consult-yasnippet)
+  (use-package yasnippet-snippets)
+  (use-package consult-yasnippet))
 
 (use-package prism)
 
