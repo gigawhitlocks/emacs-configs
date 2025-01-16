@@ -1144,27 +1144,6 @@ Preliminary testing suggests it might do the trick
 ```
 
 
-### REPL
-
-[Gore](https://github.com/motemen/gore) provides a REPL and [gorepl-mode](https://github.com/manute/gorepl-mode) lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
-
-```sh
-go get -u github.com/motemen/gore/cmd/gore
-```
-
-Gore also uses gocode for code completion, so install that (even though Emacs uses go-pls for the same).
-
-```sh
-go get -u github.com/mdempsky/gocode
-```
-
-Once that's done `gorepl-mode` is ready to be installed:
-
-```emacs-lisp
-(use-package gorepl-mode)
-```
-
-
 ### Mode-Specific Keybindings
 
 ```emacs-lisp

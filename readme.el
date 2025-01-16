@@ -567,8 +567,6 @@
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
 (add-hook 'go-test-mode-hook 'visual-line-mode)
 
-(use-package gorepl-mode)
-
 (general-define-key
  :states  'normal
  :keymaps 'go-mode-map

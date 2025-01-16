@@ -944,21 +944,6 @@ Preliminary testing suggests it might do the trick
   (add-hook 'go-test-mode-hook 'visual-line-mode)
 #+END_SRC
 
-*** REPL
-[[https://github.com/motemen/gore][Gore]] provides a REPL and [[https://github.com/manute/gorepl-mode][gorepl-mode]] lets you use it from Emacs. In order to use the REPL from Emacs, you must first install Gore:
-#+BEGIN_SRC sh
-go get -u github.com/motemen/gore/cmd/gore
-#+END_SRC
-Gore also uses gocode for code completion, so install that (even though Emacs uses go-pls for the same).
-#+BEGIN_SRC sh
-go get -u github.com/mdempsky/gocode
-#+END_SRC
-
-Once that's done ~gorepl-mode~ is ready to be installed:
-#+BEGIN_SRC emacs-lisp
-  (use-package gorepl-mode)
-#+END_SRC
-
 *** Mode-Specific Keybindings
 #+BEGIN_SRC emacs-lisp
   (general-define-key
