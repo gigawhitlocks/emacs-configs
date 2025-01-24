@@ -380,10 +380,10 @@
   :after (transient)
   :delight
   :config
-  (yas-global-mode 1)
-  :init
-  (use-package yasnippet-snippets)
-  (use-package consult-yasnippet))
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
+(use-package consult-yasnippet)
 
 (use-package prism)
 

@@ -669,10 +669,10 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
   :after (transient)
   :delight
   :config
-  (yas-global-mode 1)
-  :init
-  (use-package yasnippet-snippets)
-  (use-package consult-yasnippet))
+  (yas-global-mode 1))
+
+(use-package yasnippet-snippets)
+(use-package consult-yasnippet)
 ```
 
 
