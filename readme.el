@@ -1084,6 +1084,8 @@ made unique when necessary."
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
+(pixel-scroll-precision-mode t)
+
 (context-menu-mode t)
 
 (xterm-mouse-mode 1)

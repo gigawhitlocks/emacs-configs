@@ -2146,6 +2146,15 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ```
 
 
+## Enable modern scrolling
+
+Emacs uses an old scrolling technique that's per-line and feels dated. Turns out, you can just turn on a mode for a more modern scrolling feel. I guess it's off by default so it doesn't upset long-time users (which is fair, Emacs is pretty conservative as to not break everyone's workflows all the time) and also because apparently it doesn't work at all in macOS, which sucks for people on that OS. But I don't own anything from Apple and probably won't sooooo I would like it to be always on for me:
+
+```emacs-lisp
+(pixel-scroll-precision-mode t)
+```
+
+
 ## Enable context menu on right click
 
 ```emacs-lisp
