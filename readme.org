@@ -847,22 +847,7 @@ This section contains all of the IDE-like features in my configuration.
 #+END_SRC
 
 ** Python
-~auto-virtualenv~ looks in ~$WORKON_HOME~ for virtualenvs, and then I can run ~M-x pyvenv-workon RET project RET~ to choose my virtualenv for ~project~, found in ~$WORKON_HOME~, or a symlink anyway.
-
-
-#+BEGIN_SRC emacs-lisp
-  (use-package auto-virtualenv)
-  (add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
-  (setenv "WORKON_HOME" "~/.virtualenvs")
-#+END_SRC
-
-So the convention for use is:
-
-1) Create a virtualenv as usual for the project
-2) Symlink it inside ~/.virtualenvs
-3) ~M-x pyvenv-workon~
-
-** Enable LSP in Python buffers
+Just enable snippets and LSP in Python mode and that's enough for me
 #+begin_src emacs-lisp
   (use-package python-mode
     :hook ((python-mode . yas-minor-mode)

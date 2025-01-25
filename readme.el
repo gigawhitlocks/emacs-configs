@@ -524,9 +524,9 @@
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 
-(use-package auto-virtualenv)
-(add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
-(setenv "WORKON_HOME" "~/.virtualenvs")
+(use-package python-mode
+  :hook ((python-mode . yas-minor-mode)
+         (python-mode . eglot-ensure)))
 
 (use-package go-mode
   :hook ((go-mode . yas-minor-mode)
@@ -840,8 +840,12 @@
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
 
+(use-package gnuplot)
+
 (org-babel-do-load-languages 'org-babel-load-languages
                              '(
+                               (gnuplot . t)
+                               (sqlite . t)
                                (sql . t)
                                (python . t)
                                (shell . t)

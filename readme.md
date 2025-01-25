@@ -569,14 +569,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
-### Allow magit to interact with git forges, like Github and Gitlab
-
-```emacs-lisp
-(use-package forge
-  :after magit transient)
-```
-
-
 ## Install and Configure `git-timemachine`
 
 `git-timeline` lets you step through the history of a file.
@@ -1043,19 +1035,13 @@ This section contains all of the IDE-like features in my configuration.
 
 ## Python
 
-`auto-virtualenv` looks in `$WORKON_HOME` for virtualenvs, and then I can run `M-x pyvenv-workon RET project RET` to choose my virtualenv for `project`, found in `$WORKON_HOME`, or a symlink anyway.
+Just enable snippets and LSP in Python mode and that's enough for me
 
 ```emacs-lisp
-(use-package auto-virtualenv)
-(add-hook 'python-mode-hook 'auto-virtualenv-set-virtualenv)
-(setenv "WORKON_HOME" "~/.virtualenvs")
+(use-package python-mode
+  :hook ((python-mode . yas-minor-mode)
+         (python-mode . eglot-ensure)))
 ```
-
-So the convention for use is:
-
-1.  Create a virtualenv as usual for the project
-2.  Symlink it inside ~/.virtualenvs
-3.  `M-x pyvenv-workon`
 
 
 ## Go
@@ -1592,11 +1578,20 @@ instead, just replace the current window with the editing one..
 ```
 
 
+## Allow `gnuplot` to work with Org
+
+```emacs-lisp
+(use-package gnuplot)
+```
+
+
 ## Enable execution of languages from Babel
 
 ```emacs-lisp
 (org-babel-do-load-languages 'org-babel-load-languages
                              '(
+                               (gnuplot . t)
+                               (sqlite . t)
                                (sql . t)
                                (python . t)
                                (shell . t)
