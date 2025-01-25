@@ -1322,10 +1322,17 @@ These keybindings are probably the most opinionated part of my configuration. Th
   (add-hook 'org-mode-hook 'visual-line-mode)
 #+end_src
 
+** Allow ~gnuplot~ to work with Org
+#+begin_src emacs-lisp
+  (use-package gnuplot)
+#+end_src
+
 **  Enable execution of languages from Babel
 #+begin_src emacs-lisp
   (org-babel-do-load-languages 'org-babel-load-languages
                                '(
+                                 (gnuplot . t)
+                                 (sqlite . t)
                                  (sql . t)
                                  (python . t)
                                  (shell . t)
