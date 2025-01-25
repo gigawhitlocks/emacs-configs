@@ -862,6 +862,12 @@ So the convention for use is:
 2) Symlink it inside ~/.virtualenvs
 3) ~M-x pyvenv-workon~
 
+** Enable LSP in Python buffers
+#+begin_src emacs-lisp
+  (use-package python-mode
+    :hook ((python-mode . yas-minor-mode)
+           (python-mode . eglot-ensure)))
+#+end_src
 ** Go
 Go is my primary language so it's my most dynamic and complicated configuration, however it degrades gracefully so if not everything is installed, the rest of it still works.
 *** Dependencies
