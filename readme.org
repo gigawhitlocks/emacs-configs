@@ -485,12 +485,6 @@ It's controversial but I think modal editing is brilliant and have been using ~v
   (setq vc-handled-backends nil)
 #+END_SRC
 
-*** Allow magit to interact with git forges, like Github and Gitlab
-#+begin_src emacs-lisp
-  (use-package forge
-    :after magit transient)
-#+end_src
-
 ** Install and Configure ~git-timemachine~
 ~git-timeline~ lets you step through the history of a file.
 

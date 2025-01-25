@@ -329,9 +329,6 @@
 ;; for I am a simple man
 (setq vc-handled-backends nil)
 
-(use-package forge
-  :after magit transient)
-
 (use-package git-timemachine)
 
 ;; This lets git-timemachine's bindings take precedence over evils'
