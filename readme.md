@@ -1312,6 +1312,18 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 ```
 
 
+### Shortcut to call `pg_format`
+
+`go fmt` has ruined me and now I need autoformatting in every language, and I honestly believe the best style is the one I don't have to maintain manually.
+
+However, calling C-u M-| pgformat is giving me an RSI so I learned how to make a keyboard macro and save it as a function!
+
+```emacs-lisp
+(defalias 'pg_format
+  (kmacro "C-u M-| p g _ f o r m a t <return>"))
+```
+
+
 ## Emacs Lisp
 
 I don't have any custom configuration for Emacs Lisp yet, but I am going to use this space to collect tools and resources that might become useful in the future, and which I may install.
