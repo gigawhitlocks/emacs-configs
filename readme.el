@@ -219,10 +219,10 @@
 
 ;; 🙌 Emoji! 🙌
 (use-package emojify
-  :config
-  (setq emojify-download-emojis-p t)
-  (emojify-set-emoji-styles '(unicode))
-  (add-hook 'after-init-hook #'global-emojify-mode))
+  :hook
+  (after-init . global-emojify-mode)
+  :init
+  (setq emojify-download-emojis-p t))
 
 ;; recent files mode
 (recentf-mode 1)

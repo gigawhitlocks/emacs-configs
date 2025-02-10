@@ -343,14 +343,14 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 #+end_src
 
 ** Emoji 🙏
-Provided by [[https://github.com/iqbalansari/emacs-emojify][emojify]]. Run ~emojify-download-emoji~
+Provided by [[https://github.com/iqbalansari/emacs-emojifyjjjjj][emojify]]. Run ~emojify-download-emoji~
 #+BEGIN_SRC emacs-lisp
-    ;; 🙌 Emoji! 🙌
+      ;; 🙌 Emoji! 🙌
     (use-package emojify
-      :config
-      (setq emojify-download-emojis-p t)
-      (emojify-set-emoji-styles '(unicode))
-      (add-hook 'after-init-hook #'global-emojify-mode))
+      :hook
+      (after-init . global-emojify-mode)
+      :init
+      (setq emojify-download-emojis-p t))
 #+END_SRC
 ** Configure Recent File Tracking
 Emacs comes with ~recentf-mode~ which helps me remember what I was doing after I restart my session.

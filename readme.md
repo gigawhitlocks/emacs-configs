@@ -409,15 +409,15 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 
 ## Emoji 🙏
 
-Provided by [emojify](https://github.com/iqbalansari/emacs-emojify). Run `emojify-download-emoji`
+Provided by [emojify](https://github.com/iqbalansari/emacs-emojifyjjjjj). Run `emojify-download-emoji`
 
 ```emacs-lisp
-;; 🙌 Emoji! 🙌
+  ;; 🙌 Emoji! 🙌
 (use-package emojify
-  :config
-  (setq emojify-download-emojis-p t)
-  (emojify-set-emoji-styles '(unicode))
-  (add-hook 'after-init-hook #'global-emojify-mode))
+  :hook
+  (after-init . global-emojify-mode)
+  :init
+  (setq emojify-download-emojis-p t))
 ```
 
 
