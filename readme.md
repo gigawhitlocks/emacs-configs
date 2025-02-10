@@ -1327,15 +1327,6 @@ I don't have any custom configuration for Emacs Lisp yet, but I am going to use 
 <https://github.com/p3r7/awesome-elisp#lispy> <https://github.com/abo-abo/lispy>
 
 
-## Racket
-
-Funny the twists of fate that bring us back to where we started. My interest in Emacs stemmed originally from an interest in Racket, and my inability to get vim to format Racket code appropriately. I never did wind up learning Racket, but I guess I might now, for entirely different reasons
-
-```emacs-lisp
-;; (use-package racket-mode) 
-```
-
-
 # Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.

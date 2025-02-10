@@ -655,7 +655,8 @@
 
 (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
 
-;; (use-package racket-mode)
+(defalias 'pg_format
+  (kmacro "C-u M-| p g _ f o r m a t <return>"))
 
 (use-package adaptive-wrap
   :config
