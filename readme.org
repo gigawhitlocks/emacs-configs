@@ -1078,20 +1078,28 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
   (use-package sql-indent)
 #+end_src
 
-*** Use rainbow delimeters in SQL
-#+begin_src emacs-lisp
-  (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
-#+end_src
-
 *** Shortcut to call ~pg_format~
 ~go fmt~ has ruined me and now I need autoformatting in every language, and I honestly believe the best style is the one I don't have to maintain manually.
 
-However, calling C-u M-| pgformat is giving me an RSI so I learned how to make a keyboard macro and save it as a function!
+However, calling ~C-u M-| pgformat RET~ is giving me an RSI so I learned how to make a keyboard macro and save it as a function!
 #+begin_src emacs-lisp 
   (defalias 'pg_format
-    (kmacro "C-u M-| p g _ f o r m a t <return>"))
+    (kmacro "C-u M-| p g _ f o r m a t <return>") "Format REGION with pg_format")
 #+end_src
 
+*** Autoformatting
+#+begin_src emacs-lisp
+  (defun sql-format-before-save ()
+    "Format the entire buffer with pg_format before saving."
+    (interactive)
+    (when (eq major-mode 'sql-mode)
+      (let ((old-point (point)))
+        (call-interactively 'mark-whole-buffer)
+        (call-interactively 'pg_format)
+        (goto-char old-point))))
+
+  (add-hook 'before-save-hook 'sql-format-before-save)
+#+end_src
 ** Emacs Lisp
 I don't have any custom configuration for Emacs Lisp yet, but I am going to use this space to collect tools and resources that might become useful in the future, and which I may install.
 *** A collection of development modes and utilities

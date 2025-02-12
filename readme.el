@@ -222,6 +222,7 @@
   :hook
   (after-init . global-emojify-mode)
   :init
+  (emojify-set-emoji-styles '(unicode))
   (setq emojify-download-emojis-p t))
 
 ;; recent files mode
@@ -653,10 +654,19 @@
 
 (use-package sql-indent)
 
-(add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
-
 (defalias 'pg_format
-  (kmacro "C-u M-| p g _ f o r m a t <return>"))
+  (kmacro "C-u M-| p g _ f o r m a t <return>") "Format REGION with pg_format")
+
+(defun sql-format-before-save ()
+  "Format the entire buffer with pg_format before saving."
+  (interactive)
+  (when (eq major-mode 'sql-mode)
+    (let ((old-point (point)))
+      (call-interactively 'mark-whole-buffer)
+      (call-interactively 'pg_format)
+      (goto-char old-point))))
+
+(add-hook 'before-save-hook 'sql-format-before-save)
 
 (use-package adaptive-wrap
   :config

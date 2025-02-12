@@ -412,11 +412,12 @@ The Doom Emacs project also provides a fancy modeline to go along with their the
 Provided by [emojify](https://github.com/iqbalansari/emacs-emojifyjjjjj). Run `emojify-download-emoji`
 
 ```emacs-lisp
-  ;; 🙌 Emoji! 🙌
+;; 🙌 Emoji! 🙌
 (use-package emojify
   :hook
   (after-init . global-emojify-mode)
   :init
+  (emojify-set-emoji-styles '(unicode))
   (setq emojify-download-emojis-p t))
 ```
 
@@ -1305,22 +1306,31 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 ```
 
 
-### Use rainbow delimeters in SQL
-
-```emacs-lisp
-(add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
-```
-
-
 ### Shortcut to call `pg_format`
 
 `go fmt` has ruined me and now I need autoformatting in every language, and I honestly believe the best style is the one I don't have to maintain manually.
 
-However, calling C-u M-| pgformat is giving me an RSI so I learned how to make a keyboard macro and save it as a function!
+However, calling `C-u M-| pgformat RET` is giving me an RSI so I learned how to make a keyboard macro and save it as a function!
 
 ```emacs-lisp
 (defalias 'pg_format
-  (kmacro "C-u M-| p g _ f o r m a t <return>"))
+  (kmacro "C-u M-| p g _ f o r m a t <return>") "Format REGION with pg_format")
+```
+
+
+### Autoformatting
+
+```emacs-lisp
+(defun sql-format-before-save ()
+  "Format the entire buffer with pg_format before saving."
+  (interactive)
+  (when (eq major-mode 'sql-mode)
+    (let ((old-point (point)))
+      (call-interactively 'mark-whole-buffer)
+      (call-interactively 'pg_format)
+      (goto-char old-point))))
+
+(add-hook 'before-save-hook 'sql-format-before-save)
 ```
 
 
