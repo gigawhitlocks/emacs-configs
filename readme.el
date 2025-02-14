@@ -654,19 +654,10 @@
 
 (use-package sql-indent)
 
-(defalias 'pg_format
-  (kmacro "C-u M-| p g _ f o r m a t <return>") "Format REGION with pg_format")
-
-(defun sql-format-before-save ()
-  "Format the entire buffer with pg_format before saving."
-  (interactive)
-  (when (eq major-mode 'sql-mode)
-    (let ((old-point (point)))
-      (call-interactively 'mark-whole-buffer)
-      (call-interactively 'pg_format)
-      (goto-char old-point))))
-
-(add-hook 'before-save-hook 'sql-format-before-save)
+(use-package sqlformat
+  :hook (sql-mode . sqlformat-on-save-mode)
+  :config
+  (setq sqlformat-command 'pgformatter))
 
 (use-package adaptive-wrap
   :config

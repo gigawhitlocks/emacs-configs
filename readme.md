@@ -1306,31 +1306,19 @@ SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL
 ```
 
 
-### Shortcut to call `pg_format`
-
-`go fmt` has ruined me and now I need autoformatting in every language, and I honestly believe the best style is the one I don't have to maintain manually.
-
-However, calling `C-u M-| pgformat RET` is giving me an RSI so I learned how to make a keyboard macro and save it as a function!
-
-```emacs-lisp
-(defalias 'pg_format
-  (kmacro "C-u M-| p g _ f o r m a t <return>") "Format REGION with pg_format")
-```
-
-
 ### Autoformatting
 
-```emacs-lisp
-(defun sql-format-before-save ()
-  "Format the entire buffer with pg_format before saving."
-  (interactive)
-  (when (eq major-mode 'sql-mode)
-    (let ((old-point (point)))
-      (call-interactively 'mark-whole-buffer)
-      (call-interactively 'pg_format)
-      (goto-char old-point))))
+Using [sqlformat.el](https://github.com/purcell/sqlformat) to set up auto-format on save.
 
-(add-hook 'before-save-hook 'sql-format-before-save)
+The formatter calls out to `pg_format` for now but I want to explore using `sqlfluff`, which is available in distro repos and `pip`, when I have the time to explore the configuration, and at some point I will have to make this smarter so that I can edit SQL intended for non-Postgres DBs with the same convenience. It seems like I can just set `sqlformat-command` and `sqlformat-args` in `.dir-locals.el` if I need to change them for a specific project.
+
+Shout-out to [Aditya Athalye](https://evalapply.org) for suggesting this package & helping me improve my config.
+
+```emacs-lisp
+(use-package sqlformat
+  :hook (sql-mode . sqlformat-on-save-mode)
+  :config
+  (setq sqlformat-command 'pgformatter))
 ```
 
 
