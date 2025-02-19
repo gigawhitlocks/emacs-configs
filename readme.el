@@ -100,6 +100,9 @@
 ;;  (load-theme 'ef-reverie)
 
 (use-package consult)
+(use-package consult-dir
+:bind (
+  :map vertico-local-completion-map))
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
@@ -272,10 +275,10 @@
  :keymaps 'magit-status-mode-map
  "Z" 'magit-worktree)
 
-(general-define-key
- :states 'normal
- "RET" 'embark-act
- )
+ (general-define-key
+  :states 'normal
+  "RET" 'embark-act
+  )
 
 (general-define-key
  :states 'normal
@@ -713,121 +716,123 @@
         (display-line-numbers-mode))))
 
 ;; define the spacebar as the global leader key, following the
-;; Spacemacs pattern, which I've been using since 2014
-(general-create-definer my-leader-def
-  :prefix "SPC")
+  ;; Spacemacs pattern, which I've been using since 2014
+  (general-create-definer my-leader-def
+    :prefix "SPC")
 
-;; define SPC m for minor mode keys, even though I use , sometimes
-(general-create-definer my-local-leader-def
-  :prefix "SPC m")
+  ;; define SPC m for minor mode keys, even though I use , sometimes
+  (general-create-definer my-local-leader-def
+    :prefix "SPC m")
 
-;; global keybindings with LEADER
-(my-leader-def 'normal 'override
-  "aa"     'ace-jump-mode
-  "ag"     'org-agenda
-  "TAB"    #'switch-to-prev-buffer
-  "bb"     'consult-buffer
-  "bl"     'ibuffer
-  "bs"     'consult-buffer-other-window
-  "bR"     'revert-buffer
-  "bd"     'evil-delete-buffer
-  "ds"     (defun ian-desktop-save ()
-             (interactive)
-             (desktop-save "~/desktop-saves"))
-  "dr"     (defun ian-desktop-read ()
-             (interactive)
-             (desktop-read "~/desktop-saves"))
-  "cc"     'projectile-compile-project
+  ;; global keybindings with LEADER
+  (my-leader-def 'normal 'override
+    "aa"     'ace-jump-mode
+    "ag"     'org-agenda
+    "TAB"    #'switch-to-prev-buffer
+    "bb"     'consult-buffer
+    "bl"     'ibuffer
+    "bs"     'consult-buffer-other-window
+    "bR"     'revert-buffer
+    "bd"     'evil-delete-buffer
+    "ds"     (defun ian-desktop-save ()
+               (interactive)
+               (desktop-save "~/desktop-saves"))
+    "dr"     (defun ian-desktop-read ()
+               (interactive)
+               (desktop-read "~/desktop-saves"))
+    "cc"     'projectile-compile-project
 
-  "ec"     'flycheck-clear
-  "el"     'flycheck-list-errors
-  "en"     'flycheck-next-error
-  "ep"     'flycheck-previous-error
-  "Fm"     'make-frame
-  "ff"     'find-file
-  "Ff"     'toggle-frame-fullscreen
-  "fd"     'dired
-  "fr"     'consult-recent-file
-  "fed"    'find-initfile
-  "feD"    'find-initfile-other-frame
-  "gb"     'magit-blame
-  "gl"     'consult-line
-  "gs"     'magit-status
-  "gg"     'magit
-  "gt"     'git-timemachine
-  "gd"     'magit-diff
-  "gi"     'consult-imenu
-  "go"     'browse-at-remote
-  "gptm"   'gptel-menu
-  "gptc"   'gptel
-  "jj"     'bookmark-jump
-  "js"     'bookmark-set
-  "jo"     'org-babel-tangle-jump-to-org
+    "ec"     'flycheck-clear
+    "el"     'flycheck-list-errors
+    "en"     'flycheck-next-error
+    "ep"     'flycheck-previous-error
+    "Fm"     'make-frame
+    "ff"     'find-file
+    "Ff"     'toggle-frame-fullscreen
+    "fd"     'consult-dir
+    "fr"     'consult-recent-file
+    "fed"    'find-initfile
+    "feD"    'find-initfile-other-frame
+    "gb"     'magit-blame
+    "gl"     'consult-line
+    "gs"     'magit-status
+    "gg"     'magit
+    "gt"     'git-timemachine
+    "gd"     'magit-diff
+    "gi"     'consult-imenu
+    "go"     'browse-at-remote
+    "gptm"   'gptel-menu
+    "gptc"   'gptel
+    "jj"     'bookmark-jump
+    "js"     'bookmark-set
+    "jo"     'org-babel-tangle-jump-to-org
 
-  "ks"     'kagi-fastgpt-shell
-  "kp"     'kagi-fastgpt-prompt
-  "kf"     'kagi-proofread
-  "kr"     'kagi-summarize-region
-  "kb"     'kagi-summarize-buffer
-  "ku"     'kagi-summarize-url
-  "kt"     'kagi-translate
+    "ks"     'kagi-fastgpt-shell
+    "kp"     'kagi-fastgpt-prompt
+    "kf"     'kagi-proofread
+    "kr"     'kagi-summarize-region
+    "kb"     'kagi-summarize-buffer
+    "ku"     'kagi-summarize-url
+    "kt"     'kagi-translate
 
-  "ic"     'insert-char
-  "is"     'consult-yasnippet
-  "n"      '(:keymap narrow-map)
-  "oo"     'browse-url-at-point
-  "p"      'projectile-command-map
-  "p!"     'projectile-run-async-shell-command-in-root
-  "ps"     'consult-git-grep
-  "si"     'yas-insert-snippet
-  "sn"     'yas-new-snippet
-  "qq"     'save-buffers-kill-terminal
-  "qr"     'restart-emacs
-  "qz"     'delete-frame
-  "ta"     'treemacs-add-project-to-workspace
-  "thi"    (defun ian-theme-information ()
-             "Display the last applied theme."
-             (interactive)
-             (let ((last-theme (car (reverse custom-enabled-themes))))
-               (if last-theme
-                   (message "Last applied theme: %s" last-theme)
-                 (message "No themes are currently enabled."))))
-  "thc"    'consult-theme
-  "tm"     'toggle-menu-bar-mode-from-frame
-  "tnn"    'display-line-numbers-mode
-  "tnt"    'toggle-line-numbers-rel-abs
-  "tr"     'treemacs-select-window
-  "ts"     'toggle-scroll-bar
-  "tt"     'toggle-transparency
-  "tp"     (defun ian-toggle-prism ()
-             (interactive)
-             (prism-mode 'toggle))
-  "tw"     'whitespace-mode
-  "w-"     'split-window-below
-  "w/"     'split-window-right
-  "wb"     'last-window
-  "wj"     'evil-window-down
-  "wk"     'evil-window-up
-  "wh"     'evil-window-left
-  "wl"     'evil-window-right
-  "wd"     'delete-window
-  "wD"     'delete-other-windows
-  "ww"     'ace-window
-  "wo"     'other-window
-  "w="     'balance-windows
-  "W"      '(:keymap evil-window-map)
-  "SPC"    'execute-extended-command
-  )
+    "ic"     'insert-char
+    "is"     'consult-yasnippet
+    "n"      '(:keymap narrow-map)
+    "oo"     'browse-url-at-point
+    "p"      'projectile-command-map
+    "p!"     'projectile-run-async-shell-command-in-root
+    "ps"     'consult-git-grep
+    "si"     'yas-insert-snippet
+    "sn"     'yas-new-snippet
+    "qq"     'save-buffers-kill-terminal
+    "qr"     'restart-emacs
+    "qz"     'delete-frame
+    "ta"     'treemacs-add-project-to-workspace
+    "thi"    (defun ian-theme-information ()
+               "Display the last applied theme."
+               (interactive)
+               (let ((last-theme (car (reverse custom-enabled-themes))))
+                 (if last-theme
+                     (message "Last applied theme: %s" last-theme)
+                   (message "No themes are currently enabled."))))
+    "thc"    'consult-theme
+    "tm"     'toggle-menu-bar-mode-from-frame
+    "tnn"    'display-line-numbers-mode
+    "tnt"    'toggle-line-numbers-rel-abs
+    "tr"     'treemacs-select-window
+    "ts"     'toggle-scroll-bar
+    "tt"     'toggle-transparency
+    "tp"     (defun ian-toggle-prism ()
+               (interactive)
+               (prism-mode 'toggle))
+    "tw"     'whitespace-mode
+    "w-"     'split-window-below
+    "w/"     'split-window-right
+    "wb"     'last-window
+    "wj"     'evil-window-down
+    "wk"     'evil-window-up
+    "wh"     'evil-window-left
+    "wl"     'evil-window-right
+    "wd"     'delete-window
+    "wD"     'delete-other-windows
+    "ww"     'ace-window
+    "wo"     'other-window
+    "w="     'balance-windows
+    "W"      '(:keymap evil-window-map)
+    "x"      '(:keymap embark-command-map)
+    "xx"     'embark-dwim
+    "SPC"    'execute-extended-command
+)
 
-;; global VISUAL mode map
-(general-vmap
-  ";" 'comment-or-uncomment-region)
+  ;; global VISUAL mode map
+  (general-vmap
+    ";" 'comment-or-uncomment-region)
 
-;; top right button on my trackball is equivalent to click (select) +
-;; RET (open) on files in Treemacs
-(general-define-key
- :keymaps 'treemacs-mode-map
- "<mouse-8>" 'treemacs-RET-action)
+  ;; top right button on my trackball is equivalent to click (select) +
+  ;; RET (open) on files in Treemacs
+  (general-define-key
+   :keymaps 'treemacs-mode-map
+   "<mouse-8>" 'treemacs-RET-action)
 
 (use-package evil-org)
 
