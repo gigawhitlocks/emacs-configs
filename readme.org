@@ -1076,12 +1076,6 @@ Default Keybindings
             (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 #+end_src
 ** SQL
-*** Indent SQL
-SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL by default. This package fixes that.
-#+begin_src emacs-lisp
-  (use-package sql-indent)
-#+end_src
-
 *** Autoformatting
 Using [[https://github.com/purcell/sqlformat][sqlformat.el]] to set up auto-format on save.
 

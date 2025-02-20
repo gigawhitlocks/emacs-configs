@@ -275,10 +275,10 @@
  :keymaps 'magit-status-mode-map
  "Z" 'magit-worktree)
 
- (general-define-key
-  :states 'normal
-  "RET" 'embark-act
-  )
+(general-define-key
+ :states 'normal
+ "RET" 'embark-act
+ )
 
 (general-define-key
  :states 'normal
@@ -654,8 +654,6 @@
 ;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
 (add-hook 'elixir-mode-hook
           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
-
-(use-package sql-indent)
 
 (use-package sqlformat
   :hook (sql-mode . sqlformat-on-save-mode)

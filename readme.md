@@ -506,10 +506,10 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
  :keymaps 'magit-status-mode-map
  "Z" 'magit-worktree)
 
- (general-define-key
-  :states 'normal
-  "RET" 'embark-act
-  )
+(general-define-key
+ :states 'normal
+ "RET" 'embark-act
+ )
 
 (general-define-key
  :states 'normal
@@ -1298,15 +1298,6 @@ Default Keybindings
 
 
 ## SQL
-
-
-### Indent SQL
-
-SQL support is pretty good out of the box but Emacs strangely doesn't indent SQL by default. This package fixes that.
-
-```emacs-lisp
-(use-package sql-indent)
-```
 
 
 ### Autoformatting
