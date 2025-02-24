@@ -2392,10 +2392,35 @@ Launching in headless mode introduces some font problems (fonts don't load when 
 
 # Compiling Emacs from Source
 
-Some notes on the dependencies that I found were needed to build Emacs 29.1 on fresh Ubuntu with the configuration flags that I like
+Some notes on the dependencies that I found were needed to build Emacs 30.1 on Ubuntu with the configuration flags that I like
+
+
+## Fetch the release
+
+```shell
+mkdir -p ~/emacs
+cd ~/emacs
+test -f emacs-30.1.tar.xz || wget -c https://ftpmirror.gnu.org/emacs/emacs-30.1.tar.xz 
+tar xf emacs-30.1.tar.xz
+```
+
+
+## Dependencies:
+
+[This helpful blog post](https://troglobit.com/post/2024-03-03-building-emacs-with-jit/) clued me in to how to figure out which version of `libgccjit` is needed; run `gcc --version` to see the major version the OS is going to call when calling `make` and install `libgccjit-$VERSION-dev`. Thanks @troglobit!
+
+
+## Build the release
 
 ```shell
 ./autogen.sh
-sudo apt-get install make autoconf libx11-dev libmagickwand-dev libgtk-3-dev libwebkit2gtk-4.0-dev libgccjit-11-dev libxpm-dev libgif-dev libgnutls28-dev libjansson-dev libncurses-dev texinfo libtree-sitter-dev
-./configure --with-imagemagick --with-xwidgets --with-json --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils --with-x --with-tree-sitter --without-toolkit-scroll-bars
+./configure --with-imagemagick --with-x-toolkit=gtk3 --with-native-compilation --with-mailutils --with-tree-sitter
+make -j $(nproc)
+sudo make install
 ```
+
+
+### Final notes:
+
+-   I removed `--with-json` in this release; seems unnecessary now
+-   I had to remove support for [xwidgets due to this issue](https://www.reddit.com/r/emacs/comments/1fpd3dk/problem_compiling_latest_git_version/) in 30.1. Revisit in the future? Maybe I wasn't using them.
