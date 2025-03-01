@@ -1363,7 +1363,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
     #+end_src
 *** HTMLize
   htmlize prints the current buffer or file, as it would appear in
-  Emacs, but in HTML! It's super cool and a comment
+  Emacs, but in HTML! It's super cool
   #+begin_src emacs-lisp
     (use-package htmlize)
     #+end_src

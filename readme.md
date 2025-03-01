@@ -1633,7 +1633,7 @@ instead, just replace the current window with the editing one..
 
 ### HTMLize
 
-htmlize prints the current buffer or file, as it would appear in Emacs, but in HTML! It's super cool and a comment
+htmlize prints the current buffer or file, as it would appear in Emacs, but in HTML! It's super cool
 
 ```emacs-lisp
 (use-package htmlize)
