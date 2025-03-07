@@ -1927,25 +1927,6 @@ N.B. this code block does ****not**** get tangled into `init.el`.
 
     I want to be able to press the button on new repos that I haven't cloned yet, and have them dumped to a sane location and then added to the list and opened.
 
--   TODO test a new bookmarklet with the quoted syntax from the Org-Protocol docs
-
-    also, I stumbled on this in the docs and it looks interesting and relevant:
-    
-    ```
-    ;;   5.) Optionally add custom sub-protocols and handlers:
-    ;;
-    ;;       (setq org-protocol-protocol-alist
-    ;;             '(("my-protocol"
-    ;;                :protocol "my-protocol"
-    ;;                :function my-protocol-handler-function)))
-    ;;
-    ;;       A "sub-protocol" will be found in URLs like this:
-    ;;
-    ;;           org-protocol://sub-protocol://data
-    ;;
-    ;; If it works, you can now setup other applications for using this feature.
-    ```
-
 
 ## TRAMP settings
 
