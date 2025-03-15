@@ -1696,6 +1696,12 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
          "* %:annotation\n  %i\n  %a")))
 ```
 
+Below is the bookmarklet source:
+
+```js
+javascript:location.href='org-protocol://capture?' + new URLSearchParams({template: 'x', url: window.location.href, title: document.title, body: window.getSelection()});
+```
+
 
 ## Org-Protocol
 
