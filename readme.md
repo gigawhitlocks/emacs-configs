@@ -1699,8 +1699,10 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 Below is the bookmarklet source:
 
 ```js
-javascript:location.href='org-protocol://capture?' + new URLSearchParams({template: 'x', url: window.location.href, title: document.title, body: window.getSelection()});
+javascript:void(location='org-protocol://capture?' +       new URLSearchParams({             template: 'x', url: window.location.href,             title: document.title, body: window.getSelection()}));
 ```
+
+lifted from this discussion <https://mail.gnu.org/archive/html/emacs-orgmode/2024-12/txt_aK4ExGDIn.txt> and combined with the template `x` above
 
 
 ## Org-Protocol

@@ -1410,8 +1410,11 @@ These keybindings are probably the most opinionated part of my configuration. Th
 
 Below is the bookmarklet source:
 #+begin_src js :tangle no
-  javascript:location.href='org-protocol://capture?' + new URLSearchParams({template: 'x', url: window.location.href, title: document.title, body: window.getSelection()});
+  javascript:void(location='org-protocol://capture?' +       new URLSearchParams({             template: 'x', url: window.location.href,             title: document.title, body: window.getSelection()}));
 #+end_src
+
+lifted from this discussion [[https://mail.gnu.org/archive/html/emacs-orgmode/2024-12/txt_aK4ExGDIn.txt]]
+and combined with the template ~x~ above
 
 ** Org-Protocol
 Org-Protocol is super cool! It enables things like bookmarklets to bookmark things to Org files!
