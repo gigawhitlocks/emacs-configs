@@ -672,6 +672,14 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
+## Encryption
+
+```emacs-lisp
+(require 'epa-file)
+(epa-file-enable)
+```
+
+
 # Extra Packages
 
 Packages with a smaller effect on the experience.
@@ -1676,6 +1684,19 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 ```
 
 
+## capture templates
+
+```emacs-lisp
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/tasks.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+         "* %?\nEntered on %U\n  %i\n  %a")
+        ("x" "Web" entry (file+datetree "~/org/web-journal.org")
+         "* %:annotation\n  %i\n  %a")))
+```
+
+
 ## Org-Protocol
 
 Org-Protocol is super cool! It enables things like bookmarklets to bookmark things to Org files!
@@ -1863,8 +1884,7 @@ Categories=Other;
 Keywords=org-protocol;
 Icon=emacs
 Type=Application
-Exec=org-protocol %u
-#Exec=emacsclient -- %u
+Exec=emacsclient -- %u
 Terminal=false
 StartupWMClass=Emacs
 MimeType=x-scheme-handler/org-protocol;
@@ -1872,18 +1892,9 @@ MimeType=x-scheme-handler/org-protocol;
 
 After tangling that file to its destination, run the following command to update the database:
 
-    update-desktop-database ~/.local/share/applications/
-
-Add the custom `org-protocol` script to intercept calls from the browser, do any necessary pre-processing, and hand off the corrected input to `emacsclient`:
-
 ```bash
-# for some reason the bookmarklet strips a colon, so use sed to remove
-# the botched prefix and rebuild it correctly
-emacsclient -- org-protocol://open-source://$(echo "$@" | sed 's#org-protocol://open-source//##g') | tee /tmp/xdg-emacsclient
-# that's probably a useless call to echo but whatever
+update-desktop-database ~/.local/share/applications/
 ```
-
-For now this is extremely rudimentary and I will improve it as needed.
 
 
 ### Manual Steps:
@@ -1891,18 +1902,8 @@ For now this is extremely rudimentary and I will improve it as needed.
 1.  The first time, add a button in the browser by creating a bookmarklet containing the following target:
 
 ```
-Source Code
-;; Defined in /usr/local/share/emacs/29.1/lisp/org/org-protocol.el.gz
-(defun org-protocol-open-source (fname)
-  "Process an org-protocol://open-source?url= style URL with FNAME.
-
-Change a filename by mapping URLs to local filenames as set
-in `org-protocol-project-alist'.
-
-The location for a browser's bookmark should look like this:
-
-  javascript:location.href = \\='org-protocol://open-source?\\=' +
-        new URLSearchParams({url: location.href})
+javascript:location.href='org-protocol://open-source?&url='+
+      encodeURIComponent(location.href)
 ```
 
 1.  Add an entry to `org-protocol-project-alist`, defined in the local machine's hostname-specific config found in `local/`. An example can be found on the Worg page above, but here it is again for easy reference:

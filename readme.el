@@ -899,6 +899,14 @@
       '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
         ("WAITING" . org-warning)))
 
+(setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/tasks.org" "Tasks")
+	 "* TODO %?\n  %i\n  %a")
+	("j" "Journal" entry (file+datetree "~/org/journal.org")
+	 "* %?\nEntered on %U\n  %i\n  %a")
+	("x" "Web" entry (file+datetree "~/org/web-journal.org")
+	 "* %:annotation\n  %i\n  %a")))
+
 ;; enable org-protocol
 (require 'org-protocol)
 
