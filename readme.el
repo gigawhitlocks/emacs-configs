@@ -386,6 +386,9 @@
 (use-package yasnippet-snippets)
 (use-package consult-yasnippet)
 
+(require 'epa-file)
+(epa-file-enable)
+
 (use-package prism)
 
 (use-package git-gutter
