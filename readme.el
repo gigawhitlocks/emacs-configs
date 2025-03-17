@@ -1,4 +1,5 @@
-(let ((org-files (directory-files (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
+(let ((org-files (directory-files
+		    (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
   (dolist (file org-files)
     (org-babel-tangle-file file)))
 

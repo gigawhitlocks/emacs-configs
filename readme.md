@@ -42,7 +42,8 @@ Load up all literate org-mode files in this directory:
 Some people use a "dotfiles" repository to keep track of their configuration for other programs but Org does a great job at helping me organize and install configuration so before continuing to configure Emacs, I will install configuration for any other user-level utilities that I frequently use for development, like `git`.
 
 ```emacs-lisp
-(let ((org-files (directory-files (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
+(let ((org-files (directory-files
+                    (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
   (dolist (file org-files)
     (org-babel-tangle-file file)))
 ```
