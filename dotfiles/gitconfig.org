@@ -26,6 +26,10 @@ Thanks to [[https://blog.gitbutler.com/how-git-core-devs-configure-git/][this bl
 #+end_src
 
 * Better diffs
+~histogram~ is a better diffing algorithm than the default
+~colorMoved~ uses a different color when a change is just a move of existing code
+~mnemonicPrefix~ adds a little context to the names of the sides of the diff (~i~ ndex and ~w~ orking instead of just ~a~ and ~b~)
+~renames~ detects if files have been renamed
 #+begin_src conf
   [diff]
       algorithm = histogram
@@ -35,6 +39,7 @@ Thanks to [[https://blog.gitbutler.com/how-git-core-devs-configure-git/][this bl
 #+end_src
 
 * Clean up when fetching
+Cleans local tags and branches that have been deleted from the remote when using ~fetch~ 
 #+begin_src conf
   [fetch]
       prune = true
