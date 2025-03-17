@@ -1,0 +1,76 @@
+#+PROPERTY: header-args:conf :tangle ~/.config/git/config :mkdirp yes
+#+TITLE: Git Config
+
+Settings in this file are stored in ~~/.config/~ so that they can be overridden by changes to ~~/.gitconfig~ on specific systems
+#+begin_quote
+       $XDG_CONFIG_HOME/git/config, ~/.gitconfig
+           User-specific configuration files. When the XDG_CONFIG_HOME environment variable is not set or empty, $HOME/.config/ is used as $XDG_CONFIG_HOME.
+
+           These are also called "global" configuration files. If both files exist, both files are read in the order given above.
+#+end_quote
+
+Thanks to [[https://blog.gitbutler.com/how-git-core-devs-configure-git/][this blog post]] for bringing my attention to many of these settings.
+
+* Display multiple columns of results
+#+begin_src conf
+  [column]
+      ui = auto
+#+end_src
+
+* Sort by recentness (tags and branches)
+#+begin_src conf
+  [branch]
+      sort = -committerdate
+  [tag]
+      sort = version:refname
+#+end_src
+
+* Better diffs
+#+begin_src conf
+  [diff]
+      algorithm = histogram
+      colorMoved = plain
+      mnemonicPrefix = true
+      renames = true
+#+end_src
+
+* Clean up when fetching
+#+begin_src conf
+  [fetch]
+      prune = true
+      pruneTags = true
+      all = true
+#+end_src
+
+* Prompt w/ suggested autocorrections
+#+begin_src conf
+  [help]
+      autocorrect = prompt
+#+end_src
+* Auto-rebase/squash 
+These settings speed up rebase by repeating actions that would otherwise need to be performed manually as invididual steps.
+
+#+begin_src conf
+  [rerere]
+      enabled = true
+      autoupdate = true
+  [rebase]
+      autoSquash = true
+      autoStash = true
+      updateRefs = true
+#+end_src
+* 3-way diffs
+~zdiff3~ is a diffing strategy that shows the upstream change, your change, and the original state, all in the diff. I always found this situation confusing when using the old diffing strategy, so I will see if this resolves my confusion in those situations.
+#+begin_src conf
+  [merge]
+      conflictstyle = zdiff3 
+#+end_src
+
+* Rebase by default on pull
+makes ~git pull --rebase~ the default behavior, which is what I want
+#+begin_src conf
+  [pull]
+      rebase = true
+#+end_src
+
+

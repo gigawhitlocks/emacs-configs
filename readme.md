@@ -28,9 +28,23 @@ The source code below is extracted to `init.el` by calling `M-x org-babel-tangle
                           (or load-path nil))))
   ;; load up Org-mode and Org-babel
   (require 'ob-tangle))
+```
 
-;; load up all literate org-mode files in this directory
+Load up all literate org-mode files in this directory:
+
+```emacs-lisp
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
+```
+
+
+# External Configuration
+
+Some people use a "dotfiles" repository to keep track of their configuration for other programs but Org does a great job at helping me organize and install configuration so before continuing to configure Emacs, I will install configuration for any other user-level utilities that I frequently use for development, like `git`.
+
+```emacs-lisp
+(let ((org-files (directory-files (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
+  (dolist (file org-files)
+    (org-babel-tangle-file file)))
 ```
 
 

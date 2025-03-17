@@ -15,5 +15,4 @@
   ;; load up Org-mode and Org-babel
   (require 'ob-tangle))
 
-;; load up all literate org-mode files in this directory
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))

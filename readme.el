@@ -1,3 +1,7 @@
+(let ((org-files (directory-files (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
+  (dolist (file org-files)
+    (org-babel-tangle-file file)))
+
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (with-temp-buffer
