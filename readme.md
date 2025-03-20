@@ -1871,6 +1871,15 @@ Do `M-x describe-variable RET org-src-window-setup` to see the options
 ```
 
 
+## Show hidden emphasis markers
+
+```emacs-lisp
+(use-package org-appear
+  :hook
+  (org-mode . org-appear-mode))
+```
+
+
 # Miscellaneous standalone global configuration changes
 
 
@@ -2081,9 +2090,6 @@ Automatically saves the file when it's been idle for 5 minutes.
 
 
 ## Default window size
-
-
-## 
 
 Just a bigger size that I prefer..
 

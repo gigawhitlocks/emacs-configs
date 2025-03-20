@@ -1027,6 +1027,10 @@ made unique when necessary."
 
 (setq org-src-window-setup 'other-frame)
 
+(use-package org-appear
+  :hook
+  (org-mode . org-appear-mode))
+
 (server-start)
 
 (use-package browse-at-remote)
