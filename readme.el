@@ -840,6 +840,18 @@
    :keymaps 'treemacs-mode-map
    "<mouse-8>" 'treemacs-RET-action)
 
+(use-package org
+:custom
+(org-startup-indented t)
+(org-hide-emphasis-markers t)
+(org-startup-with-inline-images t)
+(org-image-actual-width '(450))
+(org-fold-catch-invisible-edits 'error)
+(org-pretty-entities t)
+(org-use-sub-superscripts "{}")
+(org-id-link-to-org-use-id t)
+(org-fold-catch-invisible-edits 'show))
+
 (use-package evil-org)
 
 (use-package org-download)
@@ -917,14 +929,9 @@
 
 (setq org-return-follows-link  t)
 
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-
-(defun ian-org-fixed-pitch ()
-  "Fix fixed pitch text in Org Mode"
-  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-block nil :inherit 'fixed-pitch))
-
-(add-hook 'org-mode-hook 'ian-org-fixed-pitch)
+(use-package mixed-pitch
+  :hook
+  (org-mode . mixed-pitch-mode))
 
 (eval-when-compile
   (require 'easy-mmode)
@@ -1018,8 +1025,6 @@ made unique when necessary."
 
 (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
 
-(setq org-pretty-entities nil)
-
 (setq org-src-window-setup 'other-frame)
 
 (server-start)
@@ -1078,6 +1083,9 @@ made unique when necessary."
 
 (add-to-list 'default-frame-alist '(width . 128))
 (add-to-list 'default-frame-alist '(height . 60))
+
+(setq initial-major-mode 'org-mode
+      initial-scratch-message "#+title: Scratch Buffer\n\n")
 
 ;; hide some modes that are everywhere
 (diminish 'eldoc-mode)

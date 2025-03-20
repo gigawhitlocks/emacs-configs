@@ -1553,6 +1553,23 @@ These keybindings are probably the most opinionated part of my configuration. Th
 # Org Mode Settings
 
 
+## Global Settings
+
+```emacs-lisp
+(use-package org
+:custom
+(org-startup-indented t)
+(org-hide-emphasis-markers t)
+(org-startup-with-inline-images t)
+(org-image-actual-width '(450))
+(org-fold-catch-invisible-edits 'error)
+(org-pretty-entities t)
+(org-use-sub-superscripts "{}")
+(org-id-link-to-org-use-id t)
+(org-fold-catch-invisible-edits 'show))
+```
+
+
 ## Some default evil bindings
 
 ```emacs-lisp
@@ -1737,23 +1754,12 @@ Org-Protocol is super cool! It enables things like bookmarklets to bookmark thin
 ```
 
 
-## Use a variable-pitch font in Org-Mode
-
-Org is mostly prose and prose should be read in a variable-pitch font where possible. This changes fonts in Org to be variable-pitch where it makes sense
+## Use mixed-pitched fonts
 
 ```emacs-lisp
-(add-hook 'org-mode-hook 'variable-pitch-mode)
-```
-
-Inside of code blocks I want a fixed-pitch font
-
-```emacs-lisp
-(defun ian-org-fixed-pitch ()
-  "Fix fixed pitch text in Org Mode"
-  (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-block nil :inherit 'fixed-pitch))
-
-(add-hook 'org-mode-hook 'ian-org-fixed-pitch)
+(use-package mixed-pitch
+  :hook
+  (org-mode . mixed-pitch-mode))
 ```
 
 
@@ -1853,15 +1859,6 @@ made unique when necessary."
       ref)))
 
 (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
-```
-
-
-## Disable pretty entities
-
-I find superscripts, subscripts, etc, are less common than verbatim underscores and such so I am changing the default for this setting
-
-```emacs-lisp
-(setq org-pretty-entities nil)
 ```
 
 
@@ -2085,11 +2082,22 @@ Automatically saves the file when it's been idle for 5 minutes.
 
 ## Default window size
 
+
+## 
+
 Just a bigger size that I prefer..
 
 ```emacs-lisp
 (add-to-list 'default-frame-alist '(width . 128))
 (add-to-list 'default-frame-alist '(height . 60))
+```
+
+
+## Scratch buffer settings
+
+```emacs-lisp
+(setq initial-major-mode 'org-mode
+      initial-scratch-message "#+title: Scratch Buffer\n\n")
 ```
 
 

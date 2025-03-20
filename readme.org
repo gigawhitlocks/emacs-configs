@@ -1301,6 +1301,21 @@ These keybindings are probably the most opinionated part of my configuration. Th
     #+END_SRC
 
 * Org Mode Settings
+** Global Settings
+#+begin_src emacs-lisp
+  (use-package org
+  :custom
+  (org-startup-indented t)
+  (org-hide-emphasis-markers t)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(450))
+  (org-fold-catch-invisible-edits 'error)
+  (org-pretty-entities t)
+  (org-use-sub-superscripts "{}")
+  (org-id-link-to-org-use-id t)
+  (org-fold-catch-invisible-edits 'show))
+#+end_src
+
 ** Some default evil bindings
 #+BEGIN_SRC emacs-lisp
   (use-package evil-org)
@@ -1439,21 +1454,11 @@ Org-Protocol is super cool! It enables things like bookmarklets to bookmark thin
   (setq org-return-follows-link  t)
 #+END_SRC
 
-** Use a variable-pitch font in Org-Mode
-Org is mostly prose and prose should be read in a variable-pitch font where possible.
-This changes fonts in Org to be variable-pitch where it makes sense
-#+begin_src emacs-lisp
-  (add-hook 'org-mode-hook 'variable-pitch-mode)
-#+end_src
-
-Inside of code blocks I want a fixed-pitch font
-#+begin_src emacs-lisp
-  (defun ian-org-fixed-pitch ()
-    "Fix fixed pitch text in Org Mode"
-    (set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-    (set-face-attribute 'org-block nil :inherit 'fixed-pitch))
-
-  (add-hook 'org-mode-hook 'ian-org-fixed-pitch)
+** Use mixed-pitched fonts
+#+begin_src emacs-lisp 
+  (use-package mixed-pitch
+    :hook
+    (org-mode . mixed-pitch-mode))
 #+end_src
 
 ** Useful anchors in HTML export
@@ -1552,12 +1557,6 @@ This is taken from [[https://github.com/alphapapa/unpackaged.el#export-to-html-w
 
   (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
 #+end_src
-
-** Disable pretty entities
-I find superscripts, subscripts, etc, are less common than verbatim underscores and such so I am changing the default for this setting
-#+BEGIN_SRC emacs-lisp
-  (setq org-pretty-entities nil)
-#+END_SRC
 
 ** Define how org-edit-src behaves
 Do ~M-x describe-variable RET org-src-window-setup~ to see the options
@@ -1726,6 +1725,11 @@ Just a bigger size that I prefer..
   (add-to-list 'default-frame-alist '(width . 128))
   (add-to-list 'default-frame-alist '(height . 60))
 #+END_SRC
+** Scratch buffer settings
+#+begin_src emacs-lisp
+  (setq initial-major-mode 'org-mode
+        initial-scratch-message "#+title: Scratch Buffer\n\n")
+#+end_src
 ** Unclutter global modeline
 Some global minor modes put themselves in the modeline and it gets noisy, so remove them from the modeline.
 #+BEGIN_SRC emacs-lisp
