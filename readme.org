@@ -104,7 +104,17 @@ Bootstrap sets up Elpaca and configures ~use-package~ to use it.
   (add-hook 'after-init-hook #'elpaca-process-queues)
   (elpaca `(,@elpaca-order))
 #+END_SRC
-** Configure Elpaca to use ~use-package~ and configure ~use-package~
+
+** Configure ~use-package~
+#+begin_src emacs-lisp
+  (use-package use-package
+    :custom
+    (use-package-always-ensure t)
+    (package-native-compile t)
+    (warning-minimum-level :emergency))
+#+end_src
+
+** Configure Elpaca to use ~use-package~
 #+BEGIN_SRC emacs-lisp
   ;; Install use-package support
   (elpaca elpaca-use-package
@@ -115,13 +125,11 @@ Bootstrap sets up Elpaca and configures ~use-package~ to use it.
   ;;Note this will cause evaluate the declaration immediately. It is not deferred.
   ;;Useful for configuring built-in emacs features.
   (use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
-  (setq use-package-always-ensure t)
 
   ;; these go in bootstrap because we're configuring use-package
   (use-package diminish)
   (use-package delight)
 #+END_SRC
-
 * Fundamental Package Installation and Configuration
 First I need to install packages with a large effect and on which other packages are likely to depend. Configuration here should be config that must run early, before variables are set or language-related packages, which will likely rely on these being set.
 ** Upgrade Transient to MELPA version

@@ -48,6 +48,12 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
+(use-package use-package
+  :custom
+  (use-package-always-ensure t)
+  (package-native-compile t)
+  (warning-minimum-level :emergency))
+
 ;; Install use-package support
 (elpaca elpaca-use-package
         ;; Enable use-package :ensure support for Elpaca.
@@ -57,7 +63,6 @@
 ;;Note this will cause evaluate the declaration immediately. It is not deferred.
 ;;Useful for configuring built-in emacs features.
 (use-package emacs :ensure nil :config (setq ring-bell-function #'ignore))
-(setq use-package-always-ensure t)
 
 ;; these go in bootstrap because we're configuring use-package
 (use-package diminish)
