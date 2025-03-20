@@ -102,6 +102,12 @@
 
 (use-package ef-themes)
 
+(use-package modus-themes
+  :custom
+  (modus-themes-italic-constructs t)
+  (modus-themes-bold-constructs t)
+  (modus-themes-mixed-fonts t))
+
 ;;  (load-theme 'ef-reverie)
 
 (use-package consult)
@@ -353,7 +359,11 @@
   :delight
   :init
   (which-key-mode)
-  (which-key-setup-minibuffer))
+  (which-key-setup-minibuffer)
+  :custom
+  (which-key-max-description-length 40)
+  (which-key-lighter nil)
+  (which-key-sort-order 'which-key-description-order))
 
 (use-package pass)
 
@@ -1194,6 +1204,8 @@ made unique when necessary."
     (find-file (format "~/silly.business/content/blog/%s.org"
                        (concat timestamp "-" post-slug)))
                ))
+
+(setq-default use-short-answers t)
 
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right

@@ -224,6 +224,16 @@ I'm mainly using the Doom Emacs theme pack. I think they're really nice to look 
     (use-package ef-themes)
     ```
 
+-   modus-themes
+
+    ```emacs-lisp
+    (use-package modus-themes
+      :custom
+      (modus-themes-italic-constructs t)
+      (modus-themes-bold-constructs t)
+      (modus-themes-mixed-fonts t))
+    ```
+
 
 ### Default theme
 
@@ -615,7 +625,11 @@ It can be difficult to to remember and discover all of the available shortcuts i
   :delight
   :init
   (which-key-mode)
-  (which-key-setup-minibuffer))
+  (which-key-setup-minibuffer)
+  :custom
+  (which-key-max-description-length 40)
+  (which-key-lighter nil)
+  (which-key-sort-order 'which-key-description-order))
 ```
 
 
@@ -2321,6 +2335,15 @@ I used Kagi FastGPT to generate about half of this. It taught me about `read-str
     (find-file (format "~/silly.business/content/blog/%s.org"
                        (concat timestamp "-" post-slug)))
                ))
+```
+
+
+## Short Answers
+
+Instead of constantly typing `yes` and `no` to prompts, I can constantly type `y` and `n`!
+
+```emacs-lisp
+(setq-default use-short-answers t)
 ```
 
 

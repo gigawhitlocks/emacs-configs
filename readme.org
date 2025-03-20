@@ -191,6 +191,14 @@ Protesilaos Stavrou has a nice theme pack too:
 #+begin_src emacs-lisp
   (use-package ef-themes)
 #+end_src
+**** modus-themes
+#+begin_src emacs-lisp
+  (use-package modus-themes
+    :custom
+    (modus-themes-italic-constructs t)
+    (modus-themes-bold-constructs t)
+    (modus-themes-mixed-fonts t))
+#+end_src
 *** Default theme
 I prefer to load a theme per-system, but it's nice to have it documented here.
 Add a line like the following to the appropriate file in ~local/~
@@ -518,11 +526,15 @@ It's controversial but I think modal editing is brilliant and have been using ~v
 ** Install and Configure ~which-key~
 It can be difficult to to remember and discover all of the available shortcuts in Emacs, so [[https://github.com/justbur/emacs-which-key][~which-key~]] pops up a special buffer to show you available shortcuts whenever you pause in the middle of a keyboard shortcut for more than a few seconds. It's really lovely.
 #+BEGIN_SRC emacs-lisp
-    (use-package which-key
-      :delight
-      :init
-      (which-key-mode)
-      (which-key-setup-minibuffer))
+  (use-package which-key
+    :delight
+    :init
+    (which-key-mode)
+    (which-key-setup-minibuffer)
+    :custom
+    (which-key-max-description-length 40)
+    (which-key-lighter nil)
+    (which-key-sort-order 'which-key-description-order))
 #+END_SRC
 ** Set up ~pass~ for secrets handling
 #+begin_src emacs-lisp
@@ -1900,6 +1912,11 @@ I guess it was nice to have some of it generated.
       (find-file (format "~/silly.business/content/blog/%s.org"
                          (concat timestamp "-" post-slug)))
                  ))
+#+end_src
+** Short Answers
+Instead of constantly typing ~yes~ and ~no~ to prompts, I can constantly type ~y~ and ~n~!
+#+begin_src emacs-lisp
+  (setq-default use-short-answers t)
 #+end_src
 
 * Hostname-based tweaks
