@@ -1707,6 +1707,16 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 ```
 
 
+### epub export
+
+```emacs-lisp
+(use-package ox-epub
+  :demand t
+  :init
+  (require 'ox-org))
+```
+
+
 ## `TODO` Faces
 
 ```emacs-lisp

@@ -912,6 +912,11 @@
         (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
         (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
 
+(use-package ox-epub
+  :demand t
+  :init
+  (require 'ox-org))
+
 (setq org-todo-keyword-faces
       '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
         ("WAITING" . org-warning)))

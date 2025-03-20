@@ -1414,7 +1414,13 @@ These keybindings are probably the most opinionated part of my configuration. Th
           (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
           (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
     #+end_src
-
+*** epub export
+#+begin_src emacs-lisp
+  (use-package ox-epub
+    :demand t
+    :init
+    (require 'ox-org))
+#+end_src
 ** ~TODO~ Faces
 #+begin_src emacs-lisp
   (setq org-todo-keyword-faces
