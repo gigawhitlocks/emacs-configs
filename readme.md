@@ -1967,8 +1967,7 @@ update-desktop-database ~/.local/share/applications/
 1.  The first time, add a button in the browser by creating a bookmarklet containing the following target:
 
 ```
-javascript:location.href='org-protocol://open-source?&url='+
-      encodeURIComponent(location.href)
+javascript:location.href="org-protocol://open-source?url=" +encodeURIComponent(location.href);
 ```
 
 1.  Add an entry to `org-protocol-project-alist`, defined in the local machine's hostname-specific config found in `local/`. An example can be found on the Worg page above, but here it is again for easy reference:

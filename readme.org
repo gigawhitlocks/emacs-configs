@@ -1631,14 +1631,11 @@ After tangling that file to its destination, run the following command to update
   update-desktop-database ~/.local/share/applications/
 #+end_src
 
-
 *** Manual Steps:
 1. The first time, add a button in the browser by creating a bookmarklet containing the following target:
 #+begin_example
-javascript:location.href='org-protocol://open-source?&url='+
-      encodeURIComponent(location.href)
+    javascript:location.href="org-protocol://open-source?url=" +encodeURIComponent(location.href);
 #+end_example
-
 2. Add an entry to ~org-protocol-project-alist~, defined in the local machine's hostname-specific config found in ~local/~. An example can be found on the Worg page above, but here it is again for easy reference:
    
 #+begin_src emacs-lisp :tangle no
