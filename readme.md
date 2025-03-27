@@ -1767,7 +1767,7 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 Below is the bookmarklet source:
 
 ```js
-javascript:void(location='org-protocol://capture?' +       new URLSearchParams({             template: 'x', url: window.location.href,             title: document.title, body: window.getSelection()}));
+javascript:void(location="org-protocol://capture?" + new URLSearchParams({template: 'x', url: window.location.href, title: document.title, body: window.getSelection()}));
 ```
 
 lifted from this discussion <https://mail.gnu.org/archive/html/emacs-orgmode/2024-12/txt_aK4ExGDIn.txt> and combined with the template `x` above
@@ -2199,6 +2199,17 @@ Emacs uses an old scrolling technique that's per-line and feels dated. Turns out
 ```emacs-lisp
 (pixel-scroll-precision-mode t)
 ```
+
+In addition to per-line scrolling (when using the mouse wheel), Emacs also has an antiquated way of deciding when to scroll a document based on the cursor. The default behavior, and a guess at the reason behind it, are well-described [in the blog post where I encountered the following setting](https://themkat.net/2025/03/25/simple_smoother_emacs_scrolling.html), which makes the buffer scroll in a way more akin to modern software when not using the mouse wheel:
+
+```emacs-lisp
+(setq scroll-conservatively 10
+    scroll-margin 15)
+```
+
+> The scroll-conservatively variable controls how Emacs centers the cursor on your screen. 0 means that we always center it, and is the default. scroll-margin essentially control how far we are from the top and bottom of the screen before we start scrolling.
+
+Thanks, MKat
 
 
 ## Enable context menu on right click

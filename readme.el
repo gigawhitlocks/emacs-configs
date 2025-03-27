@@ -1142,6 +1142,9 @@ made unique when necessary."
 
 (pixel-scroll-precision-mode t)
 
+(setq scroll-conservatively 10
+    scroll-margin 15)
+
 (context-menu-mode t)
 
 (xterm-mouse-mode 1)
