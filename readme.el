@@ -685,6 +685,21 @@
   :config
   (setq sqlformat-command 'pgformatter))
 
+(use-package gdscript-mode
+  :straight (gdscript-mode
+             :type git
+             :host github
+             :repo "godotengine/emacs-gdscript-mode")
+:hook (gdscript-mode . eglot-ensure))
+
+(add-to-list 'auto-mode-alist '("\\.gd\\'" . gdscript-mode))
+
+(use-package lua-mode
+  :hook ((lua-mode . eglot-ensure)))
+
+(add-hook 'lua-mode-hook
+          (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+
 (use-package adaptive-wrap
   :config
   (setq-default adaptive-wrap-extra-indent 2)
@@ -891,6 +906,7 @@
                                (sql . t)
                                (python . t)
                                (shell . t)
+                               (lua . t)
                                )
                              )
 

@@ -1133,6 +1133,36 @@ https://github.com/p3r7/awesome-elisp
 *** editing s-exps
 [[https://github.com/p3r7/awesome-elisp#lispy]]
 [[https://github.com/abo-abo/lispy]]
+** GDScript
+#+begin_src emacs-lisp
+  (use-package gdscript-mode
+    :straight (gdscript-mode
+               :type git
+               :host github
+               :repo "godotengine/emacs-gdscript-mode")
+  :hook (gdscript-mode . eglot-ensure))
+
+  (add-to-list 'auto-mode-alist '("\\.gd\\'" . gdscript-mode))
+#+end_src
+** Lua
+*** Language Server
+The language server for lua unfortunately must be manually installed:
+https://github.com/LuaLS/lua-language-server/releases
+
+Fetch it and run it
+: ./lua-language-server --socket=5050
+
+Or tell ~eglot~ where it is, actually.
+
+#+begin_src emacs-lisp
+  (use-package lua-mode
+    :hook ((lua-mode . eglot-ensure)))
+#+end_src
+*** Auto-format on save
+#+begin_src emacs-lisp
+  (add-hook 'lua-mode-hook
+            (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+#+end_src
 
 * Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap-prefix-mode]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -1382,6 +1412,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
                                  (sql . t)
                                  (python . t)
                                  (shell . t)
+                                 (lua . t)
                                  )
                                )
 #+end_src

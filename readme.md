@@ -1380,6 +1380,47 @@ I don't have any custom configuration for Emacs Lisp yet, but I am going to use 
 <https://github.com/p3r7/awesome-elisp#lispy> <https://github.com/abo-abo/lispy>
 
 
+## GDScript
+
+```emacs-lisp
+(use-package gdscript-mode
+  :straight (gdscript-mode
+             :type git
+             :host github
+             :repo "godotengine/emacs-gdscript-mode")
+:hook (gdscript-mode . eglot-ensure))
+
+(add-to-list 'auto-mode-alist '("\\.gd\\'" . gdscript-mode))
+```
+
+
+## Lua
+
+
+### Language Server
+
+The language server for lua unfortunately must be manually installed: <https://github.com/LuaLS/lua-language-server/releases>
+
+Fetch it and run it
+
+    ./lua-language-server --socket=5050
+
+Or tell `eglot` where it is, actually.
+
+```emacs-lisp
+(use-package lua-mode
+  :hook ((lua-mode . eglot-ensure)))
+```
+
+
+### Auto-format on save
+
+```emacs-lisp
+(add-hook 'lua-mode-hook
+          (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+```
+
+
 # Adaptive Wrap and Visual Line Mode
 
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
@@ -1658,6 +1699,7 @@ instead, just replace the current window with the editing one..
                                (sql . t)
                                (python . t)
                                (shell . t)
+                               (lua . t)
                                )
                              )
 ```
