@@ -681,7 +681,6 @@
           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
 (use-package sqlformat
-  :hook (sql-mode . sqlformat-on-save-mode)
   :config
   (setq sqlformat-command 'pgformatter))
 

@@ -1122,7 +1122,6 @@ Shout-out to [[https://evalapply.org][Aditya Athalye]] for suggesting this packa
 
 #+begin_src emacs-lisp
   (use-package sqlformat
-    :hook (sql-mode . sqlformat-on-save-mode)
     :config
     (setq sqlformat-command 'pgformatter))
 #+end_src
