@@ -1155,10 +1155,14 @@ made unique when necessary."
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
-(pixel-scroll-precision-mode t)
+(pixel-scroll-precision-mode nil)
 
-(setq scroll-conservatively 10
-    scroll-margin 15)
+(setq
+ redisplay-dont-pause t
+ scroll-margin 10
+ scroll-step 1
+ scroll-conservatively 10000
+ scroll-preserve-screen-position 1)
 
 (context-menu-mode t)
 
