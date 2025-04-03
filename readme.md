@@ -2236,13 +2236,13 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ## Enable modern scrolling
 
 ```emacs-lisp
-(pixel-scroll-precision-mode nil)
+(pixel-scroll-precision-mode t)
 
 (setq
  redisplay-dont-pause t
- scroll-margin 10
+ scroll-margin 0
  scroll-step 1
- scroll-conservatively 10000
+ scroll-conservatively 100000000
  scroll-preserve-screen-position 1)
 ```
 
