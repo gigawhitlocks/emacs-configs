@@ -1210,12 +1210,12 @@ made unique when necessary."
 
   :config
   (setq
-   gptel-model 'llama3.2:latest
+   gptel-model 'gemma3:12b-it-qat
    gptel-backend (gptel-make-ollama "Ollama"
                    :host "localhost:11434" 
                    :stream t
-                   :models '((mistral:latest)
-                             (llama3.2:latest))))
+                   :models '((gemma3:12b-it-qat)
+                             )))
 
   (gptel-make-kagi "Kagi"
     :key (password-store-get "kagi-token")))
