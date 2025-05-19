@@ -699,6 +699,8 @@
 (add-hook 'lua-mode-hook
           (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
 
+(use-package tcl-mode)
+
 (use-package adaptive-wrap
   :config
   (setq-default adaptive-wrap-extra-indent 2)
