@@ -313,6 +313,13 @@ Corfu handles tab completion outside of the minibuffer, and allows multiple term
     (global-corfu-mode))
 #+end_src
 
+Cape provides extensions that are compatible with Corfu. Here I am adding the ability to tab complete file paths:
+#+begin_src emacs-lisp
+  (use-package cape
+    :init
+    (add-to-list 'completion-at-point-functions #'cape-file))
+#+end_src
+
 *** Global Configuration
 Below is some final, global configuration related to Vertico and Corfu & configure how completion and the minibuffer work.
 #+begin_src emacs-lisp

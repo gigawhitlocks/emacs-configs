@@ -376,6 +376,14 @@ Corfu handles tab completion outside of the minibuffer, and allows multiple term
   (global-corfu-mode))
 ```
 
+Cape provides extensions that are compatible with Corfu. Here I am adding the ability to tab complete file paths:
+
+```emacs-lisp
+(use-package cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-file))
+```
+
 
 ### Global Configuration
 

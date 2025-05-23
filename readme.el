@@ -189,6 +189,10 @@
   :init
   (global-corfu-mode))
 
+(use-package cape
+  :init
+  (add-to-list 'completion-at-point-functions #'cape-file))
+
 ;; A few more useful configurations...
 ;; Support opening new minibuffers from inside existing minibuffers.
 (setq enable-recursive-minibuffers t)
