@@ -385,6 +385,28 @@
 
 (setq fancy-compilation-override-colors nil)
 
+(require 'ansi-color)
+
+(defun ansi-color-apply-on-change (beg end len)
+  "Applies ANSI colorization to the whole buffer."
+    (ansi-color-apply-on-region (point-min) (point-max)))
+
+(define-minor-mode ansi-color-minor-mode
+  "A minor mode to automatically apply ANSI colors to a buffer."
+  :lighter "AnsiColor"
+  :group 'ansi-colors
+  (if ansi-color-minor-mode
+      (progn
+        (add-hook 'after-change-functions #'ansi-color-apply-on-change nil 'local)
+        (ansi-color-apply-on-region (point-min) (point-max)))
+    (progn
+      (remove-hook 'after-change-functions #'ansi-color-apply-on-change 'local)
+      (when (buffer-modified-p)
+        (set-buffer-modified-p nil))
+      (ansi-color-unapply))))
+
+    (add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
+
 ;; first disable the default startup screen
 (setq inhibit-startup-screen t)
 (use-package dashboard
@@ -595,6 +617,8 @@
 (use-package gotest)
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
+
+
 (add-hook 'go-test-mode-hook 'visual-line-mode)
 
 (general-define-key
@@ -702,8 +726,6 @@
 
 (add-hook 'lua-mode-hook
           (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-
-(use-package tcl-mode)
 
 (use-package adaptive-wrap
   :config
@@ -945,11 +967,6 @@
 
 (setq org-export-coding-system 'utf-8)
 
-(setq org-todo-keywords
-      '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
-        (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
-        (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
-
 (use-package ox-epub
   :demand t
   :init
@@ -1161,7 +1178,7 @@ made unique when necessary."
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
-(pixel-scroll-precision-mode t)
+(pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
 
 (setq
  redisplay-dont-pause t

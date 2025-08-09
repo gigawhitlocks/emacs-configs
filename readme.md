@@ -678,6 +678,35 @@ I don't like how fancy-compilation-mode overrides colors by default, but luckily
 ```
 
 
+## ANSI colors
+
+A helper function for ANSI color codes in certain buffers.
+
+```elisp
+(require 'ansi-color)
+
+(defun ansi-color-apply-on-change (beg end len)
+  "Applies ANSI colorization to the whole buffer."
+    (ansi-color-apply-on-region (point-min) (point-max)))
+
+(define-minor-mode ansi-color-minor-mode
+  "A minor mode to automatically apply ANSI colors to a buffer."
+  :lighter "AnsiColor"
+  :group 'ansi-colors
+  (if ansi-color-minor-mode
+      (progn
+        (add-hook 'after-change-functions #'ansi-color-apply-on-change nil 'local)
+        (ansi-color-apply-on-region (point-min) (point-max)))
+    (progn
+      (remove-hook 'after-change-functions #'ansi-color-apply-on-change 'local)
+      (when (buffer-modified-p)
+        (set-buffer-modified-p nil))
+      (ansi-color-unapply))))
+
+    (add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
+```
+
+
 ## Configure the Startup Splashscreen
 
 Following Spacemacs's style, I use the [`emacs-dashboard`](https://github.com/emacs-dashboard/emacs-dashboard) project and [`all-the-icons`](https://github.com/domtronn/all-the-icons.el) to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
@@ -1187,6 +1216,8 @@ Preliminary testing suggests it might do the trick
 (use-package gotest)
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
+
+
 (add-hook 'go-test-mode-hook 'visual-line-mode)
 ```
 
@@ -1425,13 +1456,6 @@ Or tell `eglot` where it is, actually.
 ```emacs-lisp
 (add-hook 'lua-mode-hook
           (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-```
-
-
-## Tcl
-
-```emacs-lisp
-(use-package tcl-mode)
 ```
 
 
@@ -1778,15 +1802,7 @@ htmlize prints the current buffer or file, as it would appear in Emacs, but in H
 (setq org-export-coding-system 'utf-8)
 ```
 
-
-### custom todo states
-
-```emacs-lisp
-(setq org-todo-keywords
-      '((sequence "TODO(t)"     "|" "IN PROGRESS(p)" "|" "DONE(d)" "|" "STUCK(s)" "|" "WAITING(w)")
-        (sequence "OPEN(o)" "|" "INVESTIGATE(v)" "|" "IMPLEMENT(i)" "|" "REVIEW(r)" "|" "MERGED(m)" "|" "RELEASED(d)" "|" "ABANDONED(a)")
-        (sequence "QUESTION(q)" "|" "ANSWERED(a)")))
-```
+\#+end<sub>src</sub>
 
 
 ### epub export
@@ -2251,7 +2267,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ## Enable modern scrolling
 
 ```emacs-lisp
-(pixel-scroll-precision-mode t)
+(pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
 
 (setq
  redisplay-dont-pause t
