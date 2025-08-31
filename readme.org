@@ -1946,21 +1946,41 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
      #+end_example
 
 ** LLM integration
+*** gptel provides basic features and functions for sending buffers etc to LLMs and for chats
 #+begin_src emacs-lisp
   (use-package gptel
-
     :config
-    (setq
-     gptel-model 'gemma3:12b-it-qat
-     gptel-backend (gptel-make-ollama "Ollama"
-                     :host "localhost:11434" 
-                     :stream t
-                     :models '((gemma3:12b-it-qat)
-                               )))
+    (setq gptel-model 'gemma3:12b-it-qat
+  	gptel-backend (gptel-make-ollama "Ollama"
+  			:host "localhost:11434"
+  			:stream t
+  			:models '(gemma3:12b-it-qat)))
 
     (gptel-make-kagi "Kagi"
-      :key (password-store-get "kagi-token")))
+      :key (password-store-get "kagi-token"))
+
+    (gptel-make-openai "Synthetic"
+      :host "api.synthetic.new"
+      :key (password-store-get "synthetic.new-token")
+      :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
+      ))
 #+end_src
+*** aider provides an interface to ~aider~ for agent-style requests and actions
+#+begin_src emacs-lisp
+  (use-package aider
+    :config
+    ;; use my personal config file
+    (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
+    ;; ;;
+    ;; Optional: Set a key binding for the transient menu
+    (global-set-key (kbd "C-c a") 'aider-transient-menu-2cols) ;; for wider screen
+    ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
+    (aider-magit-setup-transients) ;; add aider magit function to magit menu
+    ;; auto revert buffer
+    (global-auto-revert-mode 1)
+    (auto-revert-mode 1))
+#+end_src
+
 ** Confirm before exit
 <2024-11-16 Sat>: Don't know why I didn't do this sooner! With my muscle memory for ~:wq~ I close Emacs by mistake /constantly/ -- especially since I've been using ~vim~ bindings now for multiple decades and I use ~emacsclient~ heavily, so a lot of the time I actually do wish to call ~evil-exit~... just not on that last frame!
 

@@ -1216,8 +1216,6 @@ Preliminary testing suggests it might do the trick
 (use-package gotest)
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
-
-
 (add-hook 'go-test-mode-hook 'visual-line-mode)
 ```
 
@@ -2381,20 +2379,44 @@ Can Kagi FastGPT be used in Org mode?
 
 ## LLM integration
 
+
+### gptel provides basic features and functions for sending buffers etc to LLMs and for chats
+
 ```emacs-lisp
 (use-package gptel
-
   :config
-  (setq
-   gptel-model 'gemma3:12b-it-qat
-   gptel-backend (gptel-make-ollama "Ollama"
-                   :host "localhost:11434" 
-                   :stream t
-                   :models '((gemma3:12b-it-qat)
-                             )))
+  (setq gptel-model 'gemma3:12b-it-qat
+        gptel-backend (gptel-make-ollama "Ollama"
+                        :host "localhost:11434"
+                        :stream t
+                        :models '(gemma3:12b-it-qat)))
 
   (gptel-make-kagi "Kagi"
-    :key (password-store-get "kagi-token")))
+    :key (password-store-get "kagi-token"))
+
+  (gptel-make-openai "Synthetic"
+    :host "api.synthetic.new"
+    :key (password-store-get "synthetic.new-token")
+    :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
+    ))
+```
+
+
+### aider provides an interface to `aider` for agent-style requests and actions
+
+```emacs-lisp
+(use-package aider
+  :config
+  ;; use my personal config file
+  (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
+  ;; ;;
+  ;; Optional: Set a key binding for the transient menu
+  (global-set-key (kbd "C-c a") 'aider-transient-menu-2cols) ;; for wider screen
+  ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
+  (aider-magit-setup-transients) ;; add aider magit function to magit menu
+  ;; auto revert buffer
+  (global-auto-revert-mode 1)
+  (auto-revert-mode 1))
 ```
 
 

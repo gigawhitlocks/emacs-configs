@@ -385,28 +385,6 @@
 
 (setq fancy-compilation-override-colors nil)
 
-(require 'ansi-color)
-
-(defun ansi-color-apply-on-change (beg end len)
-  "Applies ANSI colorization to the whole buffer."
-    (ansi-color-apply-on-region (point-min) (point-max)))
-
-(define-minor-mode ansi-color-minor-mode
-  "A minor mode to automatically apply ANSI colors to a buffer."
-  :lighter "AnsiColor"
-  :group 'ansi-colors
-  (if ansi-color-minor-mode
-      (progn
-        (add-hook 'after-change-functions #'ansi-color-apply-on-change nil 'local)
-        (ansi-color-apply-on-region (point-min) (point-max)))
-    (progn
-      (remove-hook 'after-change-functions #'ansi-color-apply-on-change 'local)
-      (when (buffer-modified-p)
-        (set-buffer-modified-p nil))
-      (ansi-color-unapply))))
-
-    (add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
-
 ;; first disable the default startup screen
 (setq inhibit-startup-screen t)
 (use-package dashboard
@@ -617,8 +595,6 @@
 (use-package gotest)
 (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
 (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
-
-
 (add-hook 'go-test-mode-hook 'visual-line-mode)
 
 (general-define-key
@@ -1230,18 +1206,34 @@ made unique when necessary."
   (ob-kagi-fastgpt-setup))
 
 (use-package gptel
-
   :config
-  (setq
-   gptel-model 'gemma3:12b-it-qat
-   gptel-backend (gptel-make-ollama "Ollama"
-                   :host "localhost:11434" 
-                   :stream t
-                   :models '((gemma3:12b-it-qat)
-                             )))
+  (setq gptel-model 'gemma3:12b-it-qat
+	gptel-backend (gptel-make-ollama "Ollama"
+			:host "localhost:11434"
+			:stream t
+			:models '(gemma3:12b-it-qat)))
 
   (gptel-make-kagi "Kagi"
-    :key (password-store-get "kagi-token")))
+    :key (password-store-get "kagi-token"))
+
+  (gptel-make-openai "Synthetic"
+    :host "api.synthetic.new"
+    :key (password-store-get "synthetic.new-token")
+    :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
+    ))
+
+(use-package aider
+  :config
+  ;; use my personal config file
+  (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
+  ;; ;;
+  ;; Optional: Set a key binding for the transient menu
+  (global-set-key (kbd "C-c a") 'aider-transient-menu-2cols) ;; for wider screen
+  ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
+  (aider-magit-setup-transients) ;; add aider magit function to magit menu
+  ;; auto revert buffer
+  (global-auto-revert-mode 1)
+  (auto-revert-mode 1))
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 
