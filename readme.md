@@ -703,7 +703,8 @@ A helper function for ANSI color codes in certain buffers.
         (set-buffer-modified-p nil))
       (ansi-color-unapply))))
 
-    (add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
+(add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
+(add-hook 'compilation-mode-hook 'ansi-color-minor-mode)
 ```
 
 
@@ -1128,6 +1129,8 @@ This section contains all of the IDE-like features in my configuration.
 Just enable snippets and LSP in Python mode and that's enough for me
 
 ```emacs-lisp
+(add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
+
 (use-package python-mode
   :hook ((python-mode . yas-minor-mode)
          (python-mode . eglot-ensure)))
