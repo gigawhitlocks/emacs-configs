@@ -1787,8 +1787,10 @@ Emacs has weird behavior by default for Home and End and this change makes the b
 ** Customize the frame (OS window) title
 Taken from StackOverflow, at least for now, which does 90% of what I want and can serve as a future reference of how to customize this aspect of Emacs. This displays the file name and major mode in the OS title bar. Will have to find the documentation that defines the format string passed to ~frame-title-format~ at some point.
 #+begin_src emacs-lisp
-(setq-default frame-title-format '("%f [%m]"))
+  (setq-default frame-title-format '("%f [%m]"))
 #+end_src
+
+*** TODO change the frame title to start with the project name
 ** Tweak align-regexp
 Configure align-regexp to use spaces instead of tabs. This is mostly for this file. When my keybindings are in two columns and ~M-x align-regexp~ uses tabs, the columns look aligned in Emacs but unaligned on GitHub. Using spaces faces this. This snippet effects that change.
 
