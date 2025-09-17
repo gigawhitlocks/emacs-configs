@@ -1960,6 +1960,7 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
 
 ** LLM integration
 *** gptel provides basic features and functions for sending buffers etc to LLMs and for chats
+I have the default set to Ollama because I do not like the idea of accidentally sending my code off to some third party API accidentally through a keybinding. This way I can switch to the expensive third parties manually when I want to, but if I accidentally press buttons, nothing happens.
 #+begin_src emacs-lisp
   (use-package gptel
     :config
