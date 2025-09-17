@@ -573,7 +573,7 @@ I don't like how fancy-compilation-mode overrides colors by default, but luckily
 #+end_src
 ** ANSI colors
 A helper function for ANSI color codes in certain buffers.
-#+begin_src elisp
+#+begin_src emacs-lisp
   (require 'ansi-color)
 
   (defun ansi-color-apply-on-change (beg end len)
