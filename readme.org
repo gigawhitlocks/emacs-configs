@@ -276,6 +276,13 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
     (savehist-mode)
     )
 #+end_src
+****  floating minibuffer
+This =vertico= extension uses =posframe= to allow the minibuffer to appear in the center of the frame instead of down in the corner.
+#+begin_src emacs-lisp
+  (use-package vertico-posframe
+    :init
+    (vertico-posframe-mode 1))
+#+end_src
 
 *** Tab Completion
 Corfu handles tab completion outside of the minibuffer, and allows multiple terms separated by spaces, using the rules from completing-read -- in this case, what I've defined in the Orderless section above.
@@ -347,6 +354,7 @@ Below is some final, global configuration related to Vertico and Corfu & configu
         '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
+
 
 ** Solaire Mode
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers

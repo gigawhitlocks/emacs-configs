@@ -160,6 +160,10 @@
   (savehist-mode)
   )
 
+(use-package vertico-posframe
+  :init
+  (vertico-posframe-mode 1))
+
 (use-package corfu
   ;; Optional customizations
   ;; :custom
