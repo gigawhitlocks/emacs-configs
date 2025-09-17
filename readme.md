@@ -37,19 +37,7 @@ Load up all literate org-mode files in this directory:
 ```
 
 
-# External Configuration
-
-Some people use a "dotfiles" repository to keep track of their configuration for other programs but Org does a great job at helping me organize and install configuration so before continuing to configure Emacs, I will install configuration for any other user-level utilities that I frequently use for development, like `git`.
-
-```emacs-lisp
-(let ((org-files (directory-files
-                    (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
-  (dolist (file org-files)
-    (org-babel-tangle-file file)))
-```
-
-
-# Customize
+# Customize `Customize.el`
 
 Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
 
@@ -815,7 +803,6 @@ I like to highlight the current line so that it is easy to identify where my cur
 (use-package rainbow-delimiters
   :config
   ;; set up rainbow delimiters for Emacs lisp
-  ok
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   ;; and sql mode too, it's useful there
   (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)

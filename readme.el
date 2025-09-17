@@ -1,8 +1,3 @@
-(let ((org-files (directory-files
-		    (concat dotfiles-dir "/dotfiles/") t "\\.org\\'")))
-  (dolist (file org-files)
-    (org-babel-tangle-file file)))
-
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (unless (file-exists-p custom-file)
   (with-temp-buffer
@@ -434,7 +429,6 @@
 (use-package rainbow-delimiters
   :config
   ;; set up rainbow delimiters for Emacs lisp
-  ok
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   ;; and sql mode too, it's useful there
   (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
