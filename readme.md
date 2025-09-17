@@ -680,7 +680,7 @@ I don't like how fancy-compilation-mode overrides colors by default, but luckily
 
 A helper function for ANSI color codes in certain buffers.
 
-```elisp
+```emacs-lisp
 (require 'ansi-color)
 
 (defun ansi-color-apply-on-change (beg end len)
@@ -2171,6 +2171,9 @@ Taken from StackOverflow, at least for now, which does 90% of what I want and ca
 ```
 
 
+### TODO change the frame title to start with the project name
+
+
 ## Tweak align-regexp
 
 Configure align-regexp to use spaces instead of tabs. This is mostly for this file. When my keybindings are in two columns and `M-x align-regexp` uses tabs, the columns look aligned in Emacs but unaligned on GitHub. Using spaces faces this. This snippet effects that change.
@@ -2397,6 +2400,8 @@ Can Kagi FastGPT be used in Org mode?
 
 ### gptel provides basic features and functions for sending buffers etc to LLMs and for chats
 
+I have the default set to Ollama because I do not like the idea of accidentally sending my code off to some third party API accidentally through a keybinding. This way I can switch to the expensive third parties manually when I want to, but if I accidentally press buttons, nothing happens.
+
 ```emacs-lisp
 (use-package gptel
   :config
@@ -2419,12 +2424,14 @@ Can Kagi FastGPT be used in Org mode?
 
 ### aider provides an interface to `aider` for agent-style requests and actions
 
+`aider` runs using the config at <file:///home/iwhitlock/.aider.conf.yml> so that I can configure a different one for each system.
+
 ```emacs-lisp
 (use-package aider
-  :config
+  :init
   ;; use my personal config file
   (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
-  ;; ;;
+  :config
   ;; Optional: Set a key binding for the transient menu
   (global-set-key (kbd "C-c a") 'aider-transient-menu-2cols) ;; for wider screen
   ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen

@@ -1980,12 +1980,13 @@ I have the default set to Ollama because I do not like the idea of accidentally 
       ))
 #+end_src
 *** aider provides an interface to ~aider~ for agent-style requests and actions
+~aider~ runs using the config at [[file:~/.aider.conf.yml]] so that I can configure a different one for each system. 
 #+begin_src emacs-lisp
   (use-package aider
-    :config
+    :init
     ;; use my personal config file
     (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
-    ;; ;;
+    :config
     ;; Optional: Set a key binding for the transient menu
     (global-set-key (kbd "C-c a") 'aider-transient-menu-2cols) ;; for wider screen
     ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
