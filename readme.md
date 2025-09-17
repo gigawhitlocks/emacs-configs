@@ -788,11 +788,11 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-### idk what this package does
+### adds some subtle (highlights) to certain edits like undo/redo
 
 ```emacs-lisp
 (use-package volatile-highlights
-  :init
+  :config
   (volatile-highlights-mode 1))
 ```
 

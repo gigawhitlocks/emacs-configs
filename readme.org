@@ -660,10 +660,10 @@ I like to highlight the current line so that it is easy to identify where my cur
     :init
     (beacon-mode))
 #+end_src
-*** idk what this package does
+*** adds some subtle (highlights) to certain edits like undo/redo
 #+begin_src emacs-lisp
   (use-package volatile-highlights
-    :init
+    :config
     (volatile-highlights-mode 1))
 #+end_src
 ** Rainbow delimiters make it easier to identify matching parentheses

@@ -423,7 +423,7 @@
   (beacon-mode))
 
 (use-package volatile-highlights
-  :init
+  :config
   (volatile-highlights-mode 1))
 
 (use-package rainbow-delimiters
