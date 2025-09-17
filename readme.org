@@ -668,7 +668,7 @@ I like to highlight the current line so that it is easy to identify where my cur
     :init
     (beacon-mode))
 #+end_src
-*** adds some subtle (highlights) to certain edits like undo/redo
+** adds some subtle (highlights) to certain edits like undo/redo
 #+begin_src emacs-lisp
   (use-package volatile-highlights
     :config
@@ -1870,11 +1870,9 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
 ** Enable modern scrolling
 
 #+begin_src emacs-lisp
-  (pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
-
+  ;; (pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
   (setq
-   redisplay-dont-pause t
-   scroll-margin 0
+   scroll-margin 10 
    scroll-step 1
    scroll-conservatively 100000000
    scroll-preserve-screen-position 1)

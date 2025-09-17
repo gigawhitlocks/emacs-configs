@@ -1161,11 +1161,9 @@ made unique when necessary."
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
-(pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
-
+;; (pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
 (setq
- redisplay-dont-pause t
- scroll-margin 0
+ scroll-margin 10 
  scroll-step 1
  scroll-conservatively 100000000
  scroll-preserve-screen-position 1)

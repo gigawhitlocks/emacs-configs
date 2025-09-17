@@ -798,7 +798,7 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-### adds some subtle (highlights) to certain edits like undo/redo
+## adds some subtle (highlights) to certain edits like undo/redo
 
 ```emacs-lisp
 (use-package volatile-highlights
@@ -2282,11 +2282,9 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
 ## Enable modern scrolling
 
 ```emacs-lisp
-(pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
-
+;; (pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
 (setq
- redisplay-dont-pause t
- scroll-margin 0
+ scroll-margin 10 
  scroll-step 1
  scroll-conservatively 100000000
  scroll-preserve-screen-position 1)
