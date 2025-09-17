@@ -658,10 +658,22 @@ If I can remember to use it :)
 #+END_SRC
 ** Highlight the current line
 I like to highlight the current line so that it is easy to identify where my cursor is.
-#+BEGIN_SRC emacs-lisp
+#+begin_src emacs-lisp
   (global-hl-line-mode)
   (setq global-hl-line-sticky-flag t)
-#+END_SRC
+#+end_src
+*** Beacon helps draw the eye to the current line when jumping
+#+begin_src emacs-lisp
+  (use-package beacon
+    :init
+    (beacon-mode))
+#+end_src
+*** idk what this package does
+#+begin_src emacs-lisp
+  (use-package volatile-highlights
+    :init
+    (volatile-highlights-mode 1))
+#+end_src
 ** Rainbow delimiters make it easier to identify matching parentheses
 #+BEGIN_SRC emacs-lisp
   (use-package rainbow-delimiters

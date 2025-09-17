@@ -385,29 +385,6 @@
 
 (setq fancy-compilation-override-colors nil)
 
-(require 'ansi-color)
-
-(defun ansi-color-apply-on-change (beg end len)
-  "Applies ANSI colorization to the whole buffer."
-    (ansi-color-apply-on-region (point-min) (point-max)))
-
-(define-minor-mode ansi-color-minor-mode
-  "A minor mode to automatically apply ANSI colors to a buffer."
-  :lighter "AnsiColor"
-  :group 'ansi-colors
-  (if ansi-color-minor-mode
-      (progn
-        (add-hook 'after-change-functions #'ansi-color-apply-on-change nil 'local)
-        (ansi-color-apply-on-region (point-min) (point-max)))
-    (progn
-      (remove-hook 'after-change-functions #'ansi-color-apply-on-change 'local)
-      (when (buffer-modified-p)
-        (set-buffer-modified-p nil))
-      (ansi-color-unapply))))
-
-(add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
-(add-hook 'compilation-mode-hook 'ansi-color-minor-mode)
-
 ;; first disable the default startup screen
 (setq inhibit-startup-screen t)
 (use-package dashboard
@@ -446,9 +423,18 @@
 (global-hl-line-mode)
 (setq global-hl-line-sticky-flag t)
 
+(use-package beacon
+  :init
+  (beacon-mode))
+
+(use-package volatile-highlights
+  :init
+  (volatile-highlights-mode 1))
+
 (use-package rainbow-delimiters
   :config
   ;; set up rainbow delimiters for Emacs lisp
+  ok
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   ;; and sql mode too, it's useful there
   (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)

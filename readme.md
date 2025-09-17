@@ -791,12 +791,31 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
+### Beacon helps draw the eye to the current line when jumping
+
+```emacs-lisp
+(use-package beacon
+  :init
+  (beacon-mode))
+```
+
+
+### idk what this package does
+
+```emacs-lisp
+(use-package volatile-highlights
+  :init
+  (volatile-highlights-mode 1))
+```
+
+
 ## Rainbow delimiters make it easier to identify matching parentheses
 
 ```emacs-lisp
 (use-package rainbow-delimiters
   :config
   ;; set up rainbow delimiters for Emacs lisp
+  ok
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
   ;; and sql mode too, it's useful there
   (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
@@ -1129,8 +1148,6 @@ This section contains all of the IDE-like features in my configuration.
 Just enable snippets and LSP in Python mode and that's enough for me
 
 ```emacs-lisp
-(add-to-list 'eglot-server-programs '(python-mode . ("pylsp")))
-
 (use-package python-mode
   :hook ((python-mode . yas-minor-mode)
          (python-mode . eglot-ensure)))
