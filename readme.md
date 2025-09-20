@@ -708,25 +708,10 @@ A helper function for ANSI color codes in certain buffers.
 
 ## Configure the Startup Splashscreen
 
-Following Spacemacs's style, I use the [`emacs-dashboard`](https://github.com/emacs-dashboard/emacs-dashboard) project and [`all-the-icons`](https://github.com/domtronn/all-the-icons.el) to provide an aesthetically pleasing splash screen with useful links to recently used files on launch.
-
-Actually, looking at the project page, the icons don't seem to be working for me. Maybe I need to enable them. I'll investigate later.
+Disable the default startup screen
 
 ```emacs-lisp
-;; first disable the default startup screen
 (setq inhibit-startup-screen t)
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner 'logo)
-  (setq dashboard-center-content t)
-  (setq dashboard-items '((recents  . 5)
-                          (bookmarks . 5)
-                          (projects . 5))
-        )
-  )
-
-(setq dashboard-set-footer nil)
 ```
 
 
@@ -2304,7 +2289,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use `M
  scroll-margin 10 
  scroll-step 1
  scroll-conservatively 100000000
- scroll-preserve-screen-position 1)
+ scroll-preserve-screen-position nil)
 ```
 
 
@@ -2438,7 +2423,7 @@ I have the default set to Ollama because I do not like the idea of accidentally 
 
 ### aider provides an interface to `aider` for agent-style requests and actions
 
-`aider` runs using the config at <file:///home/iwhitlock/.aider.conf.yml> so that I can configure a different one for each system.
+`aider` runs using the config at <file:///home/ian/.aider.conf.yml> so that I can configure a different one for each system.
 
 ```emacs-lisp
 (use-package aider

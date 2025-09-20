@@ -407,20 +407,7 @@
 (add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
 (add-hook 'compilation-mode-hook 'ansi-color-minor-mode)
 
-;; first disable the default startup screen
 (setq inhibit-startup-screen t)
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner 'logo)
-  (setq dashboard-center-content t)
-  (setq dashboard-items '((recents  . 5)
-                          (bookmarks . 5)
-                          (projects . 5))
-        )
-  )
-
-(setq dashboard-set-footer nil)
 
 (use-package yasnippet
   :demand t
@@ -1199,7 +1186,7 @@ made unique when necessary."
  scroll-margin 10 
  scroll-step 1
  scroll-conservatively 100000000
- scroll-preserve-screen-position 1)
+ scroll-preserve-screen-position nil)
 
 (context-menu-mode t)
 
