@@ -54,3 +54,5 @@ custom.el
 /elpaca/
 /games/
 .aider*
+/vendor/codeium.el/
+/codeium/
