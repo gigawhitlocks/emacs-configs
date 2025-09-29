@@ -1142,12 +1142,26 @@ This section contains all of the IDE-like features in my configuration.
 
 ## Python
 
-Just enable snippets and LSP in Python mode and that's enough for me
+Enable snippets and `eglot` in `python-mode`
 
 ```emacs-lisp
 (use-package python-mode
   :hook ((python-mode . yas-minor-mode)
-         (python-mode . eglot-ensure)))
+         ))
+```
+
+Configure `eglot` to resolve the language server for Python using `uv`:
+
+```emacs-lisp
+(use-package python-mode
+  :hook ((python-mode . (lambda ()
+                          (unless (boundp 'eglot-server-programs)
+                            (setq eglot-server-programs '()))
+                          (add-to-list
+                           'eglot-server-programs
+                           `((python-ts-mode python-mode) . ("uv" "tool" "run" "--from" "python-lsp-server[all]" "pylsp")))))
+           (python-mode . eglot-ensure)
+           ))
 ```
 
 

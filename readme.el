@@ -589,7 +589,17 @@
 
 (use-package python-mode
   :hook ((python-mode . yas-minor-mode)
-         (python-mode . eglot-ensure)))
+	 ))
+
+(use-package python-mode
+  :hook ((python-mode . (lambda ()
+			  (unless (boundp 'eglot-server-programs)
+			    (setq eglot-server-programs '()))
+			  (add-to-list
+			   'eglot-server-programs
+			   `((python-ts-mode python-mode) . ("uv" "tool" "run" "--from" "python-lsp-server[all]" "pylsp")))))
+	   (python-mode . eglot-ensure)
+	   ))
 
 (use-package go-mode
   :hook ((go-mode . yas-minor-mode)
