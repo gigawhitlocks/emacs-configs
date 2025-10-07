@@ -160,10 +160,6 @@
   (savehist-mode)
   )
 
-(use-package vertico-posframe
-  :init
-  (vertico-posframe-mode 1))
-
 (use-package corfu
   ;; Optional customizations
   ;; :custom
@@ -584,7 +580,7 @@
 			    (setq eglot-server-programs '()))
 			  (add-to-list
 			   'eglot-server-programs
-			   `((python-ts-mode python-mode) . ("uv" "tool" "run" "--from" "python-lsp-server[all]" "pylsp")))))
+			   `((python-ts-mode python-mode) . ("jedi-language-server")))))
 	   (python-mode . eglot-ensure)
 	   ))
 

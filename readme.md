@@ -333,16 +333,6 @@ Below is, actually, the default config. I didn't write any of this. It's kind of
   )
 ```
 
--   floating minibuffer
-
-    This `vertico` extension uses `posframe` to allow the minibuffer to appear in the center of the frame instead of down in the corner.
-    
-    ```emacs-lisp
-    (use-package vertico-posframe
-      :init
-      (vertico-posframe-mode 1))
-    ```
-
 
 ### Tab Completion
 
@@ -1144,7 +1134,7 @@ Configure `eglot` to resolve the language server for Python using `uv`:
                             (setq eglot-server-programs '()))
                           (add-to-list
                            'eglot-server-programs
-                           `((python-ts-mode python-mode) . ("uv" "tool" "run" "--from" "python-lsp-server[all]" "pylsp")))))
+                           `((python-ts-mode python-mode) . ("jedi-language-server")))))
            (python-mode . eglot-ensure)
            ))
 ```
