@@ -764,15 +764,6 @@ I like to highlight the current line so that it is easy to identify where my cur
 ```
 
 
-### Beacon helps draw the eye to the current line when jumping
-
-```emacs-lisp
-(use-package beacon
-  :init
-  (beacon-mode))
-```
-
-
 ## adds some subtle (highlights) to certain edits like undo/redo
 
 ```emacs-lisp

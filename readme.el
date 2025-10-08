@@ -428,10 +428,6 @@
 (global-hl-line-mode)
 (setq global-hl-line-sticky-flag t)
 
-(use-package beacon
-  :init
-  (beacon-mode))
-
 (use-package volatile-highlights
   :config
   (volatile-highlights-mode 1))

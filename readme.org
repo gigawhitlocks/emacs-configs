@@ -348,7 +348,6 @@ Below is some final, global configuration related to Vertico and Corfu & configu
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 #+end_src
 
-
 ** Solaire Mode
 Also some visual candy that makes "real" buffers more visible by changing the background color slightly vs e.g. *compilation* or magit buffers
 #+begin_src emacs-lisp
@@ -638,12 +637,6 @@ I like to highlight the current line so that it is easy to identify where my cur
 #+begin_src emacs-lisp
   (global-hl-line-mode)
   (setq global-hl-line-sticky-flag t)
-#+end_src
-*** Beacon helps draw the eye to the current line when jumping
-#+begin_src emacs-lisp
-  (use-package beacon
-    :init
-    (beacon-mode))
 #+end_src
 ** adds some subtle (highlights) to certain edits like undo/redo
 #+begin_src emacs-lisp
