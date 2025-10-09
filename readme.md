@@ -2208,7 +2208,7 @@ Just a bigger size that I prefer..
 
 ```emacs-lisp
 (setq initial-major-mode 'org-mode
-      initial-scratch-message "#+title: Scratch Buffer\n\n")
+      initial-scratch-message (concat "#+date:" (format-time-string "%A %d %B %Y") "\n\n"))
 ```
 
 
