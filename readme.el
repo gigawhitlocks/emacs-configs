@@ -1239,19 +1239,6 @@ made unique when necessary."
     :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
     ))
 
-(use-package aider
-  :init
-  ;; use my personal config file
-  (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
-  :config
-  ;; Optional: Set a key binding for the transient menu
-  (global-set-key (kbd "C-c a") 'aider-transient-menu-2cols) ;; for wider screen
-  ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
-  (aider-magit-setup-transients) ;; add aider magit function to magit menu
-  ;; auto revert buffer
-  (global-auto-revert-mode 1)
-  (auto-revert-mode 1))
-
 (setq confirm-kill-emacs 'yes-or-no-p)
 
 (defun silly-business/new-blog-post ()

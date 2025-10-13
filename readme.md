@@ -2450,26 +2450,6 @@ I have the default set to Ollama because I do not like the idea of accidentally 
 ```
 
 
-### aider provides an interface to `aider` for agent-style requests and actions
-
-`aider` runs using the config at <file:///home/ian/.aider.conf.yml> so that I can configure a different one for each system.
-
-```emacs-lisp
-(use-package aider
-  :init
-  ;; use my personal config file
-  (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
-  :config
-  ;; Optional: Set a key binding for the transient menu
-  (global-set-key (kbd "C-c a") 'aider-transient-menu-2cols) ;; for wider screen
-  ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
-  (aider-magit-setup-transients) ;; add aider magit function to magit menu
-  ;; auto revert buffer
-  (global-auto-revert-mode 1)
-  (auto-revert-mode 1))
-```
-
-
 ## Confirm before exit
 
 <span class="timestamp-wrapper"><span class="timestamp">&lt;2024-11-16 Sat&gt;</span></span>: Don't know why I didn't do this sooner! With my muscle memory for `:wq` I close Emacs by mistake *constantly* &#x2013; especially since I've been using `vim` bindings now for multiple decades and I use `emacsclient` heavily, so a lot of the time I actually do wish to call `evil-exit`&#x2026; just not on that last frame!
