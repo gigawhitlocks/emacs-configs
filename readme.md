@@ -604,6 +604,54 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
+### Git Config
+
+I might as well save my global `git` configuration here, as well, since `magit` is extra good if `git` is well-configured.
+
+```toml
+[column]
+    ui = auto
+
+[branch]
+    sort = -committerdate
+[tag]
+    sort = version:refname
+
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
+
+[fetch]
+    prune = true
+    pruneTags = true
+    all = true
+
+[help]
+    autocorrect = prompt
+
+[rerere]
+    enabled = true
+    autoupdate = true
+[rebase]
+    autoSquash = true
+    autoStash = true
+    updateRefs = true
+
+[merge]
+    conflictstyle = zdiff3
+
+[pull]
+    rebase = true
+
+```
+
+-   TODO break up this code block and document each of the configuration options
+
+    I know I carefully chose each of these options at one point, but I failed to write down what they do and I have forgotten some of them. I will have to retrace my steps here to save myself confusion in the future.
+
+
 ## Install and Configure `git-timemachine`
 
 `git-timeline` lets you step through the history of a file.
