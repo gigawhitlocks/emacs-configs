@@ -685,7 +685,6 @@ During rebase:
 [rebase]
     autoSquash = true
     autoStash = true
-    updateRefs = true
 ```
 
 When handling merge conflicts, using `zdiff3` adds a third color to make it abundantly clear which version of the code is which, making it much easier to handle problems when you change code that was also changed upstream.
