@@ -2103,7 +2103,15 @@ This isn't great but for now I've just been making a copy of one of the existing
 It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create ~local/"$(hostname).org"~ as part of initial setup, along with other tasks that I do not automate in this file.
 
 * Launching Emacsclient
+I found this on emacswiki.org; quoting the article:
+
+#+begin_quote
 [[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]]
+-     It creates a new frame if it doesn’t exist or opens the given file in the existing frame.
+-    The function has a built-in EmacsPipe functionality (e.g. ~echo "foo" | ec -~).
+-    Both GUI and TUI instances can be created without issues. For TUI just use =-nw=, =-t= or =--tty= switch like you would normally.
+#+end_quote
+
 #+BEGIN_SRC bash :tangle ~/bin/ec :shebang #!/usr/bin/bash
   args=""
   nw=false
@@ -2123,7 +2131,7 @@ It may someday feel worth my time to automate this, but so far it hasn't been wo
       args=(-c $args)           # open emacsclient in a new window
   fi
   if [ "$#" -gt "0" ]; then
-      # if 'em -' open standard input (e.g. pipe)
+      # if 'ec -' open standard input (e.g. pipe)
       if [[ "$1" == "-" ]]; then
           TMP="$(mktemp /tmp/emacsstdin-XXX)"
           cat >$TMP
