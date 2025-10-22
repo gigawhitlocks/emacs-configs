@@ -517,51 +517,85 @@ It's controversial but I think modal editing is brilliant and have been using ~v
 
 
 *** Git Config
-I might as well save my global ~git~ configuration here, as well, since ~magit~ is extra good if ~git~ is well-configured.
-
-#+begin_src toml :tangle ~/.config/git/config :comments link
+I might as well save my global ~git~ configuration here, as well, since ~magit~ is extra good if ~git~ is well-configured. I selected most of these options from [[https://blog.gitbutler.com/how-git-core-devs-configure-git][this blog post]] but I didn't select all of the options in that post, so I highly recommend it.
+ 
+Set the display to use columns when necessary to fit more info on the screen, if the output is a terminal. I'm pretty sure using ~always~ here would screw with Magit.
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [column]
-      ui = auto
+    ui = auto
+#+end_src
 
+Show branches with most recently edited ones first
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [branch]
-      sort = -committerdate
+    sort = -committerdate
+#+end_src
 
+Tags sort in the semvar way with this option
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [tag]
-      sort = version:refname
+    sort = version:refname
+#+end_src
 
+Settings for diffs:
+- ~histogram~ produces [[https://adamj.eu/tech/2024/01/18/git-improve-diff-histogram/][slightly different diffs from the default]], which I find more readable.
+- ~colorMoved~ highlights moved lines differently
+- ~mnemonicPrefix~ shows i/, w/, c/ instead of a/, b/ for index, work-tree, commit in the header line in diffs
+- ~renames~ enables rename detection in diffs
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [diff]
       algorithm = histogram
       colorMoved = plain
       mnemonicPrefix = true
       renames = true
+#+end_src
 
+When fetching:
+- remove remote-tracking branches and tags that no longer exist on the remote
+- fetch from all remotes
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [fetch]
       prune = true
       pruneTags = true
       all = true
+#+end_src
 
+"Did you mean /corrected command?/ y/n"
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [help]
       autocorrect = prompt
-
+#+end_src
+  
+Reapply conflict resolutions during rebase automatically
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [rerere]
       enabled = true
       autoupdate = true
+#+end_src
 
+During rebase:
+- move fixup and squash commits to the intended spot
+- automatically stash before rebase
+- update branch pointers to rebased commits
+#+begin_src conf :tangle ~/.config/git/config :comments link
   [rebase]
       autoSquash = true
       autoStash = true
       updateRefs = true
-
-  [merge]
-      conflictstyle = zdiff3
-
-  [pull]
-      rebase = true
-
 #+end_src
 
-**** TODO break up this code block and document each of the configuration options
-I know I carefully chose each of these options at one point, but I failed to write down what they do and I have forgotten some of them. I will have to retrace my steps here to save myself confusion in the future.
+When handling merge conflicts, using ~zdiff3~ adds a third color to make it abundantly clear which version of the code is which, making it much easier to handle problems when you change code that was also changed upstream.
+
+#+begin_src conf :tangle ~/.config/git/config :comments link
+  [merge]
+      conflictstyle = zdiff3
+#+end_src
+
+I prefer ~git pull --rebase~ by default, and this setting enables that
+#+begin_src conf :tangle ~/.config/git/config :comments link
+  [pull]
+      rebase = true
+#+end_src
 
 ** Install and Configure ~git-timemachine~
 ~git-timeline~ lets you step through the history of a file.
