@@ -614,6 +614,7 @@ I might as well save my global `git` configuration here, as well, since `magit` 
 
 [branch]
     sort = -committerdate
+
 [tag]
     sort = version:refname
 
@@ -634,6 +635,7 @@ I might as well save my global `git` configuration here, as well, since `magit` 
 [rerere]
     enabled = true
     autoupdate = true
+
 [rebase]
     autoSquash = true
     autoStash = true

@@ -519,12 +519,13 @@ It's controversial but I think modal editing is brilliant and have been using ~v
 *** Git Config
 I might as well save my global ~git~ configuration here, as well, since ~magit~ is extra good if ~git~ is well-configured.
 
-#+begin_src toml :tangle ~/.config/git/config
+#+begin_src toml :tangle ~/.config/git/config :comments link
   [column]
       ui = auto
 
   [branch]
       sort = -committerdate
+
   [tag]
       sort = version:refname
 
@@ -545,6 +546,7 @@ I might as well save my global ~git~ configuration here, as well, since ~magit~ 
   [rerere]
       enabled = true
       autoupdate = true
+
   [rebase]
       autoSquash = true
       autoStash = true
