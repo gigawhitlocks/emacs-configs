@@ -37,9 +37,13 @@ Load up all literate org-mode files in this directory:
 ```
 
 
-# Customize `Customize.el`
+# Apply Interactive Configuration Changes
 
-Emacs provides a menu-based customization interface that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file." By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one &#x2013; and after a long time I've realized it's too troublesome to check in those changes. So this setting tells Customize to write those settings to their own file, and this file is ignored in `.gitignore`.
+Emacs provides a menu-based customization interface called `customize.el` that makes configuration files like this one entirely optional, and sometimes Emacs prompts the user for things and saves their preferences to a "custom file."
+
+By default, that file is *this* file, but the auto-generated code is nasty, disposable, and almost always specific to the system where I've made some interactive choice &#x2013; for instance to trust local variables set in the header of a file like this one and it doesn't make sense to check in those changes, because they are always either highly specific to the machine or ephemeral, or both.
+
+The following tells Customize to write those settings to their own file, which is ignored in `.gitignore`. Then, it loads the file. If I make too many interactive changes through the Customize interface and something breaks, it is safe to delete this file (`custom.el`) to return Emacs to the known state in this repository.
 
 ```emacs-lisp
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
