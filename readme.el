@@ -1209,9 +1209,9 @@ made unique when necessary."
 (global-set-key (kbd "<C-S-drag-mouse-1>") 'window-swap-end)
 
 (use-package kagi
+  :defer t
   :custom
   (kagi-api-token  (password-store-get "kagi-token"))
-
   ;; Universal Summarizer settings
   (kagi-summarizer-default-language "EN")
   (kagi-summarizer-cache t))
@@ -1223,6 +1223,7 @@ made unique when necessary."
   (ob-kagi-fastgpt-setup))
 
 (use-package gptel
+  :defer t
   :config
   (setq gptel-model 'gemma3:12b-it-qat
 	gptel-backend (gptel-make-ollama "Ollama"

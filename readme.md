@@ -2446,9 +2446,9 @@ I love Kagi and even if it costs a few cents per query I would like to have it a
 
 ```emacs-lisp
 (use-package kagi
+  :defer t
   :custom
   (kagi-api-token  (password-store-get "kagi-token"))
-
   ;; Universal Summarizer settings
   (kagi-summarizer-default-language "EN")
   (kagi-summarizer-cache t))
@@ -2483,6 +2483,7 @@ I have the default set to Ollama because I do not like the idea of accidentally 
 
 ```emacs-lisp
 (use-package gptel
+  :defer t
   :config
   (setq gptel-model 'gemma3:12b-it-qat
         gptel-backend (gptel-make-ollama "Ollama"
@@ -2567,7 +2568,13 @@ There must be an Org file in `local/` named `$(hostname).org` or init actually b
 
 # Launching Emacsclient
 
-[Nifty shell function for hassle-free starting of emacsclient](https://www.emacswiki.org/emacs/EmacsClient#h5o-18)
+I found this on emacswiki.org; quoting the article:
+
+> [Nifty shell function for hassle-free starting of emacsclient](https://www.emacswiki.org/emacs/EmacsClient#h5o-18)
+> 
+> -   It creates a new frame if it doesn’t exist or opens the given file in the existing frame.
+> -   The function has a built-in EmacsPipe functionality (e.g. `echo "foo" | ec -`).
+> -   Both GUI and TUI instances can be created without issues. For TUI just use `-nw`, `-t` or `--tty` switch like you would normally.
 
 ```bash
 args=""
@@ -2588,7 +2595,7 @@ if [ "$#" -eq "0" ] || [ "$running" != true ]; then
     args=(-c $args)           # open emacsclient in a new window
 fi
 if [ "$#" -gt "0" ]; then
-    # if 'em -' open standard input (e.g. pipe)
+    # if 'ec -' open standard input (e.g. pipe)
     if [[ "$1" == "-" ]]; then
         TMP="$(mktemp /tmp/emacsstdin-XXX)"
         cat >$TMP

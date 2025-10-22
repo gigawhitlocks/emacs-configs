@@ -2003,9 +2003,9 @@ I love Kagi and even if it costs a few cents per query I would like to have it a
 *** Basic config
 #+begin_src emacs-lisp
   (use-package kagi
+    :defer t
     :custom
     (kagi-api-token  (password-store-get "kagi-token"))
-
     ;; Universal Summarizer settings
     (kagi-summarizer-default-language "EN")
     (kagi-summarizer-cache t))
@@ -2031,6 +2031,7 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
 I have the default set to Ollama because I do not like the idea of accidentally sending my code off to some third party API accidentally through a keybinding. This way I can switch to the expensive third parties manually when I want to, but if I accidentally press buttons, nothing happens.
 #+begin_src emacs-lisp
   (use-package gptel
+    :defer t
     :config
     (setq gptel-model 'gemma3:12b-it-qat
   	gptel-backend (gptel-make-ollama "Ollama"
