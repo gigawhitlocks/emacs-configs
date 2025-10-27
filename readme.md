@@ -608,100 +608,6 @@ It's mostly used below in the [global keybindings](#Global%20Keybindings) sectio
 ```
 
 
-### Git Config
-
-I might as well save my global `git` configuration here, as well, since `magit` is extra good if `git` is well-configured. I selected most of these options from [this blog post](https://blog.gitbutler.com/how-git-core-devs-configure-git) but I didn't select all of the options in that post, so I highly recommend it.
-
-Set the display to use columns when necessary to fit more info on the screen, if the output is a terminal. I'm pretty sure using `always` here would screw with Magit.
-
-```conf
-[column]
-  ui = auto
-```
-
-Show branches with most recently edited ones first
-
-```conf
-[branch]
-  sort = -committerdate
-```
-
-Tags sort in the semvar way with this option
-
-```conf
-[tag]
-  sort = version:refname
-```
-
-Settings for diffs:
-
--   `histogram` produces [slightly different diffs from the default](https://adamj.eu/tech/2024/01/18/git-improve-diff-histogram/), which I find more readable.
--   `colorMoved` highlights moved lines differently
--   `mnemonicPrefix` shows i/, w/, c/ instead of a/, b/ for index, work-tree, commit in the header line in diffs
--   `renames` enables rename detection in diffs
-
-```conf
-[diff]
-    algorithm = histogram
-    colorMoved = plain
-    mnemonicPrefix = true
-    renames = true
-```
-
-When fetching:
-
--   remove remote-tracking branches and tags that no longer exist on the remote
--   fetch from all remotes
-
-```conf
-[fetch]
-    prune = true
-    pruneTags = true
-    all = true
-```
-
-"Did you mean *corrected command?* y/n"
-
-```conf
-[help]
-    autocorrect = prompt
-```
-
-Reapply conflict resolutions during rebase automatically
-
-```conf
-[rerere]
-    enabled = true
-    autoupdate = true
-```
-
-During rebase:
-
--   move fixup and squash commits to the intended spot
--   automatically stash before rebase
--   update branch pointers to rebased commits
-
-```conf
-[rebase]
-    autoSquash = true
-    autoStash = true
-```
-
-When handling merge conflicts, using `zdiff3` adds a third color to make it abundantly clear which version of the code is which, making it much easier to handle problems when you change code that was also changed upstream.
-
-```conf
-[merge]
-    conflictstyle = zdiff3
-```
-
-I prefer `git pull --rebase` by default, and this setting enables that
-
-```conf
-[pull]
-    rebase = true
-```
-
-
 ## Install and Configure `git-timemachine`
 
 `git-timeline` lets you step through the history of a file.
@@ -2563,6 +2469,16 @@ This allows configuration to diverge to meet needs that are unique to a specific
 ```
 
 There must be an Org file in `local/` named `$(hostname).org` or init actually breaks. This isn't great but for now I've just been making a copy of one of the existing files whenever I start on a new machine. It may someday feel worth my time to automate this, but so far it hasn't been worth it, and I just create `local/"$(hostname).org"` as part of initial setup, along with other tasks that I do not automate in this file.
+
+
+# Configuration  For External Programs
+
+```emacs-lisp
+(dolist (f (let ((dir (expand-file-name "~/.emacs.d/dotfiles/")))
+              (when (file-directory-p dir)
+                (directory-files dir t "\\.org\\'"))))
+  (org-babel-tangle-file f))
+```
 
 
 # Launching Emacsclient

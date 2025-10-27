@@ -1267,3 +1267,8 @@ made unique when necessary."
 
      (load (concat "~/.emacs.d/local/" hostname ".el"))
      (require 'local)))
+
+(dolist (f (let ((dir (expand-file-name "~/.emacs.d/dotfiles/")))
+              (when (file-directory-p dir)
+                (directory-files dir t "\\.org\\'"))))
+  (org-babel-tangle-file f))
