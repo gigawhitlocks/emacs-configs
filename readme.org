@@ -756,10 +756,6 @@ I need the ~evil~ compatiblity mode, too, because I run ~evil~.
   (use-package kubernetes-evil
     :after kubernetes)
 #+end_src
-** multiple cursors
-#+begin_src emacs-lisp
-  (use-package evil-mc)
-#+end_src
 ** elfeed
 #+begin_src emacs-lisp
   (use-package elfeed
@@ -783,6 +779,25 @@ I need the ~evil~ compatiblity mode, too, because I run ~evil~.
     (mapc #'elfeed-add-feed elfeed-feeds)
     (setq elfeed-search-format-date "%Y-%m-%d %I:%M %p"))
 #+end_src
+** Subsonic (Navidrome)
+=subsonic.el= provides a client for Subsonic servers. Nice as a backup if I can't have another client on a machine where I can have Emacs installed, but otherwise, not my favorite thing. Doesn't play well with ~evil-mode~ and has a few sharp edges. Might make some contributions if I ever have the time.
+#+begin_src emacs-lisp
+  (use-package subsonic
+    :defer t
+    :custom
+    ;; TODO file a bug against this package; docs say this variable should be subsonic-url
+    ;; but reading the code & testing.. shows otherwise
+    (subsonic-host "grackle.local:4533")
+    (subsonic-ssl nil)
+    (subsonic-enable-art t)
+    (setq 
+     subsonic-auth '(;; hack alert! override the package's auth routine with my own
+  		   :secret (lambda () (password-store-get "navidrome"))
+  		   :host subsonic-host
+  		   :user "ian")))
+#+end_src
+*** TODO fix the README error I found and submit a PR
+*** TODO add evil-mode support
 
 * Font
 The FiraCode font is a programming-focused font with ligatures that looks nice and has a open license so I'm standardizing my editor configuration on that font

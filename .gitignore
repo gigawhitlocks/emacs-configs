@@ -56,3 +56,4 @@ custom.el
 .aider*
 /vendor/codeium.el/
 /codeium/
+/subsonic-cache/
