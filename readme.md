@@ -944,7 +944,23 @@ I need the `evil` compatiblity mode, too, because I run `evil`.
 ## elfeed
 
 ```emacs-lisp
-(use-package elfeed)
+(use-package elfeed
+  :init
+  (setq elfeed-feeds
+        '("https://washingtonobserver.substack.com/feed"
+          "https://washingtonstatestandard.com/feed/"
+          "https://www.gigharbornow.org/feed/"
+          "https://www.theurbanist.org/feed/"
+          "https://lynnwoodtimes.com/feed/"
+          "https://favs.news/feed/"
+          "https://www.cheneyfreepress.com/rss"
+          "http://lynnwoodtoday.com/feed"
+          "https://www.seattletimes.com/seattle-news/feed"
+          "https://citizentacoma.com/feed/podcast"
+          "https://www.cascadiadaily.com/feed"))
+  :config
+  (mapc #'elfeed-add-feed elfeed-feeds)
+  (setq elfeed-search-format-date "%Y-%m-%d %I:%M %p"))
 ```
 
 
@@ -1523,6 +1539,24 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
       (progn
         (display-line-numbers-mode -1)
         (display-line-numbers-mode))))
+
+(defun gptel-replace-region-elisp ()
+  "Send the active region to the current gptel model with an elisp-only prompt and replace it with the response."
+  (interactive)
+  (unless (use-region-p)
+    (user-error "No region selected"))
+  (let ((beg (region-beginning))
+      (end (region-end))
+      (text (concat "OUTPUT ONLY VALID EMACS LISP CODE\n"
+                      (buffer-substring-no-properties beg end))))
+    (gptel-request
+     text
+     :callback (lambda (response)
+               (save-excursion
+                   (delete-region beg end)
+                   (goto-char beg)
+                   (insert response))))))
+
 ```
 
 
