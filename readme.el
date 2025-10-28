@@ -498,7 +498,10 @@
 (use-package elfeed
   :init
   (setq elfeed-feeds
-        '("https://washingtonobserver.substack.com/feed"
+        '(;; kagi small web
+          "https://kagi.com/api/v1/smallweb/feed"
+	  ;; wa news
+          "https://washingtonobserver.substack.com/feed"
           "https://washingtonstatestandard.com/feed/"
           "https://www.gigharbornow.org/feed/"
           "https://www.theurbanist.org/feed/"
