@@ -509,20 +509,6 @@
 				 :api-url "https://news.theknown.net/fever/"
 				 :password ,(password-store-get "miniflux-password")))))
 
-(use-package subsonic
-  :defer t
-  :custom
-  ;; TODO file a bug against this package; docs say this variable should be subsonic-url
-  ;; but reading the code & testing.. shows otherwise
-  (subsonic-host "grackle.local:4533")
-  (subsonic-ssl nil)
-  (subsonic-enable-art t)
-  (setq 
-   subsonic-auth '(;; hack alert! override the package's auth routine with my own
-		   :secret (lambda () (password-store-get "navidrome"))
-		   :host subsonic-host
-		   :user "ian")))
-
 (shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
 (shell-command "~/.emacs.d/install-firacode-font.bash")
 
