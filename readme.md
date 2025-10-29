@@ -937,21 +937,25 @@ I need the `evil` compatiblity mode, too, because I run `evil`.
 ## elfeed
 
 ```emacs-lisp
-(use-package elfeed
-  :defer t
-  :custom
-  (elfeed-show-truncate-long-urls t)
-  (elfeed-show-entry-switch 'display-buffer)
-  (elfeed-search-date-format '("%Y-%m-%d %I:%M %p" 16 :left)))
-
 (use-package elfeed-protocol
   :defer t
+  :after elfeed
   :config
   (setq elfeed-protocol-fever-update-unread-only nil)
   (setq elfeed-protocol-fever-fetch-category-as-tag t)
   (setq elfeed-protocol-feeds `(("fever+https://ian@news.theknown.net"
                                  :api-url "https://news.theknown.net/fever/"
-                                 :password ,(password-store-get "miniflux-password")))))
+                                 :password ,(password-store-get "miniflux-password"))))
+  (setq elfeed-use-curl t))
+
+(use-package elfeed
+  :defer t
+  :init
+  (elfeed-protocol-enable) 
+  :custom
+  (elfeed-show-truncate-long-urls t)
+  (elfeed-show-entry-switch 'display-buffer)
+  (elfeed-search-date-format '("%Y-%m-%d %I:%M %p" 19 :left)))
 ```
 
 
@@ -2234,6 +2238,8 @@ Just a bigger size that I prefer..
 
 
 ## Scratch buffer settings
+
+Open the special `*scratch*` buffer in Org mode instead of Emacs Lisp mode, and add the date at the top. Like an old-timey dated notepad.
 
 ```emacs-lisp
 (setq initial-major-mode 'org-mode
