@@ -494,25 +494,20 @@
   :after kubernetes)
 
 (use-package elfeed
-  :init
-  (setq elfeed-feeds
-        '(;; kagi small web
-          "https://kagi.com/api/v1/smallweb/feed"
-	  ;; wa news
-          "https://washingtonobserver.substack.com/feed"
-          "https://washingtonstatestandard.com/feed/"
-          "https://www.gigharbornow.org/feed/"
-          "https://www.theurbanist.org/feed/"
-          "https://lynnwoodtimes.com/feed/"
-          "https://favs.news/feed/"
-          "https://www.cheneyfreepress.com/rss"
-          "http://lynnwoodtoday.com/feed"
-          "https://www.seattletimes.com/seattle-news/feed"
-          "https://citizentacoma.com/feed/podcast"
-          "https://www.cascadiadaily.com/feed"))
+  :defer t
+  :custom
+  (elfeed-show-truncate-long-urls t)
+  (elfeed-show-entry-switch 'display-buffer)
+  (elfeed-search-date-format '("%Y-%m-%d %I:%M %p" 16 :left)))
+
+(use-package elfeed-protocol
+  :defer t
   :config
-  (mapc #'elfeed-add-feed elfeed-feeds)
-  (setq elfeed-search-format-date "%Y-%m-%d %I:%M %p"))
+  (setq elfeed-protocol-fever-update-unread-only nil)
+  (setq elfeed-protocol-fever-fetch-category-as-tag t)
+  (setq elfeed-protocol-feeds `(("fever+https://ian@news.theknown.net"
+				 :api-url "https://news.theknown.net/fever/"
+				 :password ,(password-store-get "miniflux-password")))))
 
 (use-package subsonic
   :defer t
