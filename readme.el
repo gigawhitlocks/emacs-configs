@@ -493,6 +493,14 @@
 (use-package kubernetes-evil
   :after kubernetes)
 
+(use-package elfeed
+  :defer t
+  :config
+  (elfeed-protocol-enable) 
+  :custom
+  (elfeed-show-entry-switch 'display-buffer)
+  (elfeed-search-date-format '("%Y-%m-%d %I:%M %p" 19 :left)))
+
 (use-package elfeed-protocol
   :defer t
   :after elfeed
@@ -503,15 +511,6 @@
 				 :api-url "https://news.theknown.net/fever/"
 				 :password ,(password-store-get "miniflux-password"))))
   (setq elfeed-use-curl t))
-
-(use-package elfeed
-  :defer t
-  :init
-  (elfeed-protocol-enable) 
-  :custom
-  (elfeed-show-truncate-long-urls t)
-  (elfeed-show-entry-switch 'display-buffer)
-  (elfeed-search-date-format '("%Y-%m-%d %I:%M %p" 19 :left)))
 
 (shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
 (shell-command "~/.emacs.d/install-firacode-font.bash")
