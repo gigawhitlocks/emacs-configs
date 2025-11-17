@@ -1689,16 +1689,18 @@ These keybindings are probably the most opinionated part of my configuration. Th
 
 ```emacs-lisp
 (use-package org
-:custom
-(org-startup-indented t)
-(org-hide-emphasis-markers t)
-(org-startup-with-inline-images t)
-(org-image-actual-width '(450))
-(org-fold-catch-invisible-edits 'error)
-(org-pretty-entities t)
-(org-use-sub-superscripts "{}")
-(org-id-link-to-org-use-id t)
-(org-fold-catch-invisible-edits 'show))
+  :custom
+  (org-startup-indented t)
+  (org-hide-emphasis-markers t)
+  (org-startup-with-inline-images t)
+  (org-image-actual-width '(450))
+  (org-fold-catch-invisible-edits 'error)
+  (org-pretty-entities t)
+  (org-use-sub-superscripts nil)
+  (org-id-link-to-org-use-id t)
+  (org-fold-catch-invisible-edits 'show)
+  :config
+  (add-to-list 'org-babel-default-header-args '(:results . "output")))
 ```
 
 
