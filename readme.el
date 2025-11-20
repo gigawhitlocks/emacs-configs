@@ -737,28 +737,6 @@
 (add-hook 'lua-mode-hook
           (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
 
-(use-package adaptive-wrap
-  :config
-  (setq-default adaptive-wrap-extra-indent 2)
-  (defun adaptive-and-visual-line-mode (hook)
-    (add-hook hook (lambda ()
-                      (progn
-                        (visual-line-mode)
-                        (adaptive-wrap-prefix-mode)))))
-
-  (mapc 'adaptive-and-visual-line-mode
-        (list
-         'markdown-mode
-         'go-mode-hook
-         'sql-mode-hook
-         'js2-mode-hook
-         'yaml-mode-hook
-         'rjsx-mode-hook))
-
-  (add-hook 'compilation-mode-hook
-            #'adaptive-wrap-prefix-mode)
-  (setq compilation-scroll-output t))
-
 (defun find-initfile ()
   "Open main config file."
   (interactive)
@@ -1119,6 +1097,28 @@ made unique when necessary."
 (use-package org-appear
   :hook
   (org-mode . org-appear-mode))
+
+(use-package adaptive-wrap
+  :config
+  (setq-default adaptive-wrap-extra-indent 2)
+  (defun adaptive-and-visual-line-mode (hook)
+    (add-hook hook (lambda ()
+                      (progn
+                        (visual-line-mode)
+                        (adaptive-wrap-prefix-mode)))))
+
+  (mapc 'adaptive-and-visual-line-mode
+        (list
+         'markdown-mode
+         'go-mode-hook
+         'sql-mode-hook
+         'js2-mode-hook
+         'yaml-mode-hook
+         'rjsx-mode-hook))
+
+  (add-hook 'compilation-mode-hook
+            #'adaptive-wrap-prefix-mode)
+  (setq compilation-scroll-output t))
 
 (server-start)
 

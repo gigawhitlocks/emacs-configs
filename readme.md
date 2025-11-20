@@ -1468,35 +1468,6 @@ Or tell `eglot` where it is, actually.
 ```
 
 
-# Adaptive Wrap and Visual Line Mode
-
-Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
-
-```emacs-lisp
-(use-package adaptive-wrap
-  :config
-  (setq-default adaptive-wrap-extra-indent 2)
-  (defun adaptive-and-visual-line-mode (hook)
-    (add-hook hook (lambda ()
-                      (progn
-                        (visual-line-mode)
-                        (adaptive-wrap-prefix-mode)))))
-
-  (mapc 'adaptive-and-visual-line-mode
-        (list
-         'markdown-mode
-         'go-mode-hook
-         'sql-mode-hook
-         'js2-mode-hook
-         'yaml-mode-hook
-         'rjsx-mode-hook))
-
-  (add-hook 'compilation-mode-hook
-            #'adaptive-wrap-prefix-mode)
-  (setq compilation-scroll-output t))
-```
-
-
 # Global Keybindings
 
 
@@ -2018,6 +1989,35 @@ Do `M-x describe-variable RET org-src-window-setup` to see the options
 
 
 # Miscellaneous standalone global configuration changes
+
+
+## Adaptive Wrap and Visual Line Mode
+
+Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of `visual-line-mode` (built-in) and [adaptive-wrap-prefix-mode](https://elpa.gnu.org/packages/adaptive-wrap.html) to ****dynamically (visually) wrap and indent long lines in languages like Go with no line length limit**** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.
+
+```emacs-lisp
+(use-package adaptive-wrap
+  :config
+  (setq-default adaptive-wrap-extra-indent 2)
+  (defun adaptive-and-visual-line-mode (hook)
+    (add-hook hook (lambda ()
+                      (progn
+                        (visual-line-mode)
+                        (adaptive-wrap-prefix-mode)))))
+
+  (mapc 'adaptive-and-visual-line-mode
+        (list
+         'markdown-mode
+         'go-mode-hook
+         'sql-mode-hook
+         'js2-mode-hook
+         'yaml-mode-hook
+         'rjsx-mode-hook))
+
+  (add-hook 'compilation-mode-hook
+            #'adaptive-wrap-prefix-mode)
+  (setq compilation-scroll-output t))
+```
 
 
 ## Start server
