@@ -850,6 +850,7 @@
     "n"      '(:keymap narrow-map)
     "oo"     'browse-url-at-point
     "p"      'projectile-command-map
+    "pf"     'consult-project-buffer
     "p!"     'projectile-run-async-shell-command-in-root
     "ps"     'consult-git-grep
     "si"     'yas-insert-snippet
