@@ -2012,6 +2012,16 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ```
 
 
+## Fill Column for Visual Line Mode
+
+Soft wrap for modes that use Visual Line Mode, like Org
+
+```emacs-lisp
+(use-package visual-fill-column)
+(add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
+```
+
+
 ## Start server
 
 ```emacs-lisp

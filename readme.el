@@ -1119,6 +1119,9 @@ made unique when necessary."
             #'adaptive-wrap-prefix-mode)
   (setq compilation-scroll-output t))
 
+(use-package visual-fill-column)
+(add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
+
 (server-start)
 
 (use-package browse-at-remote)

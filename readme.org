@@ -1682,7 +1682,12 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
               #'adaptive-wrap-prefix-mode)
     (setq compilation-scroll-output t))
 #+END_SRC
-
+** Fill Column for Visual Line Mode
+Soft wrap for modes that use Visual Line Mode, like Org
+#+begin_src emacs-lisp
+  (use-package visual-fill-column)
+  (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
+#+end_src
 ** Start server
 #+BEGIN_SRC emacs-lisp
   (server-start)
