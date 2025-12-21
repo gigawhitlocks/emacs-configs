@@ -1119,7 +1119,10 @@ made unique when necessary."
             #'adaptive-wrap-prefix-mode)
   (setq compilation-scroll-output t))
 
-(use-package visual-fill-column)
+(use-package visual-fill-column
+  :config
+  (visual-fill-column-width 120))
+
 (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
 
 (server-start)
