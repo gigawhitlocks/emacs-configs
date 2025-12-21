@@ -927,8 +927,6 @@
 
 (setq org-fontify-whole-heading-line t)
 
-
-
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
 
@@ -1290,6 +1288,9 @@ made unique when necessary."
                ))
 
 (setq-default use-short-answers t)
+
+(add-hook 'text-mode-hook #'flyspell-mode)
+(add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right

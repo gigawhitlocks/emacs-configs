@@ -1426,11 +1426,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
   (setq org-fontify-whole-heading-line t)
 #+end_src
 
-** disable the default editing window layout
-  instead, just replace the current window with the editing one..
-#+begin_src emacs-lisp
-#+end_src
-
 ** indent and wrap long lines
 #+begin_src emacs-lisp
   (add-hook 'org-mode-hook 'org-indent-mode)
@@ -2027,6 +2022,11 @@ I guess it was nice to have some of it generated.
 Instead of constantly typing ~yes~ and ~no~ to prompts, I can constantly type ~y~ and ~n~!
 #+begin_src emacs-lisp
   (setq-default use-short-answers t)
+#+end_src
+** Spell Checking
+#+begin_src emacs-lisp
+  (add-hook 'text-mode-hook #'flyspell-mode)
+  (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 #+end_src
 
 * Hostname-based tweaks

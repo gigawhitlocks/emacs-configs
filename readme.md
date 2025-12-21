@@ -1704,15 +1704,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ```
 
 
-## disable the default editing window layout
-
-instead, just replace the current window with the editing one..
-
-```emacs-lisp
-
-```
-
-
 ## indent and wrap long lines
 
 ```emacs-lisp
@@ -2474,6 +2465,14 @@ Instead of constantly typing `yes` and `no` to prompts, I can constantly type `y
 
 ```emacs-lisp
 (setq-default use-short-answers t)
+```
+
+
+## Spell Checking
+
+```emacs-lisp
+(add-hook 'text-mode-hook #'flyspell-mode)
+(add-hook 'prog-mode-hook #'flyspell-prog-mode)
 ```
 
 
