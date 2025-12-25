@@ -1687,8 +1687,9 @@ Soft wrap for modes that use Visual Line Mode, like Org
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :config
-    (visual-fill-column-width 120))
+    (visual-fill-column-width 150))
 
+  (setq visual-fill-column-width 150)
   (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
 #+end_src
 ** Start server
