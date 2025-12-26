@@ -1299,6 +1299,10 @@ made unique when necessary."
 (add-hook 'text-mode-hook #'flyspell-mode)
 (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 
+(add-hook 'yaml-mode-hook
+	  (lambda ()
+	    (run-hooks 'flyspell-prog-mode)))
+
 (let ;; find the hostname and assign it to a variable
      ((hostname (string-trim-right
                  (shell-command-to-string "cat /etc/hostname"))))

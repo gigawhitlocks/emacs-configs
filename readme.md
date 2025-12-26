@@ -2487,6 +2487,10 @@ Instead of constantly typing `yes` and `no` to prompts, I can constantly type `y
 ```emacs-lisp
 (add-hook 'text-mode-hook #'flyspell-mode)
 (add-hook 'prog-mode-hook #'flyspell-prog-mode)
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (run-hooks 'flyspell-prog-mode)))
 ```
 
 
