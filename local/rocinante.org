@@ -20,7 +20,7 @@ I also later discovered that I really needed the ~emacs-wayland~ package to work
 * Theme
 
   #+begin_src emacs-lisp
-  (load-theme 'doom-gruvbox)
+  ;;(load-theme 'doom-gruvbox)
 #+end_src
 
 ** Footer

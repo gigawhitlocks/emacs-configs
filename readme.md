@@ -237,12 +237,44 @@ I'm mainly using the Doom Emacs theme pack. I think they're really nice to look 
     ```
 
 
-### Default theme
+### Default themes
 
-I prefer to load a theme per-system, but it's nice to have it documented here. Add a line like the following to the appropriate file in `local/`
+Very slightly adapted code from a deleted account on Reddit, probably written by Prot, guessing from the default themes in the example (`modus_themes`).
 
 ```emacs-lisp
-;;  (load-theme 'ef-reverie)
+(require 'dbus)
+(defun mf/set-theme-from-dbus-value (value)
+  "Set the appropiate theme according to the color-scheme setting value."
+  (message "value is %s" value)
+  (if (equal value '1)
+      (progn (message "Switch to dark theme")
+             (load-theme 'ef-owl))
+    (progn (message "Switch to light theme")
+           (load-theme 'modus-operandi-tinted))))
+
+(defun mf/color-scheme-changed (path var value)
+  "DBus handler to detect when the color-scheme has changed."
+  (when (and (string-equal path "org.freedesktop.appearance")
+             (string-equal var "color-scheme"))
+    (mf/set-theme-from-dbus-value (car value))
+    ))
+
+;; Register for future changes
+(dbus-register-signal
+   :session "org.freedesktop.portal.Desktop"
+   "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
+   "SettingChanged"
+   #'mf/color-scheme-changed)
+
+;; Request the current color-scheme
+(dbus-call-method-asynchronously
+ :session "org.freedesktop.portal.Desktop"
+ "/org/freedesktop/portal/desktop" "org.freedesktop.portal.Settings"
+ "Read"
+ (lambda (value) (mf/set-theme-from-dbus-value (caar value)))
+ "org.freedesktop.appearance"
+ "color-scheme"
+ )
 ```
 
 
