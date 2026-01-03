@@ -664,7 +664,7 @@ If I can remember to use it :)
 #+end_src
 ** git-gutter shows unstaged changes in the gutter
 #+BEGIN_SRC emacs-lisp
-  (use-package git-gutter
+  (use-package git-gutter-fringe
       :delight
       :config
       (global-git-gutter-mode +1))

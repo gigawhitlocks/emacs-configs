@@ -783,7 +783,7 @@ It takes over the color theme and I don't know if I want it on all the time but 
 ## git-gutter shows unstaged changes in the gutter
 
 ```emacs-lisp
-(use-package git-gutter
+(use-package git-gutter-fringe
     :delight
     :config
     (global-git-gutter-mode +1))

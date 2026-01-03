@@ -452,7 +452,7 @@
 
 (use-package prism)
 
-(use-package git-gutter
+(use-package git-gutter-fringe
     :delight
     :config
     (global-git-gutter-mode +1))
