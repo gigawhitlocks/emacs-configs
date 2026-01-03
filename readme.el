@@ -1129,6 +1129,36 @@ made unique when necessary."
   :hook
   (org-mode . org-appear-mode))
 
+(defface org-pgp-delimiter-face
+  '((t (:inherit fixed-pitch :weight heavy)))
+  "Define a face for the header and footer of PGP encoded blocks")
+
+(defface org-pgp-content-face
+  '((t (:inherit fixed-pitch :weight light)))
+  "Define a face for the ccontent of PGP encoded blocks")
+
+(defun org-pgp--apply-theme-faces ()
+  (let ((src-fg (face-foreground 'org-code nil 'default)))
+    (set-face-attribute 'org-pgp-delimiter-face nil
+                        :foreground src-fg :width 'condensed)
+    (set-face-attribute 'org-pgp-content-face nil
+                        :foreground src-fg :width 'condensed)))
+
+(add-hook 'after-load-theme-hook #'org-pgp--apply-theme-faces)
+(add-hook 'org-mode-hook #'org-pgp--apply-theme-faces)
+
+(setq org-pgp-font-lock-keywords
+      '(("^-----BEGIN PGP MESSAGE-----[ \t]*$"
+         (0 'org-pgp-delimiter-face prepend))
+        ("^-----END PGP MESSAGE-----[ \t]*$"
+         (0 'org-pgp-delimiter-face prepend))
+        ("^-----BEGIN PGP MESSAGE-----[ \t]*\n\\(\\(?:.\\|\n\\)*?\\)\n-----END PGP MESSAGE-----[ \t]*$"
+         (1 'org-pgp-content-face prepend))))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil org-pgp-font-lock-keywords 'append)))
+
 (use-package adaptive-wrap
   :config
   (setq-default adaptive-wrap-extra-indent 2)

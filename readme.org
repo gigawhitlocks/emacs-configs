@@ -1689,6 +1689,43 @@ Do ~M-x describe-variable RET org-src-window-setup~ to see the options
     :hook
     (org-mode . org-appear-mode))
 #+end_src
+** Configure =org-crypt= faces
+=org-crypt= allows easy encryption of Org Mode heading by adding the tag =:crypt:= to the heading and calling =org-encrypt-entries=. I generated (with GPT OSS 120B) some faces to style PGP blobs in Org files:
+
+#+begin_src emacs-lisp
+  (defface org-pgp-delimiter-face
+    '((t (:inherit fixed-pitch :weight heavy)))
+    "Define a face for the header and footer of PGP encoded blocks")
+
+  (defface org-pgp-content-face
+    '((t (:inherit fixed-pitch :weight light)))
+    "Define a face for the ccontent of PGP encoded blocks")
+
+  (defun org-pgp--apply-theme-faces ()
+    (let ((src-fg (face-foreground 'org-code nil 'default)))
+      (set-face-attribute 'org-pgp-delimiter-face nil
+                          :foreground src-fg :width 'condensed)
+      (set-face-attribute 'org-pgp-content-face nil
+                          :foreground src-fg :width 'condensed)))
+
+  (add-hook 'after-load-theme-hook #'org-pgp--apply-theme-faces)
+  (add-hook 'org-mode-hook #'org-pgp--apply-theme-faces)
+
+  (setq org-pgp-font-lock-keywords
+        '(("^-----BEGIN PGP MESSAGE-----[ \t]*$"
+           (0 'org-pgp-delimiter-face prepend))
+          ("^-----END PGP MESSAGE-----[ \t]*$"
+           (0 'org-pgp-delimiter-face prepend))
+          ("^-----BEGIN PGP MESSAGE-----[ \t]*\n\\(\\(?:.\\|\n\\)*?\\)\n-----END PGP MESSAGE-----[ \t]*$"
+           (1 'org-pgp-content-face prepend))))
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (font-lock-add-keywords nil org-pgp-font-lock-keywords 'append)))
+#+end_src
+
+I actually wound up needing to RTFM and add =:width 'ultra-condensed= to get the look I wanted, as the bot couldn't seem to understand my intent, but it wrote the regexps and the rest of the boilerplate so that's still a win.
+
 * Miscellaneous standalone global configuration changes
 ** Adaptive Wrap and Visual Line Mode
 Here I've done some black magic fuckery for a few modes. Heathens in modern languages and also some other prose modes don't wrap their long lines at 80 characters like God intended so instead of using visual-column-mode which I think does something similar but probably would've been easier, I've defined an abomination of a combination of ~visual-line-mode~ (built-in) and [[https://elpa.gnu.org/packages/adaptive-wrap.html][adaptive-wrap-prefix-mode]] to **dynamically (visually) wrap and indent long lines in languages like Go with no line length limit** so they look nice on my screen at any window width and don't change the underlying file — and it's actually pretty cool.

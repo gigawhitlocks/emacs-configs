@@ -2012,6 +2012,45 @@ Do `M-x describe-variable RET org-src-window-setup` to see the options
 ```
 
 
+## Configure `org-crypt` faces
+
+`org-crypt` allows easy encryption of Org Mode heading by adding the tag `:crypt:` to the heading and calling `org-encrypt-entries`. I generated (with GPT OSS 120B) some faces to style PGP blobs in Org files:
+
+```emacs-lisp
+(defface org-pgp-delimiter-face
+  '((t (:inherit fixed-pitch :weight heavy)))
+  "Define a face for the header and footer of PGP encoded blocks")
+
+(defface org-pgp-content-face
+  '((t (:inherit fixed-pitch :weight light)))
+  "Define a face for the ccontent of PGP encoded blocks")
+
+(defun org-pgp--apply-theme-faces ()
+  (let ((src-fg (face-foreground 'org-code nil 'default)))
+    (set-face-attribute 'org-pgp-delimiter-face nil
+                        :foreground src-fg :width 'condensed)
+    (set-face-attribute 'org-pgp-content-face nil
+                        :foreground src-fg :width 'condensed)))
+
+(add-hook 'after-load-theme-hook #'org-pgp--apply-theme-faces)
+(add-hook 'org-mode-hook #'org-pgp--apply-theme-faces)
+
+(setq org-pgp-font-lock-keywords
+      '(("^-----BEGIN PGP MESSAGE-----[ \t]*$"
+         (0 'org-pgp-delimiter-face prepend))
+        ("^-----END PGP MESSAGE-----[ \t]*$"
+         (0 'org-pgp-delimiter-face prepend))
+        ("^-----BEGIN PGP MESSAGE-----[ \t]*\n\\(\\(?:.\\|\n\\)*?\\)\n-----END PGP MESSAGE-----[ \t]*$"
+         (1 'org-pgp-content-face prepend))))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (font-lock-add-keywords nil org-pgp-font-lock-keywords 'append)))
+```
+
+I actually wound up needing to RTFM and add `:width 'ultra-condensed` to get the look I wanted, as the bot couldn't seem to understand my intent, but it wrote the regexps and the rest of the boilerplate so that's still a win.
+
+
 # Miscellaneous standalone global configuration changes
 
 
