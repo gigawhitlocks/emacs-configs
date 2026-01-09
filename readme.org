@@ -201,7 +201,8 @@ Protesilaos Stavrou has a nice theme pack too:
     :custom
     (modus-themes-italic-constructs t)
     (modus-themes-bold-constructs t)
-    (modus-themes-mixed-fonts t))
+    (modus-themes-mixed-fonts t)
+    :init
 #+end_src
 *** Default themes
 Very slightly adapted code from a deleted account on Reddit, probably written by Prot, guessing from the default themes in the example (=modus_themes=).
@@ -239,7 +240,7 @@ Very slightly adapted code from a deleted account on Reddit, probably written by
    (lambda (value) (mf/set-theme-from-dbus-value (caar value)))
    "org.freedesktop.appearance"
    "color-scheme"
-   )
+   ))
 #+end_src
 
 ** Navigation and Completion, and the Minibuffer
@@ -1757,10 +1758,10 @@ Soft wrap for modes that use Visual Line Mode, like Org
 #+begin_src emacs-lisp
   (use-package visual-fill-column
     :config
-    (visual-fill-column-width 150))
+    (setq visual-fill-column-width 150)
+    (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
 
   (setq visual-fill-column-width 150)
-  (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
 #+end_src
 ** Start server
 #+BEGIN_SRC emacs-lisp
