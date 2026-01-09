@@ -233,7 +233,8 @@ I'm mainly using the Doom Emacs theme pack. I think they're really nice to look 
       :custom
       (modus-themes-italic-constructs t)
       (modus-themes-bold-constructs t)
-      (modus-themes-mixed-fonts t))
+      (modus-themes-mixed-fonts t)
+      :init
     ```
 
 
@@ -274,7 +275,7 @@ Very slightly adapted code from a deleted account on Reddit, probably written by
  (lambda (value) (mf/set-theme-from-dbus-value (caar value)))
  "org.freedesktop.appearance"
  "color-scheme"
- )
+ ))
 ```
 
 
@@ -2090,10 +2091,10 @@ Soft wrap for modes that use Visual Line Mode, like Org
 ```emacs-lisp
 (use-package visual-fill-column
   :config
-  (visual-fill-column-width 150))
+  (setq visual-fill-column-width 150)
+  (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
 
 (setq visual-fill-column-width 150)
-(add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
 ```
 
 
@@ -2513,6 +2514,23 @@ I have the default set to Ollama because I do not like the idea of accidentally 
     :key (password-store-get "synthetic.new-token")
     :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
     ))
+```
+
+
+### agent-shell for coding agents like OpenCode
+
+[agent-shell](https://github.com/xenodium/agent-shell) provides a native Emacs buffer to interact with LLM coding agents via the ACP (Agent Client Protocol). OpenCode has built-in ACP support via `opencode acp`. Other agents are not currently configured.
+
+Requires `opencode` to be installed and available on `PATH`. Run `opencode auth login` to authenticate before use.
+
+```emacs-lisp
+(use-package agent-shell
+  :defer t
+  :config
+  (setq agent-shell-opencode-authentication
+        (agent-shell-opencode-make-authentication :none t))
+  (setq agent-shell-preferred-agent-config
+        (agent-shell-opencode-make-agent-config)))
 ```
 
 

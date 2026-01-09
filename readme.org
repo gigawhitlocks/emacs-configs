@@ -2076,6 +2076,20 @@ I have the default set to Ollama because I do not like the idea of accidentally 
       :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
       ))
 #+end_src
+*** agent-shell for coding agents like OpenCode
+[[https://github.com/xenodium/agent-shell][agent-shell]] provides a native Emacs buffer to interact with LLM coding agents via the ACP (Agent Client Protocol). OpenCode has built-in ACP support via ~opencode acp~. Other agents are not currently configured.
+
+Requires ~opencode~ to be installed and available on =PATH=. Run ~opencode auth login~ to authenticate before use.
+#+begin_src emacs-lisp
+  (use-package agent-shell
+    :defer t
+    :config
+    (setq agent-shell-opencode-authentication
+          (agent-shell-opencode-make-authentication :none t))
+    (setq agent-shell-preferred-agent-config
+          (agent-shell-opencode-make-agent-config)))
+#+end_src
+
 ** Confirm before exit
 <2024-11-16 Sat>: Don't know why I didn't do this sooner! With my muscle memory for ~:wq~ I close Emacs by mistake /constantly/ -- especially since I've been using ~vim~ bindings now for multiple decades and I use ~emacsclient~ heavily, so a lot of the time I actually do wish to call ~evil-exit~... just not on that last frame!
 

@@ -106,7 +106,8 @@
   :custom
   (modus-themes-italic-constructs t)
   (modus-themes-bold-constructs t)
-  (modus-themes-mixed-fonts t))
+  (modus-themes-mixed-fonts t)
+  :init
 
 (require 'dbus)
 (defun mf/set-theme-from-dbus-value (value)
@@ -140,7 +141,7 @@
  (lambda (value) (mf/set-theme-from-dbus-value (caar value)))
  "org.freedesktop.appearance"
  "color-scheme"
- )
+ ))
 
 (use-package consult)
 (use-package consult-dir
@@ -1183,10 +1184,10 @@ made unique when necessary."
 
 (use-package visual-fill-column
   :config
-  (visual-fill-column-width 150))
+  (setq visual-fill-column-width 150)
+  (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
 
 (setq visual-fill-column-width 150)
-(add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline)
 
 (server-start)
 
@@ -1341,6 +1342,14 @@ made unique when necessary."
     :key (password-store-get "synthetic.new-token")
     :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
     ))
+
+(use-package agent-shell
+  :defer t
+  :config
+  (setq agent-shell-opencode-authentication
+        (agent-shell-opencode-make-authentication :none t))
+  (setq agent-shell-preferred-agent-config
+        (agent-shell-opencode-make-agent-config)))
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 
