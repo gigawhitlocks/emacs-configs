@@ -57,3 +57,4 @@ custom.el
 /vendor/codeium.el/
 /codeium/
 /subsonic-cache/
+/.agent-shell/
