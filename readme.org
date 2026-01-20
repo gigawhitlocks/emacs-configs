@@ -11,8 +11,6 @@ This is my Emacs configuration. It is written in [[https://orgmode.org/][Org Mod
 
 It follows the concept of "[[https://en.wikipedia.org/wiki/Literate_programming][literate programming]]" and both defines my Emacs configuration (as well as a few other, related things) and includes my notes about why I made those changes, and what I was doing at the time, as well as whatever other commentary I felt like including at the time (related or otherwise).
 
-At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
-
 * Entrypoint
 The source code below is extracted to ~init.el~ by calling ~M-x org-babel-tangle~. The rest of this file is extracted to ~readme.el~ by this entrypoint in ~init.el~. This allows me to only maintain ~readme.org~ as it will be re-extracted at startup every time. If this whole file is tangled to ~init.el~ by ~init.el~, then a bootstrapping problem is introduced. So this part remains static, and the rest of the config can live in its Org file.
 

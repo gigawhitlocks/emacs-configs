@@ -4,8 +4,6 @@ This is my Emacs configuration. It is written in [Org Mode](https://orgmode.org/
 
 It follows the concept of "[literate programming](https://en.wikipedia.org/wiki/Literate_programming)" and both defines my Emacs configuration (as well as a few other, related things) and includes my notes about why I made those changes, and what I was doing at the time, as well as whatever other commentary I felt like including at the time (related or otherwise).
 
-At least, that's the goal. In reality, it's a messy living document that I use to configure Emacs and to keep track of what I've done. I don't always take the best of notes, but it is sufficient for me to keep moving forward. If you search around, you may find ideas and code that you can repurpose for your own uses.
-
 
 # Entrypoint
 
