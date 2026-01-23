@@ -648,10 +648,21 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 #+end_src
 
 ** Encryption
+https://www.gnu.org/software/emacs/manual/html_node/epa/Encrypting_002fdecrypting-gpg-files.html
+This is for automatic handling of files ending in ~.gpg~, not to be confused with ~org-crypt~.
+
 #+begin_src emacs-lisp
   (require 'epa-file)
   (epa-file-enable)
 #+end_src
+
+** =difftastic.el= 
+provides an interface to the =difftastic= diffing tool which I like more than ediff 
+#+begin_src emacs-lisp
+  (use-package difftastic
+    :defer t)
+#+end_src
+
 * Extra Packages
 Packages with a smaller effect on the experience.
 ** prism colors by indent level

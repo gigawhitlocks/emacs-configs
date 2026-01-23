@@ -451,6 +451,9 @@
 (require 'epa-file)
 (epa-file-enable)
 
+(use-package difftastic
+  :defer t)
+
 (use-package prism)
 
 (use-package git-gutter-fringe

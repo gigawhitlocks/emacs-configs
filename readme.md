@@ -759,9 +759,21 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 
 ## Encryption
 
+<https://www.gnu.org/software/emacs/manual/html_node/epa/Encrypting_002fdecrypting-gpg-files.html> This is for automatic handling of files ending in `.gpg`, not to be confused with `org-crypt`.
+
 ```emacs-lisp
 (require 'epa-file)
 (epa-file-enable)
+```
+
+
+## `difftastic.el`
+
+provides an interface to the `difftastic` diffing tool which I like more than ediff
+
+```emacs-lisp
+(use-package difftastic
+  :defer t)
 ```
 
 
