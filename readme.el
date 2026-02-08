@@ -1343,7 +1343,7 @@ made unique when necessary."
   (gptel-make-openai "Synthetic"
     :host "api.synthetic.new"
     :key (password-store-get "synthetic.new-token")
-    :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
+    :models '(hf:moonshotai/Kimi-K2.5)
     ))
 
 (use-package agent-shell

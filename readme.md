@@ -2504,8 +2504,6 @@ Can Kagi FastGPT be used in Org mode?
 
 ### gptel provides basic features and functions for sending buffers etc to LLMs and for chats
 
-I have the default set to Ollama because I do not like the idea of accidentally sending my code off to some third party API through a keybinding. This way I can switch to the expensive third parties manually when I want to, but if I accidentally press buttons, nothing happens.
-
 ```emacs-lisp
 (use-package gptel
   :defer t
@@ -2522,7 +2520,7 @@ I have the default set to Ollama because I do not like the idea of accidentally 
   (gptel-make-openai "Synthetic"
     :host "api.synthetic.new"
     :key (password-store-get "synthetic.new-token")
-    :models '(hf:mistralai/Mistral-7B-Instruct-v0.3)
+    :models '(hf:moonshotai/Kimi-K2.5)
     ))
 ```
 
