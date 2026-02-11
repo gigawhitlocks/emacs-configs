@@ -1,0 +1,200 @@
+#+COMMENT: -*- mode: org; eval: (add-hook 'after-save-hook '(lambda () (org-babel-tangle)) nil 'local) -*-
+#+TITLE: OpenCode Emacs Follow Plugin
+#+PROPERTY: header-args:typescript :tangle ~/.config/opencode/plugins/emacs-follow.ts :mkdirp yes
+
+* Overview
+
+This is an [[https://opencode.ai][OpenCode]] plugin that integrates the AI coding assistant with Emacs. It provides two key features:
+
+1. *Before edits*: Opens the target file in Emacs and navigates to the line being edited, so you can watch changes as they happen
+2. *After edits*: Automatically refreshes the buffer to show the new content, suppressing all confirmation prompts
+
+The plugin communicates with Emacs via ~emacsclient~, so an Emacs server must be running (~M-x server-start~ or ~emacs --daemon~).
+
+** Prompt Suppression
+
+Emacs has several prompts that can block the refresh:
+- "Buffer has been modified; revert anyway?"
+- "File changed on disk. Reread from disk?"
+
+The plugin avoids these entirely by using a kill-and-reopen strategy:
+- Before editing: kill any existing buffer for the file, then open fresh
+- After editing: kill the buffer (marking unmodified first), then reopen and restore the window/position
+
+This is more aggressive than trying to suppress individual prompts, but is reliable.
+
+* Source Code
+
+** Auto-generated Header
+
+This comment block is tangled at the top of the file to direct future edits back to this Org file.
+
+#+begin_src typescript
+// =============================================================================
+// AUTO-GENERATED FILE - DO NOT EDIT DIRECTLY
+// =============================================================================
+// Source: ~/.emacs.d/dotfiles/opencode-emacs-follow.org
+//
+// This file is tangled from the Org source above. To make changes:
+// 1. Edit the Org file in Emacs
+// 2. Save the file (auto-tangles via after-save-hook)
+//    OR run: M-x org-babel-tangle
+//    OR run: emacsclient --eval '(org-babel-tangle-file "~/.emacs.d/dotfiles/opencode-emacs-follow.org")'
+// =============================================================================
+#+end_src
+
+** Imports and Logging
+
+#+begin_src typescript
+import type { Plugin } from "@opencode-ai/plugin"
+import { appendFile } from "fs/promises"
+
+const LOG_FILE = "/tmp/emacs-follow.log"
+const ELISP_FILE = new URL("./emacs-follow.el", import.meta.url).pathname
+
+async function log(message: string) {
+  const timestamp = new Date().toISOString()
+  await appendFile(LOG_FILE, `[${timestamp}] ${message}\n`).catch(() => {})
+}
+#+end_src
+
+** Plugin Implementation
+
+The plugin exports a single function that receives the OpenCode context and returns hook handlers.
+
+The Emacs Lisp code is stored in a separate file (~emacs-follow.el~) for readability. The plugin loads this file into Emacs on first use, then calls the defined functions.
+
+*** Find Line Number Helper
+
+Searches for the first line of ~searchText~ in the file to determine where an edit will occur.
+
+*** Before Hook
+
+Calls ~opencode-before-edit~ which kills any existing buffer for the file (to avoid "file changed on disk" prompts), then opens the file fresh and navigates to the target line.
+
+*** After Hook
+
+Calls ~opencode-after-edit~ which:
+1. Finds the existing buffer and saves the cursor position
+2. Marks buffer as unmodified and kills it
+3. Reopens the file fresh
+4. Restores the window and cursor position
+5. Triggers font-lock to update syntax highlighting
+
+** Emacs Lisp Functions
+
+The elisp functions are stored in a separate file for readability. The TypeScript plugin loads this file into Emacs on first use.
+
+#+begin_src emacs-lisp :tangle ~/.config/opencode/plugins/emacs-follow.el
+;;; emacs-follow.el --- Elisp helpers for OpenCode emacs-follow plugin -*- lexical-binding: t; -*-
+
+;; These functions are called by the emacs-follow.ts plugin via emacsclient.
+;; The plugin reads this file and constructs elisp calls with the appropriate
+;; file paths substituted in.
+
+;;; Code:
+
+(defun opencode-before-edit (file-path line-num)
+  "Prepare Emacs to show FILE-PATH before OpenCode edits it.
+Kills any existing buffer to avoid 'file changed on disk' prompts,
+opens the file fresh, and navigates to LINE-NUM."
+  (let ((buf (get-file-buffer file-path)))
+    (when buf
+      (with-current-buffer buf
+        (set-buffer-modified-p nil))
+      (kill-buffer buf)))
+  (find-file file-path)
+  (goto-line line-num)
+  (recenter 0)
+  (raise-frame))
+
+(defun opencode-after-edit (file-path)
+  "Refresh the buffer for FILE-PATH after OpenCode has edited it.
+Kills the existing buffer (preserving point), reopens fresh,
+restores cursor position, and ensures syntax highlighting."
+  (let* ((buf (get-file-buffer file-path))
+         (pt (and buf (with-current-buffer buf (point)))))
+    (when buf
+      (with-current-buffer buf
+        (set-buffer-modified-p nil))
+      (kill-buffer buf))
+    (find-file file-path)
+    (when pt
+      (goto-char (min pt (point-max))))
+    (font-lock-ensure)
+    (raise-frame)))
+
+(provide 'emacs-follow)
+;;; emacs-follow.el ends here
+#+end_src
+
+** TypeScript Plugin
+
+#+begin_src typescript
+export const EmacsFollowPlugin: Plugin = async ({ $ }) => {
+  let elispLoaded = false
+
+  async function ensureElispLoaded() {
+    if (elispLoaded) return
+    try {
+      Bun.spawnSync(["emacsclient", "--eval", `(load-file "${ELISP_FILE}")`])
+      elispLoaded = true
+    } catch (err) {
+      await log(`Failed to load elisp file: ${err}`)
+    }
+  }
+
+  async function findLineNumber(filePath: string, searchText: string): Promise<number> {
+    try {
+      const file = Bun.file(filePath)
+      const content = await file.text()
+      const lines = content.split("\n")
+      const firstSearchLine = searchText.split("\n")[0].trim()
+
+      for (let i = 0; i < lines.length; i++) {
+        if (lines[i].includes(firstSearchLine) || lines[i].trim() === firstSearchLine) {
+          return i + 1
+        }
+      }
+    } catch {
+      // File doesn't exist or can't be read
+    }
+    return 1
+  }
+
+  return {
+    "tool.execute.before": async (input, output) => {
+      if (input.tool !== "edit" && input.tool !== "write") return
+
+      const filePath = output.args?.filePath
+      if (!filePath) return
+
+      let lineNum = 1
+      if (input.tool === "edit" && output.args?.oldString) {
+        lineNum = await findLineNumber(filePath, output.args.oldString)
+      }
+
+      try {
+        await ensureElispLoaded()
+        Bun.spawn(["emacsclient", "--eval", `(opencode-before-edit "${filePath}" ${lineNum})`])
+      } catch (err) {
+        await log(`Failed to open file before edit: ${err}`)
+      }
+    },
+
+    "tool.execute.after": async (input, hookOutput) => {
+      if (input.tool !== "edit" && input.tool !== "write") return
+
+      const filePath = hookOutput?.metadata?.filediff?.file
+      if (!filePath) return
+
+      try {
+        await ensureElispLoaded()
+        Bun.spawn(["emacsclient", "--eval", `(opencode-after-edit "${filePath}")`])
+      } catch (err) {
+        await log(`Failed to refresh buffer after edit: ${err}`)
+      }
+    },
+  }
+}
+#+end_src
