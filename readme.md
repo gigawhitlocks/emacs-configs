@@ -767,16 +767,6 @@ YASnippet is really cool and allow fast insertion of boilerplate using templates
 ```
 
 
-## `difftastic.el`
-
-provides an interface to the `difftastic` diffing tool which I like more than ediff
-
-```emacs-lisp
-(use-package difftastic
-  :defer t)
-```
-
-
 # Extra Packages
 
 Packages with a smaller effect on the experience.

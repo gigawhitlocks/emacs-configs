@@ -655,14 +655,6 @@ This is for automatic handling of files ending in ~.gpg~, not to be confused wit
   (require 'epa-file)
   (epa-file-enable)
 #+end_src
-
-** =difftastic.el= 
-provides an interface to the =difftastic= diffing tool which I like more than ediff 
-#+begin_src emacs-lisp
-  (use-package difftastic
-    :defer t)
-#+end_src
-
 * Extra Packages
 Packages with a smaller effect on the experience.
 ** prism colors by indent level
