@@ -2306,6 +2306,15 @@ Automatically saves the file when it's been idle for 5 minutes.
 ```
 
 
+## Auto-revert-mode
+
+`auto-revert-mode` updates the buffer when the underlying file is changed.
+
+```emacs-lisp
+(global-auto-revert-mode t)
+```
+
+
 ## Default window size
 
 Just a bigger size that I prefer..

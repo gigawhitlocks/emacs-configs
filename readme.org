@@ -1917,6 +1917,12 @@ Automatically saves the file when it's been idle for 5 minutes.
    :diminish
    )
 #+END_SRC
+** Auto-revert-mode
+=auto-revert-mode= updates the buffer when the underlying file is changed.
+#+begin_src emacs-lisp
+  (global-auto-revert-mode t)
+#+end_src
+
 ** Default window size
 Just a bigger size that I prefer..
 #+BEGIN_SRC emacs-lisp

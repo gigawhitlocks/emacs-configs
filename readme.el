@@ -1243,6 +1243,8 @@ made unique when necessary."
  :diminish
  )
 
+(global-auto-revert-mode t)
+
 (add-to-list 'default-frame-alist '(width . 128))
 (add-to-list 'default-frame-alist '(height . 60))
 
