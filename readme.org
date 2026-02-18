@@ -2167,7 +2167,7 @@ I found this on emacswiki.org; quoting the article:
 
 #+begin_quote
 [[https://www.emacswiki.org/emacs/EmacsClient#h5o-18][Nifty shell function for hassle-free starting of emacsclient]]
--     It creates a new frame if it doesn’t exist or opens the given file in the existing frame.
+-    It creates a new frame if it doesn’t exist or opens the given file in the existing frame.
 -    The function has a built-in EmacsPipe functionality (e.g. ~echo "foo" | ec -~).
 -    Both GUI and TUI instances can be created without issues. For TUI just use =-nw=, =-t= or =--tty= switch like you would normally.
 #+end_quote
