@@ -920,6 +920,13 @@ This section contains all of the IDE-like features in my configuration.
    "zO"     'origami-open-all-nodes
    "zc"     'origami-close-node-recursively)
 #+END_SRC
+** Protobuf
+Protocol Buffers syntax highlighting for ~.proto~ files.
+#+begin_src emacs-lisp
+  (use-package protobuf-mode
+    :mode "\\.proto\\'")
+#+end_src
+
 ** Rego
 [[https://www.openpolicyagent.org/docs/latest/policy-language/][whatever that is]]
 #+begin_src emacs-lisp
@@ -1453,6 +1460,14 @@ These keybindings are probably the most opinionated part of my configuration. Th
 ** Install some tools for archiving web content into Org
 #+begin_src emacs-lisp
   (use-package org-web-tools)
+#+end_src
+
+** Org JSON Formatting
+Pretty-print JSON within =#+begin_src json= blocks.
+- =M-x iw/org-format-json-block= - Format block at point
+- =M-x iw/org-format-all-json-blocks= - Format all blocks in buffer
+#+begin_src emacs-lisp
+  (load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
 #+end_src
 
 ** Fontify the whole line for headings (with a background color)

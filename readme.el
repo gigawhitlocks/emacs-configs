@@ -958,6 +958,8 @@
 
 (use-package org-web-tools)
 
+(load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
+
 (setq org-fontify-whole-heading-line t)
 
 (add-hook 'org-mode-hook 'org-indent-mode)
