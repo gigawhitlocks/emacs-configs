@@ -590,6 +590,9 @@
  "zO"     'origami-open-all-nodes
  "zc"     'origami-close-node-recursively)
 
+(use-package protobuf-mode
+  :mode "\\.proto\\'")
+
 (use-package rego-mode)
 
 (use-package markdown-mode
@@ -958,7 +961,7 @@
 
 (use-package org-web-tools)
 
-(load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
+;; (load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
 
 (setq org-fontify-whole-heading-line t)
 

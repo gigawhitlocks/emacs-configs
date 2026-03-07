@@ -1463,11 +1463,12 @@ These keybindings are probably the most opinionated part of my configuration. Th
 #+end_src
 
 ** Org JSON Formatting
+*** TODO haha I forgot to vendor this file, check it in and delete this headline
 Pretty-print JSON within =#+begin_src json= blocks.
 - =M-x iw/org-format-json-block= - Format block at point
 - =M-x iw/org-format-all-json-blocks= - Format all blocks in buffer
 #+begin_src emacs-lisp
-  (load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
+  ;; (load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
 #+end_src
 
 ** Fontify the whole line for headings (with a background color)
