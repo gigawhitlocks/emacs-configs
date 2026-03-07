@@ -1544,7 +1544,6 @@ Pretty-print JSON within =#+begin_src json= blocks.
 #+begin_src emacs-lisp
   (setq org-export-coding-system 'utf-8)
 #+end_src
-    #+end_src
 *** epub export
 #+begin_src emacs-lisp
   (use-package ox-epub
@@ -2049,7 +2048,6 @@ For those of us who did away with the caps lock button but write SQL sometimes
 #+end_src
 
 ** Kagi integration
-I love Kagi and even if it costs a few cents per query I would like to have it accessible from Emacs. Uses API key stored in ~~/.secret.el~~ as configured in the "load secrets" section above
 *** Basic config
 #+begin_src emacs-lisp
   (use-package kagi
