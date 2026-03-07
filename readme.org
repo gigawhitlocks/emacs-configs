@@ -2087,13 +2087,7 @@ Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever
   			:models '(gemma3:12b-it-qat)))
 
     (gptel-make-kagi "Kagi"
-      :key (password-store-get "kagi-token"))
-
-    (gptel-make-openai "Synthetic"
-      :host "api.synthetic.new"
-      :key (password-store-get "synthetic.new-token")
-      :models '(hf:moonshotai/Kimi-K2.5)
-      ))
+      :key (password-store-get "kagi-token")))
 #+end_src
 *** agent-shell for coding agents like OpenCode
 [[https://github.com/xenodium/agent-shell][agent-shell]] provides a native Emacs buffer to interact with LLM coding agents via the ACP (Agent Client Protocol). OpenCode has built-in ACP support via ~opencode acp~. Other agents are not currently configured.
