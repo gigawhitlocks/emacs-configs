@@ -2060,7 +2060,7 @@ For those of us who did away with the caps lock button but write SQL sometimes
 #+end_src
 
 *** Org Babel Support
-Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever use it and want to capture the resposnes alongside notes
+Kagi FastGPT is also supported in Org Babel blocks, which will be nice if I ever use it and want to capture the responses alongside notes
 #+begin_src emacs-lisp
   (use-package ob-kagi-fastgpt
     :ensure nil  ; provided by the kagi package

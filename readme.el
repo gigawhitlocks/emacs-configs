@@ -1342,21 +1342,7 @@ made unique when necessary."
 			:models '(gemma3:12b-it-qat)))
 
   (gptel-make-kagi "Kagi"
-    :key (password-store-get "kagi-token"))
-
-  (gptel-make-openai "Synthetic"
-    :host "api.synthetic.new"
-    :key (password-store-get "synthetic.new-token")
-    :models '(hf:moonshotai/Kimi-K2.5)
-    ))
-
-(use-package agent-shell
-  :defer t
-  :config
-  (setq agent-shell-opencode-authentication
-        (agent-shell-opencode-make-authentication :none t))
-  (setq agent-shell-preferred-agent-config
-        (agent-shell-opencode-make-agent-config)))
+    :key (password-store-get "kagi-token")))
 
 (setq confirm-kill-emacs 'yes-or-no-p)
 
