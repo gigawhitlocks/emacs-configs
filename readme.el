@@ -1189,10 +1189,10 @@ made unique when necessary."
 
 (use-package visual-fill-column
   :config
-  (setq visual-fill-column-width 150)
+  (setq visual-fill-column-width 200)
   (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
 
-(setq visual-fill-column-width 150)
+(setq visual-fill-column-width 200)
 
 (server-start)
 

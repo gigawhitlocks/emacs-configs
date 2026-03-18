@@ -4,12 +4,23 @@
 
 * Overview
 
-This is an [[https://opencode.ai][OpenCode]] plugin that integrates the AI coding assistant with Emacs. It provides two key features:
+This is an [[https://opencode.ai][OpenCode]] plugin that integrates the AI coding assistant with Emacs. It provides three key features:
 
 1. *Before edits*: Opens the target file in Emacs and navigates to the line being edited, so you can watch changes as they happen
 2. *After edits*: Automatically refreshes the buffer to show the new content, suppressing all confirmation prompts
+3. *Highlight regions*: Custom tool (~emacs-highlight~) to highlight specific line ranges in files during code review, with theme-adaptive colors
 
 The plugin communicates with Emacs via ~emacsclient~, so an Emacs server must be running (~M-x server-start~ or ~emacs --daemon~).
+
+** Highlight Tool
+
+The ~emacs-highlight~ custom tool allows OpenCode to highlight specific regions in Emacs buffers. This is useful during code review or when explaining code changes.
+
+- *Colors*: Green for added lines, yellow for modified lines
+- *Theme-adaptive*: Automatically uses darker colors on dark backgrounds, lighter pastels on light backgrounds
+- *Exit*: Press ~q~ in the highlighted buffer to exit highlight mode and clear overlays
+
+Based on [[https://github.com/xenodium/emacs-skills/blob/main/skills/highlight/agent-skill-highlight.el][xenodium's agent-skill-highlight.el]].
 
 ** Prompt Suppression
 
@@ -46,7 +57,7 @@ This comment block is tangled at the top of the file to direct future edits back
 ** Imports and Logging
 
 #+begin_src typescript
-import type { Plugin } from "@opencode-ai/plugin"
+import { type Plugin, tool } from "@opencode-ai/plugin"
 import { appendFile } from "fs/promises"
 
 const LOG_FILE = "/tmp/emacs-follow.log"
@@ -94,6 +105,11 @@ The elisp functions are stored in a separate file for readability. The TypeScrip
 
 ;;; Code:
 
+(eval-when-compile
+  (require 'cl-lib))
+
+;;;; Edit-following functions
+
 (defun opencode-before-edit (file-path line-num)
   "Prepare Emacs to show FILE-PATH before OpenCode edits it.
 Kills any existing buffer to avoid 'file changed on disk' prompts,
@@ -105,13 +121,15 @@ opens the file fresh, and navigates to LINE-NUM."
       (kill-buffer buf)))
   (find-file file-path)
   (goto-line line-num)
-  (recenter 0)
+  (recenter)
   (raise-frame))
 
-(defun opencode-after-edit (file-path)
+(defun opencode-after-edit (file-path &optional highlight-start highlight-lines)
   "Refresh the buffer for FILE-PATH after OpenCode has edited it.
 Kills the existing buffer (preserving point), reopens fresh,
-restores cursor position, and ensures syntax highlighting."
+restores cursor position, and ensures syntax highlighting.
+If HIGHLIGHT-START and HIGHLIGHT-LINES are provided, applies a
+transient highlight to that region."
   (let* ((buf (get-file-buffer file-path))
          (pt (and buf (with-current-buffer buf (point)))))
     (when buf
@@ -122,7 +140,109 @@ restores cursor position, and ensures syntax highlighting."
     (when pt
       (goto-char (min pt (point-max))))
     (font-lock-ensure)
+    ;; Apply transient highlight if region specified
+    (when (and highlight-start highlight-lines (> highlight-lines 0))
+      (opencode-highlight-transient highlight-start highlight-lines))
+    (recenter)
     (raise-frame)))
+
+;;;; Highlight functions
+;; Based on xenodium's agent-skill-highlight.el
+;; https://github.com/xenodium/emacs-skills/blob/main/skills/highlight/agent-skill-highlight.el
+
+(defvar-local opencode-highlight--overlays nil
+  "List of highlight overlays in the current buffer.")
+
+(defvar-local opencode-highlight--was-read-only nil
+  "Whether buffer was read-only before entering highlight mode.")
+
+(defun opencode-highlight--light-background-p ()
+  "Return t if Emacs is using a light background."
+  (eq (frame-parameter nil 'background-mode) 'light))
+
+(defun opencode-highlight--get-color (type)
+  "Return appropriate color for TYPE based on background luminance.
+TYPE should be :added or :modified (or nil for default)."
+  (let ((light-p (opencode-highlight--light-background-p)))
+    (pcase type
+      (:added (if light-p "#ccf2cc" "#1a4a1a"))
+      (:modified (if light-p "#fff2cc" "#4a3a00"))
+      (_ (if light-p "#fff2cc" "#4a3a00")))))
+
+(defun opencode-highlight--remove-overlays ()
+  "Remove all highlight overlays in the current buffer."
+  (mapc #'delete-overlay opencode-highlight--overlays)
+  (setq opencode-highlight--overlays nil))
+
+(defun opencode-highlight-transient (start-line num-lines)
+  "Highlight NUM-LINES lines starting at START-LINE transiently.
+Does not enter highlight mode - just shows the highlight without
+making the buffer read-only. Clears any previous highlights first."
+  (opencode-highlight--remove-overlays)
+  (when (and start-line num-lines (> num-lines 0))
+    (let* ((color (opencode-highlight--get-color :modified))
+           (ov (save-excursion
+                 (goto-char (point-min))
+                 (forward-line (1- start-line))
+                 (let ((start-pos (point)))
+                   (forward-line num-lines)
+                   (make-overlay start-pos (point))))))
+      (overlay-put ov 'face `(:background ,color))
+      (push ov opencode-highlight--overlays)
+      ;; Move point to start of highlighted region
+      (goto-char (point-min))
+      (forward-line (1- start-line)))))
+
+(defun opencode-highlight-exit ()
+  "Exit highlight mode in the current buffer."
+  (interactive)
+  (opencode-highlight-mode -1))
+
+(define-minor-mode opencode-highlight-mode
+  "Temporary read-only mode with highlighted regions.
+Press \\[opencode-highlight-exit] to exit and clear highlights."
+  :lighter " OC-HL"
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "q") #'opencode-highlight-exit)
+            map)
+  (if opencode-highlight-mode
+      (progn
+        (setq opencode-highlight--was-read-only buffer-read-only)
+        (read-only-mode 1)
+        (message "Highlight mode: press q to exit"))
+    (opencode-highlight--remove-overlays)
+    (unless opencode-highlight--was-read-only
+      (read-only-mode -1))))
+
+(cl-defun opencode-highlight (&key files)
+  "Highlight regions in FILES.
+FILES is a list of (FILE-PATH :regions REGIONS :type TYPE) where REGIONS is
+a list of (:start LINE :lines COUNT) and TYPE is :added or :modified."
+  (dolist (file-spec files)
+    (let* ((file-path (car file-spec))
+           (plist (cdr file-spec))
+           (regions (plist-get plist :regions))
+           (file-type (plist-get plist :type)))
+      (find-file file-path)
+      (dolist (region regions)
+        (let* ((start-line (plist-get region :start))
+               (num-lines (plist-get region :lines))
+               (region-type (or (plist-get region :type) file-type :modified))
+               (color (opencode-highlight--get-color region-type))
+               (ov (make-overlay
+                    (progn (goto-char (point-min))
+                           (forward-line (1- start-line))
+                           (point))
+                    (progn (forward-line num-lines)
+                           (point)))))
+          (overlay-put ov 'face `(:background ,color))
+          (push ov opencode-highlight--overlays)))
+      (goto-char (point-min))
+      (when regions
+        (forward-line (1- (plist-get (car regions) :start))))
+      (recenter)
+      (opencode-highlight-mode 1)))
+  (raise-frame))
 
 (provide 'emacs-follow)
 ;;; emacs-follow.el ends here
@@ -130,9 +250,12 @@ restores cursor position, and ensures syntax highlighting."
 
 ** TypeScript Plugin
 
+*** Helper Functions
+
 #+begin_src typescript
 export const EmacsFollowPlugin: Plugin = async ({ $ }) => {
   let elispLoaded = false
+  let pendingHighlight: { filePath: string; startLine: number; lineCount: number } | null = null
 
   async function ensureElispLoaded() {
     if (elispLoaded) return
@@ -161,7 +284,13 @@ export const EmacsFollowPlugin: Plugin = async ({ $ }) => {
     }
     return 1
   }
+#+end_src
 
+*** Hook Handlers and Custom Tool
+
+The plugin returns hook handlers for edit/write operations plus a custom tool for highlighting regions.
+
+#+begin_src typescript
   return {
     "tool.execute.before": async (input, output) => {
       if (input.tool !== "edit" && input.tool !== "write") return
@@ -172,6 +301,14 @@ export const EmacsFollowPlugin: Plugin = async ({ $ }) => {
       let lineNum = 1
       if (input.tool === "edit" && output.args?.oldString) {
         lineNum = await findLineNumber(filePath, output.args.oldString)
+      }
+
+      // Capture highlight info for edit operations
+      if (input.tool === "edit" && output.args?.newString) {
+        const lineCount = output.args.newString.split("\n").length
+        pendingHighlight = { filePath, startLine: lineNum, lineCount }
+      } else {
+        pendingHighlight = null
       }
 
       try {
@@ -188,12 +325,78 @@ export const EmacsFollowPlugin: Plugin = async ({ $ }) => {
       const filePath = hookOutput?.metadata?.filediff?.file
       if (!filePath) return
 
+      // Build highlight args if we have pending highlight for this file
+      let highlightArgs = ""
+      if (pendingHighlight && pendingHighlight.filePath === filePath) {
+        highlightArgs = ` ${pendingHighlight.startLine} ${pendingHighlight.lineCount}`
+        pendingHighlight = null
+      }
+
       try {
         await ensureElispLoaded()
-        Bun.spawn(["emacsclient", "--eval", `(opencode-after-edit "${filePath}")`])
+        Bun.spawn(["emacsclient", "--eval", `(opencode-after-edit "${filePath}"${highlightArgs})`])
       } catch (err) {
         await log(`Failed to refresh buffer after edit: ${err}`)
       }
+    },
+
+    tool: {
+      "emacs-highlight": tool({
+        description:
+          "Highlight regions in Emacs buffers. Opens files and highlights specified line ranges " +
+          "with color-coded overlays (green for added, yellow for modified). Colors adapt " +
+          "automatically for light/dark Emacs themes. Press q in Emacs to exit highlight mode " +
+          "and clear highlights. Use this to show the user specific code regions during review.",
+        args: {
+          files: tool.schema.array(
+            tool.schema.object({
+              path: tool.schema.string().describe("Absolute path to the file"),
+              regions: tool.schema.array(
+                tool.schema.object({
+                  start: tool.schema.number().describe("1-indexed starting line number"),
+                  lines: tool.schema.number().describe("Number of lines to highlight from start"),
+                  type: tool.schema
+                    .enum(["added", "modified"])
+                    .optional()
+                    .describe("Region type for color: added (green) or modified (yellow). Default: modified"),
+                })
+              ),
+            })
+          ).describe("List of files with regions to highlight"),
+        },
+        async execute(args) {
+          await ensureElispLoaded()
+
+          const filesLisp = args.files
+            .map((file) => {
+              const regionsLisp = file.regions
+                .map((r) => {
+                  const typeLisp = r.type === "added" ? ":added" : ":modified"
+                  return `(:start ${r.start} :lines ${r.lines} :type ${typeLisp})`
+                })
+                .join(" ")
+              return `("${file.path}" :regions (${regionsLisp}))`
+            })
+            .join(" ")
+
+          const elisp = `(opencode-highlight :files '(${filesLisp}))`
+
+          try {
+            const result = Bun.spawnSync(["emacsclient", "--eval", elisp])
+            if (result.exitCode !== 0) {
+              const stderr = result.stderr.toString()
+              await log(`emacs-highlight failed: ${stderr}`)
+              return `Error highlighting: ${stderr}`
+            }
+            const fileCount = args.files.length
+            const regionCount = args.files.reduce((sum, f) => sum + f.regions.length, 0)
+            return `Highlighted ${regionCount} region(s) across ${fileCount} file(s) in Emacs. Press q to exit highlight mode.`
+          } catch (err) {
+            await log(`emacs-highlight exception: ${err}`)
+            return `Error: ${err}`
+          }
+        },
+      }),
     },
   }
 }
