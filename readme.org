@@ -773,23 +773,6 @@ Dumb jump provides an interface to grep that does a pretty good job of finding d
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
   (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
 #+end_src
-** Kubernetes Mode
-Provides an interactive Kubernetes Mode inspired by ~magit~. Since ~magit~ is one of my favorite tools, I have to try out the Kubernetes mode as well.
-#+begin_src emacs-lisp
-  (use-package kubernetes
-  :ensure t
-  :commands (kubernetes-overview))
-  ;; add this config if I experience issues with Emacs locking up
-  ;;:config
-  ;;(setq kubernetes-poll-frequency 3600
-   ;;     kubernetes-redraw-frequency 3600))
-#+end_src
-
-I need the ~evil~ compatiblity mode, too, because I run ~evil~.
-#+begin_src emacs-lisp
-  (use-package kubernetes-evil
-    :after kubernetes)
-#+end_src
 ** elfeed
 #+begin_src emacs-lisp
   (use-package elfeed
