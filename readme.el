@@ -970,6 +970,38 @@
                                )
                              )
 
+(defun my/org-babel-timestamp-result (orig-fn &rest args)
+  "Add execution timestamp when :timestamp t header arg is set.
+Wraps `org-babel-execute-src-block' to insert a comment above #+RESULTS:."
+  (let* ((src-marker (point-marker))
+         (info (org-babel-get-src-block-info 'light))
+         (params (nth 2 info))
+         (do-timestamp (equal (cdr (assoc :timestamp params)) "t")))
+    (when do-timestamp
+      (save-excursion
+        (let ((case-fold-search t))
+          (when (re-search-forward "#\\+end_src" nil t)
+            (forward-line 1)
+            (while (and (not (eobp)) (looking-at "^[[:space:]]*$"))
+              (forward-line 1))
+            (when (looking-at "^# Executed: ")
+              (delete-region (line-beginning-position)
+                             (min (1+ (line-end-position)) (point-max))))))))
+    (let ((result (apply orig-fn args)))
+      (when do-timestamp
+        (save-excursion
+          (goto-char src-marker)
+          (let ((result-pos (org-babel-where-is-src-block-result)))
+            (when (and result-pos (number-or-marker-p result-pos))
+              (goto-char result-pos)
+              (beginning-of-line)
+              (insert (format-time-string "# Executed: [%F %a %H:%M:%S]\n"))))))
+      (set-marker src-marker nil)
+      result)))
+
+(add-to-list 'org-babel-header-arg-names :timestamp)
+(advice-add 'org-babel-execute-src-block :around #'my/org-babel-timestamp-result)
+
 (my-local-leader-def
   :states  'normal
   :keymaps 'org-mode-map
