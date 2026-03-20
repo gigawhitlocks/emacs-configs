@@ -515,17 +515,6 @@
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
 
-(use-package kubernetes
-:ensure t
-:commands (kubernetes-overview))
-;; add this config if I experience issues with Emacs locking up
-;;:config
-;;(setq kubernetes-poll-frequency 3600
- ;;     kubernetes-redraw-frequency 3600))
-
-(use-package kubernetes-evil
-  :after kubernetes)
-
 (use-package elfeed
   :defer t
   :config
@@ -1187,12 +1176,12 @@ made unique when necessary."
             #'adaptive-wrap-prefix-mode)
   (setq compilation-scroll-output t))
 
-(use-package visual-fill-column
-  :config
-  (setq visual-fill-column-width 200)
-  (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
+;; (use-package visual-fill-column
+;;   :config
+;;   (setq visual-fill-column-width 150)
+;;   (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
 
-(setq visual-fill-column-width 200)
+;; (setq visual-fill-column-width 150)
 
 (server-start)
 

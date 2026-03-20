@@ -1754,12 +1754,12 @@ Here I've done some black magic fuckery for a few modes. Heathens in modern lang
 ** Fill Column for Visual Line Mode
 Soft wrap for modes that use Visual Line Mode, like Org
 #+begin_src emacs-lisp
-  (use-package visual-fill-column
-    :config
-    (setq visual-fill-column-width 150)
-    (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
+  ;; (use-package visual-fill-column
+  ;;   :config
+  ;;   (setq visual-fill-column-width 150)
+  ;;   (add-hook 'visual-line-mode-hook #'visual-fill-column-for-vline))
 
-  (setq visual-fill-column-width 150)
+  ;; (setq visual-fill-column-width 150)
 #+end_src
 ** Start server
 #+BEGIN_SRC emacs-lisp
