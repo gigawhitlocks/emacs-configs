@@ -58,3 +58,6 @@ custom.el
 /codeium/
 /subsonic-cache/
 /.agent-shell/
+/elfeed/
+/org-persist/
+/recentf.eld

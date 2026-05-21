@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -eo pipefail
+[[ $(uname) == "darwin" ]] && exit 0
 [[ $(fc-list | grep -i fira) != "" ]] && exit 0
 
 fonts_dir="${HOME}/.local/share/fonts"
