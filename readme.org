@@ -1090,8 +1090,6 @@ So yay for ~web-mode~!
              ("\\.html.tmpl$" . web-mode)
              ("\\.js$"   . web-mode)
              ("\\.jsx$"  . web-mode)
-             ("\\.ts$"   . web-mode)
-             ("\\.tsx$"  . web-mode)
              ("\\.css$"  . web-mode)
              ("\\.svelte$" . web-mode))
       :config
@@ -1099,6 +1097,14 @@ So yay for ~web-mode~!
       (setq web-mode-enable-auto-pairing t)
       (setq web-mode-enable-auto-quoting nil))
     #+END_SRC
+
+Set tab width to 2 in Web buffers
+#+begin_src emacs-lisp
+  (add-hook 'web-mode-hook (lambda ()
+                            (set (make-local-variable 'tab-width) 2)))
+  
+#+end_src
+
 
 *** enable jsx mode for all .js and .jsx files
 If working on projects that do not use JSX, might need to move this to
@@ -1127,6 +1133,24 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
           ;; add more projects here..
   ;;        ))
 #+END_SRC
+
+** TypeScript
+#+begin_src emacs-lisp
+  (use-package typescript-mode
+    :mode "\\.ts\\'"
+    :hook (typescript-mode . eglot-ensure))
+
+  (add-to-list 'major-mode-remap-alist
+               '(typescript-mode . typescript-ts-mode))
+#+end_src
+
+#+begin_src emacs-lisp
+  (add-hook 'typescript-mode-hook (lambda ()
+                            (set (make-local-variable 'tab-width) 2)))
+
+  (add-hook 'typescript-ts-mode-hook (lambda ()
+                            (set (make-local-variable 'tab-width) 2)))
+#+end_src
 
 ** JSON
 #+BEGIN_SRC emacs-lisp
@@ -1357,7 +1381,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
       "n"      '(:keymap narrow-map)
       "oo"     'browse-url-at-point
       "p"      'projectile-command-map
-      "pf"     'consult-project-buffer
+      "pf"     'project-find-file
       "p!"     'projectile-run-async-shell-command-in-root
       "ps"     'consult-git-grep
       "si"     'yas-insert-snippet

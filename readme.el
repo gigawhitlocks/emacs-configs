@@ -846,6 +846,9 @@
           (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
 
 
+(load (expand-file-name "vendor/bazel.el" user-emacs-directory))
+
+
 (defun find-initfile ()
   "Open main config file."
   (interactive)
@@ -1041,7 +1044,7 @@
 (use-package org-web-tools)
 
 
-;; (load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
+(load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
 
 
 (setq org-fontify-whole-heading-line t)
