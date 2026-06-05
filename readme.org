@@ -716,6 +716,11 @@ Just provides syntax highlighting in ~.unit~ files.
 
   (add-hook 'flycheck-error-list-mode-hook
             'visual-line-mode)
+
+  (use-package flycheck-eglot
+  :after (flycheck eglot)
+  :config
+  (global-flycheck-eglot-mode 1))
 #+END_SRC
 ** Install ~exec-path-from-shell~ to manage the PATH
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.

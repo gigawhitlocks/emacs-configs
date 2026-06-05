@@ -537,6 +537,11 @@
 (add-hook 'flycheck-error-list-mode-hook
           'visual-line-mode)
 
+(use-package flycheck-eglot
+:after (flycheck eglot)
+:config
+(global-flycheck-eglot-mode 1))
+
 
 (use-package exec-path-from-shell
   :config
