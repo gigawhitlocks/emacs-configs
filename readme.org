@@ -123,6 +123,9 @@ Before I can get really started I need one hack: ~magit~ and some other packages
 #+BEGIN_SRC emacs-lisp
   ;; transient needs to be manually updated early to solve a dependency issue with Magit
   ;; todo remove after Emacs 30 is released, I think
+(use-package compat
+ :ensure t)
+
   (use-package transient
     :ensure (:wait t))
 #+END_SRC
@@ -656,7 +659,7 @@ It takes over the color theme and I don't know if I want it on all the time but 
 If I can remember to use it :)
 
 #+begin_src emacs-lisp
-  (use-package prism)
+  ;;(use-package prism)
 #+end_src
 ** git-gutter shows unstaged changes in the gutter
 #+BEGIN_SRC emacs-lisp
@@ -1004,15 +1007,15 @@ $ curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/ins
 Since Go has auto formatting and imports management as a first-party feature I like to enable that as an automatic step before save in Emacs so that I do not have to remember to remove unwantetd imports, or to add new ones, or to format my code, literally ever. I am totally pampered by this state of affairs and Go is my bae for having all of these features.
 
 #+begin_src emacs-lisp
-  ;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
-  (defun my-eglot-organize-imports () (interactive)
-         (eglot-code-actions nil nil "source.organizeImports" t))
+    ;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
+    ;; (defun my-eglot-organize-imports () (interactive)
+    ;;        (eglot-code-actions nil nil "source.organizeImports" t))
 
-  (defun install-my-eglot-organize-imports () 
-    (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
-    (add-hook 'before-save-hook 'eglot-format-buffer nil t))
+    (defun install-my-eglot-organize-imports () 
+  ;;    (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
+      (add-hook 'before-save-hook 'eglot-format-buffer nil t))
 
-  (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
+    (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
 #+end_src
 
 The Go Emacs docs suggest using this snippet which I think might help with some freezing I've been seeing when stepping into previously unseen library code
@@ -1140,8 +1143,8 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
     :mode "\\.ts\\'"
     :hook (typescript-mode . eglot-ensure))
 
-  (add-to-list 'major-mode-remap-alist
-               '(typescript-mode . typescript-ts-mode))
+;;  (add-to-list 'major-mode-remap-alist
+;;               '(typescript-mode . typescript-ts-mode))
 #+end_src
 
 #+begin_src emacs-lisp
@@ -2023,7 +2026,7 @@ Removes the toolbar and menu bar (file menu, etc) in Emacs because I just use ~M
 #+BEGIN_SRC emacs-lisp
   (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
   (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-  (scroll-bar-mode -1)
+  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (defun my/disable-scroll-bars (frame)
     (modify-frame-parameters frame
                              '((vertical-scroll-bars . nil)
@@ -2166,6 +2169,13 @@ Instead of constantly typing ~yes~ and ~no~ to prompts, I can constantly type ~y
   (add-hook 'yaml-mode-hook
   	  (lambda ()
   	    (run-hooks 'flyspell-prog-mode)))
+#+end_src
+
+** Copy to clipboard over SSH
+#+begin_src emacs-lisp
+  (use-package clipetty
+    :ensure t
+    :hook (after-init . global-clipetty-mode))
 #+end_src
 
 * Hostname-based tweaks

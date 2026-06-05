@@ -67,10 +67,13 @@
 (use-package delight)
 
 
-;; transient needs to be manually updated early to solve a dependency issue with Magit
-;; todo remove after Emacs 30 is released, I think
-(use-package transient
-  :ensure (:wait t))
+  ;; transient needs to be manually updated early to solve a dependency issue with Magit
+  ;; todo remove after Emacs 30 is released, I think
+(use-package compat
+ :ensure t)
+
+  (use-package transient
+    :ensure (:wait t))
 
 
 (use-package all-the-icons)
@@ -489,7 +492,7 @@
 (epa-file-enable)
 
 
-(use-package prism)
+;;(use-package prism)
 
 
 (use-package git-gutter-fringe
@@ -699,15 +702,15 @@
   :hook (go-mode . flycheck-golangci-lint-setup))
 
 
-;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
-(defun my-eglot-organize-imports () (interactive)
-       (eglot-code-actions nil nil "source.organizeImports" t))
+  ;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
+  ;; (defun my-eglot-organize-imports () (interactive)
+  ;;        (eglot-code-actions nil nil "source.organizeImports" t))
 
-(defun install-my-eglot-organize-imports () 
-  (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
-  (add-hook 'before-save-hook 'eglot-format-buffer nil t))
+  (defun install-my-eglot-organize-imports () 
+;;    (add-hook 'before-save-hook 'my-eglot-organize-imports nil t)
+    (add-hook 'before-save-hook 'eglot-format-buffer nil t))
 
-(add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
+  (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
 
 
 (defun project-find-go-module (dir)
@@ -764,14 +767,17 @@
          ("\\.html.tmpl$" . web-mode)
          ("\\.js$"   . web-mode)
          ("\\.jsx$"  . web-mode)
-         ("\\.ts$"   . web-mode)
-         ("\\.tsx$"  . web-mode)
          ("\\.css$"  . web-mode)
          ("\\.svelte$" . web-mode))
   :config
   (setq web-mode-enable-css-colorization t)
   (setq web-mode-enable-auto-pairing t)
   (setq web-mode-enable-auto-quoting nil))
+
+
+(add-hook 'web-mode-hook (lambda ()
+                          (set (make-local-variable 'tab-width) 2)))
+
 
 
 (setq web-mode-content-types-alist
@@ -790,6 +796,21 @@
 ;;        ("go" . ".*example_project_dir/.*\\.html\\'")
         ;; add more projects here..
 ;;        ))
+
+
+  (use-package typescript-mode
+    :mode "\\.ts\\'"
+    :hook (typescript-mode . eglot-ensure))
+
+;;  (add-to-list 'major-mode-remap-alist
+;;               '(typescript-mode . typescript-ts-mode))
+
+
+(add-hook 'typescript-mode-hook (lambda ()
+                          (set (make-local-variable 'tab-width) 2)))
+
+(add-hook 'typescript-ts-mode-hook (lambda ()
+                          (set (make-local-variable 'tab-width) 2)))
 
 
 (use-package json-mode
@@ -964,7 +985,7 @@
     "n"      '(:keymap narrow-map)
     "oo"     'browse-url-at-point
     "p"      'projectile-command-map
-    "pf"     'consult-project-buffer
+    "pf"     'project-find-file
     "p!"     'projectile-run-async-shell-command-in-root
     "ps"     'consult-git-grep
     "si"     'yas-insert-snippet
@@ -1432,7 +1453,7 @@ made unique when necessary."
 
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(scroll-bar-mode -1)
+(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (defun my/disable-scroll-bars (frame)
   (modify-frame-parameters frame
                            '((vertical-scroll-bars . nil)
@@ -1536,6 +1557,11 @@ made unique when necessary."
 (add-hook 'yaml-mode-hook
 	  (lambda ()
 	    (run-hooks 'flyspell-prog-mode)))
+
+
+(use-package clipetty
+  :ensure t
+  :hook (after-init . global-clipetty-mode))
 
 
 (let ((hostname (if (file-exists-p "/etc/hostname")
