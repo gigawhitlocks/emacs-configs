@@ -1463,6 +1463,13 @@ These keybindings are probably the most opinionated part of my configuration. Th
     (add-to-list 'org-babel-default-header-args '(:results . "output")))
 #+end_src
 
+
+Disable org-lint because it seems to be buggy. TODO re-evaluate this decision later.
+#+begin_src emacs-lisp
+    (setq-local flycheck-disabled-checkers '(org-lint))
+#+end_src
+
+
 ** Some default evil bindings
 #+BEGIN_SRC emacs-lisp
   (use-package evil-org)

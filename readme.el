@@ -1061,6 +1061,9 @@
   (add-to-list 'org-babel-default-header-args '(:results . "output")))
 
 
+(setq-local flycheck-disabled-checkers '(org-lint))
+
+
 (use-package evil-org)
 
 
