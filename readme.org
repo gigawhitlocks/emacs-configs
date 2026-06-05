@@ -1263,6 +1263,11 @@ Or tell ~eglot~ where it is, actually.
 #+begin_src emacs-lisp
   (load (expand-file-name "vendor/bazel.el" user-emacs-directory))
 #+end_src
+** Nix
+#+begin_src emacs-lisp
+    (use-package nix-mode
+      :mode (("\\.nix$" . nix-mode)))
+#+end_src
 
 * Global Keybindings
 ** Helper Functions
