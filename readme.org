@@ -712,15 +712,18 @@ Just provides syntax highlighting in ~.unit~ files.
   (use-package flycheck
     :delight
     ;; enable it everywhere
-    :init (global-flycheck-mode))
+    :init (global-flycheck-mode)
+    :custom
+    (flycheck-disabled-checkers '(org-lint))
+    )
 
   (add-hook 'flycheck-error-list-mode-hook
             'visual-line-mode)
 
   (use-package flycheck-eglot
-  :after (flycheck eglot)
-  :config
-  (global-flycheck-eglot-mode 1))
+    :after (flycheck eglot)
+    :config
+    (global-flycheck-eglot-mode 1))
 #+END_SRC
 ** Install ~exec-path-from-shell~ to manage the PATH
 [[https://github.com/purcell/exec-path-from-shell][exec-path-from-shell]] mirrors PATH in zsh or Bash in macOS or Linux into Emacs so that the PATH in the shell and the PATH when calling commands from Emacs are the same.
@@ -1472,13 +1475,6 @@ These keybindings are probably the most opinionated part of my configuration. Th
     :config
     (add-to-list 'org-babel-default-header-args '(:results . "output")))
 #+end_src
-
-
-Disable org-lint because it seems to be buggy. TODO re-evaluate this decision later.
-#+begin_src emacs-lisp
-    (setq-local flycheck-disabled-checkers '(org-lint))
-#+end_src
-
 
 ** Some default evil bindings
 #+BEGIN_SRC emacs-lisp
