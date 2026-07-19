@@ -90,9 +90,6 @@
 (use-package treemacs-evil
   :after (treemacs evil))
 
-(use-package treemacs-projectile
-  :after (treemacs projectile))
-
 (use-package treemacs-magit
 :after (treemacs magit))
 
@@ -159,7 +156,8 @@
    ))))
 
 
-(use-package consult)
+(use-package consult
+  :bind ("C-x b" . consult-buffer))
 (use-package consult-dir
 :bind (
   :map vertico-local-completion-map))
@@ -311,15 +309,6 @@
 ;; ignore the elpa directory
 (add-to-list 'recentf-exclude
              "elpa/*")
-
-
-(use-package projectile
-  :demand t
-  :delight
-  :config
-  (use-package treemacs-projectile)
-  (projectile-mode +1)
-  )
 
 
 (use-package general
@@ -477,6 +466,9 @@
 (setq inhibit-startup-screen t)
 
 
+(setq initial-buffer-choice (lambda () (ghostel)))
+
+
 (use-package yasnippet
   :demand t
   :after (transient)
@@ -601,7 +593,33 @@
   (setq elfeed-use-curl t))
 
 
-(use-package ghostel)
+(use-package ghostel
+  :bind (("C-x m" . ghostel)
+	 :map ghostel-semi-char-mode-map
+	 ("C-s"  . consult-line)
+	 ("C-k"  . my/ghostel-send-C-k-and-kill)
+	 ;; I'm used to go up/down the shell history with M-n/p from eshell
+	 ;; Simulate this behavior in ghostel by sending C-p and C-n
+	 ("M-p" . (lambda () (interactive) (ghostel-send-key "p" "ctrl")))
+	 ("M-n" . (lambda () (interactive) (ghostel-send-key "n" "ctrl")))
+	 :map project-prefix-map
+	 ("m" . ghostel-project)
+	 ("M" . ghostel-project-list-buffers))
+  :init
+  (setq ghostel-shell "/usr/bin/fish")
+  (evil-set-initial-state 'ghostel-mode 'emacs)
+  :config
+  (defun my/ghostel-send-C-k-and-kill ()
+    "Send `C-k' to ghostel.
+Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
+    (interactive)
+    (kill-ring-save (point) (line-end-position))
+    (ghostel-send-key "k" "ctrl"))
+
+  (add-to-list 'project-switch-commands '(ghostel-project "Ghostel") t)
+  (add-to-list 'project-switch-commands '(ghostel-project-list-buffers "Ghostel buffers") t)
+  (add-to-list 'ghostel-eval-cmds '("magit-status-setup-buffer" magit-status-setup-buffer)))
+  
 
 
   (shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
@@ -735,8 +753,6 @@
 
 
 (use-package gotest)
-(advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
-(advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
 (add-hook 'go-test-mode-hook 'visual-line-mode)
 
 
@@ -960,7 +976,7 @@
     "dr"     (defun ian-desktop-read ()
                (interactive)
                (desktop-read "~/desktop-saves"))
-    "cc"     'projectile-compile-project
+    "cc"     'project-compile
 
     "ec"     'flycheck-clear
     "el"     'flycheck-list-errors
@@ -999,9 +1015,7 @@
     "is"     'consult-yasnippet
     "n"      '(:keymap narrow-map)
     "oo"     'browse-url-at-point
-    "p"      'projectile-command-map
     "pf"     'project-find-file
-    "p!"     'projectile-run-async-shell-command-in-root
     "ps"     'consult-git-grep
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
