@@ -158,9 +158,6 @@ It's installed early because many things have integrations with it, including so
   (use-package treemacs-evil
     :after (treemacs evil))
 
-  (use-package treemacs-projectile
-    :after (treemacs projectile))
-
   (use-package treemacs-magit
   :after (treemacs magit))
 #+end_src
@@ -428,23 +425,6 @@ Emacs comes with ~recentf-mode~ which helps me remember what I was doing after I
   (add-to-list 'recentf-exclude
                "elpa/*")
 #+END_SRC
-** Install and Configure Projectile
-[[https://projectile.readthedocs.io/en/latest/][~projectile~]] is a fantastic package that provides all kinds of project context-aware functions for things like:
-- running grep, but only inside the project
-- compiling the project from the project root without doing anything
-- find files within the project, again without having to do anything extra
-It's great, it gets installed early, can't live without it. 💘 ~projectile~
-
-#+BEGIN_SRC emacs-lisp
-  (use-package projectile
-    :demand t
-    :delight
-    :config
-    (use-package treemacs-projectile)
-    (projectile-mode +1)
-    )
-#+END_SRC
-
 ** Install and Configure Keybindings Helper
 [[https://github.com/noctuid/general.el][General]] provides more consistent and convenient keybindings, especially with ~evil-mode~.
 
@@ -1048,8 +1028,6 @@ Preliminary testing suggests it might do the trick
 *** Package and Configuration for Executing Tests
 #+BEGIN_SRC emacs-lisp
   (use-package gotest)
-  (advice-add 'go-test-current-project :before #'projectile-save-project-buffers)
-  (advice-add 'go-test-current-test :before #'projectile-save-project-buffers)
   (add-hook 'go-test-mode-hook 'visual-line-mode)
 #+END_SRC
 
@@ -1362,7 +1340,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
       "dr"     (defun ian-desktop-read ()
                  (interactive)
                  (desktop-read "~/desktop-saves"))
-      "cc"     'projectile-compile-project
+      "cc"     'project-compile
 
       "ec"     'flycheck-clear
       "el"     'flycheck-list-errors
@@ -1401,9 +1379,7 @@ These keybindings are probably the most opinionated part of my configuration. Th
       "is"     'consult-yasnippet
       "n"      '(:keymap narrow-map)
       "oo"     'browse-url-at-point
-      "p"      'projectile-command-map
       "pf"     'project-find-file
-      "p!"     'projectile-run-async-shell-command-in-root
       "ps"     'consult-git-grep
       "si"     'yas-insert-snippet
       "sn"     'yas-new-snippet
