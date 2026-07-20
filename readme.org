@@ -638,6 +638,12 @@ This is for automatic handling of files ending in ~.gpg~, not to be confused wit
   (require 'epa-file)
   (epa-file-enable)
 #+end_src
+** Projects
+#+begin_src emacs-lisp
+  (setopt project-vc-extra-root-markers '(".git"))
+  (add-hook 'project-find-functions #'project-try-vc)
+#+end_src
+
 * Extra Packages
 Packages with a smaller effect on the experience.
 ** prism colors by indent level

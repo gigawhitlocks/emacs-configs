@@ -484,6 +484,10 @@
 (epa-file-enable)
 
 
+(setopt project-vc-extra-root-markers '(".git"))
+(add-hook 'project-find-functions #'project-try-vc)
+
+
 ;;(use-package prism)
 
 
@@ -1015,7 +1019,7 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
     "is"     'consult-yasnippet
     "n"      '(:keymap narrow-map)
     "oo"     'browse-url-at-point
-    "pf"     'project-find-file
+    "p"      '(:keymap project-prefix-map)
     "ps"     'consult-git-grep
     "si"     'yas-insert-snippet
     "sn"     'yas-new-snippet
