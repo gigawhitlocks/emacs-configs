@@ -8,6 +8,4 @@
                     (or load-path nil))))
   (require 'ob-tangle))
 
-
 (mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
-

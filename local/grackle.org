@@ -14,7 +14,7 @@ I also later discovered that I really needed the ~emacs-wayland~ package to work
 * Theme
 
 #+begin_src emacs-lisp 
-  (load-theme 'doom-nord-light)
+ ;; (load-theme 'doom-nord-light)
 #+end_src
 
 ** Footer
