@@ -1785,6 +1785,50 @@ Do ~M-x describe-variable RET org-src-window-setup~ to see the options
 #+end_src
 
 I actually wound up needing to RTFM and add =:width 'ultra-condensed= to get the look I wanted, as the bot couldn't seem to understand my intent, but it wrote the regexps and the rest of the boilerplate so that's still a win.
+** Show the running process when :session is provided
+This is slop that I have only lightly reviewed but seems to work.
+
+#+begin_src emacs-lisp
+  (defvar my/org-babel-executing nil)
+
+  (defun my/org-babel-with-session-display (fn &rest args)
+    "Enable automatic session display during Babel execution."
+    (let ((my/org-babel-executing t))
+      (apply fn args)))
+
+  (defun my/org-babel-refresh-session (_output)
+    "Follow session output and redraw, even during synchronous execution."
+    (when-let* ((window (get-buffer-window (current-buffer))))
+      (set-window-point window (point-max))
+      (redisplay t)))
+
+  (defun my/org-babel-display-session (session)
+    "Display SESSION without selecting it, and return SESSION unchanged."
+    (when (and my/org-babel-executing session (not noninteractive))
+      (when-let* ((buffer (get-buffer session)))
+        (let ((window
+               (or (get-buffer-window buffer)
+                   (split-window (selected-window) nil 'below))))
+          (set-window-buffer window buffer)
+          (with-current-buffer buffer
+            (set-window-point window (point-max))
+            (add-hook 'comint-output-filter-functions
+                      #'my/org-babel-refresh-session t t))
+          (redisplay t))))
+    session)
+
+  (with-eval-after-load 'ob-core
+    (advice-add 'org-babel-execute-src-block :around
+                #'my/org-babel-with-session-display))
+
+  (with-eval-after-load 'ob-python
+    (advice-add 'org-babel-python-initiate-session :filter-return
+                #'my/org-babel-display-session))
+
+  (with-eval-after-load 'ob-shell
+    (advice-add 'org-babel-sh-initiate-session :filter-return
+                #'my/org-babel-display-session))
+#+end_src
 
 * Miscellaneous standalone global configuration changes
 ** Adaptive Wrap and Visual Line Mode
