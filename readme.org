@@ -1153,10 +1153,12 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
 ** JSON
 #+BEGIN_SRC emacs-lisp
   (use-package json-mode
-    :mode (("\\.json$" . json-mode ))
-    )
-
-  (add-hook 'json-mode-hook 'highlight-indent-guides-mode)
+    :mode (("\\.json$" . json-mode )
+  	 ("\\.hujson$" . jsonc-mode))
+    :hook ((json-mode . highlight-indent-guides-mode)
+  	 (json-mode . (lambda ()
+  			(setq-local tab-width 2
+  				    js-indent-level 2)))))
 #+END_SRC
 
 
