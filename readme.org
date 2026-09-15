@@ -1251,14 +1251,17 @@ Or tell ~eglot~ where it is, actually.
   (add-hook 'lua-mode-hook
             (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
 #+end_src
-** Bazel
-#+begin_src emacs-lisp
-  (load (expand-file-name "vendor/bazel.el" user-emacs-directory))
-#+end_src
 ** Nix
 #+begin_src emacs-lisp
     (use-package nix-mode
       :mode (("\\.nix$" . nix-mode)))
+#+end_src
+** Terraform
+#+begin_src emacs-lisp
+  (use-package terraform-mode
+  :ensure t
+  :mode (("\\.tf\\'" . terraform-mode)
+         ("\\.tfvars\\'" . terraform-mode)))
 #+end_src
 
 * Global Keybindings
