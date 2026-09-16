@@ -2225,6 +2225,17 @@ Instead of constantly typing ~yes~ and ~no~ to prompts, I can constantly type ~y
     :hook (after-init . global-clipetty-mode))
 #+end_src
 
+** When clicking links, reuse last window
+This changes the default behavior so that when following a link, if only one window is rendered, split it and show the destination in the new window. Otherwise, use the last window that was in use before clicking the link, to display the destination.
+
+#+begin_src emacs-lisp
+  (setopt display-buffer-base-action
+  	'((display-buffer-use-some-window
+  	   display-buffer-pop-up-window)
+  	  (some-window . mru)
+  	  (inhibit-same-window . t)))
+#+end_src
+
 * Hostname-based tweaks
 This is a simple convention that I use for loading machine-specific configuration for the different machines I run Emacs on.
 

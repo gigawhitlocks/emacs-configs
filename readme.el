@@ -4,6 +4,7 @@
     (write-file custom-file)))
 (load custom-file)
 
+
 (defvar elpaca-installer-version 0.12)
 (defvar elpaca-directory (expand-file-name "elpaca/" user-emacs-directory))
 (defvar elpaca-builds-directory (expand-file-name "builds/" elpaca-directory))
@@ -43,11 +44,13 @@
 (add-hook 'after-init-hook #'elpaca-process-queues)
 (elpaca `(,@elpaca-order))
 
+
 (use-package use-package
   :custom
   (use-package-always-ensure t)
   (package-native-compile t)
   (warning-minimum-level :emergency))
+
 
 ;; Install use-package support
 (elpaca elpaca-use-package
@@ -63,7 +66,8 @@
 (use-package diminish)
 (use-package delight)
 
-;; transient needs to be manually updated early to solve a dependency issue with Magit
+
+  ;; transient needs to be manually updated early to solve a dependency issue with Magit
   ;; todo remove after Emacs 30 is released, I think
 (use-package compat
  :ensure t)
@@ -71,7 +75,9 @@
   (use-package transient
     :ensure (:wait t))
 
+
 (use-package all-the-icons)
+
 
 (use-package treemacs
   :defer t
@@ -87,6 +93,7 @@
 (use-package treemacs-magit
 :after (treemacs magit))
 
+
 (use-package doom-themes
   :config
   ;; Global settings (defaults)
@@ -100,7 +107,9 @@
   (doom-themes-org-config)
   )
 
+
 (use-package ef-themes)
+
 
 (use-package modus-themes
   :custom
@@ -108,6 +117,7 @@
   (modus-themes-bold-constructs t)
   (modus-themes-mixed-fonts t)
   :init
+
 
 (if (not (string-equal system-type "darwin"))
 (progn
@@ -145,11 +155,13 @@
    "color-scheme"
    ))))
 
+
 (use-package consult
   :bind ("C-x b" . consult-buffer))
 (use-package consult-dir
 :bind (
   :map vertico-local-completion-map))
+
 
 ;; Enable rich annotations using the Marginalia package
 (use-package marginalia
@@ -172,14 +184,17 @@
   :config
   (nerd-icons-completion-mode))
 
+
 (use-package orderless
   :ensure t
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
+
 (use-package embark)
 (use-package embark-consult)
+
 
 ;; Enable vertico
 (use-package vertico
@@ -195,6 +210,7 @@
   ;; Persist history over Emacs restarts. Vertico sorts by history position.
   (savehist-mode)
   )
+
 
 (use-package corfu
   ;; Optional customizations
@@ -220,9 +236,11 @@
   :init
   (global-corfu-mode))
 
+
 (use-package cape
   :init
   (add-to-list 'completion-at-point-functions #'cape-file))
+
 
 ;; A few more useful configurations...
 ;; Support opening new minibuffers from inside existing minibuffers.
@@ -256,6 +274,7 @@
       '(read-only t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
+
 (use-package solaire-mode
   :demand t
   :config
@@ -265,11 +284,13 @@
   (solaire-global-mode +1)
   )
 
+
 (use-package doom-modeline
   :config       (doom-modeline-def-modeline 'main
                   '(bar matches buffer-info remote-host buffer-position parrot selection-info)
                   '(misc-info minor-modes input-method buffer-encoding major-mode process vcs "  "))
   :hook (after-init . doom-modeline-mode))
+
 
 ;; 🙌 Emoji! 🙌
 (use-package emojify
@@ -278,6 +299,7 @@
   :init
   (emojify-set-emoji-styles '(unicode))
   (setq emojify-download-emojis-p t))
+
 
 ;; recent files mode
 (recentf-mode 1)
@@ -288,11 +310,13 @@
 (add-to-list 'recentf-exclude
              "elpa/*")
 
+
 (use-package general
   :demand t
   :ensure (:wait t)
   :config
   (general-evil-setup))
+
 
 (use-package evil
   :demand t
@@ -368,6 +392,7 @@
 (with-eval-after-load 'evil-maps
   (define-key evil-motion-state-map (kbd "RET") nil))
 
+
 (use-package magit
   :after (transient)
   :ensure (:wait t)
@@ -375,6 +400,7 @@
 ;; disable the default emacs vc because git is all I use,
 ;; for I am a simple man
 (setq vc-handled-backends nil)
+
 
 (use-package git-timemachine)
 
@@ -387,6 +413,7 @@
      ;; force update evil keymaps after git-timemachine-mode loaded
      (add-hook 'git-timemachine-mode-hook #'evil-normalize-keymaps)))
 
+
 (use-package which-key
   :delight
   :init
@@ -397,7 +424,9 @@
   (which-key-lighter nil)
   (which-key-sort-order 'which-key-description-order))
 
+
 (use-package pass)
+
 
 (use-package fancy-compilation
   :commands (fancy-compilation-mode)
@@ -406,7 +435,9 @@
   (with-eval-after-load 'compile
     (fancy-compilation-mode)))
 
+
 (setq fancy-compilation-override-colors nil)
+
 
 (require 'ansi-color)
 
@@ -431,7 +462,9 @@
 (add-hook 'go-test-mode-hook 'ansi-color-minor-mode)
 (add-hook 'compilation-mode-hook 'ansi-color-minor-mode)
 
+
 (setq inhibit-startup-screen t)
+
 
 (use-package yasnippet
   :demand t
@@ -443,25 +476,32 @@
 (use-package yasnippet-snippets)
 (use-package consult-yasnippet)
 
+
 (require 'epa-file)
 (epa-file-enable)
+
 
 (setopt project-vc-extra-root-markers '(".git"))
 (add-hook 'project-find-functions #'project-try-vc)
 
+
 ;;(use-package prism)
+
 
 (use-package git-gutter-fringe
     :delight
     :config
     (global-git-gutter-mode +1))
 
+
 (global-hl-line-mode)
 (setq global-hl-line-sticky-flag t)
+
 
 (use-package volatile-highlights
   :config
   (volatile-highlights-mode 1))
+
 
 (use-package rainbow-delimiters
   :config
@@ -471,11 +511,15 @@
   (add-hook 'sql-mode-hook #'rainbow-delimiters-mode)
   )
 
+
 (use-package restart-emacs)
+
 
 (use-package s)
 
+
 (use-package systemd)
+
 
 ;; linter
 (use-package flycheck
@@ -494,32 +538,41 @@
   :config
   (global-flycheck-eglot-mode 1))
 
+
 (use-package exec-path-from-shell
   :config
   (exec-path-from-shell-initialize))
 
+
 (use-package ace-window)
 
+
 (use-package highlight-indent-guides)
+
 
 (use-package pc-bufsw
   :init
   (pc-bufsw))
 
+
 (use-package ack)
 (use-package ag)
 (use-package wgrep-ack)
+
 
 (use-package helpful)
 (global-set-key (kbd "C-h f") #'helpful-callable)
 (global-set-key (kbd "C-h v") #'helpful-variable)
 (global-set-key (kbd "C-h k") #'helpful-key)
 
+
 (use-package ace-jump-mode)
+
 
 (use-package dumb-jump)
 (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
 (setq xref-show-definitions-function #'xref-show-definitions-completing-read)
+
 
 (use-package elfeed
   :defer t
@@ -540,11 +593,14 @@
 				 :password ,(password-store-get "miniflux-password"))))
   (setq elfeed-use-curl t))
 
-(shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
+
+  (shell-command "chmod +x ~/.emacs.d/install-firacode-font.bash")
 ;;  (shell-command "~/.emacs.d/install-firacode-font.bash")
+
 
 (add-to-list 'default-frame-alist '(font . "Fira Code-12"))
 (set-frame-font "Fira Code-12" nil t)
+
 
 (use-package ligature
   :load-path "./vendor/"
@@ -574,6 +630,7 @@
 
   (global-ligature-mode 't))
 
+
 (use-package yaml-mode)
 (add-hook 'yaml-mode-hook 'highlight-indent-guides-mode)
 ;;(add-hook 'yaml-mode-hook 'origami-mode)
@@ -585,10 +642,13 @@
  "zO"     'origami-open-all-nodes
  "zc"     'origami-close-node-recursively)
 
+
 (use-package protobuf-mode
   :mode "\\.proto\\'")
 
+
 (use-package rego-mode)
+
 
 (use-package markdown-mode
   :ensure t
@@ -608,13 +668,16 @@
 ;; but I should consider putting it somewhere more general maybe?
 (add-hook 'eww-mode-hook 'visual-line-mode)
 
+
 (use-package dockerfile-mode)
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 (put 'dockerfile-image-name 'safe-local-variable #'stringp)
 
+
 (use-package python-mode
   :hook ((python-mode . yas-minor-mode)
 	 ))
+
 
 (use-package python-mode
   :hook ((python-mode . (lambda ()
@@ -625,6 +688,7 @@
 			   `((python-ts-mode python-mode) . ("jedi-language-server")))))
 	   (python-mode . eglot-ensure)
 	   ))
+
 
 (use-package go-mode
   :hook ((go-mode . yas-minor-mode)
@@ -638,7 +702,8 @@
 (use-package flycheck-golangci-lint
   :hook (go-mode . flycheck-golangci-lint-setup))
 
-;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
+
+  ;; https://github.com/joaotavora/eglot/issues/574#issuecomment-1401023985
   ;; (defun my-eglot-organize-imports () (interactive)
   ;;        (eglot-code-actions nil nil "source.organizeImports" t))
 
@@ -647,6 +712,7 @@
     (add-hook 'before-save-hook 'eglot-format-buffer nil t))
 
   (add-hook 'go-mode-hook #'install-my-eglot-organize-imports)
+
 
 (defun project-find-go-module (dir)
   (when-let ((root (locate-dominating-file dir "go.mod")))
@@ -657,8 +723,10 @@
 
 (add-hook 'project-find-functions #'project-find-go-module)
 
+
 (use-package gotest)
 (add-hook 'go-test-mode-hook 'visual-line-mode)
+
 
 (general-define-key
  :states  'normal
@@ -683,12 +751,15 @@
 (autoload 'go-mode "go-mode" nil t)
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-mode))
 
+
 ;; sets the visual tab width to 2 spaces per tab in Go buffers
 (add-hook 'go-mode-hook (lambda ()
                           (set (make-local-variable 'tab-width) 2)))
 
+
 (use-package rust-mode
   :mode (("\\.rs$" . rust-mode)))
+
 
 (use-package web-mode
   :mode (("\\.html$" . web-mode)
@@ -702,11 +773,15 @@
   (setq web-mode-enable-auto-pairing t)
   (setq web-mode-enable-auto-quoting nil))
 
+
 (add-hook 'web-mode-hook (lambda ()
                           (set (make-local-variable 'tab-width) 2)))
 
+
+
 (setq web-mode-content-types-alist
       '(("jsx" . "\\.js[x]?\\'")))
+
 
 ;; web-mode can provide syntax highlighting for many template
 ;; engines, but it can't detect the right one if the template uses a generic ending.
@@ -721,12 +796,14 @@
         ;; add more projects here..
 ;;        ))
 
-(use-package typescript-mode
+
+  (use-package typescript-mode
     :mode "\\.ts\\'"
     :hook (typescript-mode . eglot-ensure))
 
 ;;  (add-to-list 'major-mode-remap-alist
 ;;               '(typescript-mode . typescript-ts-mode))
+
 
 (add-hook 'typescript-mode-hook (lambda ()
                           (set (make-local-variable 'tab-width) 2)))
@@ -734,13 +811,18 @@
 (add-hook 'typescript-ts-mode-hook (lambda ()
                           (set (make-local-variable 'tab-width) 2)))
 
-(use-package json-mode
-  :mode (("\\.json$" . json-mode ))
-  )
 
-(add-hook 'json-mode-hook 'highlight-indent-guides-mode)
+(use-package json-mode
+  :mode (("\\.json$" . json-mode )
+	 ("\\.hujson$" . jsonc-mode))
+  :hook ((json-mode . highlight-indent-guides-mode)
+	 (json-mode . (defun set-tab-width-and-indent-level ()
+			(setq-local tab-width 2
+				    js-indent-level 2)))))
+
 
 (use-package fish-mode)
+
 
 (use-package salt-mode)
 (add-hook 'salt-mode-hook
@@ -755,15 +837,18 @@
  ",c" (general-simulate-key "C-x h C-M-x")
  )
 
+
 (use-package elixir-mode)
 
 ;; Create a buffer-local hook to run elixir-format on save, only when we enable elixir-mode.
 (add-hook 'elixir-mode-hook
           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
 
+
 (use-package sqlformat
   :config
   (setq sqlformat-command 'pgformatter))
+
 
 (use-package gdscript-mode
   :straight (gdscript-mode
@@ -774,16 +859,24 @@
 
 (add-to-list 'auto-mode-alist '("\\.gd\\'" . gdscript-mode))
 
+
 (use-package lua-mode
   :hook ((lua-mode . eglot-ensure)))
+
 
 (add-hook 'lua-mode-hook
           (lambda () (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
 
-(load (expand-file-name "vendor/bazel.el" user-emacs-directory))
 
 (use-package nix-mode
   :mode (("\\.nix$" . nix-mode)))
+
+
+(use-package terraform-mode
+:ensure t
+:mode (("\\.tf\\'" . terraform-mode)
+       ("\\.tfvars\\'" . terraform-mode)))
+
 
 (defun find-initfile ()
   "Open main config file."
@@ -833,7 +926,9 @@
                    (goto-char beg)
                    (insert response))))))
 
-;; define the spacebar as the global leader key, following the
+
+
+  ;; define the spacebar as the global leader key, following the
   ;; Spacemacs pattern, which I've been using since 2014
   (general-create-definer my-leader-def
     :prefix "SPC")
@@ -951,6 +1046,7 @@
    :keymaps 'treemacs-mode-map
    "<mouse-8>" 'treemacs-RET-action)
 
+
 (use-package org
   :custom
   (org-startup-indented t)
@@ -965,20 +1061,28 @@
   :config
   (add-to-list 'org-babel-default-header-args '(:results . "output")))
 
+
 (use-package evil-org)
+
 
 (use-package org-download)
 
+
 (use-package org-web-tools)
+
 
 (load (expand-file-name "vendor/format-org-json.el" user-emacs-directory))
 
+
 (setq org-fontify-whole-heading-line t)
+
 
 (add-hook 'org-mode-hook 'org-indent-mode)
 (add-hook 'org-mode-hook 'visual-line-mode)
 
+
 (use-package gnuplot)
+
 
 (org-babel-do-load-languages 'org-babel-load-languages
                              '(
@@ -990,6 +1094,7 @@
                                (lua . t)
                                )
                              )
+
 
 (defun my/org-babel-timestamp-result (orig-fn &rest args)
   "Add execution timestamp when :timestamp t header arg is set.
@@ -1023,6 +1128,7 @@ Wraps `org-babel-execute-src-block' to insert a comment above #+RESULTS:."
 (add-to-list 'org-babel-header-arg-names 'timestamp)
 (advice-add 'org-babel-execute-src-block :around #'my/org-babel-timestamp-result)
 
+
 (my-local-leader-def
   :states  'normal
   :keymaps 'org-mode-map
@@ -1042,25 +1148,32 @@ Wraps `org-babel-execute-src-block' to insert a comment above #+RESULTS:."
  :keymaps 'org-mode-map
  "TAB"    'evil-toggle-fold)
 
+
 (use-package ox-gfm)
 
+
 (use-package htmlize)
+
 
 (eval-after-load "org"
   (progn
     '(require 'ox-md nil t)
     '(require 'ox-gfm nil t)))
 
+
 (setq org-export-coding-system 'utf-8)
+
 
 (use-package ox-epub
   :demand t
   :init
   (require 'ox-org))
 
+
 (setq org-todo-keyword-faces
       '(("IN PROGRESS" . org-warning) ("STUCK" . org-done)
         ("WAITING" . org-warning)))
+
 
 (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/tasks.org" "Tasks")
@@ -1070,14 +1183,18 @@ Wraps `org-babel-execute-src-block' to insert a comment above #+RESULTS:."
 	("x" "Web" entry (file+datetree "~/org/web-journal.org")
 	 "* %:annotation\n  %i\n  %a")))
 
+
 ;; enable org-protocol
 (require 'org-protocol)
 
+
 (setq org-return-follows-link  t)
+
 
 (use-package mixed-pitch
   :hook
   (org-mode . mixed-pitch-mode))
+
 
 (eval-when-compile
   (require 'easy-mmode)
@@ -1171,11 +1288,14 @@ made unique when necessary."
 
 (add-hook 'org-mode-hook 'unpackaged/org-export-html-with-useful-ids-mode)
 
+
 (setq org-src-window-setup 'other-frame)
+
 
 (use-package org-appear
   :hook
   (org-mode . org-appear-mode))
+
 
 (defface org-pgp-delimiter-face
   '((t (:inherit fixed-pitch :weight heavy)))
@@ -1207,6 +1327,48 @@ made unique when necessary."
           (lambda ()
             (font-lock-add-keywords nil org-pgp-font-lock-keywords 'append)))
 
+
+(defvar my/org-babel-executing nil)
+
+(defun my/org-babel-with-session-display (fn &rest args)
+  "Enable automatic session display during Babel execution."
+  (let ((my/org-babel-executing t))
+    (apply fn args)))
+
+(defun my/org-babel-refresh-session (_output)
+  "Follow session output and redraw, even during synchronous execution."
+  (when-let* ((window (get-buffer-window (current-buffer))))
+    (set-window-point window (point-max))
+    (redisplay t)))
+
+(defun my/org-babel-display-session (session)
+  "Display SESSION without selecting it, and return SESSION unchanged."
+  (when (and my/org-babel-executing session (not noninteractive))
+    (when-let* ((buffer (get-buffer session)))
+      (let ((window
+             (or (get-buffer-window buffer)
+                 (split-window (selected-window) nil 'below))))
+        (set-window-buffer window buffer)
+        (with-current-buffer buffer
+          (set-window-point window (point-max))
+          (add-hook 'comint-output-filter-functions
+                    #'my/org-babel-refresh-session t t))
+        (redisplay t))))
+  session)
+
+(with-eval-after-load 'ob-core
+  (advice-add 'org-babel-execute-src-block :around
+              #'my/org-babel-with-session-display))
+
+(with-eval-after-load 'ob-python
+  (advice-add 'org-babel-python-initiate-session :filter-return
+              #'my/org-babel-display-session))
+
+(with-eval-after-load 'ob-shell
+  (advice-add 'org-babel-sh-initiate-session :filter-return
+              #'my/org-babel-display-session))
+
+
 (use-package adaptive-wrap
   :config
   (setq-default adaptive-wrap-extra-indent 2)
@@ -1229,6 +1391,7 @@ made unique when necessary."
             #'adaptive-wrap-prefix-mode)
   (setq compilation-scroll-output t))
 
+
 ;; (use-package visual-fill-column
 ;;   :config
 ;;   (setq visual-fill-column-width 150)
@@ -1236,20 +1399,27 @@ made unique when necessary."
 
 ;; (setq visual-fill-column-width 150)
 
+
 (server-start)
+
 
 (use-package browse-at-remote)
 
+
 (setq tramp-default-method "ssh")
 
+
 (setq warning-minimum-level :emergency)
+
 
 (defun load-theme--save-new-theme (theme &rest args)
   (setq ian-current-theme theme))
 (advice-add 'load-theme :before #'load-theme--save-new-theme)
 
+
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (setq display-line-numbers-type 'relative)
+
 
 (defun toggle-transparency ()
   (interactive)
@@ -1263,6 +1433,7 @@ made unique when necessary."
               100)
          '95 '(100 . 100)))))
 
+
 (defun er-switch-to-previous-buffer ()
   (concat
     "Switch to previously open buffer."
@@ -1270,19 +1441,24 @@ made unique when necessary."
     (interactive)
     (switch-to-buffer (other-buffer (current-buffer) 1)))
 
+
 (global-set-key (kbd "<home>") 'move-beginning-of-line)
 (global-set-key (kbd "<end>") 'move-end-of-line)
 
+
 (setq-default frame-title-format '("%f [%m]"))
+
 
 (defadvice align-regexp (around align-regexp-with-spaces activate)
   (let ((indent-tabs-mode nil))
     ad-do-it))
 
+
 (setq make-backup-files nil)
 (setq backup-directory-alist `((".*" . "/tmp/.emacs-saves")))
 (setq backup-by-copying t)
 (setq delete-old-versions t)
+
 
 ;; autosave
 (setq auto-save-visited-interval 300)
@@ -1290,13 +1466,17 @@ made unique when necessary."
  :diminish
  )
 
+
 (global-auto-revert-mode t)
+
 
 (add-to-list 'default-frame-alist '(width . 128))
 (add-to-list 'default-frame-alist '(height . 60))
 
+
 (setq initial-major-mode 'org-mode
       initial-scratch-message (concat "#+date:" (format-time-string "%A %d %B %Y") "\n\n"))
+
 
 ;; hide some modes that are everywhere
 (diminish 'eldoc-mode)
@@ -1304,6 +1484,7 @@ made unique when necessary."
 (diminish 'auto-revert-mode)
 (diminish 'evil-collection-unimpaired-mode)
 (diminish 'yas-minor-mode-major-mode)
+
 
 (setq ring-bell-function
       (lambda ()
@@ -1316,6 +1497,7 @@ made unique when necessary."
                                (lambda (fg) (set-face-foreground 'mode-line fg))
                                orig-fg))))
 
+
 (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
 (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -1325,6 +1507,7 @@ made unique when necessary."
                              (horizontal-scroll-bars . nil))))
 (add-hook 'after-make-frame-functions 'my/disable-scroll-bars)
 
+
 ;; (pixel-scroll-precision-mode nil) ;; turning this on is nice with a mouse but shit with a touchpad -- maybe it can be turned on conditionally
 (setq
  scroll-margin 10 
@@ -1332,15 +1515,21 @@ made unique when necessary."
  scroll-conservatively 100000000
  scroll-preserve-screen-position nil)
 
+
 (context-menu-mode t)
+
 
 (xterm-mouse-mode 1)
 
+
 (setq custom-unlispify-tag-names nil)
+
 
 (setq require-final-newline nil)
 
+
 (use-package caps-lock)
+
 
 (defvar window-swap-origin nil)
 
@@ -1360,6 +1549,7 @@ made unique when necessary."
 (global-set-key (kbd "<C-S-mouse-1>") 'window-swap-start)
 (global-set-key (kbd "<C-S-drag-mouse-1>") 'window-swap-end)
 
+
 (use-package kagi
   :defer t
   :custom
@@ -1368,11 +1558,13 @@ made unique when necessary."
   (kagi-summarizer-default-language "EN")
   (kagi-summarizer-cache t))
 
+
 (use-package ob-kagi-fastgpt
   :ensure nil  ; provided by the kagi package
   :after org
   :config
   (ob-kagi-fastgpt-setup))
+
 
 (use-package gptel
   :defer t
@@ -1386,7 +1578,9 @@ made unique when necessary."
   (gptel-make-kagi "Kagi"
     :key (password-store-get "kagi-token")))
 
+
 (setq confirm-kill-emacs 'yes-or-no-p)
+
 
 (defun silly-business/new-blog-post ()
   "Create a new silly.business blog post."
@@ -1400,7 +1594,9 @@ made unique when necessary."
                        (concat timestamp "-" post-slug)))
                ))
 
+
 (setq-default use-short-answers t)
+
 
 (add-hook 'text-mode-hook #'flyspell-mode)
 (add-hook 'prog-mode-hook #'flyspell-prog-mode)
@@ -1409,9 +1605,11 @@ made unique when necessary."
 	  (lambda ()
 	    (run-hooks 'flyspell-prog-mode)))
 
+
 (use-package clipetty
   :ensure t
   :hook (after-init . global-clipetty-mode))
+
 
 (let ((hostname (if (file-exists-p "/etc/hostname")
                     (string-trim-right (shell-command-to-string "cat /etc/hostname"))
@@ -1422,7 +1620,9 @@ made unique when necessary."
   (load (concat "~/.emacs.d/local/" hostname ".el"))
   (require 'local))
 
+
 (dolist (f (let ((dir (expand-file-name "~/.emacs.d/dotfiles/")))
               (when (file-directory-p dir)
                 (directory-files dir t "\\.org\\'"))))
   (org-babel-tangle-file f))
+
