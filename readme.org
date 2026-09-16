@@ -1156,7 +1156,7 @@ Thanks to [[https://prathamesh.tech/2015/06/20/configuring-web-mode-with-jsx/]]
     :mode (("\\.json$" . json-mode )
   	 ("\\.hujson$" . jsonc-mode))
     :hook ((json-mode . highlight-indent-guides-mode)
-  	 (json-mode . (lambda ()
+  	 (json-mode . (defun set-tab-width-and-indent-level ()
   			(setq-local tab-width 2
   				    js-indent-level 2)))))
 #+END_SRC
