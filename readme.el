@@ -812,13 +812,28 @@
                           (set (make-local-variable 'tab-width) 2)))
 
 
+(defun ian/json-setup ()
+  (setq-local tab-width 2
+              js-indent-level 2))
+
 (use-package json-mode
   :mode (("\\.json$" . json-mode )
 	 ("\\.hujson$" . jsonc-mode))
   :hook ((json-mode . highlight-indent-guides-mode)
-	 (json-mode . (defun set-tab-width-and-indent-level ()
-			(setq-local tab-width 2
-				    js-indent-level 2)))))
+	 (json-mode . ian/json-setup))
+  :init
+  (defvar jsonc-mode-syntax-table
+    (let ((st (copy-syntax-table json-mode-syntax-table)))
+      ;; Comments
+      (modify-syntax-entry ?/ ". 124" st)
+      (modify-syntax-entry ?\n ">" st)
+      (modify-syntax-entry ?\^m ">" st)
+      (modify-syntax-entry ?* ". 23bn" st)
+      st))
+
+  (define-derived-mode jsonc-mode json-mode "JSONC"
+    "Major mode for editing JSON files with comments."
+    :syntax-table jsonc-mode-syntax-table))
 
 
 (use-package fish-mode)
@@ -1056,7 +1071,7 @@
   (org-fold-catch-invisible-edits 'error)
   (org-pretty-entities t)
   (org-use-sub-superscripts nil)
-  (org-id-link-to-org-use-id t)
+  (org-id-link-to-org-use-id 'use-existing)
   (org-fold-catch-invisible-edits 'show)
   :config
   (add-to-list 'org-babel-default-header-args '(:results . "output")))
@@ -1609,6 +1624,13 @@ made unique when necessary."
 (use-package clipetty
   :ensure t
   :hook (after-init . global-clipetty-mode))
+
+
+(setopt display-buffer-base-action
+	'((display-buffer-use-some-window
+	   display-buffer-pop-up-window)
+	  (some-window . mru)
+	  (inhibit-same-window . t)))
 
 
 (let ((hostname (if (file-exists-p "/etc/hostname")
