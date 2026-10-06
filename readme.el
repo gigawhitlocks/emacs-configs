@@ -290,6 +290,7 @@
                   '(bar matches buffer-info remote-host buffer-position parrot selection-info)
                   '(misc-info minor-modes input-method buffer-encoding major-mode process vcs "  "))
   :hook (after-init . doom-modeline-mode))
+(setq doom-modeline-buffer-file-name-style 'buffer-name)
 
 
 ;; 🙌 Emoji! 🙌
