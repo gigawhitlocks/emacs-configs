@@ -1,0 +1,41 @@
+#+title: Wezterm Config
+
+1. Supports stuff like sixels and more than 2^8 colors
+2. Supports custom schemes so I can register custom mime types for, e.g., getting the clanker to emit links I can click to open in Emacs
+3. Can be configured to exactly match Emacs visually and to render ~emacsclient~ correctly
+4. Can use ~ssh~ and ~sudo~ on remote machines without [[https://sw.kovidgoyal.net/kitty/kittens/ssh/][terminfo shenanigans]]
+   
+* Header boilerplate
+#+begin_src lua :tangle ~/.config/wezterm/wezterm.lua :mkdirp true
+  local wezterm = require 'wezterm'
+  local config = wezterm.config_builder()
+#+end_src
+
+* Basic preferences (theme, cursor, window size, etc)
+#+begin_src lua :tangle ~/.config/wezterm/wezterm.lua :mkdirp true
+  config.default_prog = { '/usr/bin/fish' }
+  config.audible_bell = 'Disabled'
+  config.default_cursor_style = 'BlinkingBar'
+  config.enable_tab_bar = false
+  config.color_scheme = wezterm.gui.get_appearance():find('Dark')
+     and 'Modus-Vivendi-Tinted'
+     or 'Modus-Operandi-Tinted'
+  config.initial_cols = 170
+  config.initial_rows = 60
+#+end_src
+
+* Custom hyperlinks
+#+begin_src lua :tangle ~/.config/wezterm/wezterm.lua :mkdirp true
+  config.hyperlink_rules = wezterm.default_hyperlink_rules()
+  for _, scheme in ipairs { 'gemini', 'gopher', 'irc', 'git', 'code', 'news' } do
+     table.insert(config.hyperlink_rules, {
+  		   regex = [==[\b(]==] .. scheme .. [==[)://[^\s"']+]==],
+  		   format = '$1://$2',
+     })
+  end
+#+end_src
+
+* Footer boilerplate
+#+begin_src lua :tangle ~/.config/wezterm/wezterm.lua :mkdirp true
+  return config
+#+end_src
