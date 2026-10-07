@@ -127,7 +127,7 @@
     (message "value is %s" value)
     (if (equal value '1)
         (progn (message "Switch to dark theme")
-               (load-theme 'ef-owl))
+               (load-theme 'nord))
       (progn (message "Switch to light theme")
              (load-theme 'modus-operandi-tinted))))
 

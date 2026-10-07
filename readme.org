@@ -206,7 +206,7 @@ Very slightly adapted code from a deleted account on Reddit, probably written by
     (message "value is %s" value)
     (if (equal value '1)
         (progn (message "Switch to dark theme")
-               (load-theme 'nord))
+               (load-theme 'doom-nord))
       (progn (message "Switch to light theme")
              (load-theme 'modus-operandi-tinted))))
 
