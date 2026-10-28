@@ -1273,8 +1273,9 @@ Or tell ~eglot~ where it is, actually.
 #+end_src
 ** Nix
 #+begin_src emacs-lisp
-    (use-package nix-mode
-      :mode (("\\.nix$" . nix-mode)))
+  (use-package nix-mode
+    :mode (("\\.nix$" . nix-mode))
+    :hook (nix-mode . eglot-ensure))
 #+end_src
 ** Terraform
 #+begin_src emacs-lisp

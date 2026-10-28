@@ -654,19 +654,19 @@
 (use-package markdown-mode
   :ensure t
   :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . gfm-mode)
-         ("\\.markdown\\'" . gfm-mode)))
+	 ("\\.md\\'" . gfm-mode)
+	 ("\\.markdown\\'" . gfm-mode))
 
-  ;; show code blocks w/ monospace font
-  (add-hook 'markdown-mode-hook 'visual-line-mode)
-  (add-hook 'markdown-mode-hook 'variable-pitch-mode)
-  (add-hook 'markdown-mode-hook
-            '(lambda ()
-               (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
-               (set-face-attribute 'markdown-pre-face nil :inherit 'fixed-pitch)))
+  :hook
+  (gfm-mode . (lambda ()
+                     (visual-line-mode)
+                     (variable-pitch-mode)
 
-;; this can go here because it affects Markdown's live preview mode
-;; but I should consider putting it somewhere more general maybe?
+                     ;; show code blocks w/ monospace font
+                     (set-face-attribute 'markdown-code-face nil :inherit 'fixed-pitch)
+                     (set-face-attribute 'markdown-pre-face nil :inherit 'fixed-pitch))))
+
+
 (add-hook 'eww-mode-hook 'visual-line-mode)
 
 
